@@ -99,7 +99,7 @@ class ScopedName(GenericName):
 
 
 class TypeName(LocalName):
-    """A local name that references a record type."
+    """A local name that references a record type."""
 
     @property
     @abstractmethod
