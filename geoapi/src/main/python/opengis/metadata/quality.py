@@ -5,16 +5,24 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from datetime import datetime
 from enum import Enum
+from typing import Sequence
 
+from opengis.metadata.citation import Citation, Identifier
+from opengis.metadata.content import CoverageDescription
+from opengis.metadata.distribution import DataFile, Format
+from opengis.metadata.identification import BrowseGraphic
+from opengis.metadata.maintenance import Scope
+from opengis.metadata.naming import Record, RecordType
+from opengis.metadata.representation import SpatialRepresentationTypeCode
+from opengis.util import TypeName
 
 
 class EvaluationMethodTypeCode(Enum):
     DIRECT_INTERNAL = "directInternal"
     DIRECT_EXTERNAL = "directExternal"
     INDIRECT = "indirect"
-
 
 
 class ValueStructure(Enum):
@@ -24,7 +32,6 @@ class ValueStructure(Enum):
     TABLE = "TABLE"
     MATRIX = "MATRIX"
     COVERAGE = "COVERAGE"
-
 
 
 class StandaloneQualityReportInformation(ABC):
@@ -43,10 +50,6 @@ class StandaloneQualityReportInformation(ABC):
         pass
 
 
-
-from opengis.metadata.maintenance import Scope
-from java.util import Date
-
 class Result(ABC):
     """Generalization of more specific result classes."""
 
@@ -56,19 +59,16 @@ class Result(ABC):
         return None
 
     @property
-    def date_time(self) -> Date:
+    def date_time(self) -> datetime:
         """Date when the result was generated."""
         return None
 
-
-
-from opengis.metadata.citation import Citation
 
 class EvaluationMethod(ABC):
     """Description of the evaluation method and procedure applied."""
 
     @property
-    def evaluation_method_type(self) -> EvaluationMethodType:
+    def evaluation_method_type(self) -> EvaluationMethodTypeCode:
         """Type of method used to evaluate quality of the data."""
         return None
 
@@ -93,7 +93,6 @@ class EvaluationMethod(ABC):
         return None
 
 
-
 class MeasureReference(ABC):
     """Reference to the measure used."""
 
@@ -113,9 +112,6 @@ class MeasureReference(ABC):
         return None
 
 
-
-from opengis.metadata.citation import Identifier
-
 class Element(ABC):
     """Aspect of quantitative quality information."""
 
@@ -129,7 +125,7 @@ class Element(ABC):
         """Reference to measure used."""
         return None
 
-     @property
+    @property
     def Evaluation_method(self) -> EvaluationMethod:
         """Evaluation information."""
         return None
@@ -140,11 +136,10 @@ class Element(ABC):
         """Values obtained from applying a data quality measure against a specified acceptable conformance quality level."""
         pass
 
-     @property
+    @property
     def derived_element(self) -> Sequence[Element]:
         """In case of aggregation or derivation, indicates the original element."""
         return None
-
 
 
 class DataQuality(ABC):
@@ -166,9 +161,6 @@ class DataQuality(ABC):
         return None
 
 
-
-from opengis.metadata.identification import BrowseGraphic
-
 class Description(ABC):
     """Data quality measure description."""
 
@@ -184,9 +176,6 @@ class Description(ABC):
         return None
 
 
-
-from org.opengis.util import TypeName
-
 class SourceReference(ABC):
     """Reference to the source of the data quality measure."""
 
@@ -195,7 +184,6 @@ class SourceReference(ABC):
     def citation(self) -> Citation:
         """References to the source."""
         pass
-
 
 
 class BasicMeasure(ABC):
@@ -223,7 +211,6 @@ class BasicMeasure(ABC):
     def value_type(self) -> TypeName:
         """Value type for the result of the basic measure (shall be one of the data types defined in ISO/TS 19103:2005)."""
         pass
-
 
 
 class Measure(ABC):
@@ -260,7 +247,7 @@ class Measure(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> description:
+    def description(self) -> Description:
         """Description of the data quality measure, including all formulae and/or illustrations needed to establish the result of applying the measure."""
         pass
 
@@ -297,10 +284,8 @@ class Measure(ABC):
         return None
 
 
-
 class TemporalQuality(Element):
     """Accuracy of the temporal attributes and temporal relationships of features."""
-
 
 
 class Metaquality(Element):
@@ -312,20 +297,16 @@ class Metaquality(Element):
         return None
 
 
-
 class Confidence(Metaquality):
     """Trustworthiness of a data quality result."""
-
 
 
 class Representativity(Metaquality):
     """Trustworthiness of a data quality result."""
 
 
-
 class DataEvaluation(EvaluationMethod):
     """Data evaluation method."""
-
 
 
 class SimpleBasedInspection(DataEvaluation):
@@ -350,7 +331,6 @@ class SimpleBasedInspection(DataEvaluation):
         pass
 
 
-
 class IndirectEvaluation(DataEvaluation):
     """Indirect evaluation."""
 
@@ -361,15 +341,12 @@ class IndirectEvaluation(DataEvaluation):
         pass
 
 
-
 class Homogeneity(Metaquality):
     """Expected or tested uniformity of the results obtained for a data quality evaluation."""
 
 
-
 class FullInspection(DataEvaluation):
     """Test of every item in the population specified by the data quality scope."""
-
 
 
 class DescriptiveResult(Result):
@@ -382,105 +359,84 @@ class DescriptiveResult(Result):
         pass
 
 
-
 class AggregationDerivation(EvaluationMethod):
     """Aggregation or derivation method."""
-
 
 
 class PositionalAccuracy(Element):
     """Accuracy of the position of features."""
 
 
-
 class AbsoluteExternalPositionalAccuracy(PositionalAccuracy):
     """Closeness of reported coordinate values to values accepted as or being true."""
-
 
 
 class GriddedDataPositionalAccuracy(PositionalAccuracy):
     """Closeness of gridded data position values to values accepted as or being true."""
 
 
-
 class RelativeInternalPositionalAccuracy(PositionalAccuracy):
     """Closeness of the relative positions of features in the scope to their respective relative positions accepted as or being true."""
-
 
 
 class TemporalConsistency(TemporalAccuracy):
     """Correctness of ordered events or sequences, if reported."""
 
 
-
 class TemporalValidity(TemporalAccuracy):
     """Validity of data specified by the scope with respect to time."""
-
 
 
 class AccuracyOfATimeMeasurement(TemporalAccuracy):
     """Correctness of the temporal references of an item (reporting of error in time measurement)."""
 
 
-
 class ThematicAccuracy(Element):
     """Accuracy of quantitative attributes and the correctness of non-quantitative attributes and of the classifications of features and their relationships."""
-
 
 
 class ThematicClassificationCorrectness(ThematicAccuracy):
     """Comparison of the classes assigned to features or their attributes to a universe of discourse."""
 
 
-
 class QuantitativeAttributeAccuracy(ThematicAccuracy):
     """Accuracy of quantitative attributes."""
-
 
 
 class NonQuantitativeAttributeCorrectness(ThematicAccuracy):
     """Correctness of non-quantitative attributes."""
 
 
-
 class LogicalConsistency(Element):
     """Degree of adherence to logical rules of data structure, attribution and relationships (data structure can be conceptual, logical or physical)."""
-
 
 
 class ConceptualConsistency(LogicalConsistency):
     """Adherence to rules of the conceptual schema."""
 
 
-
 class DomainConsistency(LogicalConsistency):
     """Adherence of values to the value domains."""
-
 
 
 class FormatConsistency(LogicalConsistency):
     """Degree to which data is stored in accordance with the physical structure of the dataset, as described by the scope."""
 
 
-
 class TopologicalConsistency(LogicalConsistency):
     """Correctness of the explicitly encoded topological characteristics of the dataset as described by the scope."""
-
 
 
 class Completeness(Element):
     """Presence and absence of features, their attributes and their relationships."""
 
 
-
 class CompletenessCommission(Completeness):
     """Excess data present in the dataset, as described by the scope."""
 
 
-
 class CompletenessOmission(Completeness):
     """Data absent from the dataset, as described by the scope."""
-
 
 
 class ConformanceResult(Result):
@@ -504,11 +460,6 @@ class ConformanceResult(Result):
         """Indication of the conformance result where 0 = fail and 1 = pass."""
         pass
 
-
-
-from opengis.metadata.representation import SpatialRepresentationTypeCode
-from opengis.metadata.distribution import DataFile, Format
-from opengis.metadata.content import CoverageDescription
 
 class CoverageResult(Result):
     """Result of a data quality measure organising the measured values as a coverage."""
@@ -539,9 +490,6 @@ class CoverageResult(Result):
     def result_format(self) -> Format:
         pass
 
-
-
-from opengis.metadata.naming import Record, RecordType
 
 class QuantitativeResult(Result):
     """The values or information about the value(s) (or set of values) obtained from applying a data quality measure."""

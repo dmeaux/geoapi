@@ -5,11 +5,21 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
 
+from opengis.metadata.acquisition import AcquisitionInformation
+from opengis.metadata.citation import Citation, Date, Identifier, OnlineResource, Responsibility
+from opengis.metadata.constraints import Constraints
+from opengis.metadata.content import ContentInformation
+from opengis.metadata.distribution import Distribution
+from opengis.metadata.extension import ApplicationSchemaInformation, MetadataExtensionInformation
+from opengis.metadata.identification import Identification
+from opengis.metadata.lineage import Lineage
+from opengis.metadata.maintenance import MaintenanceInformation, ScopeCode
+from opengis.metadata.quality import DataQuality
+from opengis.metadata.representation import SpatialRepresentation
+from opengis.referencing.crs import ReferenceSystem
 
-
-from opengis.metadata.citation import Citation, Identifier, Responsibility, Date, OnlineResource
 
 class PortrayalCatalogueReference(ABC):
     """Information identifying the portrayal catalogue used."""
@@ -20,9 +30,6 @@ class PortrayalCatalogueReference(ABC):
         """Bibliographic reference to the portrayal catalogue cited."""
         pass
 
-
-
-from opengis.metadata.maintenance import ScopeCode, MaintenanceInformation
 
 class MetadataScope(ABC):
 
@@ -35,18 +42,6 @@ class MetadataScope(ABC):
     def name(self) -> str:
         return None
 
-
-
-from opengis.metadata.representation import SpatialRepresentation
-from opengis.metadata.extension import MetadataExtensionInformation, ApplicationSchemaInformation
-from opengis.metadata.identification import Identification
-from opengis.metadata.content import ContentInformation
-from opengis.metadata.distribution import Distribution
-from opengis.metadata.quality import DataQuality
-from opengis.metadata.lineage import Lineage
-from opengis.metadata.constraints import Constraints
-from opengis.metadata.acquisition import AcquisitionInformation
-from opengis.referencing.crs import ReferenceSystem
 
 class Metadata(ABC):
     """Root entity which defines metadata about a resource or resources."""

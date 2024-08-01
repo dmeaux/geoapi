@@ -5,16 +5,19 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
 from enum import Enum
 
+from opengis.metadata.citation import Citation, OnlineResource
+from opengis.metadata.distribution import StandardOrderProcess
+from opengis.metadata.identification import DataIdentification, Identification
+from opengis.metadata.naming import GenericName, ScopedName
 
 
 class CouplingType(Enum):
     LOOSE = "loose"
     MIXED = "mixed"
     TIGHT = "tight"
-
 
 
 class DCPList(Enum):
@@ -30,15 +33,11 @@ class DCPList(Enum):
     WEB_SERVICES = "WebServices"
 
 
-
 class ParameterDirection(Enum):
     IN = "in"
     OUT = "out"
     IN_OUT = "in/out"
 
-
-
-from opengis.metadata.citation import OnlineResource, Citation
 
 class OperationMetadata(ABC):
     """Describes the signature of one and only one method provided by the service."""
@@ -82,7 +81,6 @@ class OperationMetadata(ABC):
         return None
 
 
-
 class OperationChainMetadata(ABC):
     """Operation Chain Information."""
 
@@ -102,10 +100,6 @@ class OperationChainMetadata(ABC):
     def operation(self) -> Sequence[OperationMetadata]:
         pass
 
-
-
-from opengis.metadata.naming import ScopedName, GenericName
-from opengis.metadata.identification import DataIdentification, Identification
 
 class CoupledResource(ABC):
     """Links a given operationName (mandatory attribute of SV_OperationMetadata) with a data set identified by an 'identifier'."""
@@ -128,9 +122,6 @@ class CoupledResource(ABC):
     def resource(self) -> Sequence[DataIdentification]:
         return None
 
-
-
-from opengis.metadata.distribution import StandardOrderProcess
 
 class ServiceIdentification(Identification):
     """Identification of capabilities which a service provider makes available to a service user through a set of interfaces that define a behaviour - See ISO 19119 for further information."""

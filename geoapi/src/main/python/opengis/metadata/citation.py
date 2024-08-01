@@ -5,9 +5,9 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
+from datetime import datetime
 from enum import Enum
-
 
 
 class DateTypeCode(Enum):
@@ -29,7 +29,6 @@ class DateTypeCode(Enum):
     DISTRIBUTION = "distribution"
 
 
-
 class OnLineFunctionCode(Enum):
     DOWNLOAD = "download"
     INFORMATION = "information"
@@ -42,7 +41,6 @@ class OnLineFunctionCode(Enum):
     EMAIL_SERVICE = "emailService"
     BROWSING = "browsing"
     FILE_ACCESS = "fileAccess"
-
 
 
 class PresentationFormCode(Enum):
@@ -69,7 +67,6 @@ class PresentationFormCode(Enum):
     DIAGRAM_HARDCOPY = "diagramHardcopy"
 
 
-
 class RoleCode(Enum):
     RESOURCE_PROVIDER = "resourceProvider"
     CUSTODIAN = "custodian"
@@ -93,12 +90,10 @@ class RoleCode(Enum):
     STAKEHOLDER = "stakeholder"
 
 
-
 class TelephoneTypeCode(Enum):
     VOICE = "voice"
     FACSIMILE = "facsimile"
     SMS = "sms"
-
 
 
 class Series(ABC):
@@ -118,7 +113,6 @@ class Series(ABC):
     def page(self) -> str:
         """Details on which pages of the publication the article was published."""
         return None
-
 
 
 class Address(ABC):
@@ -155,7 +149,6 @@ class Address(ABC):
         return None
 
 
-
 class Telephone(ABC):
     """Telephone numbers for contacting the responsible individual or organisation."""
 
@@ -169,7 +162,6 @@ class Telephone(ABC):
     def number_type(self) -> TelephoneTypeCode:
         """Type of telephone responsible organisation or individual."""
         return None
-
 
 
 class OnlineResource(ABC):
@@ -212,7 +204,6 @@ class OnlineResource(ABC):
         return None
 
 
-
 class Contact(ABC):
     """Information required to enable contact with the responsible person and/or organisation."""
 
@@ -246,7 +237,6 @@ class Contact(ABC):
         return None
 
 
-
 class Party(ABC):
     """Information about the individual and/or organisation of the party."""
 
@@ -264,7 +254,6 @@ class Party(ABC):
     def party_identifier(self) -> Sequence['Identifier']:
         """Identifier of the party."""
         return None
-
 
 
 class Responsibility(ABC):
@@ -287,7 +276,6 @@ class Responsibility(ABC):
         pass
 
 
-
 class Individual(Party):
     """Information about the party if the party is an individual."""
 
@@ -295,7 +283,6 @@ class Individual(Party):
     def position_name(self) -> str:
         """Position of the individual in an organisation."""
         return None
-
 
 
 class Organisation(Party):
@@ -311,9 +298,6 @@ class Organisation(Party):
         return None
 
 
-
-from datetime import datetime
-
 class Date(ABC):
     """Reference date and event used to describe it."""
 
@@ -328,7 +312,6 @@ class Date(ABC):
     def date_type(self) -> DateTypeCode:
         """Event used for reference date."""
         pass
-
 
 
 class Citation(ABC):
@@ -404,7 +387,6 @@ class Citation(ABC):
     def graphic(self) -> Sequence['BrowseGraphic']:
         """Citation graphic or logo for cited party."""
         return None
-
 
 
 class Identifier(ABC):

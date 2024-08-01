@@ -5,9 +5,12 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
+from datetime import datetime
 from enum import Enum
 
+from opengis.metadata.citation import Citation, Identifier, OnlineResource, Responsibility
+from opengis.metadata.naming import GenericName, Record, RecordType
 
 
 class MediumFormatCode(Enum):
@@ -19,9 +22,6 @@ class MediumFormatCode(Enum):
     ISO_9660_APPLE_HFS = "iso9660AppleHFS"
     UDF = "udf"
 
-
-
-from opengis.metadata.citation import Citation, Identifier, OnlineResource, Responsibility
 
 class Medium(ABC):
     """Information about the media on which the resource can be distributed."""
@@ -61,7 +61,6 @@ class Medium(ABC):
         return None
 
 
-
 class Format(ABC):
     """Description of the computer language construct that specifies the representation of data objects in a record, file, message, storage device or transmission channel."""
 
@@ -91,9 +90,6 @@ class Format(ABC):
         return None
 
 
-
-from opengis.metadata.naming import GenericName, RecordType, Record
-
 class DataFile(ABC):
     """Description of a transfer data file."""
 
@@ -119,7 +115,6 @@ class DataFile(ABC):
     def feature_types(self) -> Sequence[GenericName]:
         """Provides the list of feature types concerned by the transfer data file."""
         return None
-
 
 
 class DigitalTransferOptions(ABC):
@@ -156,9 +151,6 @@ class DigitalTransferOptions(ABC):
         return None
 
 
-
-from datetime import datetime
-
 class StandardOrderProcess(ABC):
     """Common ways in which the resource may be obtained or received, and related instructions and fee information."""
 
@@ -193,7 +185,6 @@ class StandardOrderProcess(ABC):
         return None
 
 
-
 class Distributor(ABC):
     """Information about the distributor."""
 
@@ -214,7 +205,6 @@ class Distributor(ABC):
     @property
     def distributor_transfer_options(self) -> Sequence[DigitalTransferOptions]:
         return None
-
 
 
 class Distribution(ABC):

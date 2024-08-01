@@ -5,12 +5,11 @@
 #
 
 from abc import ABC, abstractmethod
-from enum import Enum
 from datetime import datetime
+from enum import Enum
 
-from opengis.metadata.extent import Extent
 from opengis.metadata.citation import Identifier
-
+from opengis.metadata.extent import Extent
 
 
 class RealizationMethod(Enum):
@@ -20,7 +19,6 @@ class RealizationMethod(Enum):
     LEVELLING = "levelling"
     GEOID = "geoid"
     TIDAL = "tidal"
-
 
 
 class IdentifiedObject(ABC):
@@ -66,7 +64,7 @@ class Datum(IdentifiedObject):
     """
 
     @property
-    def anchor_point(self) -> str:
+    def anchor_point(self) -> str | None:
         """
         Description, possibly including coordinates, of the point or points used to anchor the datum to the Earth.
         """
@@ -82,7 +80,7 @@ class Datum(IdentifiedObject):
         return None
 
     @property
-    def realization_epoch(self) -> datetime:
+    def realization_epoch(self) -> datetime | None:
         """
         The time after which this datum definition is valid.
         """

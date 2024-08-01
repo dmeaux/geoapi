@@ -5,9 +5,11 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
 from enum import Enum
 
+from opengis.metadata.citation import Citation, Identifier
+from opengis.metadata.naming import GenericName, MemberName, Record, RecordType
 
 
 class BandDefinition(Enum):
@@ -16,7 +18,6 @@ class BandDefinition(Enum):
     FIFTY_PERCENT = "fiftyPercent"
     ONE_OVER_E = "oneOverE"
     EQUIVALENT_WIDTH = "equivalentWidth"
-
 
 
 class CoverageContentTypeCode(Enum):
@@ -28,7 +29,6 @@ class CoverageContentTypeCode(Enum):
     REFERENCE_INFORMATION = "referenceInformation"
     MODEL_RESULT = "modelResult"
     COORDINATE = "coordinate"
-
 
 
 class ImagingConditionCode(Enum):
@@ -45,7 +45,6 @@ class ImagingConditionCode(Enum):
     TERRAIN_MASKING = "terrainMasking"
 
 
-
 class PolarisationOrientationCode(Enum):
     HORIZONTAL = "horizontal"
     VERTICAL = "vertical"
@@ -55,15 +54,11 @@ class PolarisationOrientationCode(Enum):
     PHI = "phi"
 
 
-
 class TransferFunctionTypeCode(Enum):
     LINEAR = "linear"
     LOGARITHMIC = "logarithmic"
     EXPONENTIAL = "exponential"
 
-
-
-from opengis.metadata.naming import Record, MemberName, RecordType, GenericName
 
 class RangeElementDescription(ABC):
     """Description of specific range elements."""
@@ -87,9 +82,6 @@ class RangeElementDescription(ABC):
         pass
 
 
-
-from opengis.metadata.citation import Identifier, Citation
-
 class RangeDimension(ABC):
     """Information on the range of attribute values."""
 
@@ -109,7 +101,6 @@ class RangeDimension(ABC):
         return None
 
 
-
 class AttributeGroup(ABC):
 
     @property
@@ -121,7 +112,6 @@ class AttributeGroup(ABC):
     @property
     def attribute(self) -> Sequence[RangeDimension]:
         return None
-
 
 
 class SampleDimension(RangeDimension):
@@ -198,7 +188,6 @@ class SampleDimension(RangeDimension):
         return None
 
 
-
 class Band(SampleDimension):
     """Range of wavelengths in the electromagnetic spectrum."""
 
@@ -240,10 +229,8 @@ class Band(SampleDimension):
         return None
 
 
-
 class ContentInformation(ABC):
     """Description of the content of a resource."""
-
 
 
 class CoverageDescription(ContentInformation):
@@ -267,7 +254,6 @@ class CoverageDescription(ContentInformation):
     @property
     def range_element_description(self) -> Sequence[RangeElementDescription]:
         return None
-
 
 
 class ImageDescription(CoverageDescription):
@@ -329,7 +315,6 @@ class ImageDescription(CoverageDescription):
         return None
 
 
-
 class FeatureTypeInfo(ABC):
 
     @property
@@ -340,7 +325,6 @@ class FeatureTypeInfo(ABC):
     @property
     def feature_instance_count(self) -> int:
         return None
-
 
 
 class FeatureCatalogueDescription(ContentInformation):

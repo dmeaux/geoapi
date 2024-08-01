@@ -5,17 +5,16 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
 
 import numpy as np
 
-from opengis.referencing.datum import IdentifiedObject
-from opengis.referencing.crs import CoordinateReferenceSystem
-from opengis.metadata.quality import PositionalAccuracy
-from opengis.metadata.extent import Extent
-from opengis.metadata.citation import Citation
 from opengis.geometry.primitive import DirectPosition
-
+from opengis.metadata.citation import Citation
+from opengis.metadata.extent import Extent
+from opengis.metadata.quality import PositionalAccuracy
+from opengis.referencing.crs import CoordinateReferenceSystem
+from opengis.referencing.datum import IdentifiedObject
 
 # TODO :
 # from opengis.parameter import ParameterValueGroup, ParameterDescriptorGroup
@@ -80,6 +79,7 @@ class MathTransform(ABC):
         """
         pass
 
+    @abstractmethod
     def transform(self, pt_src: DirectPosition, pt_dst: DirectPosition) -> DirectPosition:
         """
         Transforms the specified ptSrc and stores the result in ptDst.
@@ -94,6 +94,7 @@ class MathTransform(ABC):
         """
         pass
 
+    @abstractmethod
     def transform_list(self, src_pts: np.ndarray, src_off: int, dst_pts: np.ndarray, dst_off: int, num_pts: int):
         """
         Transforms a list of coordinate point ordinal values. This method is provided for efficiently transforming many
@@ -113,6 +114,7 @@ class MathTransform(ABC):
         """
         pass
 
+    @abstractmethod
     def derivative(self, point: DirectPosition) -> np.ndarray:
         """
         Gets the derivative of this transform at a point. The derivative is the matrix of the non-translating portion
@@ -144,6 +146,7 @@ class MathTransform1D(MathTransform):
         """
         pass
 
+    @abstractmethod
     def transform_value(self, value: float) -> float:
         """
         Transforms the specified value.
@@ -155,6 +158,7 @@ class MathTransform1D(MathTransform):
         """
         pass
 
+    @abstractmethod
     def derivative(self, value: float) -> float:
         """
         Gets the derivative of this function at a value. The derivative is the 1×1 matrix of the non-translating portion
@@ -255,7 +259,7 @@ class CoordinateOperation(IdentifiedObject):
         return None
 
     @property
-    def operation_version(self) -> str:
+    def operation_version(self) -> str | None:
         """
         Version of the coordinate transformation (i.e., instantiation due to the stochastic nature of the parameters).
         Mandatory when describing a transformation, and should not be supplied for a conversion.

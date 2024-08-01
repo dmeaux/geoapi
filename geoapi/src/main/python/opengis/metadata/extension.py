@@ -5,9 +5,10 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
 from enum import Enum
 
+from opengis.metadata.citation import Citation, OnlineResource, Responsibility
 
 
 class DatatypeCode(Enum):
@@ -28,16 +29,12 @@ class DatatypeCode(Enum):
     ASSOCIATION = "association"
 
 
-
 class ObligationCode(Enum):
     MANDATORY = "mandatory"
     OPTIONAL = "optional"
     CONDITIONAL = "conditional"
     FORBIDDEN = "null"
 
-
-
-from opengis.metadata.citation import Citation, OnlineResource, Responsibility
 
 class ApplicationSchemaInformation(ABC):
     """Information about the application schema used to build the dataset."""
@@ -79,7 +76,6 @@ class ApplicationSchemaInformation(ABC):
     def software_development_file_format(self) -> str:
         """Software dependent format used for the application schema software dependent file."""
         return None
-
 
 
 class ExtendedElementInformation(ABC):
@@ -145,7 +141,6 @@ class ExtendedElementInformation(ABC):
     def source(self) -> Sequence[Responsibility]:
         """Name of the person or organisation creating the extended element."""
         pass
-
 
 
 class MetadataExtensionInformation(ABC):

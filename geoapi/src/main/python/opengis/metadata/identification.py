@@ -5,9 +5,17 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
+from datetime import datetime
+
 from enum import Enum
 
+from opengis.metadata.representation import SpatialRepresentationTypeCode
+from opengis.metadata.extent import Extent
+from opengis.metadata.maintenance import MaintenanceInformation
+from opengis.metadata.distribution import Format
+from opengis.metadata.constraints import Constraints
+from opengis.metadata.citation import OnlineResource, Citation, Responsibility, Identifier
 
 
 class AssociationTypeCode(Enum):
@@ -21,7 +29,6 @@ class AssociationTypeCode(Enum):
     SERIES = "series"
     DEPENDENCY = "dependency"
     REVISION_OF = "revisionOf"
-
 
 
 class InitiativeTypeCode(Enum):
@@ -42,7 +49,6 @@ class InitiativeTypeCode(Enum):
     TRIAL = "trial"
 
 
-
 class KeywordTypeCode(Enum):
     DISCIPLINE = "discipline"
     PLACE = "place"
@@ -59,7 +65,6 @@ class KeywordTypeCode(Enum):
     PRODUCT = "product"
     SUB_TOPIC_CATEGORY = "subTopicCategory"
     TAXON = "taxon"
-
 
 
 class ProgressCode(Enum):
@@ -81,7 +86,6 @@ class ProgressCode(Enum):
     WITHDRAWN = "withdrawn"
     PROPOSED = "proposed"
     DEPRECATED = "deprecated"
-
 
 
 class TopicCategoryCode(Enum):
@@ -107,10 +111,6 @@ class TopicCategoryCode(Enum):
     EXTRA_TERRESTRIAL = "extraTerrestrial"
     DISASTER = "disaster"
 
-
-
-from opengis.metadata.constraints import Constraints
-from opengis.metadata.citation import OnlineResource, Citation, Responsibility, Identifier
 
 class BrowseGraphic(ABC):
     """Graphic that provides an illustration of the dataset (should include a legend for the graphic, if applicable)."""
@@ -142,7 +142,6 @@ class BrowseGraphic(ABC):
         return None
 
 
-
 class KeywordClass(ABC):
     """Specification of a class to categorize keywords in a domain-specific vocabulary that has a binding to a formal ontology."""
 
@@ -162,7 +161,6 @@ class KeywordClass(ABC):
     def ontology(self) -> Citation:
         """A reference that binds the keyword class to a formal conceptualization of a knowledge domain for use in semantic processingNOTE: Keywords in the associated MD_Keywords keyword list must be within the scope of this ontology."""
         pass
-
 
 
 class Keywords(ABC):
@@ -188,9 +186,6 @@ class Keywords(ABC):
     def keyword_class(self) -> KeywordClass:
         return None
 
-
-
-from datetime import datetime
 
 class Usage(ABC):
     """Brief description of ways in which the resource(s) is/are currently or has been used."""
@@ -230,7 +225,6 @@ class Usage(ABC):
         return None
 
 
-
 class RepresentativeFraction(ABC):
     """Derived from ISO 19103 Scale where MD_RepresentativeFraction.denominator = 1 / Scale.measure And Scale.targetUnits = Scale.sourceUnits."""
 
@@ -239,7 +233,6 @@ class RepresentativeFraction(ABC):
     def denominator(self) -> int:
         """The number below the line in a vulgar fraction."""
         pass
-
 
 
 class Resolution(ABC):
@@ -271,7 +264,6 @@ class Resolution(ABC):
         return None
 
 
-
 class AssociatedResource(ABC):
     """Associated resource information. NOTE: An associated resource is a dataset composed of a collection of datasets."""
 
@@ -296,12 +288,6 @@ class AssociatedResource(ABC):
         """Reference to the metadata of the associated resource."""
         return None
 
-
-
-from opengis.metadata.representation import SpatialRepresentationTypeCode
-from opengis.metadata.extent import Extent
-from opengis.metadata.maintenance import MaintenanceInformation
-from opengis.metadata.distribution import Format
 
 class Identification(ABC):
     """Basic information required to uniquely identify a resource or resources."""
@@ -335,7 +321,8 @@ class Identification(ABC):
 
     @property
     def point_of_contact(self) -> Sequence[Responsibility]:
-        """Identification of, and means of communication with, person(s) and organisation(s) associated with the resource(s)."""
+        """Identification of, and means of communication with, person(s) and organisation(s) associated with the 
+        resource(s)."""
         return None
 
     @property
@@ -345,7 +332,8 @@ class Identification(ABC):
 
     @property
     def spatial_resolution(self) -> Sequence[Resolution]:
-        """Factor which provides a general understanding of the density of spatial data in the resource."""
+        """Factor which provides a general understanding of the density of spatial data in the resource.
+        """
         return None
 
     @property
@@ -370,7 +358,8 @@ class Identification(ABC):
 
     @property
     def processing_level(self) -> Identifier:
-        """Code that identifies the level of processing in the producers coding system of a resource eg. NOAA level 1B."""
+        """Code that identifies the level of processing in the producers coding system of a resource eg. NOAA level 1B.
+        """
         return None
 
     @property
@@ -402,7 +391,6 @@ class Identification(ABC):
         return None
 
 
-
 class DataIdentification(Identification):
     """Information required to identify a resource."""
 
@@ -413,7 +401,8 @@ class DataIdentification(Identification):
 
     @property
     def environment_description(self) -> str:
-        """Description of the resource in the producer's processing environment, including items such as the software, the computer operating system, file name, and the dataset size."""
+        """Description of the resource in the producer's processing environment, including items such as the software, 
+        the computer operating system, file name, and the dataset size."""
         return None
 
     @property

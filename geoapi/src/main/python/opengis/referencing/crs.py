@@ -5,13 +5,18 @@
 #
 
 from abc import abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
 
-from opengis.referencing.cs \
-    import CoordinateSystem, VerticalCS, TimeCS, AffineCS, CartesianCS, EllipsoidalCS
-from opengis.referencing.datum \
-    import IdentifiedObject, Datum, VerticalDatum, TemporalDatum, EngineeringDatum, GeodeticDatum
 from opengis.metadata.extent import Extent
+from opengis.referencing.cs import CartesianCS, CoordinateSystem, EllipsoidalCS, TimeCS, VerticalCS
+from opengis.referencing.datum import (
+    Datum,
+    EngineeringDatum,
+    GeodeticDatum,
+    IdentifiedObject,
+    TemporalDatum,
+    VerticalDatum,
+)
 
 
 class ReferenceSystem(IdentifiedObject):

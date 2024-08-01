@@ -1,20 +1,44 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the acquisition module.
+
+This subpackage contains geographic metadata structures regarding data 
+acquisition that are derived from the ISO 19115-1:2014 international
+standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
+from datetime import datetime
 from enum import Enum
 
+from opengis.metadata.citation import Citation, Identifier, Responsibility
+from opengis.metadata.extent import Extent
+from opengis.metadata.identification import ProgressCode
 
 
 class ContextCode(Enum):
     ACQUISITION = "acquisition"
     PASS = "pass"
     WAY_POINT = "wayPoint"
-
 
 
 class GeometryTypeCode(Enum):
@@ -24,19 +48,16 @@ class GeometryTypeCode(Enum):
     STRIP = "strip"
 
 
-
 class ObjectiveTypeCode(Enum):
     INSTANTANEOUS_COLLECTION = "instantaneousCollection"
     PERSISTENT_VIEW = "persistentView"
     SURVEY = "survey"
 
 
-
 class OperationTypeCode(Enum):
     REAL = "real"
     SIMULATED = "simulated"
     SYNTHESIZED = "synthesized"
-
 
 
 class PriorityCode(Enum):
@@ -46,12 +67,10 @@ class PriorityCode(Enum):
     LOW_IMPORTANCE = "lowImportance"
 
 
-
 class SequenceCode(Enum):
     START = "start"
     END = "end"
     INSTANTANEOUS = "instantaneous"
-
 
 
 class TriggerCode(Enum):
@@ -59,9 +78,6 @@ class TriggerCode(Enum):
     MANUAL = "manual"
     PRE_PROGRAMMED = "preProgrammed"
 
-
-
-from opengis.metadata.citation import Citation, Identifier, Responsibility
 
 class Instrument(ABC):
     """Designations for the measuring instruments."""
@@ -93,7 +109,6 @@ class Instrument(ABC):
         return None
 
 
-
 class Platform(ABC):
     """Designations for the platform used to acquire the dataset."""
 
@@ -116,14 +131,16 @@ class Platform(ABC):
 
     @property
     def sponsor(self) -> Sequence[Responsibility]:
-        """Organization responsible for building, launch, or operation of the platform."""
+        """
+        Organization responsible for building, launch, or operation of the
+        platform.
+        """
         return None
 
     @property
     @abstractmethod
     def instrument(self) -> Sequence[Instrument]:
         pass
-
 
 
 class PlatformPass(ABC):
@@ -145,11 +162,11 @@ class PlatformPass(ABC):
         return None
 
 
-
-from datetime import datetime
-
 class Event(ABC):
-    """Identification of a significant collection point within an operation."""
+    """
+    Identification of a significant collection point within an
+    operation.
+    """
 
     @property
     @abstractmethod
@@ -194,7 +211,6 @@ class Event(ABC):
         return None
 
 
-
 class EnvironmentalRecord(ABC):
 
     @property
@@ -217,9 +233,6 @@ class EnvironmentalRecord(ABC):
     def meteorological_conditions(self) -> str:
         pass
 
-
-
-from opengis.metadata.extent import Extent
 
 class Objective(ABC):
     """Describes the characteristics, spatial and temporal extent of the intended object to be observed."""
@@ -247,7 +260,8 @@ class Objective(ABC):
 
     @property
     def extent(self) -> Sequence[Extent]:
-        """Extent information including the bounding box, bounding polygon, vertical and temporal extent of the objective."""
+        """Extent information including the bounding box, bounding polygon, vertical and temporal extent of the 
+        objective."""
         return None
 
     @property
@@ -263,9 +277,6 @@ class Objective(ABC):
     def objective_occurence(self) -> Sequence[Event]:
         pass
 
-
-
-from opengis.metadata.identification import ProgressCode
 
 class Operation(ABC):
     """Designations for the operation used to acquire the dataset."""
@@ -322,7 +333,6 @@ class Operation(ABC):
         return None
 
 
-
 class RequestedDate(ABC):
     """Range of date validity."""
 
@@ -337,7 +347,6 @@ class RequestedDate(ABC):
     def latest_acceptable_date(self) -> datetime:
         """Latest date and time collection must be completed."""
         pass
-
 
 
 class Requirement(ABC):
@@ -389,7 +398,6 @@ class Requirement(ABC):
         return None
 
 
-
 class Plan(ABC):
     """Designations for the planning information related to meeting requirements."""
 
@@ -419,9 +427,9 @@ class Plan(ABC):
         return None
 
 
-
 class AcquisitionInformation(ABC):
-    """Designations for the measuring instruments and their bands, the platform carrying them, and the mission to which the data contributes."""
+    """Designations for the measuring instruments and their bands, the platform carrying them, and the mission to which
+    the data contributes."""
 
     @property
     def instrument(self) -> Sequence[Instrument]:

@@ -5,9 +5,11 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
 from enum import Enum
 
+from opengis.metadata.citation import Citation, Responsibility
+from opengis.metadata.maintenance import Scope
 
 
 class ClassificationCode(Enum):
@@ -20,7 +22,6 @@ class ClassificationCode(Enum):
     FOR_OFFICIAL_USE_ONLY = "forOfficialUseOnly"
     PROTECTED = "protected"
     LIMITED_DISTRIBUTION = "limitedDistribution"
-
 
 
 class RestrictionCode(Enum):
@@ -43,9 +44,6 @@ class RestrictionCode(Enum):
     IN_CONFIDENCE = "in-confidence"
 
 
-
-from opengis.metadata.citation import Responsibility, Citation
-
 class Releasability(ABC):
     """State, nation or organization to which resource can be released to e.g. NATO unclassified releasable to PfP."""
 
@@ -64,9 +62,6 @@ class Releasability(ABC):
         """Component in determining releasability."""
         return None
 
-
-
-from opengis.metadata.maintenance import Scope
 
 class Constraints(ABC):
     """Restrictions on the access and use of a resource or metadata."""
@@ -102,7 +97,6 @@ class Constraints(ABC):
         return None
 
 
-
 class LegalConstraints(Constraints):
     """Restrictions and legal prerequisites for accessing and using the resource or metadata."""
 
@@ -120,7 +114,6 @@ class LegalConstraints(Constraints):
     def other_constraints(self) -> Sequence[str]:
         """Other restrictions and legal prerequisites for accessing and using the resource or metadata."""
         return None
-
 
 
 class SecurityConstraints(Constraints):

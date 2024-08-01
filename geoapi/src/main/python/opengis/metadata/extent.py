@@ -5,8 +5,9 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
 
+from opengis.metadata.citation import Identifier
 
 
 class GeographicExtent(ABC):
@@ -16,7 +17,6 @@ class GeographicExtent(ABC):
     def extent_type_code(self):
         """Indication of whether the geographic element encompasses an area covered by the data or an area where data is not present."""
         return None
-
 
 
 class GeographicBoundingBox(GeographicExtent):
@@ -47,9 +47,6 @@ class GeographicBoundingBox(GeographicExtent):
         pass
 
 
-
-from opengis.metadata.citation import Identifier
-
 class GeographicDescription(GeographicExtent):
     """Description of the geographic area using identifiers."""
 
@@ -60,7 +57,6 @@ class GeographicDescription(GeographicExtent):
         pass
 
 
-
 class BoundingPolygon(GeographicExtent):
     """Enclosing geometric object which locates the resource, expressed as a set of (x,y) coordinate (s). NOTE: If a polygon is used it should be closed (last point replicates first point)."""
 
@@ -69,7 +65,6 @@ class BoundingPolygon(GeographicExtent):
     def polygon(self):
         """Sets of points defining the bounding polygon or any other GM_Object geometry (point, line or polygon)."""
         pass
-
 
 
 class VerticalExtent(ABC):
@@ -92,7 +87,6 @@ class VerticalExtent(ABC):
         return None
 
 
-
 class TemporalExtent(ABC):
     """Time period covered by the content of the resource."""
 
@@ -101,7 +95,6 @@ class TemporalExtent(ABC):
     def extent(self):
         """Period for the content of the resource."""
         pass
-
 
 
 class SpatialTemporalExtent(TemporalExtent):
@@ -116,7 +109,6 @@ class SpatialTemporalExtent(TemporalExtent):
     @abstractmethod
     def spatial_extent(self) -> Sequence[GeographicExtent]:
         pass
-
 
 
 class Extent(ABC):
