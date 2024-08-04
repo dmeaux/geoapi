@@ -15,7 +15,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the referencing.operation module.
+"""This is the operation module.
 
 This module contains geographic metadata structures regarding referencing
 system operations derived from the ISO 19111 international standard.
