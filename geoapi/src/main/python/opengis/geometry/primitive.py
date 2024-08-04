@@ -23,27 +23,24 @@ the ISO 19107 international standard.
 
 __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
-from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
 from opengis.referencing.crs import CoordinateReferenceSystem
 
 
-class DirectPosition(ABC):
-    """
-    Holds the coordinates for a position within some coordinate
+@dataclass(frozen=True, slots=True)
+class DirectPosition:
+    """Holds the coordinates for a position within some coordinate
     reference system.
+
+    Attributes:
+        coordinate_reference_system (CoordinateReferenceSystem): The
+            coordinate reference system in which the coordinate tuple
+            is given.
+        dimension (int): The length of coordinate sequence (the number of
+            entries).
+
     """
 
-    @property
-    @abstractmethod
-    def coordinate_reference_system(self) -> CoordinateReferenceSystem:
-        """
-        The coordinate reference system in which the coordinate tuple is given.
-        """
-        pass
-
-    @property
-    @abstractmethod
-    def dimension(self) -> int:
-        """The length of coordinate sequence (the number of entries)."""
-        pass
+    coordinate_reference_system: CoordinateReferenceSystem
+    dimension: int

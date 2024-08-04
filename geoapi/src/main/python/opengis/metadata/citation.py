@@ -1,16 +1,39 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the citation module.
 
-from abc import ABC, abstractmethod
-from collections.abc import Sequence
+This module contains geographic metadata structures regarding metadata
+citations derived from the ISO 19115-1:2014 international standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 
+from opengis.metadata.extent import Extent
+from opengis.metadata.identification import BrowseGraphic
+
 
 class DateTypeCode(Enum):
+    """Datatype of element or entity."""
+
     CREATION = "creation"
     PUBLICATION = "publication"
     REVISION = "revision"
@@ -30,6 +53,8 @@ class DateTypeCode(Enum):
 
 
 class OnLineFunctionCode(Enum):
+    """Function performed by the resource."""
+
     DOWNLOAD = "download"
     INFORMATION = "information"
     OFFLINE_ACCESS = "offlineAccess"
@@ -44,6 +69,8 @@ class OnLineFunctionCode(Enum):
 
 
 class PresentationFormCode(Enum):
+    """Mode in which the data are represented."""
+
     DOCUMENT_DIGITAL = "documentDigital"
     DOCUMENT_HARDCOPY = "documentHardcopy"
     IMAGE_DIGITAL = "imageDigital"
@@ -68,6 +95,8 @@ class PresentationFormCode(Enum):
 
 
 class RoleCode(Enum):
+    """Function performed by the responsible party."""
+
     RESOURCE_PROVIDER = "resourceProvider"
     CUSTODIAN = "custodian"
     OWNER = "owner"
@@ -91,329 +120,273 @@ class RoleCode(Enum):
 
 
 class TelephoneTypeCode(Enum):
+    """Type of telephone."""
+
     VOICE = "voice"
     FACSIMILE = "facsimile"
     SMS = "sms"
 
 
-class Series(ABC):
-    """Information about the series, or aggregate resource, to which a resource belongs."""
+@dataclass(frozen=True, slots=True)
+class Series:
+    """Information about the series, or aggregate resource, to which a
+    resource belongs.
 
-    @property
-    def name(self) -> str:
-        """Name of the series, or aggregate resource, of which the resource is a part."""
-        return None
+    Attributes:
+        name (str): Name of the series, or aggregate resource, of which the
+            resource is a part.
+        issue_identification (str): Information identifying the issue of the
+            series.
+        page (str): Details on which pages of the publication the article was
+            published.
 
-    @property
-    def issue_identification(self) -> str:
-        """Information identifying the issue of the series."""
-        return None
+    """
 
-    @property
-    def page(self) -> str:
-        """Details on which pages of the publication the article was published."""
-        return None
-
-
-class Address(ABC):
-    """Location of the responsible individual or organisation."""
-
-    @property
-    def delivery_point(self) -> Sequence[str]:
-        """Address line for the location (as described in ISO 11180, Annex A)."""
-        return None
-
-    @property
-    def city(self) -> str:
-        """City of the location."""
-        return None
-
-    @property
-    def administrative_area(self) -> str:
-        """State, province of the location."""
-        return None
-
-    @property
-    def postal_code(self) -> str:
-        """ZIP or other postal code."""
-        return None
-
-    @property
-    def country(self) -> str:
-        """Country of the physical address."""
-        return None
-
-    @property
-    def electronic_mail_address(self) -> Sequence[str]:
-        """Address of the electronic mailbox of the responsible organisation or individual."""
-        return None
+    name: str
+    issue_identification: str
+    page: str
 
 
-class Telephone(ABC):
-    """Telephone numbers for contacting the responsible individual or organisation."""
+@dataclass(frozen=True, slots=True)
+class Address:
+    """Location of the responsible individual or organisation.
 
-    @property
-    @abstractmethod
-    def number(self) -> str:
-        """Telephone number by which individuals can contact responsible organisation or individual."""
-        pass
+    Attributes:
+        delivery_point (tuple[str, ...]): Address line for the location (as
+            described in ISO 11180, Annex A).
+        city (str): City of the location.
+        administrative_area (str): State, province of the location.
+        postal_code (str): ZIP or other postal code.
+        country (str): Country of the physical address.
+        electronic_mail_address (tuple[str, ...]): Address of the electronic
+            mailbox of the responsible organisation or individual.
 
-    @property
-    def number_type(self) -> TelephoneTypeCode:
-        """Type of telephone responsible organisation or individual."""
-        return None
+    """
 
-
-class OnlineResource(ABC):
-    """Information about on-line sources from which the resource, specification, or community profile name and extended metadata elements can be obtained."""
-
-    @property
-    @abstractmethod
-    def linkage(self):
-        """Location (address) for on-line access using a Uniform Resource Locator/Uniform Resource Identifier address or similar addressing scheme such as http://www.statkart.no/isotc211."""
-        pass
-
-    @property
-    def protocol(self) -> str:
-        """Connection protocol to be used e.g. http, ftp, file."""
-        return None
-
-    @property
-    def application_profile(self) -> str:
-        """Name of an application profile that can be used with the online resource."""
-        return None
-
-    @property
-    def name(self) -> str:
-        """Name of the online resource."""
-        return None
-
-    @property
-    def description(self) -> str:
-        """Detailed text description of what the online resource is/does."""
-        return None
-
-    @property
-    def function(self) -> OnLineFunctionCode:
-        """Code for function performed by the online resource."""
-        return None
-
-    @property
-    def protocol_request(self) -> str:
-        """Protocol used by the accessed resource."""
-        return None
+    delivery_point: tuple[str, ...]
+    city: str
+    administrative_area: str
+    postal_code: str
+    country: str
+    electronic_mail_address: tuple[str, ...]
 
 
-class Contact(ABC):
-    """Information required to enable contact with the responsible person and/or organisation."""
+@dataclass(frozen=True, slots=True)
+class Telephone:
+    """Telephone numbers for contacting the responsible individual or
+    organisation.
 
-    @property
-    def phone(self) -> Sequence[Telephone]:
-        """Telephone numbers at which the organisation or individual may be contacted."""
-        return None
+    Attributes:
+        number (str): Telephone number by which individuals can contact
+            responsible organisation or individual.
+        number_type (TelephoneTypeCode): Type of telephone responsible
+            organisation or individual.
 
-    @property
-    def address(self) -> Sequence[Address]:
-        """Physical and email address at which the organisation or individual may be contacted."""
-        return None
+    """
 
-    @property
-    def online_resource(self) -> Sequence[OnlineResource]:
-        """On-line information that can be used to contact the individual or organisation."""
-        return None
-
-    @property
-    def hours_of_service(self) -> Sequence[str]:
-        """Time period (including time zone) when individuals can contact the organisation or individual."""
-        return None
-
-    @property
-    def contact_instructions(self) -> str:
-        """Supplemental instructions on how or when to contact the individual or organisation."""
-        return None
-
-    @property
-    def contact_type(self) -> str:
-        return None
+    number: str
+    number_type: TelephoneTypeCode
 
 
-class Party(ABC):
-    """Information about the individual and/or organisation of the party."""
+@dataclass(frozen=True, slots=True)
+class OnlineResource:
+    """Information about on-line sources from which the resource,
+    specification, or community profile name and extended metadata
+    elements can be obtained.
 
-    @property
-    def name(self) -> str:
-        """Name of the party."""
-        return None
+    Attributes:
+        linkage (str): Location (address) for on-line access using a Uniform
+            Resource Locator/Uniform Resource Identifier address or similar
+            addressing scheme such as http://www.statkart.no/isotc211.
+        protocol (str): Connection protocol to be used e.g. http, ftp, file.
+        application_profile (str): Name of an application profile that can be
+            used with the online resource.
+        name (str):Name of the online resource.
+        description (str): Detailed text description of what the online
+            resource is/does.
+        function (OnLineFunctionCode):  Code for function performed by the
+            online resource.
+        protocol_request (str): Protocol used by the accessed resource.
 
-    @property
-    def contact_info(self) -> Sequence[Contact]:
-        """Contact information for the party."""
-        return None
+    """
 
-    @property
-    def party_identifier(self) -> Sequence['Identifier']:
-        """Identifier of the party."""
-        return None
-
-
-class Responsibility(ABC):
-    """Information about the party and their role."""
-
-    @property
-    @abstractmethod
-    def role(self) -> RoleCode:
-        """Function performed by the responsible party."""
-        pass
-
-    @property
-    def extent(self) -> Sequence['Extent']:
-        """Spatial or temporal extent of the role."""
-        return None
-
-    @property
-    @abstractmethod
-    def party(self) -> Sequence[Party]:
-        pass
+    linkage: str
+    application_profile: str
+    name: str
+    description: str
+    function: OnLineFunctionCode
+    protocol_request: str
 
 
+@dataclass(frozen=True, slots=True)
+class Contact:
+    """Information required to enable contact with the responsible
+    person and/or organisation.
+
+    Attributes:
+        phone (tuple[Telephone, ...]): Telephone numbers at which the
+            organisation or individual may be contacted.
+        address (tuple[Address, ...]):  Physical and email address at which
+            the organisation or individual may be contacted.
+        online_resource (tuple[OnlineResource, ...]): On-line information that
+            can be used to contact the individual or organisation.
+        hours_of_service (tuple[str, ...]):  Time period (including time zone)
+            when individuals can contact the organisation or individual.
+        contact_instructions (str): Supplemental instructions on how or when
+            to contact the individual or organisation.
+        contact_type (str): Type of the contact.
+
+    """
+
+    phone: tuple[Telephone, ...]
+    address: tuple[Address, ...]
+    online_resource: tuple[OnlineResource, ...]
+    hours_of_service: tuple[str, ...]
+    contact_instructions: str
+    contact_type: str
+
+
+@dataclass(frozen=True, slots=True)
+class Party:
+    """Information about the individual and/or organisation of the party.
+
+    Attributes:
+        name (str): Name of the party.
+        contact_info (tuple[Contact, ...]): Contact information for the party.
+        party_identifier (tuple[Identifier, ...]): Identifier of the party.
+
+    """
+
+    name: str
+    contact_info: tuple[Contact, ...]
+    party_identifier: tuple["Identifier", ...]
+
+
+@dataclass(frozen=True, slots=True)
+class Responsibility:
+    """Information about the party and their role.
+
+    Attributes:
+        role (RoleCode): Function performed by the responsible party.
+        extent (tuple[Extent, ...]): Spatial or temporal extent of the role.
+        party (tuple[Party, ...]): Information about the Party.
+
+    """
+
+    role: RoleCode
+    extent: tuple[Extent, ...]
+    party: tuple[Party, ...]
+
+
+@dataclass(frozen=True, slots=True)
 class Individual(Party):
-    """Information about the party if the party is an individual."""
+    """Information about the party if the party is an individual.
 
-    @property
-    def position_name(self) -> str:
-        """Position of the individual in an organisation."""
-        return None
+    Attributes:
+        position_name (str): Position of the individual in an organisation.
+
+    """
+
+    position_name: str
 
 
+@dataclass(frozen=True, slots=True)
 class Organisation(Party):
-    """Information about the party if the party is an organisation."""
+    """Information about the party if the party is an organisation.
 
-    @property
-    def logo(self) -> Sequence['BrowseGraphic']:
-        """Graphic identifying organization."""
-        return None
+    Attributes:
+        logo (tuple[BrowseGraphic, ...]): Graphic identifying organization.
+        individual (tuple[Individual, ...]): Individuals belonging to the
+            Organisation.
 
-    @property
-    def individual(self) -> Sequence[Individual]:
-        return None
+    """
 
-
-class Date(ABC):
-    """Reference date and event used to describe it."""
-
-    @property
-    @abstractmethod
-    def date(self) -> datetime:
-        """Reference date for the cited resource."""
-        pass
-
-    @property
-    @abstractmethod
-    def date_type(self) -> DateTypeCode:
-        """Event used for reference date."""
-        pass
+    logo: tuple[BrowseGraphic, ...]
+    individual: tuple[Individual, ...]
 
 
-class Citation(ABC):
-    """Standardized resource reference."""
+@dataclass(frozen=True, slots=True)
+class Date:
+    """Reference date and event used to describe it.
 
-    @property
-    @abstractmethod
-    def title(self) -> str:
-        """Name by which the cited resource is known."""
-        pass
+    Attributes:
+        date (datetime): Reference date for the cited resource.
+        date_type (DateTypeCode): Event used for reference date.
 
-    @property
-    def alternate_title(self) -> Sequence[str]:
-        """Short name or other language name by which the cited information is known. Example: DCW as an alternative title for Digital Chart of the World."""
-        return None
+    """
 
-    @property
-    def date(self) -> Sequence[Date]:
-        """Reference date for the cited resource."""
-        return None
-
-    @property
-    def edition(self) -> str:
-        """Version of the cited resource."""
-        return None
-
-    @property
-    def edition_date(self) -> datetime:
-        """Date of the edition."""
-        return None
-
-    @property
-    def identifier(self) -> Sequence['Identifier']:
-        """Value uniquely identifying an object within a namespace."""
-        return None
-
-    @property
-    def cited_responsible_party(self) -> Sequence[Responsibility]:
-        """Name and position information for an individual or organisation that is responsible for the resource."""
-        return None
-
-    @property
-    def presentation_form(self) -> Sequence[PresentationFormCode]:
-        """Mode in which the resource is represented."""
-        return None
-
-    @property
-    def series(self) -> Series:
-        """Information about the series, or aggregate resource, of which the resource is a part."""
-        return None
-
-    @property
-    def other_citation_details(self) -> Sequence[str]:
-        """Other information required to complete the citation that is not recorded elsewhere."""
-        return None
-
-    @property
-    def ISBN(self) -> str:
-        """International Standard Book Number."""
-        return None
-
-    @property
-    def ISSN(self) -> str:
-        """International Standard Serial Number."""
-        return None
-
-    @property
-    def online_resource(self) -> Sequence[OnlineResource]:
-        """Online reference to the cited resource."""
-        return None
-
-    @property
-    def graphic(self) -> Sequence['BrowseGraphic']:
-        """Citation graphic or logo for cited party."""
-        return None
+    date: datetime
+    date_type: DateTypeCode
 
 
-class Identifier(ABC):
-    """Value uniquely identifying an object within a namespace."""
+@dataclass(frozen=True, slots=True)
+class Citation:
+    """Standardized resource reference.
 
-    @property
-    def authority(self) -> Citation:
-        """Citation for the code namespace and optionally the person or party responsible for maintenance of that namespace."""
-        return None
+    Attributes:
+        title (str): Name by which the cited resource is known.
+        alternate_title (tuple[str, ...]): Short name or other language name
+            by which the cited information is known. Example: DCW as an
+            alternative title for Digital Chart of the World.
+        date (tuple[Date, ...]): Reference date for the cited resource.
+        edition (str): Version of the cited resource.
+        edition_date (datetime): Date of the edition.
+        identifier (tuple[Identifier, ...]): Value uniquely identifying an
+            object within a namespace.
+        cited_responsible_party (tuple[Responsibility, ...]): Name and
+            position information for an individual or organisation that
+            is responsible for the resource.
+        presentation_form (tuple[PresentationFormCode, ...]): Mode in which
+            the resource is represented.
+        series (Series): Information about the series, or aggregate resource,
+            of which the resource is a part.
+        other_citation_details (tuple[str, ...]): Other information required
+            to complete the citation that is not recorded elsewhere.
+        ISBN (str): International Standard Book Number.
+        ISSN (str): International Standard Serial Number.
+        online_resource (tuple[OnlineResource, ...]): Online reference to the
+            cited resource.
+        graphic (tuple[BrowseGraphic, ...]): Citation graphic or logo for
+            cited party.
 
-    @property
-    @abstractmethod
-    def code(self) -> str:
-        """Alphanumeric value identifying an instance in the namespace e.g. EPSG::4326."""
-        pass
+    """
 
-    @property
-    def code_space(self) -> str:
-        """Identifier or namespace in which the code is valid."""
-        return None
+    title: str
+    alternate_title: tuple[str, ...]
+    date: tuple[Date, ...]
+    edition: str
+    edition_date: datetime
+    identifier: tuple["Identifier", ...]
+    cited_responsible_party: tuple[Responsibility, ...]
+    presentation_form: tuple[PresentationFormCode, ...]
+    series: Series
+    other_citation_details: tuple[str, ...]
+    ISBN: str
+    ISSN: str
+    online_resource: tuple[OnlineResource, ...]
+    graphic: tuple[BrowseGraphic, ...]
 
-    @property
-    def version(self) -> str:
-        """Version identifier for the namespace."""
-        return None
 
-    @property
-    def description(self) -> str:
-        """Natural language description of the meaning of the code value E.G for codeSpace = EPSG, code = 4326: description = WGS-84" to "for codeSpace = EPSG, code = EPSG::4326: description = WGS-84."""
-        return None
+@dataclass(frozen=True, slots=True)
+class Identifier:
+    """Value uniquely identifying an object within a namespace.
+
+    Attributes:
+        authority (Citation): Citation for the code namespace and optionally
+            the person or party responsible for maintenance of that namespace.
+        code (str): Alphanumeric value identifying an instance in the
+            namespace e.g., EPSG::4326.
+        code_space (str): Identifier or namespace in which the code is valid.
+        version (str): Version identifier for the namespace.
+        description (str): Natural language description of the meaning of the
+            code value, e.g., for codeSpace = EPSG, code = 4326: description =
+            WGS-84" to "for codeSpace = EPSG, code = EPSG::4326: description =
+            WGS-84.
+
+    """
+
+    authority: Citation
+    code: str
+    code_space: str
+    version: str
+    description: str

@@ -1,11 +1,29 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the service module.
 
-from abc import ABC, abstractmethod
-from collections.abc import Sequence
+This module contains geographic metadata structures regarding data services
+derived from the ISO 19115-1:2014 international standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+
+from dataclasses import dataclass
 from enum import Enum
 
 from opengis.metadata.citation import Citation, OnlineResource
@@ -15,12 +33,15 @@ from opengis.metadata.naming import GenericName, ScopedName
 
 
 class CouplingType(Enum):
+    """Class of information to which the referencing entity applies."""
+
     LOOSE = "loose"
     MIXED = "mixed"
     TIGHT = "tight"
 
 
 class DCPList(Enum):
+    """Class of information to which the referencing entity applies."""
     XML = "XML"
     CORBA = "CORBA"
     JAVA = "JAVA"
@@ -34,145 +55,123 @@ class DCPList(Enum):
 
 
 class ParameterDirection(Enum):
+    """Class of information to which the referencing entity applies."""
+
     IN = "in"
     OUT = "out"
     IN_OUT = "in/out"
 
 
-class OperationMetadata(ABC):
-    """Describes the signature of one and only one method provided by the service."""
+@dataclass(frozen=True, slots=True)
+class OperationMetadata:
+    """Describes the signature of one and only one method provided by the
+    service.
 
-    @property
-    @abstractmethod
-    def operation_name(self) -> str:
-        """A unique identifier for this interface."""
-        pass
+    Attributes:
+        operation_name (str): A unique identifier for this interface.
+        distributed_computing_platform (tuple[DCPList, ...]): Distributed
+            computing platforms on which the operation has been implemented.
+        operation_description (str): Free text description of the intent of
+            the operation and the results of the operation.
+        invocation_name (str): The name used to invoke this interface within
+            the context of the DCP. The name is identical for all DCPs.
+        connect_point (tuple[OnlineResource, ...]): Handle for accessing the
+            service interface.
+        parameter (...): The parameters that are required for this interface.
+        depends_on (tuple[OperationMetadata, ...]): List of operation that
+            must be completed immediately before current operation is invoked.
 
-    @property
-    @abstractmethod
-    def distributed_computing_platform(self) -> Sequence[DCPList]:
-        """Distributed computing platforms on which the operation has been implemented."""
-        pass
+    """
 
-    @property
-    def operation_description(self) -> str:
-        """Free text description of the intent of the operation and the results of the operation."""
-        return None
-
-    @property
-    def invocation_name(self) -> str:
-        """The name used to invoke this interface within the context of the DCP. The name is identical for all DCPs."""
-        return None
-
-    @property
-    @abstractmethod
-    def connect_point(self) -> Sequence[OnlineResource]:
-        """Handle for accessing the service interface."""
-        pass
-
-    @property
-    def parameter(self):
-        """The parameters that are required for this interface."""
-        return None
-
-    @property
-    def depends_on(self) -> Sequence['OperationMetadata']:
-        """List of operation that must be completed immediately before current operation is invoked."""
-        return None
+    operation_name: str
+    distributed_computing_platform: tuple[DCPList, ...]
+    operation_description: str
+    invocation_name: str
+    connect_point: tuple[OnlineResource, ...]
+    parameter: ...
+    depends_on: tuple["OperationMetadata", ...]
 
 
-class OperationChainMetadata(ABC):
-    """Operation Chain Information."""
+@dataclass(frozen=True, slots=True)
+class OperationChainMetadata:
+    """Operation Chain Information.
 
-    @property
-    @abstractmethod
-    def name(self) -> str:
-        """The name, as used by the service for this chain."""
-        pass
+    Attributes:
+        name (str): The name, as used by the service for this chain.
+        description (str): A narrative explanation of the services in the
+            chain and resulting output.
+        operation (tuple[OperationMetadata, ...]): 
 
-    @property
-    def description(self) -> str:
-        """A narrative explanation of the services in the chain and resulting output."""
-        return None
+    """
 
-    @property
-    @abstractmethod
-    def operation(self) -> Sequence[OperationMetadata]:
-        pass
+    name: str
+    description: str
+    operation: tuple[OperationMetadata, ...]
 
 
-class CoupledResource(ABC):
-    """Links a given operationName (mandatory attribute of SV_OperationMetadata) with a data set identified by an 'identifier'."""
+@dataclass(frozen=True, slots=True)
+class CoupledResource:
+    """Links a given operationName (mandatory attribute of
+    SV_OperationMetadata) with a data set identified by an "identifier".
 
-    @property
-    def scoped_name(self) -> ScopedName:
-        """Scoped identifier of the resource in the context of the given service instance. NOTE: name of the resources (i.e. dataset) as it is used by a service instance (e.g. layer name or featureTypeName)."""
-        return None
+    Attributes:
+        scoped_name (ScopedName): Scoped identifier of the resource in the
+            context of the given service instance. NOTE: name of the resources
+            (i.e. dataset) as it is used by a service instance (e.g. layer
+            name or featureTypeName).
+        resource_reference (tuple[Citation, ...]): Reference to the dataset on
+            which the service operates.
+        operation (OperationMetadata): 
+        resource (tuple[DataIdentification, ...]): 
 
-    @property
-    def resource_reference(self) -> Sequence[Citation]:
-        """Reference to the dataset on which the service operates."""
-        return None
+    """
 
-    @property
-    def operation(self) -> OperationMetadata:
-        return None
-
-    @property
-    def resource(self) -> Sequence[DataIdentification]:
-        return None
+    scoped_name: ScopedName
+    resource_reference: tuple[Citation, ...]
+    operation: OperationMetadata
+    resource: tuple[DataIdentification, ...]
 
 
+@dataclass(frozen=True, slots=True)
 class ServiceIdentification(Identification):
-    """Identification of capabilities which a service provider makes available to a service user through a set of interfaces that define a behaviour - See ISO 19119 for further information."""
+    """Identification of capabilities which a service provider makes available
+    to a service user through a set of interfaces that define a behaviour -
+    See ISO 19119 for further information.
 
-    @property
-    @abstractmethod
-    def service_type(self) -> GenericName:
-        """A service type name, E.G. 'discovery', 'view', 'download', 'transformation', or 'invoke'."""
-        pass
+    Attributes:
+        service_type (GenericName): A service type name, e.g., "discovery",
+            "view", "download", "transformation", or "invoke".
+        service_type_version (tuple[str, ...]): Provide for searching based on
+            the version of serviceType. For example, we may only be interested
+            in OGC Catalogue V1.1 services. If version is maintained as a
+            separate attribute, users can easily search for all services of a
+            type regardless of the version.
+        access_properties (StandardOrderProcess): Information about the
+            availability of the service, including, "fees", "planned",
+            "available date and time", "ordering instructions", and
+            "turnaround".
+        coupling_type (CouplingType): Type of coupling between service and
+            associated data (if exists).
+        coupled_resource (tuple[CoupledResource, ...]): Further description of
+            the data coupling in the case of tightly coupled services.
+        operated_dataset (tuple[Citation, ...]): Provides a reference to the
+            dataset on which the service operates.
+        profile (tuple[Citation, ...]): 
+        service_standard (tuple[Citation, ...]): 
+        contains_operations (tuple[OperationMetadata, ...]): 
+        operates_on (tuple[DataIdentification, ...]): 
+        contains_chain (tuple[OperationChainMetadata, ...]): 
 
-    @property
-    def service_type_version(self) -> Sequence[str]:
-        """Provide for searching based on the version of serviceType. For example, we may only be interested in OGC Catalogue V1.1 services. If version is maintained as a separate attribute, users can easily search for all services of a type regardless of the version."""
-        return None
+    """
 
-    @property
-    def access_properties(self) -> StandardOrderProcess:
-        """Information about the availability of the service, including, 'fees' 'planned' 'available date and time' 'ordering instructions' 'turnaround'."""
-        return None
-
-    @property
-    def coupling_type(self) -> CouplingType:
-        """Type of coupling between service and associated data (if exists)."""
-        return None
-
-    @property
-    def coupled_resource(self) -> Sequence[CoupledResource]:
-        """Further description of the data coupling in the case of tightly coupled services."""
-        return None
-
-    @property
-    def operated_dataset(self) -> Sequence[Citation]:
-        """Provides a reference to the dataset on which the service operates."""
-        return None
-
-    @property
-    def profile(self) -> Sequence[Citation]:
-        return None
-
-    @property
-    def service_standard(self) -> Sequence[Citation]:
-        return None
-
-    @property
-    def contains_operations(self) -> Sequence[OperationMetadata]:
-        return None
-
-    @property
-    def operates_on(self) -> Sequence[DataIdentification]:
-        return None
-
-    @property
-    def contains_chain(self) -> Sequence[OperationChainMetadata]:
-        return None
+    service_type: GenericName
+    service_type_version: tuple[str, ...]
+    access_properties: StandardOrderProcess
+    coupling_type: CouplingType
+    coupled_resource: tuple[CoupledResource, ...]
+    operated_dataset: tuple[Citation, ...]
+    profile: tuple[Citation, ...]
+    service_standard: tuple[Citation, ...]
+    contains_operations: tuple[OperationMetadata, ...]
+    operates_on: tuple[DataIdentification, ...]
+    contains_chain: tuple[OperationChainMetadata, ...]

@@ -17,16 +17,14 @@
 # ===-----------------------------------------------------------------------===
 """This is the acquisition module.
 
-This subpackage contains geographic metadata structures regarding data 
-acquisition that are derived from the ISO 19115-1:2014 international
+This module contains geographic metadata structures regarding data
+acquisition that are derived from the ISO 19115-2:2019 international
 standard.
 """
 
 __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
-
-from abc import ABC, abstractmethod
-from collections.abc import Sequence
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 
@@ -36,12 +34,19 @@ from opengis.metadata.identification import ProgressCode
 
 
 class ContextCode(Enum):
+    """
+    Designation of criterion for defining the context of the scanning
+    process event.
+    """
+
     ACQUISITION = "acquisition"
     PASS = "pass"
     WAY_POINT = "wayPoint"
 
 
 class GeometryTypeCode(Enum):
+    """Geometric description of the collection."""
+
     POINT = "point"
     LINEAR = "linear"
     AREAL = "areal"
@@ -49,18 +54,29 @@ class GeometryTypeCode(Enum):
 
 
 class ObjectiveTypeCode(Enum):
+    """Temporal persistence of collection objective."""
+
     INSTANTANEOUS_COLLECTION = "instantaneousCollection"
     PERSISTENT_VIEW = "persistentView"
     SURVEY = "survey"
 
 
 class OperationTypeCode(Enum):
+    """
+    Code indicating whether the data contained in this packet is real
+    (originates from live-fly or other non-simulated operational sources),
+    simulated (originates from target simulator sources), or synthesized
+    (a mix of real and simulated data).
+    """
+
     REAL = "real"
     SIMULATED = "simulated"
     SYNTHESIZED = "synthesized"
 
 
 class PriorityCode(Enum):
+    """Ordered list of priorities."""
+
     CRITICAL = "critical"
     HIGH_IMPORTANCE = "highImportance"
     MEDIUM_IMPORTANCE = "mediumImportance"
@@ -68,393 +84,290 @@ class PriorityCode(Enum):
 
 
 class SequenceCode(Enum):
+    """Temporal relation of activation."""
+
     START = "start"
     END = "end"
     INSTANTANEOUS = "instantaneous"
 
 
 class TriggerCode(Enum):
+    """Mechanism of activation."""
+
     AUTOMATIC = "automatic"
     MANUAL = "manual"
     PRE_PROGRAMMED = "preProgrammed"
 
 
-class Instrument(ABC):
-    """Designations for the measuring instruments."""
+@dataclass(frozen=True, slots=True)
+class Instrument:
+    """Designation for a measuring instrument.
 
-    @property
-    def citation(self) -> Sequence[Citation]:
-        """Complete citation of the instrument."""
-        return None
+    Attributes:
+        citation (tuple[Citation, ...]): Complete citation of the instrument.
+        identifier (Identifier): Unique identification of the instrument.
+        type (str): Code describing the type of instrument.
+        description (str): Textual description of the instrument.
+        mounted_on (Platform): The platform on which the instrument is
+            mounted.
 
-    @property
-    @abstractmethod
-    def identifier(self) -> Identifier:
-        """Complete citation of the instrument."""
-        pass
-
-    @property
-    @abstractmethod
-    def type(self) -> str:
-        """Code describing the type of instrument."""
-        pass
-
-    @property
-    def description(self) -> str:
-        """Textual description of the instrument."""
-        return None
-
-    @property
-    def mounted_on(self) -> 'Platform':
-        return None
-
-
-class Platform(ABC):
-    """Designations for the platform used to acquire the dataset."""
-
-    @property
-    def citation(self) -> Citation:
-        """Complete citation of the platform."""
-        return None
-
-    @property
-    @abstractmethod
-    def identifier(self) -> Identifier:
-        """Unique identification of the platform."""
-        pass
-
-    @property
-    @abstractmethod
-    def description(self) -> str:
-        """Narrative description of the platform supporting the instrument."""
-        pass
-
-    @property
-    def sponsor(self) -> Sequence[Responsibility]:
-        """
-        Organization responsible for building, launch, or operation of the
-        platform.
-        """
-        return None
-
-    @property
-    @abstractmethod
-    def instrument(self) -> Sequence[Instrument]:
-        pass
-
-
-class PlatformPass(ABC):
-    """Identification of collection coverage."""
-
-    @property
-    @abstractmethod
-    def identifier(self) -> Identifier:
-        """Unique name of the pass."""
-        pass
-
-    @property
-    def extent(self):
-        """Area covered by the pass."""
-        return None
-
-    @property
-    def related_event(self) -> Sequence['Event']:
-        return None
-
-
-class Event(ABC):
-    """
-    Identification of a significant collection point within an
-    operation.
     """
 
-    @property
-    @abstractmethod
-    def identifier(self) -> Identifier:
-        """Event name or number."""
-        pass
-
-    @property
-    @abstractmethod
-    def trigger(self) -> TriggerCode:
-        """Initiator of the event."""
-        pass
-
-    @property
-    @abstractmethod
-    def context(self) -> ContextCode:
-        """Meaning of the event."""
-        pass
-
-    @property
-    @abstractmethod
-    def sequence(self) -> SequenceCode:
-        """Relative time ordering of the event."""
-        pass
-
-    @property
-    @abstractmethod
-    def time(self) -> datetime:
-        """Time the event occurred."""
-        pass
-
-    @property
-    def related_pass(self) -> PlatformPass:
-        return None
-
-    @property
-    def related_sensor(self) -> Sequence[Instrument]:
-        return None
-
-    @property
-    def expected_objective(self) -> Sequence['Objective']:
-        return None
-
-
-class EnvironmentalRecord(ABC):
-
-    @property
-    @abstractmethod
-    def average_air_temperature(self) -> float:
-        pass
-
-    @property
-    @abstractmethod
-    def max_relative_humidity(self) -> float:
-        pass
-
-    @property
-    @abstractmethod
-    def max_altitude(self) -> float:
-        pass
-
-    @property
-    @abstractmethod
-    def meteorological_conditions(self) -> str:
-        pass
-
-
-class Objective(ABC):
-    """Describes the characteristics, spatial and temporal extent of the intended object to be observed."""
-
-    @property
-    @abstractmethod
-    def identifier(self) -> Sequence[Identifier]:
-        """Registered code used to identify the objective."""
-        pass
-
-    @property
-    def priority(self) -> str:
-        """Priority applied to the target."""
-        return None
-
-    @property
-    def type(self) -> Sequence[ObjectiveTypeCode]:
-        """Collection technique for the objective."""
-        return None
-
-    @property
-    def function(self) -> Sequence[str]:
-        """Function performed by or at the objective."""
-        return None
-
-    @property
-    def extent(self) -> Sequence[Extent]:
-        """Extent information including the bounding box, bounding polygon, vertical and temporal extent of the 
-        objective."""
-        return None
-
-    @property
-    def sensing_instrument(self) -> Sequence[Instrument]:
-        return None
-
-    @property
-    def platformPass(self) -> Sequence[PlatformPass]:
-        return None
-
-    @property
-    @abstractmethod
-    def objective_occurence(self) -> Sequence[Event]:
-        pass
-
-
-class Operation(ABC):
-    """Designations for the operation used to acquire the dataset."""
-
-    @property
-    def description(self) -> str:
-        """Description of the mission on which the platform observations are part and the objectives of that mission."""
-        return None
-
-    @property
-    def citation(self) -> Citation:
-        """Character string by which the mission is known."""
-        return None
-
-    @property
-    def identifier(self) -> Identifier:
-        """Character string by which the mission is known."""
-        return None
-
-    @property
-    @abstractmethod
-    def status(self) -> ProgressCode:
-        """Status of the data acquisition."""
-        pass
-
-    @property
-    def type(self) -> OperationTypeCode:
-        """Status of the data acquisition."""
-        return None
-
-    @property
-    def parent_operation(self) -> 'Operation':
-        return None
-
-    @property
-    def child_operation(self) -> Sequence['Operation']:
-        return None
-
-    @property
-    def platform(self) -> Sequence[Platform]:
-        """Platform (or platforms) used in the operation."""
-        return None
-
-    @property
-    def objective(self) -> Sequence[Objective]:
-        return None
-
-    @property
-    def plan(self) -> 'Plan':
-        return None
-
-    @property
-    def significant_event(self) -> Sequence[Event]:
-        return None
-
-
-class RequestedDate(ABC):
-    """Range of date validity."""
-
-    @property
-    @abstractmethod
-    def requested_date_of_collection(self) -> datetime:
-        """Preferred date and time of collection."""
-        pass
-
-    @property
-    @abstractmethod
-    def latest_acceptable_date(self) -> datetime:
-        """Latest date and time collection must be completed."""
-        pass
-
-
-class Requirement(ABC):
-    """Requirement to be satisfied by the planned data acquisition."""
-
-    @property
-    def citation(self) -> Citation:
-        """Identification of reference or guidance material for the requirement."""
-        return None
-
-    @property
-    @abstractmethod
-    def identifier(self) -> Identifier:
-        """Unique name, or code, for the requirement."""
-        pass
-
-    @property
-    @abstractmethod
-    def requestor(self) -> Sequence[Responsibility]:
-        """Origin of requirement."""
-        pass
-
-    @property
-    @abstractmethod
-    def recipient(self) -> Sequence[Responsibility]:
-        """Person(s), or body(ies), to receive results of requirement."""
-        pass
-
-    @property
-    @abstractmethod
-    def priority(self) -> PriorityCode:
-        """Relative ordered importance, or urgency, of the requirement."""
-        pass
-
-    @property
-    @abstractmethod
-    def requested_date(self) -> RequestedDate:
-        """Required or preferred acquisition date and time."""
-        pass
-
-    @property
-    @abstractmethod
-    def expiry_date(self) -> datetime:
-        """Date and time after which collection is no longer valid."""
-        pass
-
-    @property
-    def satisfied_plan(self) -> Sequence['Plan']:
-        return None
-
-
-class Plan(ABC):
-    """Designations for the planning information related to meeting requirements."""
-
-    @property
-    def type(self) -> GeometryTypeCode:
-        """Manner of sampling geometry the planner expects for collection of the objective data."""
-        return None
-
-    @property
-    @abstractmethod
-    def status(self) -> ProgressCode:
-        """Current status of the plan (pending, completed, etc.)."""
-        pass
-
-    @property
-    @abstractmethod
-    def citation(self) -> Citation:
-        """Identification of authority requesting target collection."""
-        pass
-
-    @property
-    def operation(self) -> Sequence[Operation]:
-        return None
-
-    @property
-    def satisfied_requirement(self) -> Sequence[Requirement]:
-        return None
-
-
-class AcquisitionInformation(ABC):
-    """Designations for the measuring instruments and their bands, the platform carrying them, and the mission to which
-    the data contributes."""
-
-    @property
-    def instrument(self) -> Sequence[Instrument]:
-        return None
-
-    @property
-    def operation(self) -> Sequence[Operation]:
-        return None
-
-    @property
-    def platform(self) -> Sequence[Platform]:
-        return None
-
-    @property
-    def acquisition_plan(self) -> Sequence[Plan]:
-        return None
-
-    @property
-    def objective(self) -> Sequence[Objective]:
-        return None
-
-    @property
-    def acquisition_requirement(self) -> Sequence[Requirement]:
-        return None
-
-    @property
-    def environmental_conditions(self) -> EnvironmentalRecord:
-        return None
+    citation: tuple[Citation, ...]
+    identifier: Identifier
+    type: str
+    description: str
+    mounted_on: "Platform"
+
+
+@dataclass(frozen=True, slots=True)
+class Platform:
+    """Designations for the platform used to acquire the dataset.
+
+    Attributes:
+        citation (Citation): Complete citation of the platform.
+        identifier (Identifier): Unique identification of the platform.
+        description (str): Narrative description of the platform supporting
+            the instrument.
+        sponsor (tuple[Responsibility, ...]): Organization responsible for
+            building, launch, or operation of the platform.
+        instrument (tuple[Instrument, ...]): The instrument(s) mounted on the
+            platform.
+
+    """
+
+    citation: Citation
+    identifier: Identifier
+    description: str
+    sponsor: tuple[Responsibility, ...]
+    instrument: tuple[Instrument, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class PlatformPass:
+    """Identification of collection coverage.
+
+    Attrubutes:
+        identifier (Identifier): Unique name of the pass.
+        extent (Extent): Area covered by the pass.
+        related_event (tuple[Event, ...]): A particular event related to the
+            pass.
+
+    """
+
+    identifier: Identifier
+    extent: Extent
+    related_event: tuple["Event", ...]
+
+
+@dataclass(frozen=True, slots=True)
+class Event:
+    """Identification of a significant collection point within an operation.
+
+    Attributes:
+        identifier (Identifier): Event name or number.
+        trigger (TriggerCode): Initiator of the event.
+        context (ContextCode): Meaning of the event.
+        sequence (SequenceCode): Relative time ordering of the event.
+        time (datetime): Time the event occurred.
+        related_pass (PlatformPass): A `PlatformPass` related to the `Event`.
+        related_sensor (tuple[Instrument, ...]): An `Instrument` related to
+            the event.
+        expected_objective (tuple[Objective, ...]): An objective expected to
+            be completed by the event.
+
+    """
+
+    identifier: Identifier
+    trigger: TriggerCode
+    context: ContextCode
+    sequence: SequenceCode
+    time: datetime
+    related_pass: PlatformPass
+    related_sensor: tuple[Instrument, ...]
+    expected_objective: tuple["Objective", ...]
+
+
+@dataclass(frozen=True, slots=True)
+class EnvironmentalRecord:
+    """ 
+
+    Attributes:
+        average_air_temperature (float): 
+        max_relative_humidity (float): 
+        max_altitude (float): 
+        meteorological_conditions (str): 
+
+    """
+
+    average_air_temperature: float
+    max_relative_humidity: float
+    max_altitude: float
+    meteorological_conditions: str
+
+
+@dataclass(frozen=True, slots=True)
+class Objective:
+    """Describes the characteristics, spatial and temporal extent of the
+    intended object to be observed.
+
+    Attributes:
+        identifier (Identifier): Registered code used to identify the
+            objective.
+        priority (str): Priority applied to the target.
+        type (tuple[ObjectiveTypeCode, ...]): Collection technique for the
+            objective.
+        function (tuple[str, ...]): Function performed by or at the objective.
+        extent (tuple[Extent, ...]): Extent information including the bounding
+            box, bounding polygon, vertical and temporal extent of the
+            objective.
+        sensing_instrument (tuple[Instrument, ...]): 
+        platform_pass (PlatformPass): 
+        objective_occurence (tuple[Event, ...]): 
+
+    """
+
+    identifier: Identifier
+    priority: str
+    type: tuple[ObjectiveTypeCode, ...]
+    function: tuple[str, ...]
+    extent: tuple[Extent, ...]
+    sensing_instrument: tuple[Instrument, ...]
+    platform_pass: PlatformPass
+    objective_occurence: tuple[Event, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class Operation:
+    """Designations for the operation used to acquire the dataset.
+
+    Attributes:
+        description (str): Description of the mission on which the platform
+            observations are part and the objectives of that mission.
+        citation (Citation): Character string by which the mission is known.
+        identifier (Identifier): Character string by which the mission is
+            known.
+        status (ProgressCode): Status of the data acquisition.
+        type (OperationTypeCode): 
+        parent_operation (Operation): 
+        child_operation (tuple[Operation, ...]): 
+        platform (tuple[Platform, ...]): Platform(s) used in the operation.
+        objective (tuple[Objective, ...]): 
+        plan (Plan): 
+        significant_event (tuple[Event, ...]): 
+
+    """
+
+    description: str
+    citation: Citation
+    identifier: Identifier
+    status: ProgressCode
+    type: OperationTypeCode
+    parent_operation: "Operation"
+    child_operation: tuple["Operation", ...]
+    platform: tuple[Platform, ...]
+    objective: tuple[Objective, ...]
+    plan: "Plan"
+    significant_event: tuple[Event, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class RequestedDate:
+    """Range of date validity.
+
+    Attributes:
+        requested_date_of_collection (datetime): Preferred date and time of
+            collection.
+        latest_acceptable_date (datetime): Latest date and time collection
+            must be completed.
+
+    """
+
+    requested_date_of_collection: datetime
+    latest_acceptable_date: datetime
+
+
+@dataclass(frozen=True, slots=True)
+class Requirement:
+    """Requirement to be satisfied by the planned data acquisition.
+
+    Attributes:
+        citation (Citation): Identification of reference or guidance material
+            for the requirement.
+        identifier (Identifier): Unique name, or code, for the requirement.
+        requestor (tuple[Responsibility, ...]): Origin of requirement.
+        recipient (tuple[Responsibility, ...]): Person(s), or body(ies), to
+            receive results of requirement.
+        priority (PriorityCode): Relative ordered importance, or urgency, of
+            the requirement.
+        requested_date (RequestedDate): Required or preferred acquisition date
+            and time.
+        expiry_date (datetime): Date and time after which collection is no
+            longer valid.
+        satisfied_plan (tuple[Plan, ...]): Plan that identifies solution to
+            satisfy the requirement.
+
+    """
+
+    citation: Citation
+    identifier: Identifier
+    requestor: tuple[Responsibility, ...]
+    recipient: tuple[Responsibility, ...]
+    priority: PriorityCode
+    requested_date: RequestedDate
+    expiry_date: datetime
+    satisfied_plans: tuple["Plan", ...]
+
+
+@dataclass(frozen=True, slots=True)
+class Plan:
+    """Designations for the planning information related to meeting
+    requirements.
+
+    Attributes:
+        type (GeometryTypeCode): Manner of sampling geometry the planner
+            expects for collection of the objective data.
+        status (ProgressCode): Current status of the plan (pending, completed,
+            etc.).
+        citation (Citation): Identification of authority requesting target
+            collection.
+        operation (tuple[Operation, ...]): 
+        satisfied_requirement (tuple[Requirement, ...]): Requirement satisfied
+            by the plan.
+
+    """
+
+    type: GeometryTypeCode
+    status: ProgressCode
+    citation: Citation
+    operation: tuple[Operation, ...]
+    satisfied_requirement: tuple[Requirement, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class AcquisitionInformation:
+    """Designations for the measuring instruments and their bands, the
+        platform carrying them, and the mission to which
+    the data contributes.
+
+    Attributes:
+        instrument (tuple[Instrument, ...]): The instrument(s) used to collect
+            the data.
+        operation (tuple[Operation, ...]): The associated operation(s).
+        platform (tuple[Platform, ...]): The associated platform(s).
+        acquisition_plan (tuple[Plan, ...]): The associated acquisition
+            plan(s).
+        objective (tuple[Objective, ...]): The associated objective(s).
+        acquisition_requirement (tuple[Requirement, ...]): The associated
+            acquisition requirement(s).
+        environmental_conditions (EnvironmentalRecord): The associated
+            environmental condition(s).
+    """
+
+    instrument: tuple[Instrument, ...]
+    operation: tuple[Operation, ...]
+    platform: tuple[Platform, ...]
+    acquisition_plan: tuple[Plan, ...]
+    objective: tuple[Objective, ...]
+    acquisition_requirement: tuple[Requirement, ...]
+    environmental_conditions: EnvironmentalRecord
