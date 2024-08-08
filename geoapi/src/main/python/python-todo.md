@@ -24,12 +24,13 @@
         - [x] cs
         - [x] datum
         - [x] operation
-- [ ] Abstract method return types
-    - [ ] Optional/None
-    - [ ] pass
-    - [ ] return None
-- [ ] Fix data types for units listed in ISO/TS 19103:2005
-    - [ ] `metadata.quality.QuantitativeResult.value_unit`: `UnitOfMeasure`
+- [x] Abstract method return types
+    - [x] pass
+    - [x] return None
+- [ ] Deal with minimum and maximum occurences of objects, as specified in in ISO standards
+    - [ ] 0 or more
+        - [ ] Optional/None
+    - [ ] maximum length > 1?
 - [ ] __str__ overrides
     - [ ] metadata.naming.LocalName
     - [ ] metadata.naming.ScopedName
@@ -39,6 +40,8 @@
     - metadata.quality.Element.derived_element -> Sequence[Element]
 - [ ] Fix any circular import problems
 - [ ] Fix data types for unannotated objects and attributes
+- [ ] Fix data types for units listed in ISO/TS 19103:2005
+    - [ ] `metadata.quality.QuantitativeResult.value_unit`: `UnitOfMeasure`
 - [ ] Add Python mappings to [documentation](https://www.metanorma.org/author/ogc/)
     - src > main > metanorma
     - [ ] 7.1.3.1 Departures from ISO model
@@ -56,9 +59,6 @@
     - [ ] `operation` module
         - [ ] `MathTransform` vs. `Transform`
 - [ ] Add code documentation to indicate which attributes/properties/fields are mandatory for ISO 19115-1:2014
-- [ ] Deal with minimum and maximum occurences of objects, as specified in in ISO standards
-    - [ ] 0 or more
-    - [ ] maximum length > 1?
 - [ ] Finish incomplete code documentation
     - [ ] Add missing class and attribute descriptions
     - [ ] Sphinx :return:, : rtype:

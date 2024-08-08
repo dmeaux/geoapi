@@ -38,13 +38,11 @@ class NameSpace(ABC):
         or top-level namespaces are not contained within another namespace.
         The global namespace has no parent.
         """
-        pass
 
     @property
     @abstractmethod
     def name(self) -> 'GenericName':
         """The identifier of this namespace."""
-        pass
 
 
 class GenericName(ABC):
@@ -58,7 +56,6 @@ class GenericName(ABC):
         `LocalName`, it is always one. For a `ScopedName` it is some number
         greater than or equal to 2.
         """
-        pass
 
     @property
     @abstractmethod
@@ -68,7 +65,6 @@ class GenericName(ABC):
         association with their scope in which they are considered local, but
         the scope can be the global namespace.
         """
-        pass
 
     @property
     @abstractmethod
@@ -77,7 +73,6 @@ class GenericName(ABC):
         The sequence of local names making this generic name. The length of
         this sequence is the depth. It does not include the scope.
         """
-        pass
 
 
 class LocalName(GenericName):
@@ -92,14 +87,15 @@ class LocalName(GenericName):
     @abstractmethod
     def __str__(self) -> str:
         """A string representation of this local name."""
-        pass
 
     @property
+    @abstractmethod
     def depth(self) -> int:
         """The number of levels specified by this name, which is always 1 for a local name."""
         return 1
 
     @property
+    @abstractmethod
     def parsed_name(self) -> Sequence['LocalName']:
         """
         The sequence of local names. Since this object is itself a locale name,
@@ -121,7 +117,6 @@ class ScopedName(GenericName):
         The first element in the sequence of parsed names. The head element
         must exists in the same name space as this scoped name.
         """
-        pass
 
     @property
     @abstractmethod
@@ -129,13 +124,11 @@ class ScopedName(GenericName):
         """
         Every elements in the sequence of parsed names except for the head.
         """
-        pass
 
     @property
     @abstractmethod
     def __str__(self) -> str:
         """A string representation of this scoped name."""
-        pass
 
 
 class TypeName(LocalName):
@@ -145,7 +138,6 @@ class TypeName(LocalName):
     @abstractmethod
     def __str__(self) -> str:
         """A string representation of this type name."""
-        pass
 
 
 class Type(ABC):
@@ -155,7 +147,6 @@ class Type(ABC):
     @abstractmethod
     def type_name(self) -> TypeName:
         """The name that identifies this type."""
-        pass
 
 
 class MemberName(LocalName):
@@ -169,13 +160,11 @@ class MemberName(LocalName):
     @abstractmethod
     def attribute_type(self) -> TypeName:
         """The type of the data associated with the member."""
-        pass
 
     @property
     @abstractmethod
     def __str__(self) -> str:
         """A string representation of this member name."""
-        pass
 
 
 class RecordType(Type):
@@ -188,13 +177,11 @@ class RecordType(Type):
     @abstractmethod
     def type_name(self) -> TypeName:
         """The name that identifies this record type."""
-        pass
 
     @property
     @abstractmethod
     def field_type(self):
         """The dictionary of all (name, type) pairs in this record type."""
-        pass
 
 
 class Record(ABC):
@@ -203,12 +190,11 @@ class Record(ABC):
     """
 
     @property
+    @abstractmethod
     def type(self) -> RecordType:
         """The type definition of this record."""
-        return None
 
     @property
     @abstractmethod
     def field(self):
         """The dictionary of all (name, value) pairs in this record."""
-        pass

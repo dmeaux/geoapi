@@ -53,39 +53,41 @@ class Medium(ABC):
     """Information about the media on which the resource can be distributed."""
 
     @property
+    @abstractmethod
     def name(self) -> Citation:
         """Name of the medium on which the resource can be received."""
-        return None
 
     @property
+    @abstractmethod
     def density(self) -> float:
         """Density at which the data is recorded."""
-        return None
 
     @property
+    @abstractmethod
     def density_units(self):
         """Units of measure for the recording density."""
-        return None
 
     @property
+    @abstractmethod
     def volumes(self) -> int:
         """Number of items in the media identified."""
-        return None
 
     @property
+    @abstractmethod
     def medium_format(self) -> Sequence[MediumFormatCode]:
         """Method used to write to the medium."""
-        return None
 
     @property
+    @abstractmethod
     def medium_note(self) -> str:
-        """Description of other limitations or requirements for using the medium."""
-        return None
+        """
+        Description of other limitations or requirements for using the medium.
+        """
 
     @property
+    @abstractmethod
     def identifier(self) -> Identifier:
         """"""
-        return None
 
 
 class Format(ABC):
@@ -99,30 +101,29 @@ class Format(ABC):
     @abstractmethod
     def format_specification_citation(self) -> Citation:
         """Citation/URL of the specification for the format."""
-        pass
 
     @property
+    @abstractmethod
     def amendment_number(self) -> str:
         """Amendment number of the format version."""
-        return None
 
     @property
+    @abstractmethod
     def file_decompression_technique(self) -> str:
         """
         Recommendations of algorithms or processes that can be applied to read
         or expand resources to which compression techniques have been applied.
         """
-        return None
 
     @property
+    @abstractmethod
     def medium(self) -> Sequence[Medium]:
         """Medium used by the format."""
-        return None
 
     @property
+    @abstractmethod
     def format_distributor(self) -> Sequence['Distributor']:
         """"""
-        return None
 
 
 class DataFile(ABC):
@@ -132,26 +133,23 @@ class DataFile(ABC):
     @abstractmethod
     def file_name(self):
         """Name of the file that contains the data."""
-        pass
 
     @property
     @abstractmethod
     def file_description(self) -> str:
         """Text description of the data."""
-        pass
 
     @property
     @abstractmethod
     def file_type(self) -> str:
         """Format in which the data is encoded."""
-        pass
 
     @property
+    @abstractmethod
     def feature_types(self) -> Sequence[GenericName]:
         """
         Provides the list of feature types concerned by the transfer data file.
         """
-        return None
 
 
 class DigitalTransferOptions(ABC):
@@ -161,44 +159,46 @@ class DigitalTransferOptions(ABC):
     """
 
     @property
+    @abstractmethod
     def units_of_distribution(self) -> str:
         """
         Tiles, layers, geographic areas, etc., in which data is available.
         NOTE: units_of_distribution applies to both onLine and offLine
         distributions.
         """
-        return None
 
     @property
+    @abstractmethod
     def transfer_size(self) -> float:
         """
         Estimated size of a unit in the specified transfer format, expressed
         in megabytes. The transfer size is > 0.0.
         """
-        return None
 
     @property
+    @abstractmethod
     def on_line(self) -> Sequence[OnlineResource]:
         """
         Information about online sources from which the resource can be
         obtained.
         """
-        return None
 
     @property
+    @abstractmethod
     def off_line(self) -> Sequence[Medium]:
-        """Information about offline media on which the resource can be obtained."""
-        return None
+        """
+        Information about offline media on which the resource can be obtained.
+        """
 
     @property
+    @abstractmethod
     def transfer_frequency(self):
         """Rate of occurrence of distribution."""
-        return None
 
     @property
+    @abstractmethod
     def distribution_format(self) -> Sequence[Format]:
         """Format of distribution."""
-        return None
 
 
 class StandardOrderProcess(ABC):
@@ -208,39 +208,39 @@ class StandardOrderProcess(ABC):
     """
 
     @property
+    @abstractmethod
     def fees(self) -> str:
         """
         Fees and terms for retrieving the resource. Include monetary units
         (as specified in ISO 4217).
         """
-        return None
 
     @property
+    @abstractmethod
     def planned_available_date_time(self) -> datetime:
         """Date and time when the resource will be available."""
-        return None
 
     @property
+    @abstractmethod
     def ordering_instructions(self) -> str:
         """
         General instructions, terms and services provided by the distributor.
         """
-        return None
 
     @property
+    @abstractmethod
     def turnaround(self) -> str:
         """Typical turnaround time for the filling of an order."""
-        return None
 
     @property
+    @abstractmethod
     def order_options_type(self) -> RecordType:
         """Description of the order options record."""
-        return None
 
     @property
+    @abstractmethod
     def order_options(self) -> Record:
         """Request/purchase choices."""
-        return None
 
 
 class Distributor(ABC):
@@ -253,22 +253,21 @@ class Distributor(ABC):
         Party from whom the resource may be obtained. This list need not be
         exhaustive.
         """
-        pass
 
     @property
+    @abstractmethod
     def distribution_order_process(self) -> Sequence[StandardOrderProcess]:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def distributor_format(self) -> Sequence[Format]:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def distributor_transfer_options(self) -> Sequence[DigitalTransferOptions]:
         """"""
-        return None
 
 
 class Distribution(ABC):
@@ -278,21 +277,21 @@ class Distribution(ABC):
     """
 
     @property
+    @abstractmethod
     def description(self) -> str:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def distribution_format(self) -> Sequence[Format]:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def distributor(self) -> Sequence[Distributor]:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def transfer_options(self) -> Sequence[DigitalTransferOptions]:
         """"""
-        return None

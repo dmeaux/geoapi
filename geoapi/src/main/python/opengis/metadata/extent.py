@@ -33,12 +33,12 @@ class GeographicExtent(ABC):
     """Spatial area of the resource."""
 
     @property
+    @abstractmethod
     def extent_type_code(self):
         """
         Indication of whether the geographic element encompasses an area
         covered by the data or an area where data is not present.
         """
-        return None
 
 
 class GeographicBoundingBox(GeographicExtent):
@@ -55,7 +55,6 @@ class GeographicBoundingBox(GeographicExtent):
         Western-most coordinate of the limit of the resource extent, expressed
         in longitude in decimal degrees (positive east).
         """
-        pass
 
     @property
     @abstractmethod
@@ -64,7 +63,6 @@ class GeographicBoundingBox(GeographicExtent):
         Eastern-most coordinate of the limit of the resource extent, expressed
         in longitude in decimal degrees (positive east).
         """
-        pass
 
     @property
     @abstractmethod
@@ -73,7 +71,6 @@ class GeographicBoundingBox(GeographicExtent):
         Southern-most coordinate of the limit of the resource extent,
         expressed in latitude in decimal degrees (positive north).
         """
-        pass
 
     @property
     @abstractmethod
@@ -82,7 +79,6 @@ class GeographicBoundingBox(GeographicExtent):
         Northern-most, coordinate of the limit of the resource extent
         expressed in latitude in decimal degrees (positive north).
         """
-        pass
 
 
 class GeographicDescription(GeographicExtent):
@@ -95,7 +91,6 @@ class GeographicDescription(GeographicExtent):
         Identifier used to represent a geographic area, e.g., a geographic
         identifier as described in ISO 19112.
         """
-        pass
 
 
 class BoundingPolygon(GeographicExtent):
@@ -112,7 +107,6 @@ class BoundingPolygon(GeographicExtent):
         Sets of points defining the bounding polygon or any other GM_Object
         geometry (point, line or polygon).
         """
-        pass
 
 
 class VerticalExtent(ABC):
@@ -122,21 +116,19 @@ class VerticalExtent(ABC):
     @abstractmethod
     def minimum_value(self) -> float:
         """Lowest vertical extent contained in the resource."""
-        pass
 
     @property
     @abstractmethod
     def maximum_value(self) -> float:
         """Highest vertical extent contained in the resource."""
-        pass
 
     @property
+    @abstractmethod
     def vertical_CRS(self):
         """
         Identifies the vertical coordinate reference system used for the
         minimum and maximum values.
         """
-        return None
 
 
 class TemporalExtent(ABC):
@@ -146,45 +138,44 @@ class TemporalExtent(ABC):
     @abstractmethod
     def extent(self):
         """Period for the content of the resource."""
-        pass
 
 
 class SpatialTemporalExtent(TemporalExtent):
     """Extent with respect to date/time and spatial boundaries."""
 
     @property
+    @abstractmethod
     def vertical_extent(self) -> VerticalExtent:
         """Vertical extent component."""
-        return None
 
     @property
     @abstractmethod
     def spatial_extent(self) -> Sequence[GeographicExtent]:
-        pass
+        """"""
 
 
 class Extent(ABC):
     """Extent of the resource."""
 
     @property
+    @abstractmethod
     def description(self) -> str:
         """
         Sets of points defining the bounding polygon or any other GM_Object
         geometry (point, line or polygon).
         """
-        return None
 
     @property
+    @abstractmethod
     def geographic_element(self) -> Sequence[GeographicExtent]:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def temporal_element(self) -> Sequence[TemporalExtent]:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def vertical_element(self) -> Sequence[VerticalExtent]:
         """"""
-        return None

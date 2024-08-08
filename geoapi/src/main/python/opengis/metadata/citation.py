@@ -135,63 +135,63 @@ class Series(ABC):
     """
 
     @property
+    @abstractmethod
     def name(self) -> str:
         """
         Name of the series, or aggregate resource, of which the resource is a
         part.
         """
-        return None
 
     @property
+    @abstractmethod
     def issue_identification(self) -> str:
         """Information identifying the issue of the series."""
-        return None
 
     @property
+    @abstractmethod
     def page(self) -> str:
         """
         Details on which pages of the publication the article was published.
         """
-        return None
 
 
 class Address(ABC):
     """Location of the responsible individual or organisation."""
 
     @property
+    @abstractmethod
     def delivery_point(self) -> Sequence[str]:
         """
         Address line for the location (as described in ISO 11180, Annex A).
         """
-        return None
 
     @property
+    @abstractmethod
     def city(self) -> str:
         """City of the location."""
-        return None
 
     @property
+    @abstractmethod
     def administrative_area(self) -> str:
         """State, province of the location."""
-        return None
 
     @property
+    @abstractmethod
     def postal_code(self) -> str:
         """ZIP or other postal code."""
-        return None
 
     @property
+    @abstractmethod
     def country(self) -> str:
         """Country of the physical address."""
-        return None
 
     @property
+    @abstractmethod
     def electronic_mail_address(self) -> Sequence[str]:
         """
         Address of the electronic mailbox of the responsible organisation or
         individual.
         """
-        return None
 
 
 class Telephone(ABC):
@@ -207,12 +207,11 @@ class Telephone(ABC):
         Telephone number by which individuals can contact responsible
         organisation or individual.
         """
-        pass
 
     @property
+    @abstractmethod
     def number_type(self) -> TelephoneTypeCode:
         """Type of telephone responsible organisation or individual."""
-        return None
 
 
 class OnlineResource(ABC):
@@ -229,111 +228,110 @@ class OnlineResource(ABC):
         Uniform Resource Identifier address or similar addressing scheme such
         as http://www.statkart.no/isotc211.
         """
-        pass
 
     @property
+    @abstractmethod
     def protocol(self) -> str:
         """Connection protocol to be used e.g. http, ftp, file."""
-        return None
 
     @property
+    @abstractmethod
     def application_profile(self) -> str:
         """
-        Name of an application profile that can be used with the online 
+        Name of an application profile that can be used with the online
         resource.
         """
-        return None
 
     @property
+    @abstractmethod
     def name(self) -> str:
         """Name of the online resource."""
-        return None
 
     @property
+    @abstractmethod
     def description(self) -> str:
         """Detailed text description of what the online resource is/does."""
-        return None
 
     @property
+    @abstractmethod
     def function(self) -> OnLineFunctionCode:
         """Code for function performed by the online resource."""
-        return None
 
     @property
+    @abstractmethod
     def protocol_request(self) -> str:
         """Protocol used by the accessed resource."""
-        return None
 
 
 class Contact(ABC):
     """
-    Information required to enable contact with the responsible person and/or 
+    Information required to enable contact with the responsible person and/or
     organisation.
     """
 
     @property
+    @abstractmethod
     def phone(self) -> Sequence[Telephone]:
         """
         Telephone numbers at which the organisation or individual may be
         contacted.
         """
-        return None
 
     @property
+    @abstractmethod
     def address(self) -> Sequence[Address]:
         """
         Physical and email address at which the organisation or individual may
         be contacted.
         """
-        return None
 
     @property
+    @abstractmethod
     def online_resource(self) -> Sequence[OnlineResource]:
         """
         On-line information that can be used to contact the individual or
         organisation.
         """
-        return None
 
     @property
+    @abstractmethod
     def hours_of_service(self) -> Sequence[str]:
         """
         Time period (including time zone) when individuals can contact the
         organisation or individual.
         """
-        return None
 
     @property
+    @abstractmethod
     def contact_instructions(self) -> str:
         """
         Supplemental instructions on how or when to contact the individual or
         organisation.
         """
-        return None
 
     @property
+    @abstractmethod
     def contact_type(self) -> str:
         """Type of the contact."""
-        return None
 
 
 class Party(ABC):
     """Information about the individual and/or organisation of the party."""
 
     @property
+    @abstractmethod
     def name(self) -> str:
         """Name of the party."""
-        return None
 
     @property
+    @abstractmethod
     def contact_info(self) -> Sequence[Contact]:
         """Contact information for the party."""
-        return None
 
     @property
+    @abstractmethod
     def party_identifier(self) -> Sequence['Identifier']:
         """Identifier of the party."""
-        return None
 
 
 class Responsibility(ABC):
@@ -343,41 +341,39 @@ class Responsibility(ABC):
     @abstractmethod
     def role(self) -> RoleCode:
         """Function performed by the responsible party."""
-        pass
 
     @property
+    @abstractmethod
     def extent(self) -> Sequence[Extent]:
         """Spatial or temporal extent of the role."""
-        return None
 
     @property
     @abstractmethod
     def party(self) -> Sequence[Party]:
         """Information about the Party."""
-        pass
 
 
 class Individual(Party):
     """Information about the party if the party is an individual."""
 
     @property
+    @abstractmethod
     def position_name(self) -> str:
         """Position of the individual in an organisation."""
-        return None
 
 
 class Organisation(Party):
     """Information about the party if the party is an organisation."""
 
     @property
+    @abstractmethod
     def logo(self) -> Sequence[BrowseGraphic]:
         """Graphic identifying organization."""
-        return None
 
     @property
+    @abstractmethod
     def individual(self) -> Sequence[Individual]:
         """Individuals belonging to the Organisation."""
-        return None
 
 
 class Date(ABC):
@@ -387,13 +383,11 @@ class Date(ABC):
     @abstractmethod
     def date(self) -> datetime:
         """Reference date for the cited resource."""
-        pass
 
     @property
     @abstractmethod
     def date_type(self) -> DateTypeCode:
         """Event used for reference date."""
-        pass
 
 
 class Citation(ABC):
@@ -403,97 +397,96 @@ class Citation(ABC):
     @abstractmethod
     def title(self) -> str:
         """Name by which the cited resource is known."""
-        pass
 
     @property
+    @abstractmethod
     def alternate_title(self) -> Sequence[str]:
         """
         Short name or other language name by which the cited information is
         known. Example: DCW as an alternative title for Digital Chart of the
         World.
         """
-        return None
 
     @property
+    @abstractmethod
     def date(self) -> Sequence[Date]:
         """Reference date for the cited resource."""
-        return None
 
     @property
+    @abstractmethod
     def edition(self) -> str:
         """Version of the cited resource."""
-        return None
 
     @property
+    @abstractmethod
     def edition_date(self) -> datetime:
         """Date of the edition."""
-        return None
 
     @property
+    @abstractmethod
     def identifier(self) -> Sequence['Identifier']:
         """Value uniquely identifying an object within a namespace."""
-        return None
 
     @property
+    @abstractmethod
     def cited_responsible_party(self) -> Sequence[Responsibility]:
         """
         Name and position information for an individual or organisation that
         is responsible for the resource.
         """
-        return None
 
     @property
+    @abstractmethod
     def presentation_form(self) -> Sequence[PresentationFormCode]:
         """Mode in which the resource is represented."""
-        return None
 
     @property
+    @abstractmethod
     def series(self) -> Series:
         """
         Information about the series, or aggregate resource, of which the
         resource is a part.
         """
-        return None
 
     @property
+    @abstractmethod
     def other_citation_details(self) -> Sequence[str]:
         """
         Other information required to complete the citation that is not
         recorded elsewhere.
         """
-        return None
 
     @property
+    @abstractmethod
     def isbn(self) -> str:
         """International Standard Book Number."""
-        return None
 
     @property
+    @abstractmethod
     def issn(self) -> str:
         """International Standard Serial Number."""
-        return None
 
     @property
+    @abstractmethod
     def online_resource(self) -> Sequence[OnlineResource]:
         """Online reference to the cited resource."""
-        return None
 
     @property
+    @abstractmethod
     def graphic(self) -> Sequence['BrowseGraphic']:
         """Citation graphic or logo for cited party."""
-        return None
 
 
 class Identifier(ABC):
     """Value uniquely identifying an object within a namespace."""
 
     @property
+    @abstractmethod
     def authority(self) -> Citation:
         """
         Citation for the code namespace and optionally the person or party
         responsible for maintenance of that namespace.
         """
-        return None
 
     @property
     @abstractmethod
@@ -502,22 +495,21 @@ class Identifier(ABC):
         Alphanumeric value identifying an instance in the namespace,
         e.g., EPSG::4326.
         """
-        pass
 
     @property
+    @abstractmethod
     def code_space(self) -> str:
         """Identifier or namespace in which the code is valid."""
-        return None
 
     @property
+    @abstractmethod
     def version(self) -> str:
         """Version identifier for the namespace."""
-        return None
 
     @property
+    @abstractmethod
     def description(self) -> str:
         """
         Natural language description of the meaning of the code value,
         e.g., for codeSpace = EPSG, code = 4326: description = WGS-84.
         """
-        return None

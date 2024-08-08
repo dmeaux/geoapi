@@ -95,7 +95,6 @@ class CoordinateSystemAxis(IdentifiedObject):
         :return: The coordinate system axis abbreviation.
         :rtype: int
         """
-        pass
 
     @property
     @abstractmethod
@@ -106,7 +105,6 @@ class CoordinateSystemAxis(IdentifiedObject):
         :return: The coordinate system axis direction.
         :rtype: AxisDirection
         """
-        pass
 
     @property
     @abstractmethod
@@ -115,13 +113,14 @@ class CoordinateSystemAxis(IdentifiedObject):
         Returns the unit of measure used for this coordinate system axis.
         The value of a coordinate in a coordinate tuple shall be recorded
         using this unit of measure, whenever those coordinates use a
-        coordinate reference system that uses a coordinate system that uses this axis.
+        coordinate reference system that uses a coordinate system that uses
+        this axis.
 
         :return: The coordinate system axis unit.
         """
-        pass
 
     @property
+    @abstractmethod
     def minimum_value(self) -> float:
         """
         Returns the minimum value normally allowed for this axis, in the unit
@@ -134,6 +133,7 @@ class CoordinateSystemAxis(IdentifiedObject):
         return float("-inf")
 
     @property
+    @abstractmethod
     def maximum_value(self) -> float:
         """
         Returns the maximum value normally allowed for this axis, in the unit
@@ -146,6 +146,7 @@ class CoordinateSystemAxis(IdentifiedObject):
         return float("inf")
 
     @property
+    @abstractmethod
     def range_meaning(self) -> RangeMeaning:
         """
         Returns the meaning of axis value range specified by the minimum and
@@ -157,7 +158,6 @@ class CoordinateSystemAxis(IdentifiedObject):
         :return: The range meaning, or null in none.
         :rtype: RangeMeaning
         """
-        return None
 
 
 class CoordinateSystem(IdentifiedObject):
@@ -180,7 +180,6 @@ class CoordinateSystem(IdentifiedObject):
         :return: The dimension of the coordinate system.
         :rtype: int
         """
-        pass
 
     @abstractmethod
     def axis(self, dimension: int) -> CoordinateSystemAxis:
@@ -192,7 +191,6 @@ class CoordinateSystem(IdentifiedObject):
         :return: The axis at the specified dimension.
         :rtype: CoordinateSystemAxis
         """
-        pass
 
 
 class AffineCS(CoordinateSystem):

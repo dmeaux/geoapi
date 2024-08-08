@@ -36,18 +36,22 @@ import unittest
 
 class IdentificationMock(DataIdentification, Citation):
     @property
+    @abstractmethod
     def citation(self):
         return self
 
     @property
+    @abstractmethod
     def title(self):
         return "Pseudo data"
 
     @property
+    @abstractmethod
     def abstract(self):
         return "A metadata with hard-coded values for demonstration purpose."
 
     @property
+    @abstractmethod
     def language(self):
         return "English"
         # TODO: what is the Python equivalent of java.util.Locale?
@@ -60,14 +64,17 @@ class IdentificationMock(DataIdentification, Citation):
 
 class MetadataMock(Metadata):
     @property
+    @abstractmethod
     def identification_info(self):
         return [IdentificationMock()]
 
     @property
+    @abstractmethod
     def contact(self):
         return []
 
     @property
+    @abstractmethod
     def date_info(self):
         return []
 

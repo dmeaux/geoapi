@@ -72,7 +72,6 @@ class OperationMetadata(ABC):
     @abstractmethod
     def operation_name(self) -> str:
         """A unique identifier for this interface."""
-        pass
 
     @property
     @abstractmethod
@@ -81,42 +80,40 @@ class OperationMetadata(ABC):
         Distributed computing platforms on which the operation has been
         implemented.
         """
-        pass
 
     @property
+    @abstractmethod
     def operation_description(self) -> str:
         """
         Free text description of the intent of the operation and the results
         of the operation.
         """
-        return None
 
     @property
+    @abstractmethod
     def invocation_name(self) -> str:
         """
         The name used to invoke this interface within the context of the DCP.
         The name is identical for all DCPs.
         """
-        return None
 
     @property
     @abstractmethod
     def connect_point(self) -> Sequence[OnlineResource]:
         """Handle for accessing the service interface."""
-        pass
 
     @property
+    @abstractmethod
     def parameter(self):
         """The parameters that are required for this interface."""
-        return None
 
     @property
+    @abstractmethod
     def depends_on(self) -> Sequence['OperationMetadata']:
         """
         List of operation that must be completed immediately before current
         operation is invoked.
         """
-        return None
 
 
 class OperationChainMetadata(ABC):
@@ -126,20 +123,19 @@ class OperationChainMetadata(ABC):
     @abstractmethod
     def name(self) -> str:
         """The name, as used by the service for this chain."""
-        pass
 
     @property
+    @abstractmethod
     def description(self) -> str:
         """
         A narrative explanation of the services in the chain and resulting
         output.
         """
-        return None
 
     @property
     @abstractmethod
     def operation(self) -> Sequence[OperationMetadata]:
-        pass
+        """"""
 
 
 class CoupledResource(ABC):
@@ -149,28 +145,28 @@ class CoupledResource(ABC):
     """
 
     @property
+    @abstractmethod
     def scoped_name(self) -> ScopedName:
         """
         Scoped identifier of the resource in the context of the given service
         instance. NOTE: name of the resources (i.e. dataset) as it is used by
         a service instance (e.g. layer name or featureTypeName).
         """
-        return None
 
     @property
+    @abstractmethod
     def resource_reference(self) -> Sequence[Citation]:
         """Reference to the dataset on which the service operates."""
-        return None
 
     @property
+    @abstractmethod
     def operation(self) -> OperationMetadata:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def resource(self) -> Sequence[DataIdentification]:
         """"""
-        return None
 
 
 class ServiceIdentification(Identification):
@@ -187,9 +183,9 @@ class ServiceIdentification(Identification):
         A service type name, e.g., 'discovery', 'view', 'download',
         'transformation', or 'invoke'.
         """
-        pass
 
     @property
+    @abstractmethod
     def service_type_version(self) -> Sequence[str]:
         """
         Provide for searching based on the version of serviceType.
@@ -197,58 +193,57 @@ class ServiceIdentification(Identification):
         If version is maintained as a separate attribute, users can easily
         search for all services of a type regardless of the version.
         """
-        return None
 
     @property
+    @abstractmethod
     def access_properties(self) -> StandardOrderProcess:
         """
         Information about the availability of the service, including 'fees',
         'planned', 'available date and time', 'ordering instructions',
         and 'turnaround'.
         """
-        return None
 
     @property
+    @abstractmethod
     def coupling_type(self) -> CouplingType:
         """Type of coupling between service and associated data (if exists)."""
-        return None
 
     @property
+    @abstractmethod
     def coupled_resource(self) -> Sequence[CoupledResource]:
         """
         Further description of the data coupling in the case of tightly
         coupled services.
         """
-        return None
 
     @property
+    @abstractmethod
     def operated_dataset(self) -> Sequence[Citation]:
         """
         Provides a reference to the dataset on which the service operates.
         """
-        return None
 
     @property
+    @abstractmethod
     def profile(self) -> Sequence[Citation]:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def service_standard(self) -> Sequence[Citation]:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def contains_operations(self) -> Sequence[OperationMetadata]:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def operates_on(self) -> Sequence[DataIdentification]:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def contains_chain(self) -> Sequence[OperationChainMetadata]:
         """"""
-        return None

@@ -68,106 +68,104 @@ class StandaloneQualityReportInformation(ABC):
     @abstractmethod
     def report_reference(self) -> Citation:
         """Reference to the associated standalone quality report."""
-        pass
 
     @property
     @abstractmethod
     def abstract(self) -> str:
         """Abstract for the associated standalone quality report."""
-        pass
 
 
 class Result(ABC):
     """Generalization of more specific result classes."""
 
     @property
+    @abstractmethod
     def result_scope(self) -> Scope:
         """Scope of the result."""
-        return None
 
     @property
+    @abstractmethod
     def date_time(self) -> datetime:
         """Date when the result was generated."""
-        return None
 
 
 class EvaluationMethod(ABC):
     """Description of the evaluation method and procedure applied."""
 
     @property
+    @abstractmethod
     def evaluation_method_type(self) -> EvaluationMethodTypeCode:
         """Type of method used to evaluate quality of the data."""
-        return None
 
     @property
+    @abstractmethod
     def evaluation_method_description(self) -> str:
         """Description of the evaluation method."""
-        return None
 
     @property
+    @abstractmethod
     def evaluation_procedure(self) -> Citation:
         """Reference to the procedure information."""
-        return None
 
     @property
+    @abstractmethod
     def reference_doc(self) -> Sequence[Citation]:
         """
         Information on documents which are referenced in developing and
         applying a data quality evaluation method.
         """
-        return None
 
     @property
+    @abstractmethod
     def date_time(self) -> Sequence[datetime]:
         """
         Date or range of dates on which a data quality measure was applied.
         """
-        return None
 
 
 class MeasureReference(ABC):
     """Reference to the measure used."""
 
     @property
+    @abstractmethod
     def measure_identification(self) -> Identifier:
         """
         Identifier of the measure, value uniquely identifying the measure
         within a namespace.
         """
-        return None
 
     @property
+    @abstractmethod
     def name_of_measure(self) -> Sequence[str]:
         """Name of the test applied to the data."""
-        return None
 
     @property
+    @abstractmethod
     def measure_description(self) -> str:
         """Description of the measure."""
-        return None
 
 
 class Element(ABC):
     """Aspect of quantitative quality information."""
 
     @property
+    @abstractmethod
     def standalone_quality_report_details(self) -> str:
         """
         Clause in the standaloneQualityReport where this data quality element
         or any related data quality element (original results in case of
         derivation or aggregation) is described.
         """
-        return None
 
     @property
+    @abstractmethod
     def measure(self) -> MeasureReference:
         """Reference to measure used."""
-        return None
 
     @property
+    @abstractmethod
     def evaluation_method(self) -> EvaluationMethod:
         """Evaluation information."""
-        return None
 
     @property
     @abstractmethod
@@ -176,14 +174,13 @@ class Element(ABC):
         Values obtained from applying a data quality measure against a
         specified acceptable conformance quality level.
         """
-        pass
 
     @property
+    @abstractmethod
     def derived_element(self) -> Sequence[Element]:
         """
         In case of aggregation or derivation, indicates the original element.
         """
-        return None
 
 
 class DataQuality(ABC):
@@ -193,19 +190,18 @@ class DataQuality(ABC):
     @abstractmethod
     def scope(self) -> Scope:
         """The specific data to which the data quality information applies."""
-        pass
 
     @property
+    @abstractmethod
     def report(self) -> Sequence[Element]:
         """
         Quantitative quality information for the data specified by the scope.
         """
-        return None
 
     @property
+    @abstractmethod
     def standalone_quality_report(self) -> StandaloneQualityReportInformation:
         """"""
-        return None
 
 
 class Description(ABC):
@@ -215,12 +211,11 @@ class Description(ABC):
     @abstractmethod
     def text_description(self) -> str:
         """Text description."""
-        pass
 
     @property
+    @abstractmethod
     def extended_description(self) -> BrowseGraphic:
         """Illustration."""
-        return None
 
 
 class SourceReference(ABC):
@@ -230,7 +225,6 @@ class SourceReference(ABC):
     @abstractmethod
     def citation(self) -> Citation:
         """References to the source."""
-        pass
 
 
 class BasicMeasure(ABC):
@@ -240,18 +234,16 @@ class BasicMeasure(ABC):
     @abstractmethod
     def name(self) -> str:
         """Name of the data quality basic measure applied to the data."""
-        pass
 
     @property
     @abstractmethod
     def definition(self) -> str:
         """Definition of the data quality basic measure."""
-        pass
 
     @property
+    @abstractmethod
     def exemple(self) -> Description:
         """Illustration of the use of a data quality measure."""
-        return None
 
     @property
     @abstractmethod
@@ -260,7 +252,6 @@ class BasicMeasure(ABC):
         Value type for the result of the basic measure (shall be one of the
         data types defined in ISO/TS 19103:2005).
         """
-        pass
 
 
 class Measure(ABC):
@@ -270,27 +261,24 @@ class Measure(ABC):
     @abstractmethod
     def measure_identifier(self) -> Identifier:
         """Value uniquely identifying the measure within a namespace."""
-        pass
 
     @property
     @abstractmethod
     def name(self) -> str:
         """Name of the data quality measure applied to the data."""
-        pass
 
     @property
+    @abstractmethod
     def alias(self) -> str:
         """
         Another recognized name, an abbreviation or a short name for the same
         data quality measure.
         """
-        return None
 
     @property
     @abstractmethod
     def element_name(self) -> TypeName:
         """Name of the data quality element for which quality is reported."""
-        pass
 
     @property
     @abstractmethod
@@ -298,7 +286,6 @@ class Measure(ABC):
         """
         Definition of the fundamental concept for the data quality measure.
         """
-        pass
 
     @property
     @abstractmethod
@@ -307,7 +294,6 @@ class Measure(ABC):
         Description of the data quality measure, including all formulae and/or
         illustrations needed to establish the result of applying the measure.
         """
-        pass
 
     @property
     @abstractmethod
@@ -316,17 +302,16 @@ class Measure(ABC):
         Value type for reporting a data quality result (shall be one of the
         data types defined in ISO/19103:2005).
         """
-        pass
 
     @property
+    @abstractmethod
     def value_structure(self) -> ValueStructure:
         """Structure for reporting a complex data quality result."""
-        return None
 
     @property
+    @abstractmethod
     def example(self) -> Sequence[Description]:
         """Illustration of the use of a data quality measure."""
-        return None
 
     @property
     @abstractmethod
@@ -334,23 +319,22 @@ class Measure(ABC):
         """
         Definition of the fundamental concept for the data quality measure.
         """
-        pass
 
     @property
+    @abstractmethod
     def source_reference(self) -> Sequence[SourceReference]:
         """
         Reference to the source of an item that has been adopted from an
         external source.
         """
-        return None
 
     @property
+    @abstractmethod
     def parameter(self):
         """
         Reference to the source of an item that has been adopted from an
         external source.
         """
-        return None
 
 
 class TemporalQuality(Element):
@@ -363,9 +347,9 @@ class Metaquality(Element):
     """Information about the reliability of data quality results."""
 
     @property
+    @abstractmethod
     def derived_element(self) -> Sequence[Element]:
         """Derived element."""
-        return None
 
 
 class Confidence(Metaquality):
@@ -390,13 +374,11 @@ class SimpleBasedInspection(DataEvaluation):
         Information of the type of sampling scheme and description of the
         sampling procedure.
         """
-        pass
 
     @property
     @abstractmethod
     def lot_description(self) -> str:
         """Information of how lots are defined."""
-        pass
 
     @property
     @abstractmethod
@@ -405,7 +387,6 @@ class SimpleBasedInspection(DataEvaluation):
         Information on how many samples on average are extracted for
         inspection from each lot of population.
         """
-        pass
 
 
 class IndirectEvaluation(DataEvaluation):
@@ -418,7 +399,6 @@ class IndirectEvaluation(DataEvaluation):
         Information on which data are used as sources in deductive evaluation
         method.
         """
-        pass
 
 
 class Homogeneity(Metaquality):
@@ -441,7 +421,6 @@ class DescriptiveResult(Result):
     @abstractmethod
     def statement(self) -> str:
         """Textual expression of the descriptive result."""
-        pass
 
 
 class AggregationDerivation(EvaluationMethod):
@@ -567,19 +546,16 @@ class ConformanceResult(Result):
         Citation of data product specification or user requirement against
         which data is being evaluated.
         """
-        pass
 
     @property
     @abstractmethod
     def explanation(self) -> str:
         """Explanation of the meaning of conformance for this result."""
-        pass
 
     @property
     @abstractmethod
     def is_conform(self):
         """Indication of the conformance result where 0 = fail and 1 = pass."""
-        pass
 
 
 class CoverageResult(Result):
@@ -592,31 +568,26 @@ class CoverageResult(Result):
     @abstractmethod
     def spatial_representation_type(self) -> SpatialRepresentationTypeCode:
         """Method used to spatially represent the coverage result."""
-        pass
 
     @property
     @abstractmethod
     def result_file(self) -> DataFile:
         """"""
-        pass
 
     @property
     @abstractmethod
     def result_spatial_representation(self) -> SpatialRepresentation:
         """"""
-        pass
 
     @property
     @abstractmethod
     def result_content_description(self) -> CoverageDescription:
         """"""
-        pass
 
     @property
     @abstractmethod
     def result_format(self) -> Format:
         """"""
-        pass
 
 
 class QuantitativeResult(Result):
@@ -633,18 +604,17 @@ class QuantitativeResult(Result):
         procedure used, accordingly with the value type and valueStructure
         defined for the measure.
         """
-        pass
 
     @property
+    @abstractmethod
     def value_unit(self) -> UnitOfMeasure:
         """Value unit for reporting a data quality result."""
-        return None
 
 
     @property
+    @abstractmethod
     def value_record_type(self) -> RecordType:
         """
         Value type for reporting a data quality result, depends of the
         implementation.
         """
-        return None

@@ -66,42 +66,39 @@ class ApplicationSchemaInformation(ABC):
     @abstractmethod
     def name(self) -> Citation:
         """Name of the application schema used."""
-        pass
 
     @property
     @abstractmethod
     def schema_language(self) -> str:
         """Identification of the schema language used."""
-        pass
 
     @property
     @abstractmethod
     def constraint_language(self) -> str:
         """Formal language used in Application Schema."""
-        pass
 
     @property
+    @abstractmethod
     def schema_ascii(self) -> str:
         """Full application schema given as an ASCII file."""
-        return None
 
     @property
+    @abstractmethod
     def graphics_file(self) -> OnlineResource:
         """Full application schema given as a graphics file."""
-        return None
 
     @property
+    @abstractmethod
     def software_development_file(self) -> OnlineResource:
         """Full application schema given as a software development file."""
-        return None
 
     @property
+    @abstractmethod
     def software_development_file_format(self) -> str:
         """
         Software dependent format used for the application schema software
         dependent file.
         """
-        return None
 
 
 class ExtendedElementInformation(ABC):
@@ -114,23 +111,21 @@ class ExtendedElementInformation(ABC):
     @abstractmethod
     def name(self) -> str:
         """Name of the extended metadata element."""
-        pass
 
     @property
     @abstractmethod
     def definition(self) -> str:
         """Definition of the extended element."""
-        pass
 
     @property
+    @abstractmethod
     def obligation(self) -> ObligationCode:
         """Obligation of the extended element."""
-        return None
 
     @property
+    @abstractmethod
     def condition(self) -> str:
         """Condition under which the extended element is mandatory."""
-        return None
 
     @property
     @abstractmethod
@@ -139,17 +134,16 @@ class ExtendedElementInformation(ABC):
         Code which identifies the kind of value provided in the extended
         element.
         """
-        pass
 
     @property
+    @abstractmethod
     def maximum_occurrence(self) -> int:
         """Maximum occurrence of the extended element."""
-        return None
 
     @property
+    @abstractmethod
     def domain_value(self) -> str:
         """Valid values that can be assigned to the extended element."""
-        return None
 
     @property
     @abstractmethod
@@ -159,7 +153,6 @@ class ExtendedElementInformation(ABC):
         element may appear. The name(s) may be standard metadata element(s) or
         other extended metadata element(s).
         """
-        pass
 
     @property
     @abstractmethod
@@ -168,35 +161,33 @@ class ExtendedElementInformation(ABC):
         Specifies how the extended element relates to other existing elements
         and entities.
         """
-        pass
 
     @property
+    @abstractmethod
     def rationale(self) -> str:
         """Reason for creating the extended element."""
-        return None
 
     @property
     @abstractmethod
     def source(self) -> Sequence[Responsibility]:
         """Name of the person or organisation creating the extended element."""
-        pass
 
 
 class MetadataExtensionInformation(ABC):
     """Information describing metadata extensions."""
 
     @property
+    @abstractmethod
     def extension_on_line_resource(self) -> OnlineResource:
         """
         Information about on-line sources containing the community profile
-        name and the extended metadata elements. Information for all new 
+        name and the extended metadata elements. Information for all new
         metadata elements.
         """
-        return None
 
     @property
+    @abstractmethod
     def extended_element_information(self) -> Sequence[
         ExtendedElementInformation
     ]:
         """"""
-        return None

@@ -73,70 +73,71 @@ class RestrictionCode(Enum):
 
 class Releasability(ABC):
     """
-    State, nation or organization to which resource can be released, 
+    State, nation or organization to which resource can be released,
     e.g., NATO unclassified releasable to PfP.
     """
 
     @property
+    @abstractmethod
     def addressee(self) -> Sequence[Responsibility]:
         """Party responsible for the Release statement."""
-        return None
 
     @property
+    @abstractmethod
     def statement(self) -> str:
         """Release statement."""
-        return None
 
     @property
+    @abstractmethod
     def dissemination_constraints(self) -> Sequence[RestrictionCode]:
         """Component in determining releasability."""
-        return None
 
 
 class Constraints(ABC):
     """Restrictions on the access and use of a resource or metadata."""
 
     @property
+    @abstractmethod
     def use_limitation(self) -> Sequence[str]:
         """
-        Limitation affecting the fitness for use of the resource or metadata. 
+        Limitation affecting the fitness for use of the resource or metadata.
         For example, "not to be used for navigation".
         """
-        return None
 
     @property
+    @abstractmethod
     def constraint_application_scope(self) -> Scope:
         """
         Spatial and temporal extent of the application of the constraint
         restrictions.
         """
-        return None
 
     @property
+    @abstractmethod
     def graphic(self) -> Sequence[BrowseGraphic]:
         """Graphic /symbol indicating the constraint Eg."""
-        return None
 
     @property
+    @abstractmethod
     def reference(self) -> Sequence[Citation]:
         """
         Citation/URL for the limitation or constraint,
         e.g., copyright statement, license agreement, etc.
         """
-        return None
 
     @property
+    @abstractmethod
     def releasability(self) -> Releasability:
         """
         Information concerning the parties to whom the resource can or cannot
-        be released and the party responsible for determining the releasibility.
+        be released and the party responsible for determining the
+        releasibility.
         """
-        return None
 
     @property
+    @abstractmethod
     def responsible_party(self) -> Sequence[Responsibility]:
         """Party responsible for the resource constraints."""
-        return None
 
 
 class LegalConstraints(Constraints):
@@ -146,30 +147,30 @@ class LegalConstraints(Constraints):
     """
 
     @property
+    @abstractmethod
     def access_constraints(self) -> Sequence[RestrictionCode]:
         """
         Access constraints applied to assure the protection of privacy or
         intellectual property, and any special restrictions or limitations on
         obtaining the resource or metadata.
         """
-        return None
 
     @property
+    @abstractmethod
     def use_constraints(self) -> Sequence[RestrictionCode]:
         """
         Constraints applied to assure the protection of privacy or
         intellectual property, and any special restrictions or limitations or
         warnings on using the resource or metadata.
         """
-        return None
 
     @property
+    @abstractmethod
     def other_constraints(self) -> Sequence[str]:
         """
         Other restrictions and legal prerequisites for accessing and using the
         resource or metadata.
         """
-        return None
 
 
 class SecurityConstraints(Constraints):
@@ -182,26 +183,25 @@ class SecurityConstraints(Constraints):
     @abstractmethod
     def classification(self) -> ClassificationCode:
         """Name of the handling restrictions on the resource or metadata."""
-        pass
 
     @property
+    @abstractmethod
     def user_note(self) -> str:
         """
         Explanation of the application of the legal constraints or other
         restrictions and legal prerequisites for obtaining and using the
         resource or metadata.
         """
-        return None
 
     @property
+    @abstractmethod
     def classification_system(self) -> str:
         """Name of the classification system."""
-        return None
 
     @property
+    @abstractmethod
     def handling_description(self) -> str:
         """
         Additional information about the restrictions on handling the resource
         or metadata.
         """
-        return None

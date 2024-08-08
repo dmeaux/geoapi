@@ -89,37 +89,37 @@ class ScopeDescription(ABC):
     """Description of the class of information covered by the information."""
 
     @property
+    @abstractmethod
     def attributes(self) -> Sequence[str]:
         """Instances of attribute types to which the information applies."""
-        return None
 
     @property
+    @abstractmethod
     def features(self) -> Sequence[str]:
         """Instances of feature types to which the information applies."""
-        return None
 
     @property
+    @abstractmethod
     def feature_instances(self) -> Sequence[str]:
         """Feature instances to which the information applies."""
-        return None
 
     @property
+    @abstractmethod
     def attribute_instances(self) -> Sequence[str]:
         """Attribute instances to which the information applies."""
-        return None
 
     @property
+    @abstractmethod
     def dataset(self) -> str:
         """Dataset to which the information applies."""
-        return None
 
     @property
+    @abstractmethod
     def other(self) -> str:
         """
         Class of information that does not fall into the other categories to
         which the information applies.
         """
-        return None
 
 
 class Scope(ABC):
@@ -129,57 +129,56 @@ class Scope(ABC):
     @abstractmethod
     def level(self) -> ScopeCode:
         """Description of the scope."""
-        pass
 
     @property
+    @abstractmethod
     def extent(self) -> Sequence[Extent]:
         """"""
-        return None
 
     @property
+    @abstractmethod
     def level_description(self) -> Sequence[ScopeDescription]:
         """"""
-        return None
 
 
 class MaintenanceInformation(ABC):
     """Information about the scope and frequency of updating."""
 
     @property
+    @abstractmethod
     def maintenance_and_update_frequency(self) -> MaintenanceFrequencyCode:
         """
         Frequency with which changes and additions are made to the resource
         after the initial resource is completed.
         """
-        return None
 
     @property
+    @abstractmethod
     def maintenance_date(self) -> Sequence[Date]:
         """Date information associated with maintenance of resource."""
-        return None
 
     @property
+    @abstractmethod
     def user_defined_maintenance_frequency(self):
         """Maintenance period other than those defined."""
-        return None
 
     @property
+    @abstractmethod
     def maintenance_scope(self) -> Sequence[Scope]:
         """Information about the scope and extent of maintenance."""
-        return None
 
     @property
+    @abstractmethod
     def maintenance_note(self) -> Sequence[str]:
         """
         Information regarding specific requirements for maintaining the
         resource.
         """
-        return None
 
     @property
+    @abstractmethod
     def contact(self) -> Sequence[Responsibility]:
         """
         Identification of, and means of communicating with, person(s) and
         organisation(s) with responsibility for maintaining the metadata.
         """
-        return None

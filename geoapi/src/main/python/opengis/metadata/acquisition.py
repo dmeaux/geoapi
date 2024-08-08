@@ -105,64 +105,61 @@ class Instrument(ABC):
     """Designations for the measuring instruments."""
 
     @property
+    @abstractmethod
     def citation(self) -> Sequence[Citation]:
         """Complete citation of the instrument."""
-        return None
 
     @property
     @abstractmethod
     def identifier(self) -> Identifier:
         """Complete citation of the instrument."""
-        pass
 
     @property
     @abstractmethod
     def type(self) -> str:
         """Code describing the type of instrument."""
-        pass
 
     @property
+    @abstractmethod
     def description(self) -> str:
         """Textual description of the instrument."""
-        return None
 
     @property
+    @abstractmethod
     def mounted_on(self) -> 'Platform':
-        return None
+        """"""
 
 
 class Platform(ABC):
     """Designations for the platform used to acquire the dataset."""
 
     @property
+    @abstractmethod
     def citation(self) -> Citation:
         """Complete citation of the platform."""
-        return None
 
     @property
     @abstractmethod
     def identifier(self) -> Identifier:
         """Unique identification of the platform."""
-        pass
 
     @property
     @abstractmethod
     def description(self) -> str:
         """Narrative description of the platform supporting the instrument."""
-        pass
 
     @property
+    @abstractmethod
     def sponsor(self) -> Sequence[Responsibility]:
         """
         Organization responsible for building, launch, or operation of the
         platform.
         """
-        return None
 
     @property
     @abstractmethod
     def instrument(self) -> Sequence[Instrument]:
-        pass
+        """"""
 
 
 class PlatformPass(ABC):
@@ -172,16 +169,16 @@ class PlatformPass(ABC):
     @abstractmethod
     def identifier(self) -> Identifier:
         """Unique name of the pass."""
-        pass
 
     @property
+    @abstractmethod
     def extent(self):
         """Area covered by the pass."""
-        return None
 
     @property
+    @abstractmethod
     def related_event(self) -> Sequence['Event']:
-        return None
+        """"""
 
 
 class Event(ABC):
@@ -194,47 +191,42 @@ class Event(ABC):
     @abstractmethod
     def identifier(self) -> Identifier:
         """Event name or number."""
-        pass
 
     @property
     @abstractmethod
     def trigger(self) -> TriggerCode:
         """Initiator of the event."""
-        pass
 
     @property
     @abstractmethod
     def context(self) -> ContextCode:
         """Meaning of the event."""
-        pass
 
     @property
     @abstractmethod
     def sequence(self) -> SequenceCode:
         """Relative time ordering of the event."""
-        pass
 
     @property
     @abstractmethod
     def time(self) -> datetime:
         """Time the event occurred."""
-        pass
 
     @property
+    @abstractmethod
     def related_pass(self) -> PlatformPass:
         """A `PlatformPass` related to the `Event`."""
-        return None
 
     @property
+    @abstractmethod
     def related_sensor(self) -> Sequence[Instrument]:
         """An `Instrument` related to
             the event."""
-        return None
 
     @property
+    @abstractmethod
     def expected_objective(self) -> Sequence['Objective']:
         """An objective expected to be completed by the event."""
-        return None
 
 
 class EnvironmentalRecord(ABC):
@@ -242,22 +234,22 @@ class EnvironmentalRecord(ABC):
     @property
     @abstractmethod
     def average_air_temperature(self) -> float:
-        pass
+        """"""
 
     @property
     @abstractmethod
     def max_relative_humidity(self) -> float:
-        pass
+        """"""
 
     @property
     @abstractmethod
     def max_altitude(self) -> float:
-        pass
+        """"""
 
     @property
     @abstractmethod
     def meteorological_conditions(self) -> str:
-        pass
+        """"""
 
 
 class Objective(ABC):
@@ -270,101 +262,106 @@ class Objective(ABC):
     @abstractmethod
     def identifier(self) -> Sequence[Identifier]:
         """Registered code used to identify the objective."""
-        pass
 
     @property
+    @abstractmethod
     def priority(self) -> str:
         """Priority applied to the target."""
-        return None
 
     @property
+    @abstractmethod
     def type(self) -> Sequence[ObjectiveTypeCode]:
         """Collection technique for the objective."""
-        return None
 
     @property
+    @abstractmethod
     def function(self) -> Sequence[str]:
         """Function performed by or at the objective."""
-        return None
 
     @property
+    @abstractmethod
     def extent(self) -> Sequence[Extent]:
         """
         Extent information including the bounding box, bounding polygon,
         vertical and temporal extent of the objective.
         """
-        return None
 
     @property
+    @abstractmethod
     def sensing_instrument(self) -> Sequence[Instrument]:
-        return None
+        """"""
 
     @property
+    @abstractmethod
     def platformPass(self) -> Sequence[PlatformPass]:
-        return None
+        """"""
 
     @property
     @abstractmethod
     def objective_occurence(self) -> Sequence[Event]:
-        pass
+        """"""
 
 
 class Operation(ABC):
     """Designations for the operation used to acquire the dataset."""
 
     @property
+    @abstractmethod
     def description(self) -> str:
         """
         Description of the mission on which the platform observations are part
         and the objectives of that mission.
         """
-        return None
 
     @property
+    @abstractmethod
     def citation(self) -> Citation:
         """Character string by which the mission is known."""
-        return None
 
     @property
+    @abstractmethod
     def identifier(self) -> Identifier:
         """Character string by which the mission is known."""
-        return None
 
     @property
     @abstractmethod
     def status(self) -> ProgressCode:
         """Status of the data acquisition."""
-        pass
 
     @property
+    @abstractmethod
     def type(self) -> OperationTypeCode:
         """Status of the data acquisition."""
-        return None
 
     @property
+    @abstractmethod
     def parent_operation(self) -> 'Operation':
-        return None
+        """"""
 
     @property
+    @abstractmethod
     def child_operation(self) -> Sequence['Operation']:
-        return None
+        """"""
 
     @property
+    @abstractmethod
     def platform(self) -> Sequence[Platform]:
         """Platform (or platforms) used in the operation."""
-        return None
 
     @property
+    @abstractmethod
     def objective(self) -> Sequence[Objective]:
-        return None
+        """"""
 
     @property
+    @abstractmethod
     def plan(self) -> 'Plan':
-        return None
+        """"""
 
     @property
+    @abstractmethod
     def significant_event(self) -> Sequence[Event]:
-        return None
+        """"""
 
 
 class RequestedDate(ABC):
@@ -374,65 +371,57 @@ class RequestedDate(ABC):
     @abstractmethod
     def requested_date_of_collection(self) -> datetime:
         """Preferred date and time of collection."""
-        pass
 
     @property
     @abstractmethod
     def latest_acceptable_date(self) -> datetime:
         """Latest date and time collection must be completed."""
-        pass
 
 
 class Requirement(ABC):
     """Requirement to be satisfied by the planned data acquisition."""
 
     @property
+    @abstractmethod
     def citation(self) -> Citation:
         """
         Identification of reference or guidance material for the requirement.
         """
-        return None
 
     @property
     @abstractmethod
     def identifier(self) -> Identifier:
         """Unique name, or code, for the requirement."""
-        pass
 
     @property
     @abstractmethod
     def requestor(self) -> Sequence[Responsibility]:
         """Origin of requirement."""
-        pass
 
     @property
     @abstractmethod
     def recipient(self) -> Sequence[Responsibility]:
         """Person(s), or body(ies), to receive results of requirement."""
-        pass
 
     @property
     @abstractmethod
     def priority(self) -> PriorityCode:
         """Relative ordered importance, or urgency, of the requirement."""
-        pass
 
     @property
     @abstractmethod
     def requested_date(self) -> RequestedDate:
         """Required or preferred acquisition date and time."""
-        pass
 
     @property
     @abstractmethod
     def expiry_date(self) -> datetime:
         """Date and time after which collection is no longer valid."""
-        pass
 
     @property
+    @abstractmethod
     def satisfied_plan(self) -> Sequence['Plan']:
         """Plan that identifies solution to satisfy the requirement."""
-        return None
 
 
 class Plan(ABC):
@@ -441,33 +430,32 @@ class Plan(ABC):
     """
 
     @property
+    @abstractmethod
     def type(self) -> GeometryTypeCode:
         """
         Manner of sampling geometry the planner expects for collection of the
         objective data.
         """
-        return None
 
     @property
     @abstractmethod
     def status(self) -> ProgressCode:
         """Current status of the plan (pending, completed, etc.)."""
-        pass
 
     @property
     @abstractmethod
     def citation(self) -> Citation:
         """Identification of authority requesting target collection."""
-        pass
 
     @property
+    @abstractmethod
     def operation(self) -> Sequence[Operation]:
-        return None
+        """"""
 
     @property
+    @abstractmethod
     def satisfied_requirement(self) -> Sequence[Requirement]:
         """Requirement satisfied by the plan."""
-        return None
 
 
 class AcquisitionInformation(ABC):
@@ -477,36 +465,36 @@ class AcquisitionInformation(ABC):
     """
 
     @property
+    @abstractmethod
     def instrument(self) -> Sequence[Instrument]:
         """The instrument(s) used to collect the data."""
-        return None
 
     @property
+    @abstractmethod
     def operation(self) -> Sequence[Operation]:
         """The associated operation(s)."""
-        return None
 
     @property
+    @abstractmethod
     def platform(self) -> Sequence[Platform]:
         """The associated platform(s)."""
-        return None
 
     @property
+    @abstractmethod
     def acquisition_plan(self) -> Sequence[Plan]:
         """The associated acquisition plan(s)."""
-        return None
 
     @property
+    @abstractmethod
     def objective(self) -> Sequence[Objective]:
         """The associated objective(s)."""
-        return None
 
     @property
+    @abstractmethod
     def acquisition_requirement(self) -> Sequence[Requirement]:
         """The associated acquisition requirement(s)."""
-        return None
 
     @property
+    @abstractmethod
     def environmental_conditions(self) -> EnvironmentalRecord:
         """The associated environmental condition(s)."""
-        return None

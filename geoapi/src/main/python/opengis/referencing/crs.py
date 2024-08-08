@@ -50,6 +50,7 @@ class ReferenceSystem(IdentifiedObject):
     """
 
     @property
+    @abstractmethod
     def domain_of_validity(self) -> Extent:
         """
         Area or region or timeframe in which this (coordinate) reference
@@ -58,9 +59,9 @@ class ReferenceSystem(IdentifiedObject):
         :return: The reference system valid domain, or null if not available.
         :rtype: Extent
         """
-        return None
 
     @property
+    @abstractmethod
     def scope(self) -> str:
         """
         Description of domain of usage, or limitations of usage, for which
@@ -69,7 +70,6 @@ class ReferenceSystem(IdentifiedObject):
         :return: The domain of usage, or null if none.
         :rtype: str
         """
-        return None
 
 
 class CoordinateReferenceSystem(ReferenceSystem):
@@ -94,7 +94,6 @@ class SingleCRS(CoordinateReferenceSystem):
         :return: The coordinate system.
         :rtype: CoordinateSystem
         """
-        pass
 
     @property
     @abstractmethod
@@ -105,7 +104,6 @@ class SingleCRS(CoordinateReferenceSystem):
         :return: The datum
         :rtype: Datum
         """
-        return None
 
 
 class CompoundCRS(CoordinateReferenceSystem):
@@ -123,7 +121,6 @@ class CompoundCRS(CoordinateReferenceSystem):
         :return: The ordered list of coordinate reference systems.
         :rtype: Sequence[SingleCRS]
         """
-        pass
 
 
 class VerticalCRS(SingleCRS):
@@ -140,7 +137,6 @@ class VerticalCRS(SingleCRS):
         :return: The coordinate system.
         :rtype: VerticalCS
         """
-        pass
 
     @property
     @abstractmethod
@@ -151,7 +147,6 @@ class VerticalCRS(SingleCRS):
         :return: The datum
         :rtype: VerticalDatum
         """
-        pass
 
 
 class TemporalCRS(SingleCRS):
@@ -168,7 +163,6 @@ class TemporalCRS(SingleCRS):
         :return: The coordinate system.
         :rtype: TimeCS
         """
-        pass
 
     @property
     @abstractmethod
@@ -179,7 +173,6 @@ class TemporalCRS(SingleCRS):
         :return: The datum
         :rtype: TemporalDatum
         """
-        pass
 
 
 class EngineeringCRS(SingleCRS):
@@ -196,7 +189,6 @@ class EngineeringCRS(SingleCRS):
         :return: The datum
         :rtype: EngineeringDatum
         """
-        pass
 
 
 class DerivedCRS(SingleCRS):
@@ -214,7 +206,6 @@ class DerivedCRS(SingleCRS):
         :return: The base coordinate reference system.
         :rtype: CoordinateReferenceSystem
         """
-        pass
 
     @property
     @abstractmethod
@@ -225,7 +216,6 @@ class DerivedCRS(SingleCRS):
         :return: The conversion from the base CRS.
         :rtype: Conversion
         """
-        pass
 
 
 class GeodeticCRS(SingleCRS):
@@ -242,7 +232,6 @@ class GeodeticCRS(SingleCRS):
         :return: The datum.
         :rtype: GeodeticDatum
         """
-        pass
 
 
 class GeographicCRS(GeodeticCRS):
@@ -261,7 +250,6 @@ class GeographicCRS(GeodeticCRS):
         :return: The coordinate system.
         :rtype: EllipsoidalCS
         """
-        pass
 
 
 class ProjectedCRS(DerivedCRS):
@@ -279,7 +267,6 @@ class ProjectedCRS(DerivedCRS):
         :return: The conversion from the base CRS.
         :rtype: Conversion
         """
-        pass
 
     @property
     @abstractmethod
@@ -290,7 +277,6 @@ class ProjectedCRS(DerivedCRS):
         :return: The base coordinate reference system.
         :rtype: GeographicCRS
         """
-        pass
 
     @property
     @abstractmethod
@@ -301,7 +287,6 @@ class ProjectedCRS(DerivedCRS):
         :return: The coordinate system.
         :rtype: CartesianCS
         """
-        pass
 
     @property
     @abstractmethod
@@ -312,4 +297,3 @@ class ProjectedCRS(DerivedCRS):
         :return: The datum.
         :rtype: GeodeticDatum
         """
-        pass

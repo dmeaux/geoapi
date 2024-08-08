@@ -80,6 +80,8 @@ class PixelOrientationCode(Enum):
 
 
 class ReferenceSystemTypeCode(Enum):
+    """"""
+
     COMPOUND_ENGINEERING_PARAMETRIC = "compoundEngineeringParametric"
     COMPOUND_ENGINEERING_PARAMETRIC_TEMPORAL = \
         "compoundEngineeringParametricTemporal"
@@ -104,8 +106,13 @@ class ReferenceSystemTypeCode(Enum):
     ENGINEERING = "engineering"
     ENGINEERING_DESIGN = "engineeringDesign"
     ENGINEERING_IMAGE = "engineeringImage"
-    GEODETIC_GEOCENTRIC = "geodeticGeocentric"""""""
-        
+    GEODETIC_GEOCENTRIC = "geodeticGeocentric"
+    GEODETIC_GEOGRAPHIC_2D = "geodeticGeographic2D"
+    GEODETIC_GEOGRAPHIC_3D = "geodeticGeographic3D"
+    GEOGRAPHIC_IDENTIFIER = "geographicIdentifier"
+    LINEAR = "linear"
+    PARAMETRIC = "parametric"
+    PROJECTED = "projected"
     TEMPORAL = "temporal"
     VERTICAL = "vertical"
 
@@ -142,41 +149,39 @@ class Dimension(ABC):
     @abstractmethod
     def dimension_name(self) -> DimensionNameTypeCode:
         """Name of the axis."""
-        pass
 
     @property
     @abstractmethod
     def dimension_size(self) -> int:
         """Number of elements along the axis."""
-        pass
 
     @property
+    @abstractmethod
     def resolution(self) -> float:
         """Degree of detail in the grid dataset."""
-        return None
 
     @property
+    @abstractmethod
     def dimension_title(self) -> str:
         """
         Enhancement/modifier of the dimension name, e.g., for other time
         dimension 'runtime' or dimensionName = 'column'
         dimensionTitle = 'Longitude'.
         """
-        return None
 
     @property
+    @abstractmethod
     def dimension_description(self) -> str:
         """Description of the axis."""
-        return None
 
 
 class GeolocationInformation(ABC):
     """Geolocation information with data quality."""
 
     @property
+    @abstractmethod
     def quality_info(self) -> Sequence[DataQuality]:
         """Data Quality for geolocation information."""
-        return None
 
 
 class GCP(ABC):
@@ -186,12 +191,11 @@ class GCP(ABC):
     @abstractmethod
     def geographic_coordinates(self):
         """"""
-        pass
 
     @property
+    @abstractmethod
     def accuracy_report(self) -> Sequence[Element]:
         """"""
-        return None
 
 
 class GCPCollection(GeolocationInformation):
@@ -201,26 +205,22 @@ class GCPCollection(GeolocationInformation):
     @abstractmethod
     def gcp(self) -> Sequence[GCP]:
         """Ground control point(s) used in the collection."""
-        pass
 
     @property
     @abstractmethod
     def collection_identification(self) -> int:
         """Identifier of the GCP collection."""
-        pass
 
     @property
     @abstractmethod
     def collection_name(self) -> str:
         """Name of the GCP collection."""
-        pass
 
     @property
     @abstractmethod
     def coordinate_reference_system(self):
         """Coordinate system in which the ground control points are defined."""
         # See https://github.com/opengeospatial/geoapi/issues/57
-        pass
 
 
 class GeometricObjects(ABC):
@@ -235,24 +235,23 @@ class GeometricObjects(ABC):
         Name of point or vector objects used to locate zero-, one-, two-,
         or three-dimensional spatial locations in the dataset.
         """
-        pass
 
     @property
+    @abstractmethod
     def geometric_object_count(self) -> int:
         """
         Total number of the point or vector object type occurring in the
         dataset.
         """
-        return None
 
 
 class SpatialRepresentation(ABC):
     """Digital mechanism used to represent spatial information."""
 
     @property
+    @abstractmethod
     def scope(self) -> Scope:
         """Level and extent of the spatial representation."""
-        return None
 
 
 class GridSpatialRepresentation(SpatialRepresentation):
@@ -262,18 +261,16 @@ class GridSpatialRepresentation(SpatialRepresentation):
     @abstractmethod
     def number_of_dimensions(self) -> int:
         """Number of independent spatial-temporal axes."""
-        pass
 
     @property
+    @abstractmethod
     def axis_dimension_properties(self) -> Sequence[Dimension]:
         """Information about spatial-temporal axis properties."""
-        return None
 
     @property
     @abstractmethod
     def cell_geometry(self) -> CellGeometryCode:
         """Identification of grid data as point or cell."""
-        pass
 
     @property
     @abstractmethod
@@ -283,24 +280,23 @@ class GridSpatialRepresentation(SpatialRepresentation):
         image coordinates and geographic or map coordinates exist
         (are available).
         """
-        pass
 
 
 class VectorSpatialRepresentation(SpatialRepresentation):
     """Information about the vector spatial objects in the resource."""
 
     @property
+    @abstractmethod
     def topology_level(self) -> TopologyLevelCode:
         """
         Code which identifies the degree of complexity of the spatial
         relationships.
         """
-        return None
 
     @property
+    @abstractmethod
     def geometric_objects(self) -> Sequence[GeometricObjects]:
         """Information about the geometric objects used in the resource."""
-        return None
 
 
 class Georectified(GridSpatialRepresentation):
@@ -318,15 +314,14 @@ class Georectified(GridSpatialRepresentation):
         Indication of whether or not geographic position points are available
         to test the accuracy of the georeferenced grid data.
         """
-        pass
 
     @property
+    @abstractmethod
     def check_point_description(self) -> str:
         """
         Description of geographic position points used to test the accuracy of
         the georeferenced grid data.
         """
-        return None
 
     @property
     @abstractmethod
@@ -339,16 +334,15 @@ class Georectified(GridSpatialRepresentation):
         corner points along one diagonal are required. The first corner point
         corresponds to the origin of the grid.
         """
-        pass
 
     @property
+    @abstractmethod
     def centre_point(self):
         """
         Earth location in the coordinate system defined by the Spatial
         Reference System and the grid coordinate of the cell halfway between
         opposite ends of the grid in the spatial dimensions.
         """
-        return None
 
     @property
     @abstractmethod
@@ -356,22 +350,21 @@ class Georectified(GridSpatialRepresentation):
         """
         Point in a pixel corresponding to the Earth location of the pixel.
         """
-        pass
 
     @property
+    @abstractmethod
     def transformation_dimension_description(self) -> str:
         """General description of the transformation."""
-        return None
 
     @property
+    @abstractmethod
     def transformation_dimension_mapping(self) -> Sequence[str]:
         """Information about which grid axes are the spatial (map) axes."""
-        return None
 
     @property
+    @abstractmethod
     def check_point(self) -> Sequence[GCP]:
         """"""
-        return None
 
 
 class Georeferenceable(GridSpatialRepresentation):
@@ -386,7 +379,6 @@ class Georeferenceable(GridSpatialRepresentation):
     @abstractmethod
     def control_point_availability(self):
         """Indication of whether or not control point(s) exists."""
-        pass
 
     @property
     @abstractmethod
@@ -394,26 +386,23 @@ class Georeferenceable(GridSpatialRepresentation):
         """
         Indication of whether or not orientation parameters are available.
         """
-        pass
 
     @property
+    @abstractmethod
     def orientation_parameter_description(self) -> str:
         """Description of parameters used to describe sensor orientation."""
-        return None
 
     @property
     @abstractmethod
     def georeferenced_parameters(self) -> Record:
         """Terms which support grid data georeferencing."""
-        pass
 
     @property
+    @abstractmethod
     def parameter_citation(self) -> Sequence[Citation]:
         """Reference providing description of the parameters."""
-        return None
 
     @property
     @abstractmethod
     def geolocation_information(self) -> Sequence[GeolocationInformation]:
         """"""
-        pass

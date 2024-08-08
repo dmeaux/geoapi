@@ -25,6 +25,7 @@ __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
+from typing import override
 
 import numpy as np
 
@@ -54,7 +55,6 @@ class MathTransform(ABC):
         :return: The dimension of input points.
         :rtype: int
         """
-        pass
 
     @property
     @abstractmethod
@@ -65,7 +65,6 @@ class MathTransform(ABC):
         :return: The dimension of output points.
         :rtype: int
         """
-        pass
 
     @property
     @abstractmethod
@@ -77,7 +76,6 @@ class MathTransform(ABC):
             otherwise.
         :rtype: bool
         """
-        pass
 
     @abstractmethod
     def to_wkt(self) -> str:
@@ -89,7 +87,6 @@ class MathTransform(ABC):
         :return: The Well Known Text (WKT) for this object.
         :rtype: str
         """
-        pass
 
     @abstractmethod
     def inverse(self):
@@ -100,7 +97,6 @@ class MathTransform(ABC):
         :return: The inverse transform.
         :rtype: MathTransform
         """
-        pass
 
     @abstractmethod
     def transform(self, pt_src: DirectPosition, pt_dst: DirectPosition) -> DirectPosition:
@@ -116,7 +112,6 @@ class MathTransform(ABC):
             result in ptDst, or a newly created point if ptDst was null.
         :rtype: DirectPosition
         """
-        pass
 
     @abstractmethod
     def transform_list(
@@ -148,7 +143,6 @@ class MathTransform(ABC):
         :param num_pts: the number of point objects to be transformed.
         :type num_pts: int
         """
-        pass
 
     @abstractmethod
     def derivative(self, point: DirectPosition) -> np.ndarray:
@@ -166,7 +160,6 @@ class MathTransform(ABC):
         :return: The derivative at the specified point (never null).
         :rtype: numpy.ndarray
         """
-        pass
 
 
 class MathTransform1D(MathTransform):
@@ -182,7 +175,6 @@ class MathTransform1D(MathTransform):
         :return: The inverse transform.
         :rtype: MathTransform1D
         """
-        pass
 
     @abstractmethod
     def transform_value(self, value: float) -> float:
@@ -194,7 +186,6 @@ class MathTransform1D(MathTransform):
         :return: the transformed value.
         :rtype: float
         """
-        pass
 
     @abstractmethod
     def derivative(self, value: float) -> float:
@@ -208,7 +199,6 @@ class MathTransform1D(MathTransform):
         :return: The derivative at the specified point.
         :rtype: float
         """
-        pass
 
 
 class Formula:
@@ -217,6 +207,7 @@ class Formula:
     """
 
     @property
+    @abstractmethod
     def formula(self) -> str:
         """
         Formula(s) or procedure used by the operation method.
@@ -224,9 +215,9 @@ class Formula:
         :return: The formula used by the operation method, or null if none.
         :rtype: str
         """
-        return None
 
     @property
+    @abstractmethod
     def citation(self) -> Citation:
         """
         Reference to a publication giving the formula(s) or procedure used by
@@ -236,7 +227,6 @@ class Formula:
             none.
         :rtype: Citation
         """
-        return None
 
 
 class OperationMethod(IdentifiedObject):
@@ -257,7 +247,6 @@ class OperationMethod(IdentifiedObject):
         :return: The formula used by this method.
         :rtype: Formula
         """
-        pass
 
     @property
     @abstractmethod
@@ -268,7 +257,6 @@ class OperationMethod(IdentifiedObject):
         :return: The parameters, or an empty group if none.
         :rtype: ParameterDescriptorGroup
         """
-        pass
 
 
 class CoordinateOperation(IdentifiedObject):
@@ -278,6 +266,7 @@ class CoordinateOperation(IdentifiedObject):
     """
 
     @property
+    @abstractmethod
     def source_crs(self) -> CoordinateReferenceSystem:
         """
         Returns the source CRS. The source CRS is mandatory for
@@ -287,9 +276,9 @@ class CoordinateOperation(IdentifiedObject):
         :return: The source CRS, or null if not available.
         :rtype: CoordinateReferenceSystem
         """
-        return None
 
     @property
+    @abstractmethod
     def target_crs(self) -> CoordinateReferenceSystem:
         """
         Returns the target CRS. The target CRS is mandatory for
@@ -299,9 +288,9 @@ class CoordinateOperation(IdentifiedObject):
         :return: The target CRS, or null if not available.
         :rtype: CoordinateReferenceSystem
         """
-        return None
 
     @property
+    @abstractmethod
     def operation_version(self) -> str | None:
         """
         Version of the coordinate transformation (i.e., instantiation due to
@@ -311,9 +300,9 @@ class CoordinateOperation(IdentifiedObject):
         :return: The coordinate operation version, or null in none.
         :rtype: str
         """
-        return None
 
     @property
+    @abstractmethod
     def coordinate_operation_accuracy(self) -> Sequence[PositionalAccuracy]:
         """
         Estimate(s) of the impact of this operation on point accuracy. Gives
@@ -325,9 +314,9 @@ class CoordinateOperation(IdentifiedObject):
         available.
         :rtype: Sequence[PositionalAccuracy]
         """
-        return None
 
     @property
+    @abstractmethod
     def domain_of_validity(self) -> Extent:
         """
         Area or region or timeframe in which this coordinate operation is
@@ -337,7 +326,6 @@ class CoordinateOperation(IdentifiedObject):
             available.
         :rtype: Extent
         """
-        return None
 
     @property
     @abstractmethod
@@ -349,9 +337,9 @@ class CoordinateOperation(IdentifiedObject):
         :return: A description of domain of usage.
         :rtype: str
         """
-        pass
 
     @property
+    @abstractmethod
     def math_transform(self) -> MathTransform:
         """
         Gets the math transform. The math transform will transform positions
@@ -363,7 +351,6 @@ class CoordinateOperation(IdentifiedObject):
             applicable.
         :rtype: MathTransform
         """
-        return None
 
 
 class SingleOperation(CoordinateOperation):
@@ -381,7 +368,6 @@ class SingleOperation(CoordinateOperation):
         :return: The operation method.
         :rtype: OperationMethod
         """
-        pass
 
     @property
     @abstractmethod
@@ -392,7 +378,6 @@ class SingleOperation(CoordinateOperation):
         :return: The parameters values.
         :rtype: ParameterValueGroup
         """
-        pass
 
 
 class PassThroughOperation(SingleOperation):
@@ -410,7 +395,6 @@ class PassThroughOperation(SingleOperation):
         :return: The operation to apply on the subset of a coordinate tuple.
         :rtype: SingleOperation
         """
-        pass
 
     @property
     @abstractmethod
@@ -423,7 +407,6 @@ class PassThroughOperation(SingleOperation):
         :return: The modified coordinates.
         :rtype: Sequence[int]
         """
-        pass
 
 
 class Transformation(SingleOperation):
@@ -440,7 +423,6 @@ class Transformation(SingleOperation):
         :return: The source CRS (never null).
         :rtype: CoordinateReferenceSystem
         """
-        pass
 
     @property
     @abstractmethod
@@ -451,7 +433,6 @@ class Transformation(SingleOperation):
         :return: The target CRS (never null)
         :rtype: CoordinateReferenceSystem
         """
-        pass
 
     @property
     @abstractmethod
@@ -464,7 +445,6 @@ class Transformation(SingleOperation):
         :return: The coordinate operation version.
         :rtype: str
         """
-        pass
 
 
 class Conversion(SingleOperation):
@@ -473,6 +453,7 @@ class Conversion(SingleOperation):
     """
 
     @property
+    @abstractmethod()
     def source_crs(self) -> CoordinateReferenceSystem:
         """
         Returns the source CRS. Conversions may have a source CRS that is not
@@ -481,9 +462,9 @@ class Conversion(SingleOperation):
         :return: The source CRS, or null if not available.
         :rtype: CoordinateReferenceSystem
         """
-        return None
 
     @property
+    @abstractmethod()
     def target_crs(self) -> CoordinateReferenceSystem:
         """
         Returns the target CRS. Conversions may have a target CRS that is not
@@ -492,7 +473,6 @@ class Conversion(SingleOperation):
         :return: The target CRS, or null if not available.
         :rtype: CoordinateReferenceSystem
         """
-        return None
 
     @property
     @abstractmethod

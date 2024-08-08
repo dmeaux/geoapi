@@ -56,9 +56,9 @@ class IdentifiedObject(ABC):
         :return: The primary name.
         :rtype: Identifier
         """
-        pass
 
     @property
+    @abstractmethod
     def remarks(self) -> str:
         """
         Comments on or information about this object, including data source
@@ -67,7 +67,6 @@ class IdentifiedObject(ABC):
         :return: The remarks, or None.
         :rtype: str
         """
-        return None
 
     @abstractmethod
     def to_wkt(self) -> str:
@@ -77,7 +76,6 @@ class IdentifiedObject(ABC):
         :return: The Well Know Text for this object.
         :rtype: str
         """
-        pass
 
 
 class Datum(IdentifiedObject):
@@ -87,14 +85,15 @@ class Datum(IdentifiedObject):
     """
 
     @property
+    @abstractmethod
     def anchor_point(self) -> str | None:
         """
         Description, possibly including coordinates, of the point or points
         used to anchor the datum to the Earth.
         """
-        return None
 
     @property
+    @abstractmethod
     def domain_of_validity(self) -> Extent:
         """
         Information about spatial, vertical, and temporal extent. This
@@ -102,22 +101,21 @@ class Datum(IdentifiedObject):
         elements, and vertical elements) and an element called description.
         At least one of the four shall be used.
         """
-        return None
 
     @property
+    @abstractmethod
     def realization_epoch(self) -> datetime | None:
         """
         The time after which this datum definition is valid.
         """
-        return None
 
     @property
+    @abstractmethod
     def scope(self) -> str:
         """
         Description of domain of usage, or limitations of usage, for which
         this datum object is valid.
         """
-        return None
 
 
 class TemporalDatum(Datum):
@@ -133,7 +131,6 @@ class TemporalDatum(Datum):
         This attribute is defined in the Datum parent interface, but is not
         used by a temporal datum.
         """
-        pass
 
     @property
     @abstractmethod
@@ -142,7 +139,6 @@ class TemporalDatum(Datum):
         This attribute is defined in the Datum parent interface, but is not
         used by a temporal datum.
         """
-        pass
 
     @property
     @abstractmethod
@@ -150,7 +146,6 @@ class TemporalDatum(Datum):
         """
         The date and time origin of this temporal datum.
         """
-        pass
 
 
 class VerticalDatum(Datum):
@@ -159,11 +154,11 @@ class VerticalDatum(Datum):
     """
 
     @property
+    @abstractmethod
     def realization_method(self) -> RealizationMethod:
         """
         The type of this vertical datum.
         """
-        return None
 
 
 class Ellipsoid(IdentifiedObject):
@@ -173,11 +168,11 @@ class Ellipsoid(IdentifiedObject):
     """
 
     @property
+    @abstractmethod
     def axis_unit(self):
         """
         Linear unit of the semi-major and semi-minor axis values.
         """
-        return None
 
     @property
     @abstractmethod
@@ -186,7 +181,6 @@ class Ellipsoid(IdentifiedObject):
         Length of the semi-major axis of the ellipsoid. This is the equatorial
         radius in axis linear unit.
         """
-        pass
 
     @property
     @abstractmethod
@@ -195,7 +189,6 @@ class Ellipsoid(IdentifiedObject):
         Length of the semi-minor axis of the ellipsoid. This is the polar
         radius in axis linear unit.
         """
-        pass
 
     @property
     @abstractmethod
@@ -203,7 +196,6 @@ class Ellipsoid(IdentifiedObject):
         """
         Value of the inverse of the flattening constant.
         """
-        pass
 
     @property
     @abstractmethod
@@ -215,7 +207,6 @@ class Ellipsoid(IdentifiedObject):
         calculate the IVF whenever asked. This distinction can be important to
         avoid floating-point rounding errors.
         """
-        pass
 
     @property
     @abstractmethod
@@ -225,7 +216,6 @@ class Ellipsoid(IdentifiedObject):
         The sphere is completely defined by the semi-major axis, which is the
         radius of the sphere.
         """
-        pass
 
 
 class PrimeMeridian(IdentifiedObject):
@@ -241,7 +231,6 @@ class PrimeMeridian(IdentifiedObject):
         Longitude of the prime meridian measured from the Greenwich meridian,
         positive eastward.
         """
-        pass
 
     @property
     @abstractmethod
@@ -249,7 +238,6 @@ class PrimeMeridian(IdentifiedObject):
         """
         Returns the angular unit of the Greenwich longitude.
         """
-        pass
 
 
 class GeodeticDatum(Datum):
@@ -264,7 +252,6 @@ class GeodeticDatum(Datum):
         """
         Returns the ellipsoid.
         """
-        pass
 
     @property
     @abstractmethod
@@ -272,7 +259,6 @@ class GeodeticDatum(Datum):
         """
         Returns the prime meridian.
         """
-        pass
 
 
 class EngineeringDatum(Datum):
