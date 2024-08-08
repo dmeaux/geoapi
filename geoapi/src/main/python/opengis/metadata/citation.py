@@ -380,7 +380,6 @@ class Identifier:
         version (str): Version identifier for the namespace.
         description (str): Natural language description of the meaning of the
             code value, e.g., for codeSpace = EPSG, code = 4326: description =
-            WGS-84" to "for codeSpace = EPSG, code = EPSG::4326: description =
             WGS-84.
 
     """

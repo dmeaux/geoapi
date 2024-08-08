@@ -28,17 +28,25 @@ from dataclasses import dataclass
 
 from opengis.metadata.acquisition import AcquisitionInformation
 from opengis.metadata.citation import (
-    Citation, Date, Identifier, OnlineResource, Responsibility
+    Citation,
+    Date,
+    Identifier,
+    OnlineResource,
+    Responsibility
 )
 from opengis.metadata.constraints import Constraints
 from opengis.metadata.content import ContentInformation
 from opengis.metadata.distribution import Distribution
 from opengis.metadata.extension import (
-    ApplicationSchemaInformation, MetadataExtensionInformation
+    ApplicationSchemaInformation,
+    MetadataExtensionInformation
 )
 from opengis.metadata.identification import Identification
 from opengis.metadata.lineage import Lineage
-from opengis.metadata.maintenance import MaintenanceInformation, ScopeCode
+from opengis.metadata.maintenance import (
+    MaintenanceInformation,
+    ScopeCode
+)
 from opengis.metadata.quality import DataQuality
 from opengis.metadata.representation import SpatialRepresentation
 from opengis.referencing.crs import ReferenceSystem
