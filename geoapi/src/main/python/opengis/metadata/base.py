@@ -1,18 +1,47 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the base module.
+
+This subpackage contains geographic metadata structures regarding data
+acquisition that are derived from the ISO 19115-2:2019 international
+standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 
 from opengis.metadata.acquisition import AcquisitionInformation
-from opengis.metadata.citation import Citation, Date, Identifier, OnlineResource, Responsibility
+from opengis.metadata.citation import (
+    Citation,
+    Date,
+    Identifier,
+    OnlineResource,
+    Responsibility,
+)
 from opengis.metadata.constraints import Constraints
 from opengis.metadata.content import ContentInformation
 from opengis.metadata.distribution import Distribution
-from opengis.metadata.extension import ApplicationSchemaInformation, MetadataExtensionInformation
+from opengis.metadata.extension import (
+    ApplicationSchemaInformation,
+    MetadataExtensionInformation,
+)
 from opengis.metadata.identification import Identification
 from opengis.metadata.lineage import Lineage
 from opengis.metadata.maintenance import MaintenanceInformation, ScopeCode
@@ -28,18 +57,19 @@ class PortrayalCatalogueReference(ABC):
     @abstractmethod
     def portrayal_catalogue_citation(self) -> Sequence[Citation]:
         """Bibliographic reference to the portrayal catalogue cited."""
-        pass
 
 
 class MetadataScope(ABC):
+    """Information about the scope of the resource."""
 
     @property
     @abstractmethod
     def resource_scope(self) -> ScopeCode:
-        pass
+        """Code for the scope."""
 
     @property
     def name(self) -> str:
+        """Description of the scope."""
         return None
 
 
@@ -53,7 +83,10 @@ class Metadata(ABC):
 
     @property
     def default_locale(self):
-        """Provides information about an alternatively used localized character string for a linguistic extension."""
+        """
+        Provides information about an alternatively used localized character
+        string for a linguistic extension.
+        """
         return None
 
     @property
@@ -85,7 +118,10 @@ class Metadata(ABC):
 
     @property
     def metadata_profile(self) -> Sequence[Citation]:
-        """Citation(s) for the profile(s) of the metadata standard to which the metadata conform."""
+        """
+        Citation(s) for the profile(s) of the metadata standard to which the
+        metadata conform.
+        """
         return None
 
     @property
@@ -106,13 +142,19 @@ class Metadata(ABC):
     @property
     def reference_system_info(self) -> Sequence[ReferenceSystem]:
         """
-        Description of the spatial and temporal reference systems used in the dataset.
+        Description of the spatial and temporal reference systems used in
+        the dataset.
         The reference system may be:
 
-        * An ISO 19111 object such as ``CoordinateReferenceSystem``.
-        * A ``ReferenceSystem`` with the ``identifier`` property (from ISO 19111) sets to a list of ``Identifier`` values such as ``["EPSG::4326"]``.
-        * An object with the ``referenceSystemIdentifier`` property (from ISO 19115) sets to a single ``Identifier`` value such as ``"EPSG::4326"``,
-          optionally with a ``referenceSystemType`` property sets to a value such as ``geodeticGeographic2D`` or ``compoundProjectedTemporal``.
+        * An ISO 19111 object such as `CoordinateReferenceSystem`.
+        * A `ReferenceSystem` with the `identifier` property (from
+            ISO 19111) sets to a list of `Identifier` values such as
+            `["EPSG::4326"]`.
+        * An object with the `referenceSystemIdentifier` property (from 
+            ISO 19115) sets to a single `Identifier` value such as
+                `"EPSG::4326"`,
+        optionally with a `referenceSystemType` property sets to a value
+            such as `geodeticGeographic2D` or `compoundProjectedTemporal`.
 
         :rtype: Sequence[ReferenceSystem]
         """
@@ -126,7 +168,9 @@ class Metadata(ABC):
     @property
     @abstractmethod
     def identification_info(self) -> Sequence[Identification]:
-        """Basic information about the resource(s) to which the metadata applies."""
+        """
+        Basic information about the resource(s) to which the metadata applies.
+        """
         pass
 
     @property
@@ -136,7 +180,10 @@ class Metadata(ABC):
 
     @property
     def distribution_info(self) -> Sequence[Distribution]:
-        """Information about the distributor of and options for obtaining the resource(s)."""
+        """
+        Information about the distributor of and options for obtaining the
+        resource(s).
+        """
         return None
 
     @property
@@ -146,12 +193,18 @@ class Metadata(ABC):
 
     @property
     def resource_lineage(self) -> Sequence[Lineage]:
-        """Information about the provenance, sources and/or the production processes applied to the resource."""
+        """
+        Information about the provenance, sources and/or the production
+        processes applied to the resource.
+        """
         return None
 
     @property
     def portrayal_catalogue_info(self) -> Sequence[PortrayalCatalogueReference]:
-        """Information about the catalogue of rules defined for the portrayal of a resource(s)."""
+        """
+        Information about the catalogue of rules defined for the portrayal of
+        a resource(s).
+        """
         return None
 
     @property

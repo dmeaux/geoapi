@@ -1,24 +1,50 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the representation module.
+
+This module contains geographic metadata structures regarding representation
+derived from the ISO 19115-1:2014 international standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from typing import Sequence
 from enum import Enum
 
+from opengis.metadata.citation import Citation
+from opengis.metadata.maintenance import Scope
+from opengis.metadata.naming import Record
+from opengis.metadata.quality import DataQuality, Element
 
 
 class CellGeometryCode(Enum):
+    """Code indicating the geometry represented by the grid cell value."""
+
     POINT = "point"
     AREA = "area"
     VOXEL = "voxel"
     STRATUM = "stratum"
 
 
-
 class DimensionNameTypeCode(Enum):
+    """Name of the dimension."""
+
     ROW = "row"
     COLUMN = "column"
     VERTICAL = "vertical"
@@ -29,8 +55,12 @@ class DimensionNameTypeCode(Enum):
     TIME = "time"
 
 
-
 class GeometricObjectTypeCode(Enum):
+    """
+    Name of point or vector objects used to locate sero-, one-, two-, or
+    three-dimensional spatial locations in the dataset.
+    """
+
     COMPLEX = "complex"
     COMPOSITE = "composite"
     CURVE = "curve"
@@ -39,8 +69,50 @@ class GeometricObjectTypeCode(Enum):
     SURFACE = "surface"
 
 
+class PixelOrientationCode(Enum):
+    """Point in a pixel corresponding to the Earth location of the pixel"""
+
+    CENTER = "center"
+    LOWER_LEFT = "lowerLeft"
+    LOWER_RIGHT = "lowerRight"
+    UPPER_RIGHT = "upperRight"
+    UPPER_LEFT = "upperLeft"
+
+
+class ReferenceSystemTypeCode(Enum):
+    COMPOUND_ENGINEERING_PARAMETRIC = "compoundEngineeringParametric"
+    COMPOUND_ENGINEERING_PARAMETRIC_TEMPORAL = \
+        "compoundEngineeringParametricTemporal"
+    COMPOUND_ENGINEERING_TEMPORAL = "compoundEngineeringTemporal"
+    COMPOUND_ENGINEERING_VERTICAL = "compoundEngineeringVertical"
+    COMPOUND_ENGINEERING_VERTICAL_TEMPORAL = \
+        "compoundEngineeringVerticalTemporal"
+    COMPOUND_GEOGRAPHIC2D_PARAMETRIC = "compoundGeographic2DParametric"
+    COMPOUND_GEOGRAPHIC2D_PARAMETRIC_TEMPORAL = \
+        "compoundGeographic2DParametricTemporal"
+    COMPOUND_GEOGRAPHIC2D_TEMPORAL = "compoundGeographic2DTemporal"
+    COMPOUND_GEOGRAPHIC2D_VERTICAL = "compoundGeographic2DVertical"
+    COMPOUND_GEOGRAPHIC2D_VERTICAL_TEMPORAL = \
+        "compoundGeographic2DVerticalTemporal"
+    COMPOUND_GEOGRAPHIC3D_TEMPORAL = "compoundGeographic3DTemporal"
+    COMPOUND_PROJECTED2D_PARAMETRIC = "compoundProjected2DParametric"
+    COMPOUND_PROJECTED2D_PARAMETRIC_TEMPORAL = \
+        "compoundProjected2DParametricTemporal"
+    COMPOUND_PROJECTED_TEMPORAL = "compoundProjectedTemporal"
+    COMPOUND_PROJECTED_VERTICAL = "compoundProjectedVertical"
+    COMPOUND_PROJECTED_VERTICAL_TEMPORAL = "compoundProjectedVerticalTemporal"
+    ENGINEERING = "engineering"
+    ENGINEERING_DESIGN = "engineeringDesign"
+    ENGINEERING_IMAGE = "engineeringImage"
+    GEODETIC_GEOCENTRIC = "geodeticGeocentric"""""""
+        
+    TEMPORAL = "temporal"
+    VERTICAL = "vertical"
+
 
 class SpatialRepresentationTypeCode(Enum):
+    """Method used to represent geographic information in the resource."""
+
     VECTOR = "vector"
     GRID = "grid"
     TEXT_TABLE = "textTable"
@@ -49,8 +121,9 @@ class SpatialRepresentationTypeCode(Enum):
     VIDEO = "video"
 
 
-
 class TopologyLevelCode(Enum):
+    """Degree of the complexity of the spatial relationships."""
+
     GEOMETRY_ONLY = "geometryOnly"
     TOPOLOGY_1D = "topology1D"
     PLANAR_GRAPH = "planarGraph"
@@ -60,48 +133,6 @@ class TopologyLevelCode(Enum):
     TOPOLOGY_3D = "topology3D"
     FULL_TOPOLOGY_3D = "fullTopology3D"
     ABSTRACT = "abstract"
-
-
-
-class ReferenceSystemTypeCode(Enum):
-    COMPOUND_ENGINEERING_PARAMETRIC = "compoundEngineeringParametric"
-    COMPOUND_ENGINEERING_PARAMETRIC_TEMPORAL = "compoundEngineeringParametricTemporal"
-    COMPOUND_ENGINEERING_TEMPORAL = "compoundEngineeringTemporal"
-    COMPOUND_ENGINEERING_VERTICAL = "compoundEngineeringVertical"
-    COMPOUND_ENGINEERING_VERTICAL_TEMPORAL = "compoundEngineeringVerticalTemporal"
-    COMPOUND_GEOGRAPHIC2D_PARAMETRIC = "compoundGeographic2DParametric"
-    COMPOUND_GEOGRAPHIC2D_PARAMETRIC_TEMPORAL = "compoundGeographic2DParametricTemporal"
-    COMPOUND_GEOGRAPHIC2D_TEMPORAL = "compoundGeographic2DTemporal"
-    COMPOUND_GEOGRAPHIC2D_VERTICAL = "compoundGeographic2DVertical"
-    COMPOUND_GEOGRAPHIC2D_VERTICAL_TEMPORAL = "compoundGeographic2DVerticalTemporal"
-    COMPOUND_GEOGRAPHIC3D_TEMPORAL = "compoundGeographic3DTemporal"
-    COMPOUND_PROJECTED2D_PARAMETRIC = "compoundProjected2DParametric"
-    COMPOUND_PROJECTED2D_PARAMETRIC_TEMPORAL = "compoundProjected2DParametricTemporal"
-    COMPOUND_PROJECTED_TEMPORAL = "compoundProjectedTemporal"
-    COMPOUND_PROJECTED_VERTICAL = "compoundProjectedVertical"
-    COMPOUND_PROJECTED_VERTICAL_TEMPORAL = "compoundProjectedVerticalTemporal"
-    ENGINEERING = "engineering"
-    ENGINEERING_DESIGN = "engineeringDesign"
-    ENGINEERING_IMAGE = "engineeringImage"
-    GEODETIC_GEOCENTRIC = "geodeticGeocentric"
-    GEODETIC_GEOGRAPHIC_2D = "geodeticGeographic2D"
-    GEODETIC_GEOGRAPHIC_3D = "geodeticGeographic3D"
-    GEOGRAPHIC_IDENTIFIER = "geographicIdentifier"
-    LINEAR = "linear"
-    PARAMETRIC = "parametric"
-    PROJECTED = "projected"
-    TEMPORAL = "temporal"
-    VERTICAL = "vertical"
-
-
-
-class PixelOrientationCode(Enum):
-    CENTER = "center"
-    LOWER_LEFT = "lowerLeft"
-    LOWER_RIGHT = "lowerRight"
-    UPPER_RIGHT = "upperRight"
-    UPPER_LEFT = "upperLeft"
-
 
 
 class Dimension(ABC):
@@ -126,7 +157,11 @@ class Dimension(ABC):
 
     @property
     def dimension_title(self) -> str:
-        """Enhancement/modifier of the dimension name EX for other time dimension 'runtime' or dimensionName = 'column' dimensionTitle = 'Longitude'."""
+        """
+        Enhancement/modifier of the dimension name, e.g., for other time
+        dimension 'runtime' or dimensionName = 'column'
+        dimensionTitle = 'Longitude'.
+        """
         return None
 
     @property
@@ -135,29 +170,32 @@ class Dimension(ABC):
         return None
 
 
-
 class GeolocationInformation(ABC):
+    """Geolocation information with data quality."""
 
     @property
-    def quality_info(self) -> Sequence['DataQuality']:
+    def quality_info(self) -> Sequence[DataQuality]:
+        """Data Quality for geolocation information."""
         return None
 
 
-
 class GCP(ABC):
+    """Ground Control Point."""
 
     @property
     @abstractmethod
     def geographic_coordinates(self):
+        """"""
         pass
 
     @property
-    def accuracy_report(self) -> Sequence['Element']:
+    def accuracy_report(self) -> Sequence[Element]:
+        """"""
         return None
 
 
-
 class GCPCollection(GeolocationInformation):
+    """A collection of ground control points (GCPs)."""
 
     @property
     @abstractmethod
@@ -185,24 +223,28 @@ class GCPCollection(GeolocationInformation):
         pass
 
 
-
 class GeometricObjects(ABC):
-    """Number of objects, listed by geometric object type, used in the dataset."""
+    """
+    Number of objects, listed by geometric object type, used in the dataset.
+    """
 
     @property
     @abstractmethod
     def geometric_object_type(self) -> GeometricObjectTypeCode:
-        """Name of point or vector objects used to locate zero-, one-, two-, or three-dimensional spatial locations in the dataset."""
+        """
+        Name of point or vector objects used to locate zero-, one-, two-,
+        or three-dimensional spatial locations in the dataset.
+        """
         pass
 
     @property
     def geometric_object_count(self) -> int:
-        """Total number of the point or vector object type occurring in the dataset."""
+        """
+        Total number of the point or vector object type occurring in the
+        dataset.
+        """
         return None
 
-
-
-from opengis.metadata.maintenance import Scope
 
 class SpatialRepresentation(ABC):
     """Digital mechanism used to represent spatial information."""
@@ -211,7 +253,6 @@ class SpatialRepresentation(ABC):
     def scope(self) -> Scope:
         """Level and extent of the spatial representation."""
         return None
-
 
 
 class GridSpatialRepresentation(SpatialRepresentation):
@@ -237,9 +278,12 @@ class GridSpatialRepresentation(SpatialRepresentation):
     @property
     @abstractmethod
     def transformation_parameter_availability(self):
-        """Indication of whether or not parameters for transformation between image coordinates and geographic or map coordinates exist (are available)."""
+        """
+        Indication of whether or not parameters for transformation between
+        image coordinates and geographic or map coordinates exist
+        (are available).
+        """
         pass
-
 
 
 class VectorSpatialRepresentation(SpatialRepresentation):
@@ -247,7 +291,10 @@ class VectorSpatialRepresentation(SpatialRepresentation):
 
     @property
     def topology_level(self) -> TopologyLevelCode:
-        """Code which identifies the degree of complexity of the spatial relationships."""
+        """
+        Code which identifies the degree of complexity of the spatial
+        relationships.
+        """
         return None
 
     @property
@@ -256,36 +303,59 @@ class VectorSpatialRepresentation(SpatialRepresentation):
         return None
 
 
-
 class Georectified(GridSpatialRepresentation):
-    """Grid whose cells are regularly spaced in a geographic (i.e., lat / long) or map coordinate system defined in the Spatial Referencing System (SRS) so that any cell in the grid can be geolocated given its grid coordinate and the grid origin, cell spacing, and orientation."""
+    """
+    Grid whose cells are regularly spaced in a geographic (i.e. lat / long) or
+    map coordinate system defined in the Spatial Referencing System (SRS) so
+    that any cell in the grid can be geolocated given its grid coordinate and
+    the grid origin, cell spacing, and orientation.
+    """
 
     @property
     @abstractmethod
     def check_point_availability(self):
-        """Indication of whether or not geographic position points are available to test the accuracy of the georeferenced grid data."""
+        """
+        Indication of whether or not geographic position points are available
+        to test the accuracy of the georeferenced grid data.
+        """
         pass
 
     @property
     def check_point_description(self) -> str:
-        """Description of geographic position points used to test the accuracy of the georeferenced grid data."""
+        """
+        Description of geographic position points used to test the accuracy of
+        the georeferenced grid data.
+        """
         return None
 
     @property
     @abstractmethod
     def corner_points(self):
-        """Earth location in the coordinate system defined by the Spatial Reference System and the grid coordinate of the cells at opposite ends of grid coverage along two diagonals in the grid spatial dimensions. There are four corner points in a georectified grid; at least two corner points along one diagonal are required. The first corner point corresponds to the origin of the grid."""
+        """
+        Earth location in the coordinate system defined by the Spatial
+        Reference System and the grid coordinate of the cells at opposite ends
+        of grid coverage along two diagonals in the grid spatial dimensions.
+        There are four corner points in a georectified grid; at least two
+        corner points along one diagonal are required. The first corner point
+        corresponds to the origin of the grid.
+        """
         pass
 
     @property
     def centre_point(self):
-        """Earth location in the coordinate system defined by the Spatial Reference System and the grid coordinate of the cell halfway between opposite ends of the grid in the spatial dimensions."""
+        """
+        Earth location in the coordinate system defined by the Spatial
+        Reference System and the grid coordinate of the cell halfway between
+        opposite ends of the grid in the spatial dimensions.
+        """
         return None
 
     @property
     @abstractmethod
     def point_in_pixel(self) -> PixelOrientationCode:
-        """Point in a pixel corresponding to the Earth location of the pixel."""
+        """
+        Point in a pixel corresponding to the Earth location of the pixel.
+        """
         pass
 
     @property
@@ -300,15 +370,17 @@ class Georectified(GridSpatialRepresentation):
 
     @property
     def check_point(self) -> Sequence[GCP]:
+        """"""
         return None
 
 
-
-from opengis.metadata.naming import Record
-from opengis.metadata.citation import Citation
-
 class Georeferenceable(GridSpatialRepresentation):
-    """Grid with cells irregularly spaced in any given geographic/map projection coordinate system, whose individual cells can be geolocated using geolocation information supplied with the data but cannot be geolocated from the grid properties alone."""
+    """
+    Grid with cells irregularly spaced in any given geographic/map projection
+    coordinate system, whose individual cells can be geolocated using
+    geolocation information supplied with the data but cannot be geolocated
+    from the grid properties alone.
+    """
 
     @property
     @abstractmethod
@@ -319,7 +391,9 @@ class Georeferenceable(GridSpatialRepresentation):
     @property
     @abstractmethod
     def orientation_parameter_availability(self):
-        """Indication of whether or not orientation parameters are available."""
+        """
+        Indication of whether or not orientation parameters are available.
+        """
         pass
 
     @property
@@ -341,4 +415,5 @@ class Georeferenceable(GridSpatialRepresentation):
     @property
     @abstractmethod
     def geolocation_information(self) -> Sequence[GeolocationInformation]:
+        """"""
         pass

@@ -40,10 +40,8 @@ class DirectPosition(ABC):
         """
         The coordinate reference system in which the coordinate tuple is given.
         """
-        pass
 
     @property
     @abstractmethod
     def dimension(self) -> int:
         """The length of coordinate sequence (the number of entries)."""
-        pass

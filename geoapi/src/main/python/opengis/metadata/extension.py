@@ -1,8 +1,27 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the extension module.
+
+This module contains geographic metadata structures for metadata elements that
+are not contained in the ISO 19115-1:2014 international standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
@@ -12,6 +31,8 @@ from opengis.metadata.citation import Citation, OnlineResource, Responsibility
 
 
 class DatatypeCode(Enum):
+    """Datatype of element or entity."""
+
     CLASS = "class"
     CODE_LIST = "codelist"
     ENUMERATION = "enumeration"
@@ -30,6 +51,8 @@ class DatatypeCode(Enum):
 
 
 class ObligationCode(Enum):
+    """Obligation of the element or entity."""
+
     MANDATORY = "mandatory"
     OPTIONAL = "optional"
     CONDITIONAL = "conditional"
@@ -74,12 +97,18 @@ class ApplicationSchemaInformation(ABC):
 
     @property
     def software_development_file_format(self) -> str:
-        """Software dependent format used for the application schema software dependent file."""
+        """
+        Software dependent format used for the application schema software
+        dependent file.
+        """
         return None
 
 
 class ExtendedElementInformation(ABC):
-    """New metadata element, not found in ISO 19115, which is required to describe geographic data."""
+    """
+    New metadata element, not found in ISO 19115, which is required to
+    describe geographic data.
+    """
 
     @property
     @abstractmethod
@@ -106,7 +135,10 @@ class ExtendedElementInformation(ABC):
     @property
     @abstractmethod
     def data_type(self) -> DatatypeCode:
-        """Code which identifies the kind of value provided in the extended element."""
+        """
+        Code which identifies the kind of value provided in the extended
+        element.
+        """
         pass
 
     @property
@@ -122,13 +154,20 @@ class ExtendedElementInformation(ABC):
     @property
     @abstractmethod
     def parent_entity(self) -> Sequence[str]:
-        """Name of the metadata entity(s) under which this extended metadata element may appear. The name(s) may be standard metadata element(s) or other extended metadata element(s)."""
+        """
+        Name of the metadata entity(s) under which this extended metadata
+        element may appear. The name(s) may be standard metadata element(s) or
+        other extended metadata element(s).
+        """
         pass
 
     @property
     @abstractmethod
     def rule(self) -> str:
-        """Specifies how the extended element relates to other existing elements and entities."""
+        """
+        Specifies how the extended element relates to other existing elements
+        and entities.
+        """
         pass
 
     @property
@@ -148,9 +187,16 @@ class MetadataExtensionInformation(ABC):
 
     @property
     def extension_on_line_resource(self) -> OnlineResource:
-        """Information about on-line sources containing the community profile name and the extended metadata elements. Information for all new metadata elements."""
+        """
+        Information about on-line sources containing the community profile
+        name and the extended metadata elements. Information for all new 
+        metadata elements.
+        """
         return None
 
     @property
-    def extended_element_information(self) -> Sequence[ExtendedElementInformation]:
+    def extended_element_information(self) -> Sequence[
+        ExtendedElementInformation
+    ]:
+        """"""
         return None

@@ -1,0 +1,62 @@
+# Python "To Do" List
+## OOP branch
+- [x] Conform to PEP8; reflect ISO inheritance patterns
+    - [x] geometry
+        - [x] primitive
+    - [x] metadata
+        - [x] aquisition
+        - [x] base
+        - [x] citation
+        - [x] constraints
+        - [x] content
+        - [x] distribution
+        - [x] extension
+        - [x] extent
+        - [x] identification
+        - [x] lineage
+        - [x] maintenance
+        - [x] naming
+        - [x] quality
+        - [x] representation
+        - [x] service
+    - [x] referencing
+        - [x] crs
+        - [x] cs
+        - [x] datum
+        - [x] operation
+- [ ] Fix data types for units listed in ISO/TS 19103:2005
+    - [ ] `metadata.quality.QuantitativeResult.value_unit`: `UnitOfMeasure`
+- [ ] __str__ overrides
+    - [ ] metadata.naming.LocalName
+    - [ ] metadata.naming.ScopedName
+    - [ ] metadata.naming.TypeName
+    - [ ] metadata.naming.MemberName
+- [ ] Recursive references
+    - metadata.quality.Element.derived_element -> Sequence[Element]
+- [ ] Fix any circular import problems
+- [ ] Fix data types for unannotated objects and attributes
+- [ ] Add Python mappings to [documentation](https://www.metanorma.org/author/ogc/)
+    - src > main > metanorma
+    - [ ] 7.1.3.1 Departures from ISO model
+    - [ ] 7.2.1 Primitive types
+        - [ ] LanguageCode
+        - [ ] CharacterSetCode
+    - [ ] 7.2.2 Date and Time mappings (ISO 19103:2015 §7.2.2 to 7.2.4)
+        - [ ] Date
+        - [ ] Time
+        - [ ] Update documentation
+    - [ ] 7.2.3 Collections  (ISO 19103:2015 §7.3)
+- [ ] Fix `referencing` subpackage to match ISO 19111 UML
+    - [ ] Add ISO 19111:2019 updates
+    - [ ] `datum.Datum` object
+    - [ ] `operation` module
+        - [ ] `MathTransform` vs. `Transform`
+- [ ] Add code documentation to indicate which attributes/properties/fields are mandatory for ISO 19115-1:2014
+- [ ] Deal with minimum and maximum occurences of objects, as specified in in ISO standards
+    - [ ] 0 or more
+    - [ ] maximum length > 1?
+- [ ] Finish incomplete code documentation
+    - [ ] Add missing class and attribute descriptions
+    - [ ] Sphinx :return:, : rtype:
+    - [ ] Add definition for each CodeList value in its corresponding Enum class.
+    - [ ] Change references in docstrings from MD_SomeObject (e.g., GM_Object, SV_OperationMetadata) to the python object

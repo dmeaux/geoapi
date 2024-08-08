@@ -17,7 +17,7 @@
 # ===-----------------------------------------------------------------------===
 """This is the acquisition module.
 
-This subpackage contains geographic metadata structures regarding data 
+This subpackage contains geographic metadata structures regarding data
 acquisition that are derived from the ISO 19115-1:2014 international
 standard.
 """
@@ -36,12 +36,19 @@ from opengis.metadata.identification import ProgressCode
 
 
 class ContextCode(Enum):
+    """
+    Designation of criterion for defining the context of the scanning
+    process event.
+    """
+
     ACQUISITION = "acquisition"
     PASS = "pass"
     WAY_POINT = "wayPoint"
 
 
 class GeometryTypeCode(Enum):
+    """Geometric description of the collection."""
+
     POINT = "point"
     LINEAR = "linear"
     AREAL = "areal"
@@ -49,18 +56,29 @@ class GeometryTypeCode(Enum):
 
 
 class ObjectiveTypeCode(Enum):
+    """Temporal persistence of collection objective."""
+
     INSTANTANEOUS_COLLECTION = "instantaneousCollection"
     PERSISTENT_VIEW = "persistentView"
     SURVEY = "survey"
 
 
 class OperationTypeCode(Enum):
+    """
+    Code indicating whether the data contained in this packet is real
+    (originates from live-fly or other non-simulated operational sources),
+    simulated (originates from target simulator sources), or synthesized
+    (a mix of real and simulated data).
+    """
+
     REAL = "real"
     SIMULATED = "simulated"
     SYNTHESIZED = "synthesized"
 
 
 class PriorityCode(Enum):
+    """Ordered list of priorities."""
+
     CRITICAL = "critical"
     HIGH_IMPORTANCE = "highImportance"
     MEDIUM_IMPORTANCE = "mediumImportance"
@@ -68,12 +86,16 @@ class PriorityCode(Enum):
 
 
 class SequenceCode(Enum):
+    """Temporal relation of activation."""
+
     START = "start"
     END = "end"
     INSTANTANEOUS = "instantaneous"
 
 
 class TriggerCode(Enum):
+    """Mechanism of activation."""
+
     AUTOMATIC = "automatic"
     MANUAL = "manual"
     PRE_PROGRAMMED = "preProgrammed"
@@ -200,14 +222,18 @@ class Event(ABC):
 
     @property
     def related_pass(self) -> PlatformPass:
+        """A `PlatformPass` related to the `Event`."""
         return None
 
     @property
     def related_sensor(self) -> Sequence[Instrument]:
+        """An `Instrument` related to
+            the event."""
         return None
 
     @property
     def expected_objective(self) -> Sequence['Objective']:
+        """An objective expected to be completed by the event."""
         return None
 
 
@@ -235,7 +261,10 @@ class EnvironmentalRecord(ABC):
 
 
 class Objective(ABC):
-    """Describes the characteristics, spatial and temporal extent of the intended object to be observed."""
+    """
+    Describes the characteristics, spatial and temporal extent of the intended
+    object to be observed.
+    """
 
     @property
     @abstractmethod
@@ -260,8 +289,10 @@ class Objective(ABC):
 
     @property
     def extent(self) -> Sequence[Extent]:
-        """Extent information including the bounding box, bounding polygon, vertical and temporal extent of the 
-        objective."""
+        """
+        Extent information including the bounding box, bounding polygon,
+        vertical and temporal extent of the objective.
+        """
         return None
 
     @property
@@ -283,7 +314,10 @@ class Operation(ABC):
 
     @property
     def description(self) -> str:
-        """Description of the mission on which the platform observations are part and the objectives of that mission."""
+        """
+        Description of the mission on which the platform observations are part
+        and the objectives of that mission.
+        """
         return None
 
     @property
@@ -354,7 +388,9 @@ class Requirement(ABC):
 
     @property
     def citation(self) -> Citation:
-        """Identification of reference or guidance material for the requirement."""
+        """
+        Identification of reference or guidance material for the requirement.
+        """
         return None
 
     @property
@@ -395,15 +431,21 @@ class Requirement(ABC):
 
     @property
     def satisfied_plan(self) -> Sequence['Plan']:
+        """Plan that identifies solution to satisfy the requirement."""
         return None
 
 
 class Plan(ABC):
-    """Designations for the planning information related to meeting requirements."""
+    """
+    Designations for the planning information related to meeting requirements.
+    """
 
     @property
     def type(self) -> GeometryTypeCode:
-        """Manner of sampling geometry the planner expects for collection of the objective data."""
+        """
+        Manner of sampling geometry the planner expects for collection of the
+        objective data.
+        """
         return None
 
     @property
@@ -424,37 +466,47 @@ class Plan(ABC):
 
     @property
     def satisfied_requirement(self) -> Sequence[Requirement]:
+        """Requirement satisfied by the plan."""
         return None
 
 
 class AcquisitionInformation(ABC):
-    """Designations for the measuring instruments and their bands, the platform carrying them, and the mission to which
-    the data contributes."""
+    """
+    Designations for the measuring instruments and their bands, the platform
+    carrying them, and the mission to which the data contributes.
+    """
 
     @property
     def instrument(self) -> Sequence[Instrument]:
+        """The instrument(s) used to collect the data."""
         return None
 
     @property
     def operation(self) -> Sequence[Operation]:
+        """The associated operation(s)."""
         return None
 
     @property
     def platform(self) -> Sequence[Platform]:
+        """The associated platform(s)."""
         return None
 
     @property
     def acquisition_plan(self) -> Sequence[Plan]:
+        """The associated acquisition plan(s)."""
         return None
 
     @property
     def objective(self) -> Sequence[Objective]:
+        """The associated objective(s)."""
         return None
 
     @property
     def acquisition_requirement(self) -> Sequence[Requirement]:
+        """The associated acquisition requirement(s)."""
         return None
 
     @property
     def environmental_conditions(self) -> EnvironmentalRecord:
+        """The associated environmental condition(s)."""
         return None

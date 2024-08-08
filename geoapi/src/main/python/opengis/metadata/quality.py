@@ -1,8 +1,29 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the quality module.
+
+
+This module contains geographic metadata structures derived from the
+ISO 19115-1:2014 international standard and data quality structures derived
+from the ISO 19157:2013 international standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from datetime import datetime
@@ -14,18 +35,24 @@ from opengis.metadata.content import CoverageDescription
 from opengis.metadata.distribution import DataFile, Format
 from opengis.metadata.identification import BrowseGraphic
 from opengis.metadata.maintenance import Scope
-from opengis.metadata.naming import Record, RecordType
-from opengis.metadata.representation import SpatialRepresentationTypeCode
-from opengis.util import TypeName
+from opengis.metadata.naming import Record, RecordType, TypeName
+from opengis.metadata.representation import (
+    SpatialRepresentationTypeCode,
+    SpatialRepresentation,
+)
 
 
 class EvaluationMethodTypeCode(Enum):
-    DIRECT_INTERNAL = "directInternal"
+    """Type of method for evaluating an identified data quality measure."""
+
+    IRECT_INTERNAL = "directInternal"
     DIRECT_EXTERNAL = "directExternal"
     INDIRECT = "indirect"
 
 
 class ValueStructure(Enum):
+    """The way in which values are grouped together."""
+
     BAG = "BAG"
     SET = "SET"
     SEQUENCE = "SEQUENCE"
@@ -84,12 +111,17 @@ class EvaluationMethod(ABC):
 
     @property
     def reference_doc(self) -> Sequence[Citation]:
-        """Information on documents which are referenced in developing and applying a data quality evaluation method."""
+        """
+        Information on documents which are referenced in developing and
+        applying a data quality evaluation method.
+        """
         return None
 
     @property
-    def date_time(self) -> Sequence[Date]:
-        """Date or range of dates on which a data quality measure was applied."""
+    def date_time(self) -> Sequence[datetime]:
+        """
+        Date or range of dates on which a data quality measure was applied.
+        """
         return None
 
 
@@ -98,7 +130,10 @@ class MeasureReference(ABC):
 
     @property
     def measure_identification(self) -> Identifier:
-        """Identifier of the measure, value uniquely identifying the measure within a namespace."""
+        """
+        Identifier of the measure, value uniquely identifying the measure
+        within a namespace.
+        """
         return None
 
     @property
@@ -116,29 +151,38 @@ class Element(ABC):
     """Aspect of quantitative quality information."""
 
     @property
-    def Standalone_quality_report_details(self) -> str:
-        """Clause in the standaloneQualityReport where this data quality element or any related data quality element (original results in case of derivation or aggregation) is described."""
+    def standalone_quality_report_details(self) -> str:
+        """
+        Clause in the standaloneQualityReport where this data quality element
+        or any related data quality element (original results in case of
+        derivation or aggregation) is described.
+        """
         return None
 
     @property
-    def Measure(self) -> MeasureReference:
+    def measure(self) -> MeasureReference:
         """Reference to measure used."""
         return None
 
     @property
-    def Evaluation_method(self) -> EvaluationMethod:
+    def evaluation_method(self) -> EvaluationMethod:
         """Evaluation information."""
         return None
 
     @property
     @abstractmethod
     def result(self) -> Sequence[Result]:
-        """Values obtained from applying a data quality measure against a specified acceptable conformance quality level."""
+        """
+        Values obtained from applying a data quality measure against a
+        specified acceptable conformance quality level.
+        """
         pass
 
     @property
     def derived_element(self) -> Sequence[Element]:
-        """In case of aggregation or derivation, indicates the original element."""
+        """
+        In case of aggregation or derivation, indicates the original element.
+        """
         return None
 
 
@@ -153,11 +197,14 @@ class DataQuality(ABC):
 
     @property
     def report(self) -> Sequence[Element]:
-        """Quantitative quality information for the data specified by the scope."""
+        """
+        Quantitative quality information for the data specified by the scope.
+        """
         return None
 
     @property
     def standalone_quality_report(self) -> StandaloneQualityReportInformation:
+        """"""
         return None
 
 
@@ -171,7 +218,7 @@ class Description(ABC):
         pass
 
     @property
-    def extended_Description(self) -> BrowseGraphic:
+    def extended_description(self) -> BrowseGraphic:
         """Illustration."""
         return None
 
@@ -209,7 +256,10 @@ class BasicMeasure(ABC):
     @property
     @abstractmethod
     def value_type(self) -> TypeName:
-        """Value type for the result of the basic measure (shall be one of the data types defined in ISO/TS 19103:2005)."""
+        """
+        Value type for the result of the basic measure (shall be one of the
+        data types defined in ISO/TS 19103:2005).
+        """
         pass
 
 
@@ -230,7 +280,10 @@ class Measure(ABC):
 
     @property
     def alias(self) -> str:
-        """Another recognized name, an abbreviation or a short name for the same data quality measure."""
+        """
+        Another recognized name, an abbreviation or a short name for the same
+        data quality measure.
+        """
         return None
 
     @property
@@ -242,19 +295,27 @@ class Measure(ABC):
     @property
     @abstractmethod
     def definition(self) -> str:
-        """Definition of the fundamental concept for the data quality measure."""
+        """
+        Definition of the fundamental concept for the data quality measure.
+        """
         pass
 
     @property
     @abstractmethod
     def description(self) -> Description:
-        """Description of the data quality measure, including all formulae and/or illustrations needed to establish the result of applying the measure."""
+        """
+        Description of the data quality measure, including all formulae and/or
+        illustrations needed to establish the result of applying the measure.
+        """
         pass
 
     @property
     @abstractmethod
     def value_type(self) -> TypeName:
-        """Value type for reporting a data quality result (shall be one of the data types defined in ISO/19103:2005)."""
+        """
+        Value type for reporting a data quality result (shall be one of the
+        data types defined in ISO/19103:2005).
+        """
         pass
 
     @property
@@ -270,22 +331,32 @@ class Measure(ABC):
     @property
     @abstractmethod
     def basic_measure(self) -> BasicMeasure:
-        """Definition of the fundamental concept for the data quality measure."""
+        """
+        Definition of the fundamental concept for the data quality measure.
+        """
         pass
 
     @property
     def source_reference(self) -> Sequence[SourceReference]:
-        """Reference to the source of an item that has been adopted from an external source."""
+        """
+        Reference to the source of an item that has been adopted from an
+        external source.
+        """
         return None
 
     @property
     def parameter(self):
-        """Reference to the source of an item that has been adopted from an external source."""
+        """
+        Reference to the source of an item that has been adopted from an
+        external source.
+        """
         return None
 
 
 class TemporalQuality(Element):
-    """Accuracy of the temporal attributes and temporal relationships of features."""
+    """
+    Accuracy of the temporal attributes and temporal relationships of features.
+    """
 
 
 class Metaquality(Element):
@@ -315,7 +386,10 @@ class SimpleBasedInspection(DataEvaluation):
     @property
     @abstractmethod
     def sampling_scheme(self) -> str:
-        """Information of the type of sampling scheme and description of the sampling procedure."""
+        """
+        Information of the type of sampling scheme and description of the
+        sampling procedure.
+        """
         pass
 
     @property
@@ -327,7 +401,10 @@ class SimpleBasedInspection(DataEvaluation):
     @property
     @abstractmethod
     def simple_ratio(self) -> str:
-        """Information on how many samples on average are extracted for inspection from each lot of population."""
+        """
+        Information on how many samples on average are extracted for
+        inspection from each lot of population.
+        """
         pass
 
 
@@ -337,16 +414,24 @@ class IndirectEvaluation(DataEvaluation):
     @property
     @abstractmethod
     def deductive_source(self) -> str:
-        """Information on which data are used as sources in deductive evaluation method."""
+        """
+        Information on which data are used as sources in deductive evaluation
+        method.
+        """
         pass
 
 
 class Homogeneity(Metaquality):
-    """Expected or tested uniformity of the results obtained for a data quality evaluation."""
+    """
+    Expected or tested uniformity of the results obtained for a data quality
+    evaluation.
+    """
 
 
 class FullInspection(DataEvaluation):
-    """Test of every item in the population specified by the data quality scope."""
+    """
+    Test of every item in the population specified by the data quality scope.
+    """
 
 
 class DescriptiveResult(Result):
@@ -368,35 +453,54 @@ class PositionalAccuracy(Element):
 
 
 class AbsoluteExternalPositionalAccuracy(PositionalAccuracy):
-    """Closeness of reported coordinate values to values accepted as or being true."""
+    """
+    Closeness of reported coordinate values to values accepted as or being
+    true.
+    """
 
 
 class GriddedDataPositionalAccuracy(PositionalAccuracy):
-    """Closeness of gridded data position values to values accepted as or being true."""
+    """
+    Closeness of gridded data position values to values accepted as or being
+    true.
+    """
 
 
 class RelativeInternalPositionalAccuracy(PositionalAccuracy):
-    """Closeness of the relative positions of features in the scope to their respective relative positions accepted as or being true."""
+    """
+    Closeness of the relative positions of features in the scope to their
+    respective relative positions accepted as or being true.
+    """
 
 
-class TemporalConsistency(TemporalAccuracy):
+class TemporalConsistency(TemporalQuality):
     """Correctness of ordered events or sequences, if reported."""
 
 
-class TemporalValidity(TemporalAccuracy):
+class TemporalValidity(TemporalQuality):
     """Validity of data specified by the scope with respect to time."""
 
 
-class AccuracyOfATimeMeasurement(TemporalAccuracy):
-    """Correctness of the temporal references of an item (reporting of error in time measurement)."""
+class AccuracyOfATimeMeasurement(TemporalQuality):
+    """
+    Correctness of the temporal references of an item (reporting of error in
+    time measurement).
+    """
 
 
 class ThematicAccuracy(Element):
-    """Accuracy of quantitative attributes and the correctness of non-quantitative attributes and of the classifications of features and their relationships."""
+    """
+    Accuracy of quantitative attributes and the correctness of
+    non-quantitative attributes and of the classifications of features and
+    their relationships.
+    """
 
 
 class ThematicClassificationCorrectness(ThematicAccuracy):
-    """Comparison of the classes assigned to features or their attributes to a universe of discourse."""
+    """
+    Comparison of the classes assigned to features or their attributes to a
+    universe of discourse.
+    """
 
 
 class QuantitativeAttributeAccuracy(ThematicAccuracy):
@@ -408,7 +512,10 @@ class NonQuantitativeAttributeCorrectness(ThematicAccuracy):
 
 
 class LogicalConsistency(Element):
-    """Degree of adherence to logical rules of data structure, attribution and relationships (data structure can be conceptual, logical or physical)."""
+    """
+    Degree of adherence to logical rules of data structure, attribution and
+    relationships (data structure can be conceptual, logical or physical).
+    """
 
 
 class ConceptualConsistency(LogicalConsistency):
@@ -420,15 +527,23 @@ class DomainConsistency(LogicalConsistency):
 
 
 class FormatConsistency(LogicalConsistency):
-    """Degree to which data is stored in accordance with the physical structure of the dataset, as described by the scope."""
+    """
+    Degree to which data is stored in accordance with the physical structure
+    of the dataset, as described by the scope.
+    """
 
 
 class TopologicalConsistency(LogicalConsistency):
-    """Correctness of the explicitly encoded topological characteristics of the dataset as described by the scope."""
+    """
+    Correctness of the explicitly encoded topological characteristics of the
+    dataset as described by the scope.
+    """
 
 
 class Completeness(Element):
-    """Presence and absence of features, their attributes and their relationships."""
+    """
+    Presence and absence of features, their attributes and their relationships.
+    """
 
 
 class CompletenessCommission(Completeness):
@@ -440,12 +555,18 @@ class CompletenessOmission(Completeness):
 
 
 class ConformanceResult(Result):
-    """Information about the outcome of evaluating the obtained value (or set of values) against a specified acceptable conformance quality level."""
+    """
+    Information about the outcome of evaluating the obtained value (or set of
+    values) against a specified acceptable conformance quality level.
+    """
 
     @property
     @abstractmethod
     def specification(self) -> Citation:
-        """Citation of data product specification or user requirement against which data is being evaluated."""
+        """
+        Citation of data product specification or user requirement against
+        which data is being evaluated.
+        """
         pass
 
     @property
@@ -462,7 +583,10 @@ class ConformanceResult(Result):
 
 
 class CoverageResult(Result):
-    """Result of a data quality measure organising the measured values as a coverage."""
+    """
+    Result of a data quality measure organising the measured values as a
+    coverage.
+    """
 
     @property
     @abstractmethod
@@ -473,40 +597,54 @@ class CoverageResult(Result):
     @property
     @abstractmethod
     def result_file(self) -> DataFile:
+        """"""
         pass
 
     @property
     @abstractmethod
-    def result_spatial_representation(self) -> 'SpatialRepresentation':
+    def result_spatial_representation(self) -> SpatialRepresentation:
+        """"""
         pass
 
     @property
     @abstractmethod
     def result_content_description(self) -> CoverageDescription:
+        """"""
         pass
 
     @property
     @abstractmethod
     def result_format(self) -> Format:
+        """"""
         pass
 
 
 class QuantitativeResult(Result):
-    """The values or information about the value(s) (or set of values) obtained from applying a data quality measure."""
+    """
+    The values or information about the value(s) (or set of values) obtained
+    from applying a data quality measure.
+    """
 
     @property
     @abstractmethod
     def value(self) -> Sequence[Record]:
-        """Quantitative value or values, content determined by the evaluation procedure used, accordingly with the value type and valueStructure defined for the measure."""
+        """
+        Quantitative value or values, content determined by the evaluation
+        procedure used, accordingly with the value type and valueStructure
+        defined for the measure.
+        """
         pass
 
     @property
-    def value_unit(self) -> Unit:
+    def value_unit(self) -> UnitOfMeasure:
         """Value unit for reporting a data quality result."""
         return None
 
 
     @property
     def value_record_type(self) -> RecordType:
-        """Value type for reporting a data quality result, depends of the implementation."""
+        """
+        Value type for reporting a data quality result, depends of the
+        implementation.
+        """
         return None

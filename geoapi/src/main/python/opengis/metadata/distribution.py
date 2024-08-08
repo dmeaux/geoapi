@@ -1,19 +1,45 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the distribution module.
+
+This module contains geographic metadata structures regarding data
+distribution derived from the ISO 19115-1:2014 international standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from datetime import datetime
 from enum import Enum
 
-from opengis.metadata.citation import Citation, Identifier, OnlineResource, Responsibility
+from opengis.metadata.citation import (
+    Citation,
+    Identifier,
+    OnlineResource,
+    Responsibility,
+)
 from opengis.metadata.naming import GenericName, Record, RecordType
 
 
 class MediumFormatCode(Enum):
+    """Method used to write to the medium."""
+
     CPIO = "cpio"
     TAR = "tar"
     HIGH_SIERRA = "highSierra"
@@ -58,11 +84,16 @@ class Medium(ABC):
 
     @property
     def identifier(self) -> Identifier:
+        """"""
         return None
 
 
 class Format(ABC):
-    """Description of the computer language construct that specifies the representation of data objects in a record, file, message, storage device or transmission channel."""
+    """
+    Description of the computer language construct that specifies the
+    representation of data objects in a record, file, message, storage device
+    or transmission channel.
+    """
 
     @property
     @abstractmethod
@@ -77,7 +108,10 @@ class Format(ABC):
 
     @property
     def file_decompression_technique(self) -> str:
-        """Recommendations of algorithms or processes that can be applied to read or expand resources to which compression techniques have been applied."""
+        """
+        Recommendations of algorithms or processes that can be applied to read
+        or expand resources to which compression techniques have been applied.
+        """
         return None
 
     @property
@@ -87,6 +121,7 @@ class Format(ABC):
 
     @property
     def format_distributor(self) -> Sequence['Distributor']:
+        """"""
         return None
 
 
@@ -113,26 +148,41 @@ class DataFile(ABC):
 
     @property
     def feature_types(self) -> Sequence[GenericName]:
-        """Provides the list of feature types concerned by the transfer data file."""
+        """
+        Provides the list of feature types concerned by the transfer data file.
+        """
         return None
 
 
 class DigitalTransferOptions(ABC):
-    """Technical means and media by which a resource is obtained from the distributor."""
+    """
+    Technical means and media by which a resource is obtained from the
+    distributor.
+    """
 
     @property
     def units_of_distribution(self) -> str:
-        """Tiles, layers, geographic areas, etc., in which data is available. NOTE: unitsOfDistribution applies to both onLine and offLine distributions."""
+        """
+        Tiles, layers, geographic areas, etc., in which data is available.
+        NOTE: units_of_distribution applies to both onLine and offLine
+        distributions.
+        """
         return None
 
     @property
     def transfer_size(self) -> float:
-        """Estimated size of a unit in the specified transfer format, expressed in megabytes. The transfer size is > 0.0."""
+        """
+        Estimated size of a unit in the specified transfer format, expressed
+        in megabytes. The transfer size is > 0.0.
+        """
         return None
 
     @property
     def on_line(self) -> Sequence[OnlineResource]:
-        """Information about online sources from which the resource can be obtained."""
+        """
+        Information about online sources from which the resource can be
+        obtained.
+        """
         return None
 
     @property
@@ -152,11 +202,17 @@ class DigitalTransferOptions(ABC):
 
 
 class StandardOrderProcess(ABC):
-    """Common ways in which the resource may be obtained or received, and related instructions and fee information."""
+    """
+    Common ways in which the resource may be obtained or received, and related
+    instructions and fee information.
+    """
 
     @property
     def fees(self) -> str:
-        """Fees and terms for retrieving the resource. Include monetary units (as specified in ISO 4217)."""
+        """
+        Fees and terms for retrieving the resource. Include monetary units
+        (as specified in ISO 4217).
+        """
         return None
 
     @property
@@ -166,7 +222,9 @@ class StandardOrderProcess(ABC):
 
     @property
     def ordering_instructions(self) -> str:
-        """General instructions, terms and services provided by the distributor."""
+        """
+        General instructions, terms and services provided by the distributor.
+        """
         return None
 
     @property
@@ -191,37 +249,50 @@ class Distributor(ABC):
     @property
     @abstractmethod
     def distributor_contact(self) -> Responsibility:
-        """Party from whom the resource may be obtained. This list need not be exhaustive."""
+        """
+        Party from whom the resource may be obtained. This list need not be
+        exhaustive.
+        """
         pass
 
     @property
     def distribution_order_process(self) -> Sequence[StandardOrderProcess]:
+        """"""
         return None
 
     @property
     def distributor_format(self) -> Sequence[Format]:
+        """"""
         return None
 
     @property
     def distributor_transfer_options(self) -> Sequence[DigitalTransferOptions]:
+        """"""
         return None
 
 
 class Distribution(ABC):
-    """Information about the distributor of and options for obtaining the resource."""
+    """
+    Information about the distributor of and options for obtaining the
+    resource.
+    """
 
     @property
     def description(self) -> str:
+        """"""
         return None
 
     @property
     def distribution_format(self) -> Sequence[Format]:
+        """"""
         return None
 
     @property
     def distributor(self) -> Sequence[Distributor]:
+        """"""
         return None
 
     @property
     def transfer_options(self) -> Sequence[DigitalTransferOptions]:
+        """"""
         return None

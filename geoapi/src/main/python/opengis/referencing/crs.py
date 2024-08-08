@@ -1,14 +1,38 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2019-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the crs module.
+
+This module contains geographic metadata structures regarding coordinate
+referencing systems derived from the ISO 19111 international standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import abstractmethod
 from collections.abc import Sequence
 
-from opengis.metadata.extent import Extent
-from opengis.referencing.cs import CartesianCS, CoordinateSystem, EllipsoidalCS, TimeCS, VerticalCS
+from opengis.referencing.cs import (
+    CartesianCS,
+    CoordinateSystem,
+    EllipsoidalCS,
+    TimeCS,
+    VerticalCS,
+)
 from opengis.referencing.datum import (
     Datum,
     EngineeringDatum,
@@ -17,6 +41,7 @@ from opengis.referencing.datum import (
     TemporalDatum,
     VerticalDatum,
 )
+from opengis.metadata.extent import Extent
 
 
 class ReferenceSystem(IdentifiedObject):
@@ -27,7 +52,8 @@ class ReferenceSystem(IdentifiedObject):
     @property
     def domain_of_validity(self) -> Extent:
         """
-        Area or region or timeframe in which this (coordinate) reference system is valid.
+        Area or region or timeframe in which this (coordinate) reference
+        system is valid.
 
         :return: The reference system valid domain, or null if not available.
         :rtype: Extent
@@ -37,7 +63,8 @@ class ReferenceSystem(IdentifiedObject):
     @property
     def scope(self) -> str:
         """
-        Description of domain of usage, or limitations of usage, for which this Reference System object is valid.
+        Description of domain of usage, or limitations of usage, for which
+        this Reference System object is valid.
 
         :return: The domain of usage, or null if none.
         :rtype: str
@@ -47,13 +74,15 @@ class ReferenceSystem(IdentifiedObject):
 
 class CoordinateReferenceSystem(ReferenceSystem):
     """
-    Abstract coordinate reference system, usually defined by a coordinate system and a datum.
+    Abstract coordinate reference system, usually defined by a coordinate
+    system and a datum.
     """
 
 
 class SingleCRS(CoordinateReferenceSystem):
     """
-    Abstract coordinate reference system, consisting of a single Coordinate System and a single Datum.
+    Abstract coordinate reference system, consisting of a single Coordinate
+    System and a single Datum.
     """
 
     @property
@@ -81,8 +110,8 @@ class SingleCRS(CoordinateReferenceSystem):
 
 class CompoundCRS(CoordinateReferenceSystem):
     """
-    A coordinate reference system describing the position of points through two or more independent coordinate
-    reference systems.
+    A coordinate reference system describing the position of points through
+    two or more independent coordinate reference systems.
     """
 
     @property
@@ -172,8 +201,8 @@ class EngineeringCRS(SingleCRS):
 
 class DerivedCRS(SingleCRS):
     """
-    A coordinate reference system that is defined by its coordinate conversion from another coordinate reference system
-    (not by a datum).
+    A coordinate reference system that is defined by its coordinate conversion
+    from another coordinate reference system (not by a datum).
     """
 
     @property
@@ -218,8 +247,9 @@ class GeodeticCRS(SingleCRS):
 
 class GeographicCRS(GeodeticCRS):
     """
-    A coordinate reference system based on an ellipsoidal approximation of the geoid; this provides an accurate
-    representation of the geometry of geographic features for a large portion of the earth's surface.
+    A coordinate reference system based on an ellipsoidal approximation of the
+    geoid; this provides an accurate representation of the geometry of
+    geographic features for a large portion of the earth's surface.
     """
 
     @property
@@ -236,7 +266,8 @@ class GeographicCRS(GeodeticCRS):
 
 class ProjectedCRS(DerivedCRS):
     """
-    A 2D coordinate reference system used to approximate the shape of the earth on a planar surface.
+    A 2D coordinate reference system used to approximate the shape of the
+    Earth on a planar surface.
     """
 
     @property

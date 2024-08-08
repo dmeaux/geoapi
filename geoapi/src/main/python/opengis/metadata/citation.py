@@ -1,16 +1,40 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the citation module.
+
+This module contains geographic metadata structures regarding metadata
+citations derived from the ISO 19115-1:2014 international standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from datetime import datetime
 from enum import Enum
 
+from opengis.metadata.extent import Extent
+from opengis.metadata.identification import BrowseGraphic
+
 
 class DateTypeCode(Enum):
+    """Datatype of element or entity."""
+
     CREATION = "creation"
     PUBLICATION = "publication"
     REVISION = "revision"
@@ -30,6 +54,8 @@ class DateTypeCode(Enum):
 
 
 class OnLineFunctionCode(Enum):
+    """Function performed by the resource."""
+
     DOWNLOAD = "download"
     INFORMATION = "information"
     OFFLINE_ACCESS = "offlineAccess"
@@ -44,6 +70,8 @@ class OnLineFunctionCode(Enum):
 
 
 class PresentationFormCode(Enum):
+    """Mode in which the data are represented."""
+
     DOCUMENT_DIGITAL = "documentDigital"
     DOCUMENT_HARDCOPY = "documentHardcopy"
     IMAGE_DIGITAL = "imageDigital"
@@ -68,6 +96,8 @@ class PresentationFormCode(Enum):
 
 
 class RoleCode(Enum):
+    """Function performed by the responsible party."""
+
     RESOURCE_PROVIDER = "resourceProvider"
     CUSTODIAN = "custodian"
     OWNER = "owner"
@@ -91,17 +121,25 @@ class RoleCode(Enum):
 
 
 class TelephoneTypeCode(Enum):
+    """Type of telephone."""
+
     VOICE = "voice"
     FACSIMILE = "facsimile"
     SMS = "sms"
 
 
 class Series(ABC):
-    """Information about the series, or aggregate resource, to which a resource belongs."""
+    """
+    Information about the series, or aggregate resource, to which a resource
+    belongs.
+    """
 
     @property
     def name(self) -> str:
-        """Name of the series, or aggregate resource, of which the resource is a part."""
+        """
+        Name of the series, or aggregate resource, of which the resource is a
+        part.
+        """
         return None
 
     @property
@@ -111,7 +149,9 @@ class Series(ABC):
 
     @property
     def page(self) -> str:
-        """Details on which pages of the publication the article was published."""
+        """
+        Details on which pages of the publication the article was published.
+        """
         return None
 
 
@@ -120,7 +160,9 @@ class Address(ABC):
 
     @property
     def delivery_point(self) -> Sequence[str]:
-        """Address line for the location (as described in ISO 11180, Annex A)."""
+        """
+        Address line for the location (as described in ISO 11180, Annex A).
+        """
         return None
 
     @property
@@ -145,17 +187,26 @@ class Address(ABC):
 
     @property
     def electronic_mail_address(self) -> Sequence[str]:
-        """Address of the electronic mailbox of the responsible organisation or individual."""
+        """
+        Address of the electronic mailbox of the responsible organisation or
+        individual.
+        """
         return None
 
 
 class Telephone(ABC):
-    """Telephone numbers for contacting the responsible individual or organisation."""
+    """
+    Telephone numbers for contacting the responsible individual or
+    organisation.
+    """
 
     @property
     @abstractmethod
     def number(self) -> str:
-        """Telephone number by which individuals can contact responsible organisation or individual."""
+        """
+        Telephone number by which individuals can contact responsible
+        organisation or individual.
+        """
         pass
 
     @property
@@ -165,12 +216,19 @@ class Telephone(ABC):
 
 
 class OnlineResource(ABC):
-    """Information about on-line sources from which the resource, specification, or community profile name and extended metadata elements can be obtained."""
+    """
+    Information about on-line sources from which the resource, specification,
+    or community profile name and extended metadata elements can be obtained.
+    """
 
     @property
     @abstractmethod
     def linkage(self):
-        """Location (address) for on-line access using a Uniform Resource Locator/Uniform Resource Identifier address or similar addressing scheme such as http://www.statkart.no/isotc211."""
+        """
+        Location (address) for on-line access using a Uniform Resource Locator/
+        Uniform Resource Identifier address or similar addressing scheme such
+        as http://www.statkart.no/isotc211.
+        """
         pass
 
     @property
@@ -180,7 +238,10 @@ class OnlineResource(ABC):
 
     @property
     def application_profile(self) -> str:
-        """Name of an application profile that can be used with the online resource."""
+        """
+        Name of an application profile that can be used with the online 
+        resource.
+        """
         return None
 
     @property
@@ -205,35 +266,54 @@ class OnlineResource(ABC):
 
 
 class Contact(ABC):
-    """Information required to enable contact with the responsible person and/or organisation."""
+    """
+    Information required to enable contact with the responsible person and/or 
+    organisation.
+    """
 
     @property
     def phone(self) -> Sequence[Telephone]:
-        """Telephone numbers at which the organisation or individual may be contacted."""
+        """
+        Telephone numbers at which the organisation or individual may be
+        contacted.
+        """
         return None
 
     @property
     def address(self) -> Sequence[Address]:
-        """Physical and email address at which the organisation or individual may be contacted."""
+        """
+        Physical and email address at which the organisation or individual may
+        be contacted.
+        """
         return None
 
     @property
     def online_resource(self) -> Sequence[OnlineResource]:
-        """On-line information that can be used to contact the individual or organisation."""
+        """
+        On-line information that can be used to contact the individual or
+        organisation.
+        """
         return None
 
     @property
     def hours_of_service(self) -> Sequence[str]:
-        """Time period (including time zone) when individuals can contact the organisation or individual."""
+        """
+        Time period (including time zone) when individuals can contact the
+        organisation or individual.
+        """
         return None
 
     @property
     def contact_instructions(self) -> str:
-        """Supplemental instructions on how or when to contact the individual or organisation."""
+        """
+        Supplemental instructions on how or when to contact the individual or
+        organisation.
+        """
         return None
 
     @property
     def contact_type(self) -> str:
+        """Type of the contact."""
         return None
 
 
@@ -266,13 +346,14 @@ class Responsibility(ABC):
         pass
 
     @property
-    def extent(self) -> Sequence['Extent']:
+    def extent(self) -> Sequence[Extent]:
         """Spatial or temporal extent of the role."""
         return None
 
     @property
     @abstractmethod
     def party(self) -> Sequence[Party]:
+        """Information about the Party."""
         pass
 
 
@@ -289,12 +370,13 @@ class Organisation(Party):
     """Information about the party if the party is an organisation."""
 
     @property
-    def logo(self) -> Sequence['BrowseGraphic']:
+    def logo(self) -> Sequence[BrowseGraphic]:
         """Graphic identifying organization."""
         return None
 
     @property
     def individual(self) -> Sequence[Individual]:
+        """Individuals belonging to the Organisation."""
         return None
 
 
@@ -325,7 +407,11 @@ class Citation(ABC):
 
     @property
     def alternate_title(self) -> Sequence[str]:
-        """Short name or other language name by which the cited information is known. Example: DCW as an alternative title for Digital Chart of the World."""
+        """
+        Short name or other language name by which the cited information is
+        known. Example: DCW as an alternative title for Digital Chart of the
+        World.
+        """
         return None
 
     @property
@@ -350,7 +436,10 @@ class Citation(ABC):
 
     @property
     def cited_responsible_party(self) -> Sequence[Responsibility]:
-        """Name and position information for an individual or organisation that is responsible for the resource."""
+        """
+        Name and position information for an individual or organisation that
+        is responsible for the resource.
+        """
         return None
 
     @property
@@ -360,21 +449,27 @@ class Citation(ABC):
 
     @property
     def series(self) -> Series:
-        """Information about the series, or aggregate resource, of which the resource is a part."""
+        """
+        Information about the series, or aggregate resource, of which the
+        resource is a part.
+        """
         return None
 
     @property
     def other_citation_details(self) -> Sequence[str]:
-        """Other information required to complete the citation that is not recorded elsewhere."""
+        """
+        Other information required to complete the citation that is not
+        recorded elsewhere.
+        """
         return None
 
     @property
-    def ISBN(self) -> str:
+    def isbn(self) -> str:
         """International Standard Book Number."""
         return None
 
     @property
-    def ISSN(self) -> str:
+    def issn(self) -> str:
         """International Standard Serial Number."""
         return None
 
@@ -394,13 +489,19 @@ class Identifier(ABC):
 
     @property
     def authority(self) -> Citation:
-        """Citation for the code namespace and optionally the person or party responsible for maintenance of that namespace."""
+        """
+        Citation for the code namespace and optionally the person or party
+        responsible for maintenance of that namespace.
+        """
         return None
 
     @property
     @abstractmethod
     def code(self) -> str:
-        """Alphanumeric value identifying an instance in the namespace e.g. EPSG::4326."""
+        """
+        Alphanumeric value identifying an instance in the namespace,
+        e.g., EPSG::4326.
+        """
         pass
 
     @property
@@ -415,5 +516,8 @@ class Identifier(ABC):
 
     @property
     def description(self) -> str:
-        """Natural language description of the meaning of the code value E.G for codeSpace = EPSG, code = 4326: description = WGS-84" to "for codeSpace = EPSG, code = EPSG::4326: description = WGS-84."""
+        """
+        Natural language description of the meaning of the code value,
+        e.g., for codeSpace = EPSG, code = 4326: description = WGS-84.
+        """
         return None

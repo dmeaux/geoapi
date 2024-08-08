@@ -1,8 +1,27 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the extent module.
+
+This module contains geographic metadata structures regarding data extent
+derived from the ISO 19115-1:2014 international standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
@@ -15,35 +34,54 @@ class GeographicExtent(ABC):
 
     @property
     def extent_type_code(self):
-        """Indication of whether the geographic element encompasses an area covered by the data or an area where data is not present."""
+        """
+        Indication of whether the geographic element encompasses an area
+        covered by the data or an area where data is not present.
+        """
         return None
 
 
 class GeographicBoundingBox(GeographicExtent):
-    """Geographic position of the resource. NOTE: This is only an approximate reference so specifying the coordinate reference system is unnecessary and need only be provided with a precision of up to two decimal places."""
+    """
+    Geographic position of the resource. NOTE: This is only an approximate
+    reference so specifying the coordinate reference system is unnecessary and
+    need only be provided with a precision of up to two decimal places.
+    """
 
     @property
     @abstractmethod
     def west_bound_longitude(self) -> float:
-        """Western-most coordinate of the limit of the resource extent, expressed in longitude in decimal degrees (positive east)."""
+        """
+        Western-most coordinate of the limit of the resource extent, expressed
+        in longitude in decimal degrees (positive east).
+        """
         pass
 
     @property
     @abstractmethod
     def east_bound_longitude(self) -> float:
-        """Eastern-most coordinate of the limit of the resource extent, expressed in longitude in decimal degrees (positive east)."""
+        """
+        Eastern-most coordinate of the limit of the resource extent, expressed
+        in longitude in decimal degrees (positive east).
+        """
         pass
 
     @property
     @abstractmethod
     def south_bound_latitude(self) -> float:
-        """Southern-most coordinate of the limit of the resource extent, expressed in latitude in decimal degrees (positive north)."""
+        """
+        Southern-most coordinate of the limit of the resource extent,
+        expressed in latitude in decimal degrees (positive north).
+        """
         pass
 
     @property
     @abstractmethod
     def north_bound_latitude(self) -> float:
-        """Northern-most, coordinate of the limit of the resource extent expressed in latitude in decimal degrees (positive north)."""
+        """
+        Northern-most, coordinate of the limit of the resource extent
+        expressed in latitude in decimal degrees (positive north).
+        """
         pass
 
 
@@ -53,17 +91,27 @@ class GeographicDescription(GeographicExtent):
     @property
     @abstractmethod
     def geographic_identifier(self) -> Identifier:
-        """Identifier used to represent a geographic area e.g. a geographic identifier as described in ISO 19112."""
+        """
+        Identifier used to represent a geographic area, e.g., a geographic
+        identifier as described in ISO 19112.
+        """
         pass
 
 
 class BoundingPolygon(GeographicExtent):
-    """Enclosing geometric object which locates the resource, expressed as a set of (x,y) coordinate (s). NOTE: If a polygon is used it should be closed (last point replicates first point)."""
+    """
+    Enclosing geometric object which locates the resource, expressed as a set
+    of (x,y) coordinate (s). NOTE: If a polygon is used it should be closed
+    (last point replicates first point).
+    """
 
     @property
     @abstractmethod
     def polygon(self):
-        """Sets of points defining the bounding polygon or any other GM_Object geometry (point, line or polygon)."""
+        """
+        Sets of points defining the bounding polygon or any other GM_Object
+        geometry (point, line or polygon).
+        """
         pass
 
 
@@ -84,6 +132,10 @@ class VerticalExtent(ABC):
 
     @property
     def vertical_CRS(self):
+        """
+        Identifies the vertical coordinate reference system used for the
+        minimum and maximum values.
+        """
         return None
 
 
@@ -116,17 +168,23 @@ class Extent(ABC):
 
     @property
     def description(self) -> str:
-        """Sets of points defining the bounding polygon or any other GM_Object geometry (point, line or polygon)."""
+        """
+        Sets of points defining the bounding polygon or any other GM_Object
+        geometry (point, line or polygon).
+        """
         return None
 
     @property
     def geographic_element(self) -> Sequence[GeographicExtent]:
+        """"""
         return None
 
     @property
     def temporal_element(self) -> Sequence[TemporalExtent]:
+        """"""
         return None
 
     @property
     def vertical_element(self) -> Sequence[VerticalExtent]:
+        """"""
         return None

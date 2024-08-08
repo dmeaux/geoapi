@@ -1,8 +1,27 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the content module.
+
+This module contains geographic metadata structures regarding data content
+derived from the ISO 19115-1:2014 and ISO 19115-2:2018 international standards.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
@@ -13,6 +32,10 @@ from opengis.metadata.naming import GenericName, MemberName, Record, RecordType
 
 
 class BandDefinition(Enum):
+    """
+    Designation of the criterion for defining wavelengths of a spectral band.
+    """
+
     THREE_DB = "3dB"
     HALF_MAXIMUM = "halfMaximum"
     FIFTY_PERCENT = "fiftyPercent"
@@ -21,6 +44,11 @@ class BandDefinition(Enum):
 
 
 class CoverageContentTypeCode(Enum):
+    """
+    Transformation function to be used when scaling a physical value of a
+    given element.
+    """
+
     IMAGE = "image"
     THEMATIC_CLASSIFICATION = "thematicClassification"
     PHYSICAL_MEASUREMENT = "physicalMeasurement"
@@ -32,6 +60,10 @@ class CoverageContentTypeCode(Enum):
 
 
 class ImagingConditionCode(Enum):
+    """
+    Code which indicates conditions which may affect the image.
+    """
+
     BLURRED_IMAGE = "blurredImage"
     CLOUD = "cloud"
     DEGRADING_OBLIQUITY = "degradingObliquity"
@@ -46,6 +78,8 @@ class ImagingConditionCode(Enum):
 
 
 class PolarisationOrientationCode(Enum):
+    """Polarization of the antenna in relation to the wave form."""
+
     HORIZONTAL = "horizontal"
     VERTICAL = "vertical"
     LEFT_CIRCULAR = "leftCircular"
@@ -55,6 +89,11 @@ class PolarisationOrientationCode(Enum):
 
 
 class TransferFunctionTypeCode(Enum):
+    """
+    Transform function to be used when scaling a physical value for a given
+    element.
+    """
+
     LINEAR = "linear"
     LOGARITHMIC = "logarithmic"
     EXPONENTIAL = "exponential"
@@ -78,7 +117,10 @@ class RangeElementDescription(ABC):
     @property
     @abstractmethod
     def range_element(self) -> Sequence[Record]:
-        """Specific range elements, i.e. range elements associated with a name and definition defining their meaning."""
+        """
+        Specific range elements, i.e. range elements associated with a name
+        and definition defining their meaning.
+        """
         pass
 
 
@@ -87,7 +129,10 @@ class RangeDimension(ABC):
 
     @property
     def sequence_identifier(self) -> MemberName:
-        """Number that uniquely identifies instances of bands of wavelengths on which a sensor operates."""
+        """
+        Number that uniquely identifies instances of bands of wavelengths on
+        which a sensor operates.
+        """
         return None
 
     @property
@@ -97,11 +142,17 @@ class RangeDimension(ABC):
 
     @property
     def name(self) -> Sequence[Identifier]:
-        """Identifiers for each attribute included in the resource. These identifiers can be used to provide names for the resource's attribute from a standard set of names."""
+        """
+        Identifiers for each attribute included in the resource. These
+        identifiers can be used to provide names for the resource's attribute
+        from a standard set of names.
+        """
         return None
 
 
 class AttributeGroup(ABC):
+    """ 
+    """
 
     @property
     @abstractmethod
@@ -111,6 +162,7 @@ class AttributeGroup(ABC):
 
     @property
     def attribute(self) -> Sequence[RangeDimension]:
+        """"""
         return None
 
 
@@ -119,17 +171,27 @@ class SampleDimension(RangeDimension):
 
     @property
     def max_value(self) -> float:
-        """Maximum value of data values in each dimension included in the resource. Restricted to UomLength in the MD_Band class."""
+        """
+        Maximum value of data values in each dimension included in the
+        resource. Restricted to UomLength in the MD_Band class.
+        """
         return None
 
     @property
     def min_value(self) -> float:
-        """Minimum value of data values in each dimension included in the resource. Restricted to UomLength in the MD_Band class."""
+        """
+        Minimum value of data values in each dimension included in the
+        resource. Restricted to UomLength in the MD_Band class.
+        """
         return None
 
     @property
-    def units(self):
-        """Units of data in each dimension included in the resource. Note that the type of this is UnitOfMeasure and that it is restricted to UomLength in the MD_Band class."""
+    def units(self) -> UnitOfMeasure:
+        """
+        Units of data in each dimension included in the resource. Note that
+        the type of this is `UnitOfMeasure` and that it is restricted to
+        UomLength in the MD_Band class.
+        """
         return None
 
     @property
@@ -144,47 +206,73 @@ class SampleDimension(RangeDimension):
 
     @property
     def mean_value(self) -> float:
-        """Mean value of data values in each dimension included in the resource."""
+        """
+        Mean value of data values in each dimension included in the resource.
+        """
         return None
 
     @property
     def number_of_values(self) -> int:
-        """This gives the number of values used in a thematicClassification resource EX:. the number of classes in a Land Cover Type coverage or the number of cells with data in other types of coverages."""
+        """
+        This gives the number of values used in a thematicClassification
+        resource, e.g., the number of classes in a Land Cover Type coverage or
+        the number of cells with data in other types of coverages.
+        """
         return None
 
     @property
     def standard_deviation(self) -> float:
-        """Standard deviation of data values in each dimension included in the resource."""
+        """
+        Standard deviation of data values in each dimension included in the
+        resource.
+        """
         return None
 
     @property
     def other_property_type(self) -> RecordType:
-        """Type of other attribute description (i.e. netcdf/variable in ncml.xsd)."""
+        """
+        Type of other attribute description (i.e. netcdf/variable in ncml.xsd).
+        """
         return None
 
     @property
     def other_property(self) -> Record:
-        """Instance of otherAttributeType that defines attributes not explicitly included in MD_CoverageType."""
+        """
+        Instance of otherAttributeType that defines attributes not explicitly
+        included in MD_CoverageType.
+        """
         return None
 
     @property
     def bits_per_value(self) -> int:
-        """Maximum number of significant bits in the uncompressed representation for the value in each band of each pixel."""
+        """
+        Maximum number of significant bits in the uncompressed representation
+        for the value in each band of each pixel.
+        """
         return None
 
     @property
     def transfer_function_type(self) -> TransferFunctionTypeCode:
-        """Type of transfer function to be used when scaling a physical value for a given element."""
+        """
+        Type of transfer function to be used when scaling a physical value for
+        a given element.
+        """
         return None
 
     @property
     def range_element_description(self) -> Sequence[RangeElementDescription]:
-        """Provides the description and values of the specific range elements of a sample dimension."""
+        """
+        Provides the description and values of the specific range elements of
+        a sample dimension.
+        """
         return None
 
     @property
     def nominal_spatial_resolution(self) -> float:
-        """Smallest distance between which separate points can be distinguished, as specified in instrument design."""
+        """
+        Smallest distance between which separate points can be distinguished,
+        as specified in instrument design.
+        """
         return None
 
 
@@ -193,14 +281,17 @@ class Band(SampleDimension):
 
     @property
     def bound_max(self) -> float:
+        """Bounding maximum."""
         return None
 
     @property
     def bound_min(self) -> float:
+        """Bounding minimum."""
         return None
 
     @property
-    def bound_units(self):
+    def bound_units(self) -> UomLength:
+        """Bounding units."""
         return None
 
     @property
@@ -215,7 +306,10 @@ class Band(SampleDimension):
 
     @property
     def band_boundary_definition(self) -> BandDefinition:
-        """Designation of criterion for defining maximum and minimum wavelengths for a spectral band."""
+        """
+        Designation of criterion for defining maximum and minimum wavelengths
+        for a spectral band.
+        """
         return None
 
     @property
@@ -244,15 +338,20 @@ class CoverageDescription(ContentInformation):
 
     @property
     def processing_level_code(self) -> Identifier:
-        """Code and codespace that identifies the level of processing that has been applied to the resource."""
+        """
+        Code and codespace that identifies the level of processing that has
+        been applied to the resource.
+        """
         return None
 
     @property
     def attribute_group(self) -> Sequence[AttributeGroup]:
+        """"""
         return None
 
     @property
     def range_element_description(self) -> Sequence[RangeElementDescription]:
+        """"""
         return None
 
 
@@ -261,12 +360,21 @@ class ImageDescription(CoverageDescription):
 
     @property
     def illumination_elevation_angle(self) -> float:
-        """Illumination elevation measured in degrees clockwise from the target plane at intersection of the optical line of sight with the Earth's surface. For images from a scanning device, refer to the centre pixel of the image."""
+        """
+        Illumination elevation measured in degrees clockwise from the target
+        plane at intersection of the optical line of sight with the Earth's
+        surface. For images from a scanning device, refer to the centre pixel
+        of the image.
+        """
         return None
 
     @property
     def illumination_azimuth_angle(self) -> float:
-        """Illumination azimuth measured in degrees clockwise from true north at the time the image is taken. For images from a scanning device, refer to the centre pixel of the image."""
+        """
+        Illumination azimuth measured in degrees clockwise from true north at
+        the time the image is taken. For images from a scanning device, refer
+        to the centre pixel of the image.
+        """
         return None
 
     @property
@@ -281,58 +389,87 @@ class ImageDescription(CoverageDescription):
 
     @property
     def cloud_cover_percentage(self) -> float:
-        """Area of the dataset obscured by clouds, expressed as a percentage of the spatial extent."""
+        """
+        Area of the dataset obscured by clouds, expressed as a percentage of
+        the spatial extent.
+        """
         return None
 
     @property
     def compression_generation_quantity(self) -> int:
-        """Count of the number of lossy compression cycles performed on the image."""
+        """
+        Count of the number of lossy compression cycles performed on the image.
+        """
         return None
 
     @property
     def triangulation_indicator(self):
-        """Indication of whether or not triangulation has been performed upon the image."""
+        """
+        Indication of whether or not triangulation has been performed upon the
+        image.
+        """
         return None
 
     @property
     def radiometric_calibration_data_availability(self):
-        """Indication of whether or not the radiometric calibration information for generating the radiometrically calibrated standard data product is available."""
+        """
+        Indication of whether or not the radiometric calibration information
+        for generating the radiometrically calibrated standard data product is
+        available.
+        """
         return None
 
     @property
     def camera_calibration_information_availability(self):
-        """Indication of whether or not constants are available which allow for camera calibration corrections."""
+        """
+        Indication of whether or not constants are available which allow for
+        camera calibration corrections.
+        """
         return None
 
     @property
     def film_distortion_information_availability(self):
-        """Indication of whether or not Calibration Reseau information is available."""
+        """
+        Indication of whether or not Calibration Reseau information is
+        available.
+        """
         return None
 
     @property
     def lens_distortion_information_availability(self):
-        """Indication of whether or not lens aberration correction information is available."""
+        """
+        Indication of whether or not lens aberration correction information is
+        available.
+        """
         return None
 
 
 class FeatureTypeInfo(ABC):
+    """"""
 
     @property
     @abstractmethod
     def feature_type_name(self) -> GenericName:
+        """"""
         pass
 
     @property
     def feature_instance_count(self) -> int:
+        """"""
         return None
 
 
 class FeatureCatalogueDescription(ContentInformation):
-    """Information identifying the feature catalogue or the conceptual schema."""
+    """
+    Information identifying the feature catalogue or the conceptual schema.
+    """
 
     @property
     def compliance_code(self):
-        """Indication of whether or not the cited feature catalogue complies with ISO 19110."""
+        """
+        Indication of whether or not the cited feature catalogue complies with
+        ISO 19110.
+        """
         return None
 
     @property
@@ -342,15 +479,24 @@ class FeatureCatalogueDescription(ContentInformation):
 
     @property
     def included_with_dataset(self):
-        """Indication of whether or not the feature catalogue is included with the resource."""
+        """
+        Indication of whether or not the feature catalogue is included with
+        the resource.
+        """
         return None
 
     @property
     def feature_types(self) -> Sequence[FeatureTypeInfo]:
-        """Subset of feature types from cited feature catalogue occurring in dataset."""
+        """
+        Subset of feature types from cited feature catalogue occurring in
+        dataset.
+        """
         return None
 
     @property
     def feature_catalogue_citation(self) -> Sequence[Citation]:
-        """Complete bibliographic reference to one or more external feature catalogues."""
+        """
+        Complete bibliographic reference to one or more external feature
+        catalogues.
+        """
         return None

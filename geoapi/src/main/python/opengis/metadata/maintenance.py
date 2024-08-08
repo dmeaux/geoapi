@@ -1,16 +1,42 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the maintenance module.
+
+This module contains geographic metadata structures regarding data maintenance
+derived from the ISO 19115-1:2014 international standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from typing import Sequence
 from enum import Enum
 
+from opengis.metadata.citation import Date, Responsibility
+from opengis.metadata.extent import Extent
 
 
 class MaintenanceFrequencyCode(Enum):
+    """
+    Frequency with which modifications and deletions are made to the data
+    after it is first produced
+    """
+
     CONTINUAL = "continual"
     DAILY = "daily"
     WEEKLY = "weekly"
@@ -28,8 +54,9 @@ class MaintenanceFrequencyCode(Enum):
     BIENNIALLY = "biennially"
 
 
-
 class ScopeCode(Enum):
+    """Class of information to which the referencing entity applies."""
+
     COLLECTION_HARDWARE = "collectionHardware"
     COLLECTION_SESSION = "collectionSession"
     SERIES = "series"
@@ -56,7 +83,6 @@ class ScopeCode(Enum):
     COLLECTION = "collection"
     COVERAGE = "coverage"
     APPLICATION = "application"
-
 
 
 class ScopeDescription(ABC):
@@ -89,15 +115,15 @@ class ScopeDescription(ABC):
 
     @property
     def other(self) -> str:
-        """Class of information that does not fall into the other categories to which the information applies."""
+        """
+        Class of information that does not fall into the other categories to
+        which the information applies.
+        """
         return None
 
 
-
-from opengis.metadata.extent import Extent
-
 class Scope(ABC):
-    """New: information about the scope of the resource."""
+    """Information about the scope of the resource."""
 
     @property
     @abstractmethod
@@ -107,22 +133,24 @@ class Scope(ABC):
 
     @property
     def extent(self) -> Sequence[Extent]:
+        """"""
         return None
 
     @property
     def level_description(self) -> Sequence[ScopeDescription]:
+        """"""
         return None
 
-
-
-from opengis.metadata.citation import Date, Responsibility
 
 class MaintenanceInformation(ABC):
     """Information about the scope and frequency of updating."""
 
     @property
     def maintenance_and_update_frequency(self) -> MaintenanceFrequencyCode:
-        """Frequency with which changes and additions are made to the resource after the initial resource is completed."""
+        """
+        Frequency with which changes and additions are made to the resource
+        after the initial resource is completed.
+        """
         return None
 
     @property
@@ -142,10 +170,16 @@ class MaintenanceInformation(ABC):
 
     @property
     def maintenance_note(self) -> Sequence[str]:
-        """Information regarding specific requirements for maintaining the resource."""
+        """
+        Information regarding specific requirements for maintaining the
+        resource.
+        """
         return None
 
     @property
     def contact(self) -> Sequence[Responsibility]:
-        """Identification of, and means of communicating with, person(s) and organisation(s) with responsibility for maintaining the metadata."""
+        """
+        Identification of, and means of communicating with, person(s) and
+        organisation(s) with responsibility for maintaining the metadata.
+        """
         return None

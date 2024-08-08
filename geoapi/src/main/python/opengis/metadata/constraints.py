@@ -1,18 +1,43 @@
+# ===-----------------------------------------------------------------------===
+#    GeoAPI - Python interfaces (abstractions) for OGC/ISO standards
+#    Copyright © 2013-2024 Open Geospatial Consortium, Inc.
+#    http: //www.geoapi.org
 #
-#    GeoAPI - Programming interfaces for OGC/ISO standards
-#    Copyright © 2018-2023 Open Geospatial Consortium, Inc.
-#    http://www.geoapi.org
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
 #
+#        http: //www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# ===-----------------------------------------------------------------------===
+"""This is the constraints module.
+
+This module contains geographic metadata structures regarding data constraints
+derived from the ISO 19115-1:2014 international standard.
+"""
+
+__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from enum import Enum
 
-from opengis.metadata.citation import Citation, Responsibility
+from opengis.metadata.citation import (
+    Citation,
+    Responsibility,
+)
+from opengis.metadata.identification import BrowseGraphic
 from opengis.metadata.maintenance import Scope
 
 
 class ClassificationCode(Enum):
+    """Name of the handling restrictions on the resource."""
+
     UNCLASSIFIED = "unclassified"
     RESTRICTED = "restricted"
     CONFIDENTIAL = "confidential"
@@ -25,6 +50,8 @@ class ClassificationCode(Enum):
 
 
 class RestrictionCode(Enum):
+    """Limitation(s) placed upon the access or use of the data."""
+
     COPYRIGHT = "copyright"
     PATENT = "patent"
     PATENT_PENDING = "patentPending"
@@ -45,7 +72,10 @@ class RestrictionCode(Enum):
 
 
 class Releasability(ABC):
-    """State, nation or organization to which resource can be released to e.g. NATO unclassified releasable to PfP."""
+    """
+    State, nation or organization to which resource can be released, 
+    e.g., NATO unclassified releasable to PfP.
+    """
 
     @property
     def addressee(self) -> Sequence[Responsibility]:
@@ -68,27 +98,39 @@ class Constraints(ABC):
 
     @property
     def use_limitation(self) -> Sequence[str]:
-        """Limitation affecting the fitness for use of the resource or metadata. Example, "not to be used for navigation"."""
+        """
+        Limitation affecting the fitness for use of the resource or metadata. 
+        For example, "not to be used for navigation".
+        """
         return None
 
     @property
     def constraint_application_scope(self) -> Scope:
-        """Spatial and temporal extent of the application of the constraint restrictions."""
+        """
+        Spatial and temporal extent of the application of the constraint
+        restrictions.
+        """
         return None
 
     @property
-    def graphic(self) -> Sequence['BrowseGraphic']:
+    def graphic(self) -> Sequence[BrowseGraphic]:
         """Graphic /symbol indicating the constraint Eg."""
         return None
 
     @property
     def reference(self) -> Sequence[Citation]:
-        """Citation/URL for the limitation or constraint, e.g. copyright statement, license agreement, etc."""
+        """
+        Citation/URL for the limitation or constraint,
+        e.g., copyright statement, license agreement, etc.
+        """
         return None
 
     @property
     def releasability(self) -> Releasability:
-        """Information concerning the parties to whom the resource can or cannot be released and the party responsible for determining the releasibility."""
+        """
+        Information concerning the parties to whom the resource can or cannot
+        be released and the party responsible for determining the releasibility.
+        """
         return None
 
     @property
@@ -98,26 +140,43 @@ class Constraints(ABC):
 
 
 class LegalConstraints(Constraints):
-    """Restrictions and legal prerequisites for accessing and using the resource or metadata."""
+    """
+    Restrictions and legal prerequisites for accessing and using the resource
+    or metadata.
+    """
 
     @property
     def access_constraints(self) -> Sequence[RestrictionCode]:
-        """Access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata."""
+        """
+        Access constraints applied to assure the protection of privacy or
+        intellectual property, and any special restrictions or limitations on
+        obtaining the resource or metadata.
+        """
         return None
 
     @property
     def use_constraints(self) -> Sequence[RestrictionCode]:
-        """Constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations or warnings on using the resource or metadata."""
+        """
+        Constraints applied to assure the protection of privacy or
+        intellectual property, and any special restrictions or limitations or
+        warnings on using the resource or metadata.
+        """
         return None
 
     @property
     def other_constraints(self) -> Sequence[str]:
-        """Other restrictions and legal prerequisites for accessing and using the resource or metadata."""
+        """
+        Other restrictions and legal prerequisites for accessing and using the
+        resource or metadata.
+        """
         return None
 
 
 class SecurityConstraints(Constraints):
-    """Handling restrictions imposed on the resource or metadata for national security or similar security concerns."""
+    """
+    Handling restrictions imposed on the resource or metadata for national
+    security or similar security concerns.
+    """
 
     @property
     @abstractmethod
@@ -127,7 +186,11 @@ class SecurityConstraints(Constraints):
 
     @property
     def user_note(self) -> str:
-        """Explanation of the application of the legal constraints or other restrictions and legal prerequisites for obtaining and using the resource or metadata."""
+        """
+        Explanation of the application of the legal constraints or other
+        restrictions and legal prerequisites for obtaining and using the
+        resource or metadata.
+        """
         return None
 
     @property
@@ -137,5 +200,8 @@ class SecurityConstraints(Constraints):
 
     @property
     def handling_description(self) -> str:
-        """Additional information about the restrictions on handling the resource or metadata."""
+        """
+        Additional information about the restrictions on handling the resource
+        or metadata.
+        """
         return None
