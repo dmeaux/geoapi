@@ -26,11 +26,23 @@ __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Sequence
+from enum import Enum
+from typing import Optional, Sequence
 
 from opengis.metadata.citation import Citation, Identifier, Responsibility
 from opengis.metadata.identification import Resolution
 from opengis.metadata.maintenance import Scope
+from opengis.metadata.naming import MemberName, Record, RecordType
+
+
+class ParameterDirection(Enum):
+    """Identifies the parameter as an input to the process, or an output,
+    or both.
+    """
+
+    IN = "in"
+    OUT = "out"
+    IN_OUT = "in/out"
 
 
 class NominalResolution(ABC):
@@ -119,16 +131,60 @@ class Algorithm(ABC):
         """Information describing the algorithm used to generate the data."""
 
 
+class ProcessParameter(ABC):
+    """Parameter (value or resource) used in a process."""
+
+    @property
+    @abstractmethod
+    def name(self) -> MemberName:
+        """Name/type of parameter."""
+
+    @property
+    @abstractmethod
+    def direction(self) -> ParameterDirection:
+        """
+        Indication the parameter is an input to the process, an output,
+        or both.
+        """
+
+    @property
+    @abstractmethod
+    def description(self) -> Optional[str]:
+        """Narrative explaining the role of the parameter."""
+
+    @property
+    @abstractmethod
+    def optionality(self) -> bool:
+        """Indication the parameter is required."""
+
+    @property
+    @abstractmethod
+    def repeatability(self) -> bool:
+        """
+        Indication if more than one value of the parameter may be provided.
+        """
+
+    @property
+    @abstractmethod
+    def value_type(self) -> Optional[RecordType]:
+        """Data type of the value"""
+
+    @property
+    @abstractmethod
+    def value(self) -> Optional[Record]:
+        """Constant value."""
+
+    @property
+    @abstractmethod
+    def resource(self) -> Optional[Source]:
+        """Resource to be processed."""
+
+
 class Processing(ABC):
     """
     Comprehensive information about the procedure(s), process(es) and
     algorithm(s) applied in the process step.
     """
-
-    @property
-    @abstractmethod
-    def algorithm(self) -> Sequence[Algorithm]:
-        """"""
 
     @property
     @abstractmethod
@@ -139,25 +195,48 @@ class Processing(ABC):
 
     @property
     @abstractmethod
-    def software_reference(self) -> Sequence[Citation]:
+    def software_reference(self) -> Optional[Sequence[Citation]]:
         """Reference to document describing processing software."""
 
     @property
     @abstractmethod
-    def procedure_description(self) -> str:
+    def procedure_description(self) -> Optional[str]:
         """Additional details about the processing procedures."""
 
     @property
     @abstractmethod
-    def documentation(self) -> Sequence[Citation]:
+    def documentation(self) -> Optional[Sequence[Citation]]:
         """Reference to documentation describing the processing."""
 
     @property
     @abstractmethod
-    def run_time_parameters(self) -> str:
+    def run_time_parameters(self) -> Optional[str]:
         """
         Parameters to control the processing operations, entered at run time.
         """
+
+    @property
+    @abstractmethod
+    def other_property(self) -> Optional[Record]:
+        """Instance of other property type not included in `Sensor`."""
+
+    @property
+    @abstractmethod
+    def other_property_type(self) -> Optional[RecordType]:
+        """Type of other property description."""
+
+    @property
+    @abstractmethod
+    def algorithm(self) -> Optional[Sequence[Algorithm]]:
+        """
+        Details of the methodology by which geographic information was derived
+        from the instrument readings.
+        """
+
+    @property
+    @abstractmethod
+    def parameter(self) -> Optional[ProcessParameter]:
+        """Parameter(s) used in a process"""
 
 
 class ProcessStepReport(ABC):

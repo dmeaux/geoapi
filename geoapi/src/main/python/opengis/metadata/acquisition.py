@@ -29,6 +29,7 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from datetime import datetime
 from enum import Enum
+from typing import Optional
 
 from opengis.metadata.citation import Citation, Identifier, Responsibility
 from opengis.metadata.extent import Extent
@@ -101,12 +102,16 @@ class TriggerCode(Enum):
     PRE_PROGRAMMED = "preProgrammed"
 
 
+class InstrumentEventList(ABC):
+    """"""
+
+
 class Instrument(ABC):
     """Designations for the measuring instruments."""
 
     @property
     @abstractmethod
-    def citation(self) -> Sequence[Citation]:
+    def citation(self) -> Optional[Sequence[Citation]]:
         """Complete citation of the instrument."""
 
     @property
@@ -121,13 +126,32 @@ class Instrument(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> str:
+    def description(self) -> Optional[str]:
         """Textual description of the instrument."""
 
     @property
     @abstractmethod
-    def mounted_on(self) -> 'Platform':
-        """"""
+    def mounted_on(self) -> Optional['Platform']:
+        """Platform on which the instrument is mounted"""
+
+    @property
+    @abstractmethod
+    def sensor(self) -> Optional[Sequence['Sensor']]:
+        """Instrument has a sensor."""
+
+    @property
+    @abstractmethod
+    def history(self) -> Optional['InstrumentEventList']:
+        """List of events associated with the instrument."""
+
+
+class Sensor(Instrument):
+    """Specific type of instrument"""
+
+    @property
+    @abstractmethod
+    def hosted(self) -> Optional[Instrument]:
+        """Instrument on which the sensor is hosted"""
 
 
 class Platform(ABC):
@@ -135,7 +159,7 @@ class Platform(ABC):
 
     @property
     @abstractmethod
-    def citation(self) -> Citation:
+    def citation(self) -> Optional[Citation]:
         """Complete citation of the platform."""
 
     @property
@@ -150,7 +174,7 @@ class Platform(ABC):
 
     @property
     @abstractmethod
-    def sponsor(self) -> Sequence[Responsibility]:
+    def sponsor(self) -> Optional[Sequence[Responsibility]]:
         """
         Organization responsible for building, launch, or operation of the
         platform.
@@ -163,7 +187,10 @@ class Platform(ABC):
 
 
 class PlatformPass(ABC):
-    """Identification of collection coverage."""
+    """Identification of collection coverage. Identifies a particular pass
+    made by the platform during data acquisition. A platform pass is used to
+    provide supporting identifying information for an event and for data
+    acquisition of a particular objective."""
 
     @property
     @abstractmethod
@@ -172,12 +199,12 @@ class PlatformPass(ABC):
 
     @property
     @abstractmethod
-    def extent(self):
+    def extent(self) -> Optional[GM_Object]:
         """Area covered by the pass."""
 
     @property
     @abstractmethod
-    def related_event(self) -> Sequence['Event']:
+    def related_event(self) -> Optional[Sequence['Event']]:
         """"""
 
 
@@ -230,6 +257,7 @@ class Event(ABC):
 
 
 class EnvironmentalRecord(ABC):
+    """"""
 
     @property
     @abstractmethod

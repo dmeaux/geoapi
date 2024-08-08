@@ -25,7 +25,6 @@ __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import override
 
 import numpy as np
 

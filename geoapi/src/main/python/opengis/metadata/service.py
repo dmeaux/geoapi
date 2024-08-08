@@ -55,14 +55,6 @@ class DCPList(Enum):
     WEB_SERVICES = "WebServices"
 
 
-class ParameterDirection(Enum):
-    """Class of information to which the referencing entity applies."""
-
-    IN = "in"
-    OUT = "out"
-    IN_OUT = "in/out"
-
-
 class OperationMetadata(ABC):
     """
     Describes the signature of one and only one method provided by the service.

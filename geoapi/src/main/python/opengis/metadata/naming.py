@@ -83,7 +83,6 @@ class LocalName(GenericName):
     local is indicated by the scope.
     """
 
-    @property
     @abstractmethod
     def __str__(self) -> str:
         """A string representation of this local name."""
@@ -125,7 +124,6 @@ class ScopedName(GenericName):
         Every elements in the sequence of parsed names except for the head.
         """
 
-    @property
     @abstractmethod
     def __str__(self) -> str:
         """A string representation of this scoped name."""
@@ -134,7 +132,6 @@ class ScopedName(GenericName):
 class TypeName(LocalName):
     """A local name that references a record type."""
 
-    @property
     @abstractmethod
     def __str__(self) -> str:
         """A string representation of this type name."""
@@ -161,7 +158,6 @@ class MemberName(LocalName):
     def attribute_type(self) -> TypeName:
         """The type of the data associated with the member."""
 
-    @property
     @abstractmethod
     def __str__(self) -> str:
         """A string representation of this member name."""

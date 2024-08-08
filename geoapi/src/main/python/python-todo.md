@@ -1,41 +1,64 @@
 # Python "To Do" List
+## Specifications
+### ISO Standards
+- [ ] **19103**
+- [ ] 19107
+- [ ] 19108
+- [ ] 19109
+- [ ] 19111
+- [ ] 19112
+- [ ] 19115
+- [ ] 19115-1
+- [ ] **19115-2**
+    - [ ] MI_InstrumentEventList
+    - [ ] MI_InstrumentEvent
+    - [ ] A1
+        - [ ] MI_EventTypeCode
+- [ ] 19115-3
+- [ ] 19115-4
+- [ ] 19157
+### OGC Standards
+- [ ] 01009
+- [ ] Filter
+- [ ] Moving Feature
+
 ## OOP branch
 - [x] Conform to PEP8; reflect ISO inheritance patterns
-    - [x] geometry
-        - [x] primitive
-    - [x] metadata
-        - [x] aquisition
-        - [x] base
-        - [x] citation
-        - [x] constraints
-        - [x] content
-        - [x] distribution
-        - [x] extension
-        - [x] extent
-        - [x] identification
-        - [x] lineage
-        - [x] maintenance
-        - [x] naming
-        - [x] quality
-        - [x] representation
-        - [x] service
-    - [x] referencing
-        - [x] crs
-        - [x] cs
-        - [x] datum
-        - [x] operation
 - [x] Abstract method return types
     - [x] pass
     - [x] return None
-- [ ] Deal with minimum and maximum occurences of objects, as specified in in ISO standards
+- [ ] Deal with minimum and maximum occurences of objects, as specified in ISO standards
     - [ ] 0 or more
-        - [ ] Optional/None
+        - [ ] add Optional[]
     - [ ] maximum length > 1?
-- [ ] __str__ overrides
-    - [ ] metadata.naming.LocalName
-    - [ ] metadata.naming.ScopedName
-    - [ ] metadata.naming.TypeName
-    - [ ] metadata.naming.MemberName
+    - [ ] geometry
+        - [ ] primitive
+    - [ ] metadata
+        - [ ] aquisition
+        - [ ] base
+        - [ ] citation
+        - [ ] constraints
+        - [ ] content
+        - [ ] distribution
+        - [ ] extension
+        - [ ] extent
+        - [ ] identification
+        - [ ] lineage
+        - [ ] maintenance
+        - [ ] naming
+        - [ ] quality
+        - [ ] representation
+        - [ ] service
+    - [ ] referencing
+        - [ ] crs
+        - [ ] cs
+        - [ ] datum
+        - [ ] operation
+- [x] __str__ overrides
+    - [x] metadata.naming.LocalName
+    - [x] metadata.naming.ScopedName
+    - [x] metadata.naming.TypeName
+    - [x] metadata.naming.MemberName
 - [ ] Recursive references
     - metadata.quality.Element.derived_element -> Sequence[Element]
 - [ ] Fix any circular import problems
