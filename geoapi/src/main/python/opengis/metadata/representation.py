@@ -78,8 +78,6 @@ class PixelOrientationCode(Enum):
 
 
 class ReferenceSystemTypeCode(Enum):
-    """Defines type of reference system used."""
-
     COMPOUND_ENGINEERING_PARAMETRIC = "compoundEngineeringParametric"
     COMPOUND_ENGINEERING_PARAMETRIC_TEMPORAL = \
         "compoundEngineeringParametricTemporal"
@@ -145,10 +143,12 @@ class Dimension:
     """Axis properties.
 
     Attributes:
-        dimension_name (DimensionNameTypeCode):
-        dimension_size (int):
-        resolution (float):
-        dimension_title (str):
+        dimension_name (DimensionNameTypeCode): Name of the axis.
+        dimension_size (int): Number of elements along the axis.
+        resolution (float): Degree of detail in the grid dataset.
+        dimension_title (str): Enhancement/modifier of the dimension name,
+            e.g., for other time dimension 'runtime' or
+            dimensionName = 'column' dimensionTitle = 'Longitude'.
         dimension_description (str):
 
     """

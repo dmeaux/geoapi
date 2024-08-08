@@ -123,8 +123,8 @@ class DigitalTransferOptions:
 
     Attributes:
         units_of_distribution (str): Tiles, layers, geographic areas, etc., in
-            which data is available. NOTE: unitsOfDistribution applies to both
-            onLine and offLine distributions.
+            which data is available. NOTE: units_of_distribution applies to
+            both onLine and offLine distributions.
         transfer_size (float): Estimated size of a unit in the specified
             transfer format, expressed in megabytes. The transfer size
             is > 0.0.

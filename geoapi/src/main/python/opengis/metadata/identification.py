@@ -17,8 +17,9 @@
 # ===-----------------------------------------------------------------------===
 """This is the identification module.
 
-This module contains geographic metadata structures regarding identification information codelists and common base classes
-derived from the ISO 19115-1:2014 international standard.
+This module contains geographic metadata structures regarding identification
+information codelists and common base classes derived from the
+ISO 19115-1:2014 international standard.
 """
 
 __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
@@ -27,9 +28,14 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 
-from uri import URI
+from uri.uri import URI
 
-from opengis.metadata.citation import Citation, Identifier, OnlineResource, Responsibility
+from opengis.metadata.citation import (
+    Citation,
+    Identifier,
+    OnlineResource,
+    Responsibility,
+)
 from opengis.metadata.constraints import Constraints
 from opengis.metadata.distribution import Format
 from opengis.metadata.extent import Extent

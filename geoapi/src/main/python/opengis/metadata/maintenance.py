@@ -113,7 +113,7 @@ class ScopeDescription:
 
 @dataclass(frozen=True, slots=True)
 class Scope:
-    """New: information about the scope of the resource.
+    """Information about the scope of the resource.
 
     Attributes:
         level (ScopeCode): Description of the scope.

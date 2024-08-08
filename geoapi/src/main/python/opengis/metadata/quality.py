@@ -158,8 +158,10 @@ class DataQuality:
     """Quality information for the data specified by a data quality scope.
 
     Attributes:
-        scope (Scope): 
-        report (tuple[Element, ...]): 
+        scope (Scope): The specific data to which the data quality information
+            applies.
+        report (tuple[Element, ...]): Quantitative quality information for the
+            data specified by the scope.
         standalone_quality_report (StandaloneQualityReportInformation):
     """
 
@@ -178,7 +180,7 @@ class Description:
     """
 
     text_description: str
-    extended_Description: BrowseGraphic
+    extended_description: BrowseGraphic
 
 
 @dataclass(frozen=True, slots=True)
