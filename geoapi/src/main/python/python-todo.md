@@ -24,6 +24,10 @@
         - [x] cs
         - [x] datum
         - [x] operation
+- [ ] Abstract method return types
+    - [ ] Optional/None
+    - [ ] pass
+    - [ ] return None
 - [ ] Fix data types for units listed in ISO/TS 19103:2005
     - [ ] `metadata.quality.QuantitativeResult.value_unit`: `UnitOfMeasure`
 - [ ] __str__ overrides

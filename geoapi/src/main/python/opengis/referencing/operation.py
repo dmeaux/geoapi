@@ -501,4 +501,4 @@ class Conversion(SingleOperation):
         This attribute is declared in `CoordinateOperation` but is not used in
         a conversion.
         """
-        pass
+        return None
