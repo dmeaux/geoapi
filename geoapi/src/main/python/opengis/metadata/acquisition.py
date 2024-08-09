@@ -455,17 +455,17 @@ class EnvironmentalRecord(ABC):
     @abstractmethod
     def solar_azimuth(self) -> Optional[float]:
         """
-        Clockwise angle in degrees from north to the center of the sun's disc.
+        Clockwise angle in degrees from north to the centre of the sun's disc.
 
-        Note: This Angle is calculated from the nadir point of the sensor, not
-        the center point of the image.
+        NOTE: This Angle is calculated from the nadir point of the sensor, not
+        the centre point of the image.
         """
 
     @property
     @abstractmethod
     def solar_elevation(self) -> Optional[float]:
         """
-        Angle between the horizonand the center of the sun's disk.
+        Angle between the horizonand the centre of the sun's disk.
         """
 
 

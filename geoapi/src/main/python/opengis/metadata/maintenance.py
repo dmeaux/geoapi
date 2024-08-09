@@ -25,7 +25,9 @@ __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
+from datetime import timedelta
 from enum import Enum
+from typing import Optional
 
 from opengis.metadata.citation import Date, Responsibility
 from opengis.metadata.extent import Extent
@@ -146,7 +148,9 @@ class MaintenanceInformation(ABC):
 
     @property
     @abstractmethod
-    def maintenance_and_update_frequency(self) -> MaintenanceFrequencyCode:
+    def maintenance_and_update_frequency(self) -> Optional[
+        MaintenanceFrequencyCode
+    ]:
         """
         Frequency with which changes and additions are made to the resource
         after the initial resource is completed.
@@ -154,22 +158,22 @@ class MaintenanceInformation(ABC):
 
     @property
     @abstractmethod
-    def maintenance_date(self) -> Sequence[Date]:
+    def maintenance_date(self) -> Optional[Sequence[Date]]:
         """Date information associated with maintenance of resource."""
 
     @property
     @abstractmethod
-    def user_defined_maintenance_frequency(self):
+    def user_defined_maintenance_frequency(self) -> Optional[timedelta]:
         """Maintenance period other than those defined."""
 
     @property
     @abstractmethod
-    def maintenance_scope(self) -> Sequence[Scope]:
+    def maintenance_scope(self) -> Optional[Sequence[Scope]]:
         """Information about the scope and extent of maintenance."""
 
     @property
     @abstractmethod
-    def maintenance_note(self) -> Sequence[str]:
+    def maintenance_note(self) -> Optional[Sequence[str]]:
         """
         Information regarding specific requirements for maintaining the
         resource.
@@ -177,7 +181,7 @@ class MaintenanceInformation(ABC):
 
     @property
     @abstractmethod
-    def contact(self) -> Sequence[Responsibility]:
+    def contact(self) -> Optional[Sequence[Responsibility]]:
         """
         Identification of, and means of communicating with, person(s) and
         organisation(s) with responsibility for maintaining the metadata.

@@ -8,7 +8,8 @@
 - [ ] 19111
 - [ ] 19112
 - [ ] 19115
-- [ ] 19115-1:2014
+- [ ] **19115-1:2014**
+    - ***Start on Table B.7.1*** then continue with addendums.
     - [ ] 19115-1 A1 (2018)
     - [ ] 19115-1 A2 (2020)
     - metadata.lineage
@@ -39,14 +40,35 @@
     - [x] metadata.naming.ScopedName
     - [x] metadata.naming.TypeName
     - [x] metadata.naming.MemberName
-- [ ] PT_Locale
+- [ ] `PT_Locale`
     - [ ] `metadata.InstrumentEventList.locale`
+    - [ ] `metadata.base.Metadata`
+        - [ ] default_locale
+        - [ ] other_locale
+    - [ ] `metadata.identification.DataIdentification`
+        - [ ] default_locale
+        - [ ] other_locale
+- [ ] `URI`
+    - [ ] `metadata.identification.KeywordClass.concept_identifier`
 - [ ] Fix data types for units listed in ISO/TS 19103:2005
-    - [ ] `metadata.quality.QuantitativeResult.value_unit`: `UnitOfMeasure`
-    - [ ] `metadata.lineage.NominalResolution`
-        - [ ] scanning_resolution: `Distance`
-        - [ ] ground_resolution: `Distance`
-    - [ ] `metadata.representation.GCP.geographic_coordinates`: `Direct Position`
+    - [ ] `UnitOfMeasure`
+        - [ ] `metadata.quality.QuantitativeResult.value_unit`
+    - [ ] `Direct Position`
+        - [ ] `metadata.representation.GCP.geographic_coordinates`
+    - [ ] `Distance`
+        - [ ] `metadata.identification.Resolution`
+            - [ ] distance
+            - [ ] vertical
+        - [ ] `metadata.lineage.NominalResolution`
+            - [ ] scanning_resolution
+            - [ ] ground_resolution
+    - [ ] `Angle`
+        - [ ] `metadata.identification.Resolution`
+            - [ ] angular_distance
+- [ ] `GM_Point`
+    - [ ] `metadata.representation.Georectified`
+        - [ ] corner_points
+        - [ ] cetre_point
 - [ ] Recursive references
     - metadata.quality.Element.derived_element -> Sequence[Element]
 - [ ] Fix any circular import problems
@@ -61,6 +83,9 @@
         - [ ] Date: datetime.date
         - [ ] Time: datetime.time
         - [ ] DateTime: datetime.datetime
+        - [ ] TM_Duration: datetime.timedelta
+        - [ ] TM_PeriodDuration: datetime.timedelta
+        - [ ] TM_Primitive: datetime.datetime
         - [ ] Update documentation
     - [ ] 7.2.3 Collections  (ISO 19103:2015 §7.3)
 - [ ] Fix `referencing` subpackage to match ISO 19111 UML

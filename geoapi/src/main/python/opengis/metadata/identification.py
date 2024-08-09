@@ -26,8 +26,9 @@ __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
+from typing import Optional
 
 from opengis.metadata.citation import (
     Citation,
@@ -197,7 +198,7 @@ class KeywordClass(ABC):
 
     @property
     @abstractmethod
-    def concept_identifier(self):
+    def concept_identifier(self) -> Optional[URI]:
         """
         URI of concept in ontology specified by the ontology attribute; this
         concept is labeled by the className: CharacterString.
@@ -231,12 +232,12 @@ class Keywords(ABC):
 
     @property
     @abstractmethod
-    def type(self) -> KeywordTypeCode:
+    def type(self) -> Optional[KeywordTypeCode]:
         """Subject matter used to group similar keywords."""
 
     @property
     @abstractmethod
-    def thesaurus_name(self) -> Citation:
+    def thesaurus_name(self) -> Optional[Citation]:
         """
         Name of the formally registered thesaurus or a similar authoritative
         source of keywords.
@@ -244,7 +245,7 @@ class Keywords(ABC):
 
     @property
     @abstractmethod
-    def keyword_class(self) -> KeywordClass:
+    def keyword_class(self) -> Optional[KeywordClass]:
         """
         Association of an MD_Keywords instance with an MD_KeywordsClass to
         provide user-defined categorization of groups of keywords that extend
@@ -272,7 +273,7 @@ class Usage(ABC):
 
     @property
     @abstractmethod
-    def usage_date_time(self) -> datetime:
+    def usage_date_time(self) -> Optional[Sequence[datetime]]:
         """
         Date and time of the first use or range of uses of the resource and/or
         resource series.
@@ -288,7 +289,7 @@ class Usage(ABC):
 
     @property
     @abstractmethod
-    def user_contact_info(self) -> Sequence[Responsibility]:
+    def user_contact_info(self) -> Optional[Sequence[Responsibility]]:
         """
         Identification of and means of communicating with person(s) and
         organisation(s) using the resource(s).
@@ -296,21 +297,24 @@ class Usage(ABC):
 
     @property
     @abstractmethod
-    def response(self) -> Sequence[str]:
+    def response(self) -> Optional[Sequence[str]]:
         """
-        Response to the user-determined limitations, e.g., 'this has been fixed
-        in version x'.
+        Response to the user-determined limitations, e.g., 'This has been fixed
+        in version x.'
         """
 
     @property
     @abstractmethod
-    def additional_documentation(self) -> Sequence[Citation]:
-        """"""
+    def additional_documentation(self) -> Optional[Sequence[Citation]]:
+        """Publications that describe usage of data."""
 
     @property
     @abstractmethod
-    def identified_issues(self) -> Sequence[Citation]:
-        """"""
+    def identified_issues(self) -> Optional[Sequence[Citation]]:
+        """
+        Citation of a description of known issues associated with the resource
+        along with proposed solutions if available.
+        """
 
 
 class RepresentativeFraction(ABC):
@@ -331,7 +335,7 @@ class Resolution(ABC):
 
     @property
     @abstractmethod
-    def equivalent_scale(self) -> RepresentativeFraction:
+    def equivalent_scale(self) -> Optional[RepresentativeFraction]:
         """
         Level of detail expressed as the scale of a comparable hardcopy map or
         chart.
@@ -339,22 +343,22 @@ class Resolution(ABC):
 
     @property
     @abstractmethod
-    def distance(self) -> float:
+    def distance(self) -> Optional[Distance]:
         """Horizontal ground sample distance."""
 
     @property
     @abstractmethod
-    def vertical(self) -> float:
+    def vertical(self) -> Optional[Distance]:
         """Vertical sampling distance."""
 
     @property
     @abstractmethod
-    def angular_distance(self) -> float:
+    def angular_distance(self) -> Optional[Angle]:
         """Angular sampling measure."""
 
     @property
     @abstractmethod
-    def level_of_detail(self) -> str:
+    def level_of_detail(self) -> Optional[str]:
         """
         Brief textual description of the spatial resolution of the resource.
         """
@@ -368,7 +372,7 @@ class AssociatedResource(ABC):
 
     @property
     @abstractmethod
-    def name(self) -> Citation:
+    def name(self) -> Optional[Citation]:
         """Citation information about the associated resource."""
 
     @property
@@ -378,7 +382,7 @@ class AssociatedResource(ABC):
 
     @property
     @abstractmethod
-    def initiative_type(self) -> InitiativeTypeCode:
+    def initiative_type(self) -> Optional[InitiativeTypeCode]:
         """
         Type of initiative under which the associated resource was produced.
         NOTE: the activity that resulted in the associated resource.
@@ -386,7 +390,7 @@ class AssociatedResource(ABC):
 
     @property
     @abstractmethod
-    def metadata_reference(self) -> Citation:
+    def metadata_reference(self) -> Optional[Citation]:
         """Reference to the metadata of the associated resource."""
 
 
@@ -407,24 +411,24 @@ class Identification(ABC):
 
     @property
     @abstractmethod
-    def purpose(self) -> str:
+    def purpose(self) -> Optional[str]:
         """
         Summary of the intentions with which the resource(s) was developed.
         """
 
     @property
     @abstractmethod
-    def credit(self) -> Sequence[str]:
+    def credit(self) -> Optional[Sequence[str]]:
         """Recognition of those who contributed to the resource(s)."""
 
     @property
     @abstractmethod
-    def status(self) -> Sequence[ProgressCode]:
+    def status(self) -> Optional[Sequence[ProgressCode]]:
         """Status of the resource(s)."""
 
     @property
     @abstractmethod
-    def point_of_contact(self) -> Sequence[Responsibility]:
+    def point_of_contact(self) -> Optional[Sequence[Responsibility]]:
         """
         Identification of, and means of communication with, person(s) and
         organisation(s) associated with the resource(s).
@@ -432,14 +436,14 @@ class Identification(ABC):
 
     @property
     @abstractmethod
-    def spatial_representation_type(self) -> Sequence[
+    def spatial_representation_type(self) -> Optional[Sequence[
         SpatialRepresentationTypeCode
-    ]:
+    ]]:
         """Method used to spatially represent geographic information."""
 
     @property
     @abstractmethod
-    def spatial_resolution(self) -> Sequence[Resolution]:
+    def spatial_resolution(self) -> Optional[Sequence[Resolution]]:
         """
         Factor which provides a general understanding of the density of
         spatial data in the resource.
@@ -447,27 +451,30 @@ class Identification(ABC):
 
     @property
     @abstractmethod
-    def temporal_resolution(self):
-        """Resolution of the resource with respect to time."""
+    def temporal_resolution(self) -> Optional[Sequence[timedelta]]:
+        """Smallest resolvable temporal period in a resource."""
 
     @property
     @abstractmethod
-    def topic_category(self) -> Sequence[TopicCategoryCode]:
+    def topic_category(self) -> Optional[Sequence[TopicCategoryCode]]:
         """Main theme(s) of the resource."""
 
     @property
     @abstractmethod
-    def extent(self) -> Sequence[Extent]:
+    def extent(self) -> Optional[Sequence[Extent]]:
         """Spatial and temporal extent of the resource."""
 
     @property
     @abstractmethod
-    def additional_documentation(self) -> Sequence[Citation]:
-        """Other documentation associated with the resource."""
+    def additional_documentation(self) -> Optional[Sequence[Citation]]:
+        """
+        Other documentation associated with the resource, e.g.,
+        Related articles, publications, user guides, data dictionaries.
+        """
 
     @property
     @abstractmethod
-    def processing_level(self) -> Identifier:
+    def processing_level(self) -> Optional[Identifier]:
         """
         Code that identifies the level of processing in the producers coding
         system of a resource, e.g., NOAA level 1B.
@@ -475,38 +482,49 @@ class Identification(ABC):
 
     @property
     @abstractmethod
-    def resource_maintenance(self) -> Sequence[MaintenanceInformation]:
-        """"""
+    def resource_maintenance(self) -> Optional[Sequence[
+        MaintenanceInformation
+    ]]:
+        """
+        Information about the frequency of resource updates and the scope of
+        those updates.
+        """
 
     @property
     @abstractmethod
-    def graphic_overview(self) -> Sequence[BrowseGraphic]:
-        """"""
+    def graphic_overview(self) -> Optional[Sequence[BrowseGraphic]]:
+        """
+        Graphic that illustrates the resource (should include a legend for
+        the graphic).
+        """
 
     @property
     @abstractmethod
-    def resource_format(self) -> Sequence[Format]:
-        """"""
+    def resource_format(self) -> Optional[Sequence[Format]]:
+        """Description of the format of the resource."""
 
     @property
     @abstractmethod
-    def descriptive_keywords(self) -> Sequence[Keywords]:
-        """"""
+    def descriptive_keywords(self) -> Optional[Sequence[Keywords]]:
+        """Category keywords, their type, and reference source."""
 
     @property
     @abstractmethod
-    def resource_specific_usage(self) -> Sequence[Usage]:
-        """"""
+    def resource_specific_usage(self) -> Optional[Sequence[Usage]]:
+        """
+        Basic information about specific application(s) for which the resource
+        has been or is being used by different users.
+        """
 
     @property
     @abstractmethod
-    def resource_constraints(self) -> Sequence[Constraints]:
-        """"""
+    def resource_constraints(self) -> Optional[Sequence[Constraints]]:
+        """Information about constraints which apply to the resource."""
 
     @property
     @abstractmethod
-    def associated_resource(self) -> Sequence[AssociatedResource]:
-        """"""
+    def associated_resource(self) -> Optional[Sequence[AssociatedResource]]:
+        """Associated resource information."""
 
 
 class DataIdentification(Identification):
@@ -514,15 +532,20 @@ class DataIdentification(Identification):
 
     @property
     @abstractmethod
-    def default_locale(self):
+    def default_locale(self) -> Optional[PT_Locale]:
+        """Language and character set used within the resource."""
+
+    @property
+    @abstractmethod
+    def other_locale(self) -> Optional[Sequence[PT_Locale]]:
         """
-        Provides information about an alternatively used localized character
-        string for a linguistic extension.
+        Alternat localised language(s) and character set(s) used within
+        the resource.
         """
 
     @property
     @abstractmethod
-    def environment_description(self) -> str:
+    def environment_description(self) -> Optional[str]:
         """
         Description of the resource in the producer's processing environment,
         including items such as the software, the computer operating system,
@@ -531,5 +554,5 @@ class DataIdentification(Identification):
 
     @property
     @abstractmethod
-    def supplemental_information(self) -> str:
+    def supplemental_information(self) -> Optional[str]:
         """Any other descriptive information about the resource."""

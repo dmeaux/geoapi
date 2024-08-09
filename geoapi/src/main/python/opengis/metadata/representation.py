@@ -74,7 +74,7 @@ class GeometricObjectTypeCode(Enum):
 class PixelOrientationCode(Enum):
     """Point in a pixel corresponding to the Earth location of the pixel"""
 
-    CENTER = "center"
+    CENTRE = "centre"
     LOWER_LEFT = "lowerLeft"
     LOWER_RIGHT = "lowerRight"
     UPPER_RIGHT = "upperRight"
@@ -293,7 +293,7 @@ class VectorSpatialRepresentation(SpatialRepresentation):
 
     @property
     @abstractmethod
-    def topology_level(self) -> TopologyLevelCode:
+    def topology_level(self) -> Optional[TopologyLevelCode]:
         """
         Code which identifies the degree of complexity of the spatial
         relationships.
@@ -301,7 +301,7 @@ class VectorSpatialRepresentation(SpatialRepresentation):
 
     @property
     @abstractmethod
-    def geometric_objects(self) -> Sequence[GeometricObjects]:
+    def geometric_objects(self) -> Optional[Sequence[GeometricObjects]]:
         """Information about the geometric objects used in the resource."""
 
 
@@ -323,7 +323,7 @@ class Georectified(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def check_point_description(self) -> str:
+    def check_point_description(self) -> Optional[str]:
         """
         Description of geographic position points used to test the accuracy of
         the georeferenced grid data.
@@ -331,7 +331,7 @@ class Georectified(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def corner_points(self):
+    def corner_points(self) -> Optional[Sequence[GM_Point]]:
         """
         Earth location in the coordinate system defined by the Spatial
         Reference System and the grid coordinate of the cells at opposite ends
@@ -339,11 +339,14 @@ class Georectified(GridSpatialRepresentation):
         There are four corner points in a georectified grid; at least two
         corner points along one diagonal are required. The first corner point
         corresponds to the origin of the grid.
+
+        NOTE: The length of the `Sequence` of `GM_Points` should be 2 - 4
+        (i.e. 2, 3, or 4).
         """
 
     @property
     @abstractmethod
-    def centre_point(self):
+    def centre_point(self) -> Optional[GM_Point]:
         """
         Earth location in the coordinate system defined by the Spatial
         Reference System and the grid coordinate of the cell halfway between
@@ -359,12 +362,12 @@ class Georectified(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def transformation_dimension_description(self) -> str:
+    def transformation_dimension_description(self) -> Optional[str]:
         """General description of the transformation."""
 
     @property
     @abstractmethod
-    def transformation_dimension_mapping(self) -> Sequence[str]:
+    def transformation_dimension_mapping(self) -> Optional[Sequence[str]]:
         """Information about which grid axes are the spatial (map) axes."""
 
     @property
@@ -377,27 +380,30 @@ class Georectified(GridSpatialRepresentation):
 
 class Georeferenceable(GridSpatialRepresentation):
     """
-    Grid with cells irregularly spaced in any given geographic/map projection
-    coordinate system, whose individual cells can be geolocated using
-    geolocation information supplied with the data but cannot be geolocated
-    from the grid properties alone.
+    ISO 19115-1: Grid with cells irregularly spaced in any given
+    geographic/map projection coordinate system, whose individual cells can be
+    geolocated using geolocation information supplied with the data but cannot
+    be geolocated from the grid properties alone.
+
+    ISO 19115-2: Description of information provided in metadata that allows
+    the geographic or map location of the raster points to be located.
     """
 
     @property
     @abstractmethod
-    def control_point_availability(self):
+    def control_point_availability(self) -> bool:
         """Indication of whether or not control point(s) exists."""
 
     @property
     @abstractmethod
-    def orientation_parameter_availability(self):
+    def orientation_parameter_availability(self) -> bool:
         """
         Indication of whether or not orientation parameters are available.
         """
 
     @property
     @abstractmethod
-    def orientation_parameter_description(self) -> str:
+    def orientation_parameter_description(self) -> Optional[str]:
         """Description of parameters used to describe sensor orientation."""
 
     @property
@@ -407,7 +413,7 @@ class Georeferenceable(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def parameter_citation(self) -> Sequence[Citation]:
+    def parameter_citation(self) -> Optional[Sequence[Citation]]:
         """Reference providing description of the parameters."""
 
     @property

@@ -34,6 +34,7 @@ from opengis.metadata.citation import Citation, Identifier, Responsibility
 from opengis.metadata.identification import Resolution
 from opengis.metadata.maintenance import Scope
 from opengis.metadata.naming import MemberName, Record, RecordType
+from opengis.referencing.crs import ReferenceSystem
 
 
 class ParameterDirection(Enum):
@@ -52,7 +53,7 @@ class ParameterDirection(Enum):
 
 class NominalResolution(ABC):
     """
-    Distance between consistent parts (center, left side, right side) of
+    Distance between consistent parts (centre, left side, right side) of
     adjacent pixels.
     """
 
@@ -60,7 +61,7 @@ class NominalResolution(ABC):
     @abstractmethod
     def scanning_resolution(self) -> Distance:
         """
-        Distance between consistent parts (center, left side, right side)
+        Distance between consistent parts (centre, left side, right side)
         of adjacent pixels in the scan plane.
         """
 
@@ -68,7 +69,7 @@ class NominalResolution(ABC):
     @abstractmethod
     def ground_resolution(self) -> Distance:
         """
-        Distance between consistent parts (center, left side, right side)
+        Distance between consistent parts (centre, left side, right side)
         of adjacent pixels in the object space.
         """
 
@@ -81,40 +82,39 @@ class Source(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> str:
+    def description(self) -> Optional[str]:
         """Detailed description of the level of the source resource."""
 
     @property
     @abstractmethod
-    def source_spatial_resolution(self) -> Resolution:
+    def source_spatial_resolution(self) -> Optional[Resolution]:
         """
         Level of detail expressed as a scale factor, a distance or an angle.
         """
 
     @property
     @abstractmethod
-    def source_reference_system(self):
+    def source_reference_system(self) -> Optional[ReferenceSystem]:
         """Spatial reference system used by the source resource."""
-        # See https://github.com/opengeospatial/geoapi/issues/57
 
     @property
     @abstractmethod
-    def source_citation(self) -> Citation:
+    def source_citation(self) -> Optional[Citation]:
         """Recommended reference to be used for the source resource."""
 
     @property
     @abstractmethod
-    def source_metadata(self) -> Sequence[Citation]:
+    def source_metadata(self) -> Optional[Sequence[Citation]]:
         """Identifier and link to source metadata."""
 
     @property
     @abstractmethod
-    def scope(self) -> Scope:
+    def scope(self) -> Optional[Scope]:
         """Type of resource and/or extent of the source."""
 
     @property
     @abstractmethod
-    def source_step(self) -> Sequence['ProcessStep']:
+    def source_step(self) -> Optional[Sequence['ProcessStep']]:
         """Information about process steps in which this source was used."""
 
     @property
@@ -126,7 +126,7 @@ class Source(ABC):
     @abstractmethod
     def resolution(self) -> Optional[NominalResolution]:
         """
-        Distance between consistent parts (center, left side, right side)
+        Distance between consistent parts (centre, left side, right side)
         of two adjacent pixels.
         """
 
@@ -290,17 +290,17 @@ class ProcessStep(ABC):
 
     @property
     @abstractmethod
-    def rationale(self) -> str:
+    def rationale(self) -> Optional[str]:
         """Requirement or purpose for the process step."""
 
     @property
     @abstractmethod
-    def step_date_time(self) -> datetime:
+    def step_date_time(self) -> Optional[datetime]:
         """Date, time, range or period of process step."""
 
     @property
     @abstractmethod
-    def processor(self) -> Sequence[Responsibility]:
+    def processor(self) -> Optional[Sequence[Responsibility]]:
         """
         Identification of, and means of communication with, person(s) and
         organisation(s) associated with the process step.
@@ -308,18 +308,20 @@ class ProcessStep(ABC):
 
     @property
     @abstractmethod
-    def reference(self) -> Sequence[Citation]:
+    def reference(self) -> Optional[Sequence[Citation]]:
         """Process step documentation."""
 
     @property
     @abstractmethod
-    def scope(self) -> Scope:
+    def scope(self) -> Optional[Scope]:
         """Type of resource and/or extent to which the process step applies."""
 
     @property
     @abstractmethod
-    def source(self) -> Sequence[Source]:
-        """"""
+    def source(self) -> Optional[Sequence[Source]]:
+        """
+        Type of the resource and/or extent to which the process step applies.
+        """
 
     @property
     @abstractmethod
@@ -352,7 +354,7 @@ class Lineage(ABC):
 
     @property
     @abstractmethod
-    def statement(self) -> str:
+    def statement(self) -> Optional[str]:
         """
         General explanation of the data producer's knowledge about the lineage
         of a resource.
@@ -360,7 +362,7 @@ class Lineage(ABC):
 
     @property
     @abstractmethod
-    def scope(self) -> Scope:
+    def scope(self) -> Optional[Scope]:
         """
         Type of resource and/or extent to which the lineage information
         applies.
@@ -368,15 +370,24 @@ class Lineage(ABC):
 
     @property
     @abstractmethod
-    def additional_documentation(self) -> Sequence[Citation]:
-        """"""
+    def additional_documentation(self) -> Optional[Sequence[Citation]]:
+        """
+        Resource. Example: A publication that describes the whole process to
+        generate this resource, e.g., a dataset.
+        """
 
     @property
     @abstractmethod
-    def source(self) -> Sequence[Source]:
-        """"""
+    def process_step(self) -> Optional[Sequence[ProcessStep]]:
+        """
+        Information about events in the life of a resource specified by the
+        scope.
+        """
 
     @property
     @abstractmethod
-    def process_step(self) -> Sequence[ProcessStep]:
-        """"""
+    def source(self) -> Optional[Sequence[Source]]:
+        """
+        Information about the source data used in creating the data specified
+        by the scope.
+        """
