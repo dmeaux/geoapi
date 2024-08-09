@@ -26,6 +26,7 @@ __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from enum import Enum
+from typing import Optional
 
 from opengis.metadata.citation import Citation, Identifier
 from opengis.metadata.naming import GenericName, MemberName, Record, RecordType
@@ -37,10 +38,30 @@ class BandDefinition(Enum):
     """
 
     THREE_DB = "3dB"
+    """
+    Width of a distribution equal to the distance between the outer two points\
+    on the distribution having power level half of that at the peak.
+    """
     HALF_MAXIMUM = "halfMaximum"
+    """
+    Width of a distribution equal to the distance between the outer two points
+    on the distribution having power level half of that at the peak.
+    """
     FIFTY_PERCENT = "fiftyPercent"
+    """
+    Full spectral width of a spectral power density measured at 50 % of its
+    peak height.
+    """
     ONE_OVER_E = "oneOverE"
+    """
+    Width of a distribution equal to the distance between the outer two points
+    on the distribution having power level 1/e that of the peak.
+    """
     EQUIVALENT_WIDTH = "equivalentWidth"
+    """
+    Width of a band with full sensitivity or absorption at every wavelength
+    that detects or absorbs the same amount of energy as the band described.
+    """
 
 
 class CoverageContentTypeCode(Enum):
@@ -81,11 +102,35 @@ class PolarisationOrientationCode(Enum):
     """Polarization of the antenna in relation to the wave form."""
 
     HORIZONTAL = "horizontal"
+    """
+    Polarization of the sensor oriented in the horizontal plane in relation to
+    swathe direction.
+    """
     VERTICAL = "vertical"
+    """
+    Polarization of the sensor oriented in the vertical plane in relation to
+    swathe direction.
+    """
     LEFT_CIRCULAR = "leftCircular"
+    """
+    Polarization of the sensor oriented in the left circular plane in relation
+    to swathe direction.
+    """
     RIGHT_CIRCULAR = "rightCircular"
+    """
+    Polarization of the sensor oriented in the right circular plane in relation
+    to swathe direction.
+    """
     THETA = "theta"
+    """
+    Polarization of the sensor oriented in the angle between +90° and 0°
+    parallel to swathe direction.
+    """
     PHI = "phi"
+    """
+    Polarization of the sensor oriented in the +90° and 0° perpendicular to
+    swathe direction.
+    """
 
 
 class TransferFunctionTypeCode(Enum):
@@ -95,8 +140,11 @@ class TransferFunctionTypeCode(Enum):
     """
 
     LINEAR = "linear"
+    """Function used when transformation is first order polynomial."""
     LOGARITHMIC = "logarithmic"
+    """Function used when transformation is logartihmic."""
     EXPONENTIAL = "exponential"
+    """Function used when transformation is exponential."""
 
 
 class RangeElementDescription(ABC):
@@ -117,7 +165,7 @@ class RangeElementDescription(ABC):
     def range_element(self) -> Sequence[Record]:
         """
         Specific range elements, i.e. range elements associated with a name
-        and definition defining their meaning.
+        and their definition.
         """
 
 
@@ -251,7 +299,7 @@ class SampleDimension(RangeDimension):
 
     @property
     @abstractmethod
-    def transfer_function_type(self) -> TransferFunctionTypeCode:
+    def transfer_function_type(self) -> Optional[TransferFunctionTypeCode]:
         """
         Type of transfer function to be used when scaling a physical value for
         a given element.
@@ -267,7 +315,7 @@ class SampleDimension(RangeDimension):
 
     @property
     @abstractmethod
-    def nominal_spatial_resolution(self) -> float:
+    def nominal_spatial_resolution(self) -> Optional[float]:
         """
         Smallest distance between which separate points can be distinguished,
         as specified in instrument design.
@@ -304,7 +352,7 @@ class Band(SampleDimension):
 
     @property
     @abstractmethod
-    def band_boundary_definition(self) -> BandDefinition:
+    def band_boundary_definition(self) -> Optional[BandDefinition]:
         """
         Designation of criterion for defining maximum and minimum wavelengths
         for a spectral band.
@@ -312,12 +360,12 @@ class Band(SampleDimension):
 
     @property
     @abstractmethod
-    def transmitted_polarisation(self) -> PolarisationOrientationCode:
+    def transmitted_polarisation(self) -> Optional[PolarisationOrientationCode]:
         """Polarisation of the transmitter or detector."""
 
     @property
     @abstractmethod
-    def detected_polarisation(self) -> PolarisationOrientationCode:
+    def detected_polarisation(self) -> Optional[PolarisationOrientationCode]:
         """Polarisation of the transmitter or detector."""
 
 
@@ -348,8 +396,12 @@ class CoverageDescription(ContentInformation):
 
     @property
     @abstractmethod
-    def range_element_description(self) -> Sequence[RangeElementDescription]:
-        """"""
+    def range_element_description(self) -> Optional[Sequence[
+        RangeElementDescription
+    ]]:
+        """
+        Provides the description of the specific range elements of a coverage.
+        """
 
 
 class ImageDescription(CoverageDescription):

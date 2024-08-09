@@ -8,12 +8,19 @@
 - [ ] 19111
 - [ ] 19112
 - [ ] 19115
-- [ ] 19115-1
-- [ ] **19115-2**
-    - [ ] MI_InstrumentEventList
-    - [ ] MI_InstrumentEvent
-    - [ ] A1
-        - [ ] MI_EventTypeCode
+- [ ] 19115-1:2014
+    - [ ] 19115-1 A1 (2018)
+    - [ ] 19115-1 A2 (2020)
+    - metadata.lineage
+        - ProcessStep
+- [x] 19115-2:2018
+    - [x] 19115-2 A1 (2022)
+    - modules
+        - metadata.aquisition
+        - metadata.lineage
+        - metadata.representation
+        - metadata.content
+        - CodeLists
 - [ ] 19115-3
 - [ ] 19115-4
 - [ ] 19157
@@ -27,44 +34,23 @@
 - [x] Abstract method return types
     - [x] pass
     - [x] return None
-- [ ] Deal with minimum and maximum occurences of objects, as specified in ISO standards
-    - [ ] 0 or more
-        - [ ] add Optional[]
-    - [ ] maximum length > 1?
-    - [ ] geometry
-        - [ ] primitive
-    - [ ] metadata
-        - [ ] aquisition
-        - [ ] base
-        - [ ] citation
-        - [ ] constraints
-        - [ ] content
-        - [ ] distribution
-        - [ ] extension
-        - [ ] extent
-        - [ ] identification
-        - [ ] lineage
-        - [ ] maintenance
-        - [ ] naming
-        - [ ] quality
-        - [ ] representation
-        - [ ] service
-    - [ ] referencing
-        - [ ] crs
-        - [ ] cs
-        - [ ] datum
-        - [ ] operation
 - [x] __str__ overrides
     - [x] metadata.naming.LocalName
     - [x] metadata.naming.ScopedName
     - [x] metadata.naming.TypeName
     - [x] metadata.naming.MemberName
+- [ ] PT_Locale
+    - [ ] `metadata.InstrumentEventList.locale`
+- [ ] Fix data types for units listed in ISO/TS 19103:2005
+    - [ ] `metadata.quality.QuantitativeResult.value_unit`: `UnitOfMeasure`
+    - [ ] `metadata.lineage.NominalResolution`
+        - [ ] scanning_resolution: `Distance`
+        - [ ] ground_resolution: `Distance`
+    - [ ] `metadata.representation.GCP.geographic_coordinates`: `Direct Position`
 - [ ] Recursive references
     - metadata.quality.Element.derived_element -> Sequence[Element]
 - [ ] Fix any circular import problems
 - [ ] Fix data types for unannotated objects and attributes
-- [ ] Fix data types for units listed in ISO/TS 19103:2005
-    - [ ] `metadata.quality.QuantitativeResult.value_unit`: `UnitOfMeasure`
 - [ ] Add Python mappings to [documentation](https://www.metanorma.org/author/ogc/)
     - src > main > metanorma
     - [ ] 7.1.3.1 Departures from ISO model
@@ -72,8 +58,9 @@
         - [ ] LanguageCode
         - [ ] CharacterSetCode
     - [ ] 7.2.2 Date and Time mappings (ISO 19103:2015 §7.2.2 to 7.2.4)
-        - [ ] Date
-        - [ ] Time
+        - [ ] Date: datetime.date
+        - [ ] Time: datetime.time
+        - [ ] DateTime: datetime.datetime
         - [ ] Update documentation
     - [ ] 7.2.3 Collections  (ISO 19103:2015 §7.3)
 - [ ] Fix `referencing` subpackage to match ISO 19111 UML

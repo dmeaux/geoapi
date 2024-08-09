@@ -26,6 +26,7 @@ __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
+from typing import Optional
 
 from opengis.metadata.acquisition import AcquisitionInformation
 from opengis.metadata.citation import (
@@ -230,5 +231,7 @@ class Metadata(ABC):
 
     @property
     @abstractmethod
-    def acquisition_information(self) -> Sequence[AcquisitionInformation]:
+    def acquisition_information(self) -> Optional[
+        Sequence[AcquisitionInformation]
+    ]:
         """Information about the acquisition of the data."""

@@ -26,9 +26,9 @@ from the ISO 19157:2013 international standard.
 __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
+from collections.abc import Sequence
 from datetime import datetime
 from enum import Enum
-from typing import Sequence
 
 from opengis.metadata.citation import Citation, Identifier
 from opengis.metadata.content import CoverageDescription

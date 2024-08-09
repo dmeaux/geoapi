@@ -24,13 +24,15 @@ derived from the ISO 19115-1:2014 international standard.
 __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
 from enum import Enum
+from typing import Optional
 
 from opengis.metadata.citation import Citation
 from opengis.metadata.maintenance import Scope
 from opengis.metadata.naming import Record
 from opengis.metadata.quality import DataQuality, Element
+from opengis.referencing.crs import ReferenceSystem
 
 
 class CellGeometryCode(Enum):
@@ -180,31 +182,31 @@ class GeolocationInformation(ABC):
 
     @property
     @abstractmethod
-    def quality_info(self) -> Sequence[DataQuality]:
-        """Data Quality for geolocation information."""
+    def quality_info(self) -> Optional[Sequence[DataQuality]]:
+        """
+        Provides an overall assessment of quality of geolocation information.
+        """
 
 
 class GCP(ABC):
-    """Ground Control Point."""
+    """Information on a ground control point (GSP)."""
 
     @property
     @abstractmethod
-    def geographic_coordinates(self):
-        """"""
+    def geographic_coordinates(self) -> DirectPosition:
+        """
+        Geographic or map position of the control point, in either two
+        or three dimensions.
+        """
 
     @property
     @abstractmethod
-    def accuracy_report(self) -> Sequence[Element]:
-        """"""
+    def accuracy_report(self) -> Optional[Sequence[Element]]:
+        """Accuracy of a ground control point."""
 
 
 class GCPCollection(GeolocationInformation):
     """A collection of ground control points (GCPs)."""
-
-    @property
-    @abstractmethod
-    def gcp(self) -> Sequence[GCP]:
-        """Ground control point(s) used in the collection."""
 
     @property
     @abstractmethod
@@ -218,9 +220,13 @@ class GCPCollection(GeolocationInformation):
 
     @property
     @abstractmethod
-    def coordinate_reference_system(self):
+    def coordinate_reference_system(self) -> ReferenceSystem:
         """Coordinate system in which the ground control points are defined."""
-        # See https://github.com/opengeospatial/geoapi/issues/57
+
+    @property
+    @abstractmethod
+    def gcp(self) -> Sequence[GCP]:
+        """Ground control point(s) used in the collection."""
 
 
 class GeometricObjects(ABC):
@@ -363,8 +369,10 @@ class Georectified(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def check_point(self) -> Sequence[GCP]:
-        """"""
+    def check_point(self) -> Optional[Sequence[GCP]]:
+        """
+        Geographic references used to validate georectification of the data.
+        """
 
 
 class Georeferenceable(GridSpatialRepresentation):
@@ -405,4 +413,6 @@ class Georeferenceable(GridSpatialRepresentation):
     @property
     @abstractmethod
     def geolocation_information(self) -> Sequence[GeolocationInformation]:
-        """"""
+        """
+        Information that can be used to geo-locate the data.
+        """
