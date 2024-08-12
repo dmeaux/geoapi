@@ -551,7 +551,7 @@ class Objective(ABC):
 
 
 class Operation(ABC):
-    """Designations for the operation used to acquire the data set."""
+    """Designations for the operation used to acquire the dataset."""
 
     @property
     @abstractmethod

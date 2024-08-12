@@ -24,7 +24,7 @@ ISO 19115-1:2014, including adendums A1(2018) and A2(2020).
 
 from __future__ import annotations
 
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from enum import Enum
 from typing import Optional
