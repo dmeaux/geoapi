@@ -25,8 +25,9 @@ __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
+from typing import Optional
 
 from opengis.metadata.citation import (
     Citation,
@@ -54,40 +55,48 @@ class Medium(ABC):
 
     @property
     @abstractmethod
-    def name(self) -> Citation:
+    def name(self) -> Optional[Citation]:
         """Name of the medium on which the resource can be received."""
 
     @property
     @abstractmethod
-    def density(self) -> float:
-        """Density at which the data is recorded."""
+    def density(self) -> Optional[float]:
+        """
+        Density at which the data is recorded.
+
+        Domain: > 0.0
+        """
 
     @property
     @abstractmethod
-    def density_units(self):
+    def density_units(self) -> Optional[str]:
         """Units of measure for the recording density."""
 
     @property
     @abstractmethod
-    def volumes(self) -> int:
-        """Number of items in the media identified."""
+    def volumes(self) -> Optional[int]:
+        """
+        Number of items in the media identified.
+
+        Domain: > 0
+        """
 
     @property
     @abstractmethod
-    def medium_format(self) -> Sequence[MediumFormatCode]:
+    def medium_format(self) -> Optional[Sequence[MediumFormatCode]]:
         """Method used to write to the medium."""
 
     @property
     @abstractmethod
-    def medium_note(self) -> str:
+    def medium_note(self) -> Optional[str]:
         """
         Description of other limitations or requirements for using the medium.
         """
 
     @property
     @abstractmethod
-    def identifier(self) -> Identifier:
-        """"""
+    def identifier(self) -> Optional[Identifier]:
+        """Unique identifier for an instance of the `Medium`."""
 
 
 class Format(ABC):
@@ -104,12 +113,12 @@ class Format(ABC):
 
     @property
     @abstractmethod
-    def amendment_number(self) -> str:
+    def amendment_number(self) -> Optional[str]:
         """Amendment number of the format version."""
 
     @property
     @abstractmethod
-    def file_decompression_technique(self) -> str:
+    def file_decompression_technique(self) -> Optional[str]:
         """
         Recommendations of algorithms or processes that can be applied to read
         or expand resources to which compression techniques have been applied.
@@ -117,13 +126,13 @@ class Format(ABC):
 
     @property
     @abstractmethod
-    def medium(self) -> Sequence[Medium]:
+    def medium(self) -> Optional[Sequence[Medium]]:
         """Medium used by the format."""
 
     @property
     @abstractmethod
-    def format_distributor(self) -> Sequence['Distributor']:
-        """"""
+    def format_distributor(self) -> Optional[Sequence['Distributor']]:
+        """Provides information about the distributor of the format."""
 
 
 class DataFile(ABC):
@@ -152,55 +161,6 @@ class DataFile(ABC):
         """
 
 
-class DigitalTransferOptions(ABC):
-    """
-    Technical means and media by which a resource is obtained from the
-    distributor.
-    """
-
-    @property
-    @abstractmethod
-    def units_of_distribution(self) -> str:
-        """
-        Tiles, layers, geographic areas, etc., in which data is available.
-        NOTE: units_of_distribution applies to both onLine and offLine
-        distributions.
-        """
-
-    @property
-    @abstractmethod
-    def transfer_size(self) -> float:
-        """
-        Estimated size of a unit in the specified transfer format, expressed
-        in megabytes. The transfer size is > 0.0.
-        """
-
-    @property
-    @abstractmethod
-    def on_line(self) -> Sequence[OnlineResource]:
-        """
-        Information about online sources from which the resource can be
-        obtained.
-        """
-
-    @property
-    @abstractmethod
-    def off_line(self) -> Sequence[Medium]:
-        """
-        Information about offline media on which the resource can be obtained.
-        """
-
-    @property
-    @abstractmethod
-    def transfer_frequency(self):
-        """Rate of occurrence of distribution."""
-
-    @property
-    @abstractmethod
-    def distribution_format(self) -> Sequence[Format]:
-        """Format of distribution."""
-
-
 class StandardOrderProcess(ABC):
     """
     Common ways in which the resource may be obtained or received, and related
@@ -209,7 +169,7 @@ class StandardOrderProcess(ABC):
 
     @property
     @abstractmethod
-    def fees(self) -> str:
+    def fees(self) -> Optional[str]:
         """
         Fees and terms for retrieving the resource. Include monetary units
         (as specified in ISO 4217).
@@ -217,29 +177,29 @@ class StandardOrderProcess(ABC):
 
     @property
     @abstractmethod
-    def planned_available_date_time(self) -> datetime:
+    def planned_available_date_time(self) -> Optional[datetime]:
         """Date and time when the resource will be available."""
 
     @property
     @abstractmethod
-    def ordering_instructions(self) -> str:
+    def ordering_instructions(self) -> Optional[str]:
         """
         General instructions, terms and services provided by the distributor.
         """
 
     @property
     @abstractmethod
-    def turnaround(self) -> str:
+    def turnaround(self) -> Optional[str]:
         """Typical turnaround time for the filling of an order."""
 
     @property
     @abstractmethod
-    def order_options_type(self) -> RecordType:
+    def order_options_type(self) -> Optional[RecordType]:
         """Description of the order options record."""
 
     @property
     @abstractmethod
-    def order_options(self) -> Record:
+    def order_options(self) -> Optional[Record]:
         """Request/purchase choices."""
 
 
@@ -256,18 +216,28 @@ class Distributor(ABC):
 
     @property
     @abstractmethod
-    def distribution_order_process(self) -> Sequence[StandardOrderProcess]:
-        """"""
+    def distribution_order_process(self) -> Optional[Sequence[
+        StandardOrderProcess
+    ]]:
+        """
+        Provides information abouthowthe resource may be obtained and related
+        instructions and fee information.
+        """
 
     @property
     @abstractmethod
-    def distributor_format(self) -> Sequence[Format]:
-        """"""
+    def distributor_format(self) -> Optional[Sequence[Format]]:
+        """Provides information about the format used by the distributor."""
 
     @property
     @abstractmethod
-    def distributor_transfer_options(self) -> Sequence[DigitalTransferOptions]:
-        """"""
+    def distributor_transfer_options(self) -> Optional[Sequence[
+        'DigitalTransferOptions'
+    ]]:
+        """
+        Provides information about the technical means and media used by
+        the distributor.
+        """
 
 
 class Distribution(ABC):
@@ -278,20 +248,79 @@ class Distribution(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> str:
-        """"""
+    def description(self) -> Optional[str]:
+        """Brief description of a set of distribution options."""
 
     @property
     @abstractmethod
-    def distribution_format(self) -> Sequence[Format]:
-        """"""
+    def distribution_format(self) -> Optional[Sequence[Format]]:
+        """
+        Provides the description of the format of the data to be distributed.
+        """
 
     @property
     @abstractmethod
-    def distributor(self) -> Sequence[Distributor]:
-        """"""
+    def distributor(self) -> Optional[Sequence[Distributor]]:
+        """Provides information about the distributor."""
 
     @property
     @abstractmethod
-    def transfer_options(self) -> Sequence[DigitalTransferOptions]:
-        """"""
+    def transfer_options(self) -> Optional[Sequence['DigitalTransferOptions']]:
+        """
+        Provides information about technical means and media by which a
+        resource is obtained from the distributor.
+        """
+
+
+class DigitalTransferOptions(ABC):
+    """
+    Technical means and media by which a resource is obtained from the
+    distributor.
+    """
+
+    @property
+    @abstractmethod
+    def units_of_distribution(self) -> Optional[str]:
+        """
+        Tiles, layers, geographic areas, etc., in which data is available.
+
+        NOTE: units_of_distribution applies to both onLine and offLine
+        distributions.
+        """
+
+    @property
+    @abstractmethod
+    def transfer_size(self) -> Optional[float]:
+        """
+        Estimated size of a unit in the specified transfer format, expressed
+        in megabytes.
+
+        NOTE: The transfer size is > 0.0.
+
+        Domain: > 0.0
+        """
+
+    @property
+    @abstractmethod
+    def on_line(self) -> Optional[Sequence[OnlineResource]]:
+        """
+        Information about online sources from which the resource can be
+        obtained.
+        """
+
+    @property
+    @abstractmethod
+    def off_line(self) -> Optional[Sequence[Medium]]:
+        """
+        Information about offline media on which the resource can be obtained.
+        """
+
+    @property
+    @abstractmethod
+    def transfer_frequency(self) -> Optional[timedelta]:
+        """Rate of occurrence of distribution."""
+
+    @property
+    @abstractmethod
+    def distribution_format(self) -> Optional[Sequence[Format]]:
+        """Format of distribution."""

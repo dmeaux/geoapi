@@ -66,7 +66,7 @@ class MetadataScope(ABC):
     @property
     @abstractmethod
     def resource_scope(self) -> ScopeCode:
-        """Code for the scope."""
+        """Code for the scope. Default = 'dataset'."""
 
     @property
     @abstractmethod
@@ -85,12 +85,20 @@ class Metadata(ABC):
     @property
     @abstractmethod
     def default_locale(self) -> Optional[PT_Locale]:
-        """Language and character set used for documenting metadata."""
+        """
+        Language and character set used for documenting metadata.
+
+        MANDATORY: if UTF-8 not used and not defined in encoding.
+        """
 
     @property
     @abstractmethod
     def parent_metadata(self) -> Optional[Citation]:
-        """Identification of the parent metadata record."""
+        """
+        Identification of the parent metadata record.
+
+        MANDATORY: if there is an upper level object.
+        """
 
     @property
     @abstractmethod
@@ -101,8 +109,9 @@ class Metadata(ABC):
     @abstractmethod
     def date_info(self) -> Sequence[Date]:
         """
-        Date(s) associated with the metadata. NOTE: 'Creation' date must be
-        provided, others can also be provided.
+        Date(s) associated with the metadata.
+
+        NOTE: 'Creation' date must be provided, others can also be provided.
         """
 
     @property
@@ -110,6 +119,7 @@ class Metadata(ABC):
     def metadata_standard(self) -> Optional[Sequence[Citation]]:
         """
         Citation for the standards to which the metadata conforms.
+
         NOTE: Metadata standard citations should include an identifier.
         """
 
@@ -118,8 +128,9 @@ class Metadata(ABC):
     def metadata_profile(self) -> Optional[Sequence[Citation]]:
         """
         Citation(s) for the profile(s) of the metadata standard to which the
-        metadata conform. NOTE: Metadata citations should include an
-        identifier.
+        metadata conform.
+
+        NOTE: Metadata citations should include an identifier.
         """
 
     @property
@@ -165,8 +176,9 @@ class Metadata(ABC):
         * An object with the `referenceSystemIdentifier` property (from
             ISO 19115) sets to a single `Identifier` value such as
                 `"EPSG::4326"`,
-        optionally with a `referenceSystemType` property sets to a value
-            such as `geodeticGeographic2D` or `compoundProjectedTemporal`.
+        The ReferenceSystem object may optionally have a
+            `reference_system_type_code` property set to a value such as
+            `geodeticGeographic2D` or `compoundProjectedTemporal`.
         """
 
     @property
@@ -242,7 +254,11 @@ class Metadata(ABC):
     @property
     @abstractmethod
     def metadata_scope(self) -> Optional[Sequence[MetadataScope]]:
-        """The scope or type of resource for which metadata is provided."""
+        """
+        The scope or type of resource for which metadata is provided.
+
+        MANDATORY: if `Metadata` is about a resource other than a dataset.
+        """
 
     @property
     @abstractmethod

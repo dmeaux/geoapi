@@ -26,7 +26,7 @@ from opengis.metadata.citation       import Citation
 import unittest
 
 #
-# Information about a data set: title, where they are located, authors, etc.
+# Information about a dataset: title, where they are located, authors, etc.
 # For this demo, we provide only the title and an abstract. Since this demo
 # establishes a one-to-one relationship between data identification and the
 # citation (i.e. the title), we implement both interfaces in the same class

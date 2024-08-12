@@ -176,7 +176,7 @@ class Revision(ABC):
     @property
     @abstractmethod
     def responsible_party(self) -> Sequence[Responsibility]:
-        """Individual or organization responsible for the revision."""
+        """Individual or organisation responsible for the revision."""
 
     @property
     @abstractmethod
@@ -321,7 +321,7 @@ class Platform(ABC):
     @abstractmethod
     def sponsor(self) -> Optional[Sequence[Responsibility]]:
         """
-        Organization responsible for building, launch, or operation of the
+        Organisation responsible for building, launch, or operation of the
         platform.
         """
 
@@ -520,7 +520,7 @@ class Objective(ABC):
 
 
 class Operation(ABC):
-    """Designations for the operation used to acquire the data set."""
+    """Designations for the operation used to acquire the dataset."""
 
     @property
     @abstractmethod

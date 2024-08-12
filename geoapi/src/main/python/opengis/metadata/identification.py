@@ -124,7 +124,7 @@ class ProgressCode(Enum):
 class TopicCategoryCode(Enum):
     """
     High-level geographic data thematic classification to assist in the
-    grouping and search of available geographic data sets.
+    grouping and search of available geographic datasets.
 
     NOTE 1: Can be used to group keywords as well. Listed examples are not
     exhaustive.
@@ -150,36 +150,44 @@ class TopicCategoryCode(Enum):
 
 class BrowseGraphic(ABC):
     """
-    Graphic that provides an illustration of the dataset (should include a
-    legend for the graphic, if applicable).
+    Graphic that provides an illustration of a resource/dataset
+
+    NOTE: should include a legend for the graphic, if applicable.
+
+    Example: A dataset, an organisation logo, security constraint, or citation
+    graphic.
     """
 
     @property
     @abstractmethod
-    def file_name(self):
+    def file_name(self) -> str:
         """
         Name of the file that contains a graphic that provides an illustration
-        of the dataset.
+        of the resource/dataset.
         """
 
     @property
     @abstractmethod
-    def file_description(self) -> str:
+    def file_description(self) -> Optional[str]:
         """Text description of the illustration."""
 
     @property
     @abstractmethod
-    def file_type(self) -> str:
-        """Format in which the illustration is encoded."""
+    def file_type(self) -> Optional[str]:
+        """
+        Format in which the illustration is encoded.
+
+        Example: EPS, GIF, JPEG, PBM, PS, TIFF, PDF.
+        """
 
     @property
     @abstractmethod
-    def image_constraints(self) -> Sequence[Constraints]:
+    def image_constraints(self) -> Optional[Sequence[Constraints]]:
         """Restriction on access and/or use of browse graphic."""
 
     @property
     @abstractmethod
-    def linkage(self) -> Sequence[OnlineResource]:
+    def linkage(self) -> Optional[Sequence[OnlineResource]]:
         """Link to browse graphic."""
 
 
@@ -210,15 +218,17 @@ class KeywordClass(ABC):
         """
         A reference that binds the keyword class to a formal conceptualization
         of a knowledge domain for use in semantic processing NOTE: Keywords in
-        the associated MD_Keywords keyword list must be within the scope of
+        the associated `Keywords` keyword list must be within the scope of
         this ontology.
         """
 
 
 class Keywords(ABC):
     """
-    Keywords, their type and reference source. NOTE: When the resource
-    described is a service, one instance of MD_Keyword shall refer to the
+    Keywords, their type and reference source.
+
+        NOTE: When the resource
+    described is a service, one instance of `Keyword` shall refer to the
     service taxonomy defined in ISO 19119, 8.3).
     """
 
@@ -247,11 +257,13 @@ class Keywords(ABC):
     @abstractmethod
     def keyword_class(self) -> Optional[KeywordClass]:
         """
-        Association of an MD_Keywords instance with an MD_KeywordsClass to
+        Association of an `Keywords` instance with an `KeywordClass` to
         provide user-defined categorization of groups of keywords that extend
         or are orthogonal to the standardized KeywordTypeCodes and are
         associated with an ontology that allows additional semantic query
-        processing. NOTE: The thesaurus citation specifies a collection of
+        processing.
+
+        NOTE: The thesaurus citation specifies a collection of
         instances from some ontology, but is not an ontology. It might be a
         list of places that include rivers, mountains, counties and cities.
         There might be a Laconte County, the city Laconte, the Laconte River,
@@ -320,14 +332,18 @@ class Usage(ABC):
 class RepresentativeFraction(ABC):
     """
     Derived from ISO 19103 Scale where
-    MD_RepresentativeFraction.denominator = 1 / Scale.measure
-    and Scale.targetUnits = Scale.sourceUnits.
+    `denominator` = 1 / `Scale.measure`
+    and `Scale.target_units` = `Scale.source_units`.
     """
 
     @property
     @abstractmethod
     def denominator(self) -> int:
-        """The number below the line in a vulgar fraction."""
+        """
+        The number below the line in a vulgar fraction.
+
+        Domain: > 0
+        """
 
 
 class Resolution(ABC):
@@ -339,41 +355,68 @@ class Resolution(ABC):
         """
         Level of detail expressed as the scale of a comparable hardcopy map or
         chart.
+
+        MANDATORY: if `distance`, `vertical`, `angular_distance`,
+            or `level_of_detail` not documented.
         """
 
     @property
     @abstractmethod
     def distance(self) -> Optional[Distance]:
-        """Horizontal ground sample distance."""
+        """
+        Horizontal ground sample distance.
+
+        MANDATORY: if `equivalent_scale`, `vertical`, `angular_distance`,
+            or `level_of_detail` not documented.
+        """
 
     @property
     @abstractmethod
     def vertical(self) -> Optional[Distance]:
-        """Vertical sampling distance."""
+        """
+        Vertical sampling distance.
+
+        MANDATORY: if `equivalent_scale`, `distance`, `angular_distance`,
+            or `level_of_detail` not documented.
+        """
 
     @property
     @abstractmethod
     def angular_distance(self) -> Optional[Angle]:
-        """Angular sampling measure."""
+        """
+        Angular sampling measure.
+
+        MANDATORY: if `equivalent_scale`, `distance`, `vertical`,
+            or `level_of_detail` not documented.
+        """
 
     @property
     @abstractmethod
     def level_of_detail(self) -> Optional[str]:
         """
         Brief textual description of the spatial resolution of the resource.
+
+        MANDATORY: if `equivalent_scale`, `distance`, `vertical`,
+            or `angular_distance` not documented.
         """
 
 
 class AssociatedResource(ABC):
     """
-    Associated resource information. NOTE: An associated resource is a dataset
-    composed of a collection of datasets.
+    Associated resource information.
+
+    NOTE: An associated resource is a dataset composed of a collection
+    of datasets.
     """
 
     @property
     @abstractmethod
     def name(self) -> Optional[Citation]:
-        """Citation information about the associated resource."""
+        """
+        Citation information about the associated resource.
+
+        MANDATORY: if `metadata_reference` not documented.
+        """
 
     @property
     @abstractmethod
@@ -385,13 +428,18 @@ class AssociatedResource(ABC):
     def initiative_type(self) -> Optional[InitiativeTypeCode]:
         """
         Type of initiative under which the associated resource was produced.
+
         NOTE: the activity that resulted in the associated resource.
         """
 
     @property
     @abstractmethod
     def metadata_reference(self) -> Optional[Citation]:
-        """Reference to the metadata of the associated resource."""
+        """
+        Reference to the metadata of the associated resource.
+
+        MANDATORY: if `name` not documented.
+        """
 
 
 class Identification(ABC):
@@ -409,7 +457,6 @@ class Identification(ABC):
     def abstract(self) -> str:
         """Brief narrative summary of the content of the resource(s)."""
 
-    @property
     @abstractmethod
     def purpose(self) -> Optional[str]:
         """
@@ -457,12 +504,23 @@ class Identification(ABC):
     @property
     @abstractmethod
     def topic_category(self) -> Optional[Sequence[TopicCategoryCode]]:
-        """Main theme(s) of the resource."""
+        """
+        Main theme(s) of the resource.
+
+        MANDATORY: if `Metadata.metadata_scope.resource_scope` == 'dataset'
+            OR `Metadata.metadata_scope.resource_scope` == 'series'.
+        """
 
     @property
     @abstractmethod
     def extent(self) -> Optional[Sequence[Extent]]:
-        """Spatial and temporal extent of the resource."""
+        """
+        Spatial and temporal extent of the resource.
+
+        MANDATORY: if `Metadata.metadata_scope.resource_scope` == 'dataset'
+            then `extent.geographic_element.GeographicBoundingBox`
+            or  `extent.geographic_element.Geographicdescription` is required.
+        """
 
     @property
     @abstractmethod
@@ -533,7 +591,11 @@ class DataIdentification(Identification):
     @property
     @abstractmethod
     def default_locale(self) -> Optional[PT_Locale]:
-        """Language and character set used within the resource."""
+        """
+        Language and character set used within the resource.
+
+        MANDATORY: if a language is used in the resource.
+        """
 
     @property
     @abstractmethod

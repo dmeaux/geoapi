@@ -41,6 +41,10 @@
     - [x] metadata.naming.TypeName
     - [x] metadata.naming.MemberName
 - [ ] `PT_Locale`
+    - [ ] Webscrape ISO 639-2 codes and store as JSON file
+        - [ ] Convert JSON to immutable data type in python
+    - [ ] Webscrape ISO 3166-1 country codes and store as JSON file
+        - [ ] Convert JSON to immutable data type in python
     - [ ] `metadata.InstrumentEventList.locale`
     - [ ] `metadata.base.Metadata`
         - [ ] default_locale
@@ -48,6 +52,8 @@
     - [ ] `metadata.identification.DataIdentification`
         - [ ] default_locale
         - [ ] other_locale
+- [ ] `PT_LocaleContainer` -> InternationalString
+    - [ ] to_string(Locale)
 - [ ] `URI`
     - [ ] `metadata.identification.KeywordClass.concept_identifier`
 - [ ] Fix data types for units listed in ISO/TS 19103:2005
@@ -65,6 +71,9 @@
     - [ ] `Angle`
         - [ ] `metadata.identification.Resolution`
             - [ ] angular_distance
+- [ ] `GM_Object`
+     - [ ] `metadata.extent.BoundingPolygon`
+        - [ ] polygon
 - [ ] `GM_Point`
     - [ ] `metadata.representation.Georectified`
         - [ ] corner_points
@@ -85,9 +94,15 @@
         - [ ] DateTime: datetime.datetime
         - [ ] TM_Duration: datetime.timedelta
         - [ ] TM_PeriodDuration: datetime.timedelta
+            - [x] `metadata.extent.TemporalExtent.extent`: make sure datetime.timedelta the right data type to return -> nope, returns a tuple[datetime, datetime] with the first component being the beginning and the second being the end.
         - [ ] TM_Primitive: datetime.datetime
         - [ ] Update documentation
     - [ ] 7.2.3 Collections  (ISO 19103:2015 §7.3)
+    - [ ] 7.3.2 ReferenceSystem
+        - MD_ReferenceSystem -> `referencing.crs.ReferenceSystem`
+            - [ ] added
+                - `reference_system_identifier`
+                - `reference_system_type`
 - [ ] Fix `referencing` subpackage to match ISO 19111 UML
     - [ ] Add ISO 19111:2019 updates
     - [ ] `datum.Datum` object

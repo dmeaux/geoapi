@@ -74,19 +74,27 @@ class RestrictionCode(Enum):
 
 class Releasability(ABC):
     """
-    State, nation or organization to which resource can be released,
+    State, nation or organisation to which resource can be released,
     e.g., NATO unclassified releasable to PfP.
     """
 
     @property
     @abstractmethod
     def addressee(self) -> Optional[Sequence[Responsibility]]:
-        """Party to which the release statement applies."""
+        """
+        Party to which the release statement applies.
+
+        MANDATORY: if `statement` is `None`.
+        """
 
     @property
     @abstractmethod
     def statement(self) -> Optional[str]:
-        """Release statement."""
+        """
+        Release statement.
+
+        MANDATORY: if `addressee` is `None`.
+        """
 
     @property
     @abstractmethod
@@ -154,6 +162,9 @@ class LegalConstraints(Constraints):
         Access constraints applied to assure the protection of privacy or
         intellectual property, and any special restrictions or limitations on
         obtaining the resource or metadata.
+
+        MANDATORY: if `use_constraints`, `other_constrints`, `use_limitations`,
+            or `releasability` are `None`.
         """
 
     @property
@@ -163,6 +174,9 @@ class LegalConstraints(Constraints):
         Constraints applied to assure the protection of privacy or
         intellectual property, and any special restrictions or limitations or
         warnings on using the resource or metadata.
+
+        MANDATORY: if `access_constraints`, `other_constrints`,
+            `use_limitations`, or `releasability` are `None`.
         """
 
     @property
@@ -171,6 +185,9 @@ class LegalConstraints(Constraints):
         """
         Other restrictions and legal prerequisites for accessing and using the
         resource or metadata.
+
+        MANDATORY: if `access_constraints`, `use_constrints`,
+            `use_limitations`, or `releasability` are `None`.
         """
 
 

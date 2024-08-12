@@ -27,28 +27,14 @@ __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from datetime import datetime
-from enum import Enum
 from typing import Optional
 
 from opengis.metadata.citation import Citation, Identifier, Responsibility
 from opengis.metadata.identification import Resolution
 from opengis.metadata.maintenance import Scope
 from opengis.metadata.naming import MemberName, Record, RecordType
+from opengis.metadata.service import ParameterDirection
 from opengis.referencing.crs import ReferenceSystem
-
-
-class ParameterDirection(Enum):
-    """
-    Identifies the parameter as an input to the process, or an output,
-    or both.
-    """
-
-    IN = "in"
-    """Input to a process."""
-    OUT = "out"
-    """Output of a process."""
-    IN_OUT = "in/out"
-    """Both an input and an output."""
 
 
 class NominalResolution(ABC):
@@ -83,7 +69,11 @@ class Source(ABC):
     @property
     @abstractmethod
     def description(self) -> Optional[str]:
-        """Detailed description of the level of the source resource."""
+        """
+        Detailed description of the level of the source resource.
+
+        MANDATORY: if `scope` is `None`.
+        """
 
     @property
     @abstractmethod
@@ -110,7 +100,11 @@ class Source(ABC):
     @property
     @abstractmethod
     def scope(self) -> Optional[Scope]:
-        """Type of resource and/or extent of the source."""
+        """
+        Type of resource and/or extent of the source.
+
+        MANDATORY: if `description` is `None`.
+        """
 
     @property
     @abstractmethod
@@ -277,7 +271,7 @@ class ProcessStepReport(ABC):
 
 class ProcessStep(ABC):
     """
-    Information about an event or transformation in the life of the data set
+    Information about an event or transformation in the life of the dataset
     including details of the algorithm and software used for processing.
     """
 
@@ -336,7 +330,7 @@ class ProcessStep(ABC):
         """
         Comprehensive information about the procedure by which the algorithm
         was applied to derive geographic data from the raw instrument
-        measurements, such as data sets, software used, and the processing
+        measurements, such as datasets, software used, and the processing
         environment.
         """
 
@@ -382,6 +376,8 @@ class Lineage(ABC):
         """
         Information about events in the life of a resource specified by the
         scope.
+
+        MANDATORY: if `statement` and `source` are `None`.
         """
 
     @property
@@ -390,4 +386,6 @@ class Lineage(ABC):
         """
         Information about the source data used in creating the data specified
         by the scope.
+
+        MANDATORY: if `statement` and `process_step` are `None`.
         """

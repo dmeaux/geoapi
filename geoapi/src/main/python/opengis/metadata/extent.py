@@ -25,88 +25,11 @@ __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
+from datetime import datetime
+from typing import Optional
 
 from opengis.metadata.citation import Identifier
-
-
-class GeographicExtent(ABC):
-    """Spatial area of the resource."""
-
-    @property
-    @abstractmethod
-    def extent_type_code(self):
-        """
-        Indication of whether the geographic element encompasses an area
-        covered by the data or an area where data is not present.
-        """
-
-
-class GeographicBoundingBox(GeographicExtent):
-    """
-    Geographic position of the resource. NOTE: This is only an approximate
-    reference so specifying the coordinate reference system is unnecessary and
-    need only be provided with a precision of up to two decimal places.
-    """
-
-    @property
-    @abstractmethod
-    def west_bound_longitude(self) -> float:
-        """
-        Western-most coordinate of the limit of the resource extent, expressed
-        in longitude in decimal degrees (positive east).
-        """
-
-    @property
-    @abstractmethod
-    def east_bound_longitude(self) -> float:
-        """
-        Eastern-most coordinate of the limit of the resource extent, expressed
-        in longitude in decimal degrees (positive east).
-        """
-
-    @property
-    @abstractmethod
-    def south_bound_latitude(self) -> float:
-        """
-        Southern-most coordinate of the limit of the resource extent,
-        expressed in latitude in decimal degrees (positive north).
-        """
-
-    @property
-    @abstractmethod
-    def north_bound_latitude(self) -> float:
-        """
-        Northern-most, coordinate of the limit of the resource extent
-        expressed in latitude in decimal degrees (positive north).
-        """
-
-
-class GeographicDescription(GeographicExtent):
-    """Description of the geographic area using identifiers."""
-
-    @property
-    @abstractmethod
-    def geographic_identifier(self) -> Identifier:
-        """
-        Identifier used to represent a geographic area, e.g., a geographic
-        identifier as described in ISO 19112.
-        """
-
-
-class BoundingPolygon(GeographicExtent):
-    """
-    Enclosing geometric object which locates the resource, expressed as a set
-    of (x,y) coordinate (s). NOTE: If a polygon is used it should be closed
-    (last point replicates first point).
-    """
-
-    @property
-    @abstractmethod
-    def polygon(self):
-        """
-        Sets of points defining the bounding polygon or any other GM_Object
-        geometry (point, line or polygon).
-        """
+from opengis.referencing.crs import ReferenceSystem, VerticalCRS
 
 
 class VerticalExtent(ABC):
@@ -124,10 +47,178 @@ class VerticalExtent(ABC):
 
     @property
     @abstractmethod
-    def vertical_CRS(self):
+    def vertical_crs(self) -> Optional[VerticalCRS]:
+        """
+        Provides information about the vertical coordinate reference system
+        to which the maximum and minimum elevation values are measured.
+
+        Identifies the vertical coordinate reference system used for the
+        minimum and maximum values.
+
+        NOTE: The CRS information includes unit of measure.
+
+        MANDATORY: if vertical_crs_id is `None`.
+        """
+
+    @property
+    @abstractmethod
+    def vertical_crs_id(self) -> Optional[ReferenceSystem]:
         """
         Identifies the vertical coordinate reference system used for the
         minimum and maximum values.
+
+        MANDATORY: if vertical_crs is `None`.
+        """
+
+
+class Extent(ABC):
+    """Extent of the resource."""
+
+    @property
+    @abstractmethod
+    def description(self) -> Optional[str]:
+        """
+        Extent of the referring object.
+
+        Sets of points defining the bounding polygon or any other GM_Object
+        geometry (point, line or polygon).
+
+        MANDATORY: if `geographic_element`, `temproal_element`,
+            and `vertical_element` are `None`.
+        """
+
+    @property
+    @abstractmethod
+    def geographic_element(self) -> Optional[Sequence['GeographicExtent']]:
+        """
+        Provides spatial component of the extent of the referring object.
+
+        MANDATORY: if `description`, `temproal_element`,
+            and `vertical_element` are `None`.
+        """
+
+    @property
+    @abstractmethod
+    def temporal_element(self) -> Optional[Sequence['TemporalExtent']]:
+        """
+        Provides temporal component of the extent of the referring object.
+
+        MANDATORY: if `description`, `geographic_element`,
+            and `vertical_element` are `None`.
+        """
+
+    @property
+    @abstractmethod
+    def vertical_element(self) -> Optional[Sequence[VerticalExtent]]:
+        """
+        Provides vertical component of the extent of the referring object.
+
+        MANDATORY: if `description`, `geographic_element`,
+            and `temporal_element` are `None`.
+        """
+
+
+class GeographicExtent(ABC):
+    """Spatial area of the resource."""
+
+    @property
+    @abstractmethod
+    def extent_type_code(self) -> bool:
+        """
+        Indication of whether the geographic element encompasses an area
+        covered by the data or an area where data is not present.
+
+        Default: `True`
+
+        Domain:
+            `False` = 0 = exclusion
+            `True`  = 1 = inclusion
+        """
+
+
+class BoundingPolygon(GeographicExtent):
+    """
+    Encosing geometric onject which locates the resource, expressed as a set
+    of (x,y) coordinate(s).
+
+    NOTE 1: If a polygon is used it should be closed (i.e. the last point
+    replicates the first point).
+
+    NOTE 2: This type can be used to represent geometries other than polygons,
+    e.g., points, lines.
+    """
+
+    @property
+    @abstractmethod
+    def polygon(self) -> Sequence[GM_Object]:
+        """
+        Sets of points defining the bounding polygon or any other `GM_Object`
+        geometry (point, line, or polygon).
+        """
+
+
+class GeographicBoundingBox(GeographicExtent):
+    """
+    Geographic position of the resource.
+
+    NOTE: This is only an approximate reference so specifying the coordinate
+    reference system is unnecessary and need only be provided with a precision
+    of up to two decimal places.
+    """
+
+    @property
+    @abstractmethod
+    def west_bound_longitude(self) -> float:
+        """
+        Western-most coordinate of the limit of the resource extent, expressed
+        in longitude in decimal degrees (positive east).
+
+        Domain: -180.0 <= West Bounding Logitude Value <= 180.0
+        """
+
+    @property
+    @abstractmethod
+    def east_bound_longitude(self) -> float:
+        """
+        Eastern-most coordinate of the limit of the resource extent, expressed
+        in longitude in decimal degrees (positive east).
+
+        Domain: -180.0 <= East Bounding Logitude Value <= 180.0
+        """
+
+    @property
+    @abstractmethod
+    def south_bound_latitude(self) -> float:
+        """
+        Southern-most coordinate of the limit of the resource extent,
+        expressed in latitude in decimal degrees (positive north).
+
+        Domain: -90.0 <= South Bounding Latitude Value <= 90.0;
+            South Bouding Latitude Value <= North Bounding Latitude Value
+        """
+
+    @property
+    @abstractmethod
+    def north_bound_latitude(self) -> float:
+        """
+        Northern-most, coordinate of the limit of the resource extent
+        expressed in latitude in decimal degrees (positive north).
+
+        Domain: -90.0 <= North Bounding Latitude Value <= 90.0;
+            North Bouding Latitude Value >= South Bounding Latitude Value
+        """
+
+
+class GeographicDescription(GeographicExtent):
+    """Description of the geographic area using identifiers."""
+
+    @property
+    @abstractmethod
+    def geographic_identifier(self) -> Identifier:
+        """
+        Identifier used to represent a geographic area.
+
+        NOTE: a geographic identifier as described in ISO 19112.
         """
 
 
@@ -136,8 +227,14 @@ class TemporalExtent(ABC):
 
     @property
     @abstractmethod
-    def extent(self):
-        """Period for the content of the resource."""
+    def extent(self) -> tuple[datetime, datetime]:
+        """
+        Period for the content of the resource.
+
+        Returns a tuple with the first component being the beginning `datetime`
+        of the temporal period and the second component being the end
+        `datetime`.
+        """
 
 
 class SpatialTemporalExtent(TemporalExtent):
@@ -151,31 +248,6 @@ class SpatialTemporalExtent(TemporalExtent):
     @property
     @abstractmethod
     def spatial_extent(self) -> Sequence[GeographicExtent]:
-        """"""
-
-
-class Extent(ABC):
-    """Extent of the resource."""
-
-    @property
-    @abstractmethod
-    def description(self) -> str:
         """
-        Sets of points defining the bounding polygon or any other GM_Object
-        geometry (point, line or polygon).
+        Spatial extent component of a composite spatial and temporal extent.
         """
-
-    @property
-    @abstractmethod
-    def geographic_element(self) -> Sequence[GeographicExtent]:
-        """"""
-
-    @property
-    @abstractmethod
-    def temporal_element(self) -> Sequence[TemporalExtent]:
-        """"""
-
-    @property
-    @abstractmethod
-    def vertical_element(self) -> Sequence[VerticalExtent]:
-        """"""

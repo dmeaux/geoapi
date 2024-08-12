@@ -81,44 +81,6 @@ class PixelOrientationCode(Enum):
     UPPER_LEFT = "upperLeft"
 
 
-class ReferenceSystemTypeCode(Enum):
-    """"""
-
-    COMPOUND_ENGINEERING_PARAMETRIC = "compoundEngineeringParametric"
-    COMPOUND_ENGINEERING_PARAMETRIC_TEMPORAL = \
-        "compoundEngineeringParametricTemporal"
-    COMPOUND_ENGINEERING_TEMPORAL = "compoundEngineeringTemporal"
-    COMPOUND_ENGINEERING_VERTICAL = "compoundEngineeringVertical"
-    COMPOUND_ENGINEERING_VERTICAL_TEMPORAL = \
-        "compoundEngineeringVerticalTemporal"
-    COMPOUND_GEOGRAPHIC2D_PARAMETRIC = "compoundGeographic2DParametric"
-    COMPOUND_GEOGRAPHIC2D_PARAMETRIC_TEMPORAL = \
-        "compoundGeographic2DParametricTemporal"
-    COMPOUND_GEOGRAPHIC2D_TEMPORAL = "compoundGeographic2DTemporal"
-    COMPOUND_GEOGRAPHIC2D_VERTICAL = "compoundGeographic2DVertical"
-    COMPOUND_GEOGRAPHIC2D_VERTICAL_TEMPORAL = \
-        "compoundGeographic2DVerticalTemporal"
-    COMPOUND_GEOGRAPHIC3D_TEMPORAL = "compoundGeographic3DTemporal"
-    COMPOUND_PROJECTED2D_PARAMETRIC = "compoundProjected2DParametric"
-    COMPOUND_PROJECTED2D_PARAMETRIC_TEMPORAL = \
-        "compoundProjected2DParametricTemporal"
-    COMPOUND_PROJECTED_TEMPORAL = "compoundProjectedTemporal"
-    COMPOUND_PROJECTED_VERTICAL = "compoundProjectedVertical"
-    COMPOUND_PROJECTED_VERTICAL_TEMPORAL = "compoundProjectedVerticalTemporal"
-    ENGINEERING = "engineering"
-    ENGINEERING_DESIGN = "engineeringDesign"
-    ENGINEERING_IMAGE = "engineeringImage"
-    GEODETIC_GEOCENTRIC = "geodeticGeocentric"
-    GEODETIC_GEOGRAPHIC_2D = "geodeticGeographic2D"
-    GEODETIC_GEOGRAPHIC_3D = "geodeticGeographic3D"
-    GEOGRAPHIC_IDENTIFIER = "geographicIdentifier"
-    LINEAR = "linear"
-    PARAMETRIC = "parametric"
-    PROJECTED = "projected"
-    TEMPORAL = "temporal"
-    VERTICAL = "vertical"
-
-
 class SpatialRepresentationTypeCode(Enum):
     """Method used to represent geographic information in the resource."""
 
@@ -164,16 +126,17 @@ class Dimension(ABC):
 
     @property
     @abstractmethod
-    def dimension_title(self) -> str:
+    def dimension_title(self) -> Optional[str]:
         """
-        Enhancement/modifier of the dimension name, e.g., for other time
-        dimension 'runtime' or dimensionName = 'column'
-        dimensionTitle = 'Longitude'.
+        Enhancement/modifier of the dimension name, e.g.,
+        for a different time dimension: dimensiont_title = 'runtime'
+        or more a more general case : dimension_name = 'column'
+        dimension_title = 'Longitude'.
         """
 
     @property
     @abstractmethod
-    def dimension_description(self) -> str:
+    def dimension_description(self) -> Optional[str]:
         """Description of the axis."""
 
 
@@ -231,7 +194,8 @@ class GCPCollection(GeolocationInformation):
 
 class GeometricObjects(ABC):
     """
-    Number of objects, listed by geometric object type, used in the dataset.
+    Number of objects, listed by geometric object type, used in the
+    resource/dataset.
     """
 
     @property
@@ -239,15 +203,17 @@ class GeometricObjects(ABC):
     def geometric_object_type(self) -> GeometricObjectTypeCode:
         """
         Name of point or vector objects used to locate zero-, one-, two-,
-        or three-dimensional spatial locations in the dataset.
+        or three-dimensional spatial locations in the resource/dataset.
         """
 
     @property
     @abstractmethod
-    def geometric_object_count(self) -> int:
+    def geometric_object_count(self) -> Optional[int]:
         """
         Total number of the point or vector object type occurring in the
-        dataset.
+        resource/dataset.
+
+        Domain: > 0
         """
 
 
@@ -315,7 +281,7 @@ class Georectified(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def check_point_availability(self):
+    def check_point_availability(self) -> bool:
         """
         Indication of whether or not geographic position points are available
         to test the accuracy of the georeferenced grid data.
@@ -327,6 +293,8 @@ class Georectified(GridSpatialRepresentation):
         """
         Description of geographic position points used to test the accuracy of
         the georeferenced grid data.
+
+        MANDATORY: if `check_point_availability` == `True`.
         """
 
     @property

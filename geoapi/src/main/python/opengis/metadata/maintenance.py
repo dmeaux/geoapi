@@ -92,40 +92,71 @@ class ScopeDescription(ABC):
 
     @property
     @abstractmethod
-    def attributes(self) -> Sequence[str]:
-        """Instances of attribute types to which the information applies."""
+    def attributes(self) -> Optional[Sequence[str]]:
+        """
+        Instances of attribute types to which the information applies.
+
+        MANDATORY: if `features`, `feature_instances`, `attribute_instances`,
+            `dataset`, and `other` are `None`.
+        """
 
     @property
     @abstractmethod
-    def features(self) -> Sequence[str]:
-        """Instances of feature types to which the information applies."""
+    def features(self) -> Optional[Sequence[str]]:
+        """
+        Instances of feature types to which the information applies.
+
+        MANDATORY: if `attributes`, `feature_instances`, `attribute_instances`,
+            `dataset`, and `other` are `None`.
+        """
 
     @property
     @abstractmethod
-    def feature_instances(self) -> Sequence[str]:
-        """Feature instances to which the information applies."""
+    def feature_instances(self) -> Optional[Sequence[str]]:
+        """
+        Feature instances to which the information applies.
+
+        MANDATORY: if `attributes`, `features`, `attribute_instances`,
+            `dataset`, and `other` are `None`.
+        """
 
     @property
     @abstractmethod
-    def attribute_instances(self) -> Sequence[str]:
-        """Attribute instances to which the information applies."""
+    def attribute_instances(self) -> Optional[Sequence[str]]:
+        """
+        Attribute instances to which the information applies.
+
+        MANDATORY: if `attributes`, `features`, `feature_instances`,
+            `dataset`, and `other` are `None`.
+        """
 
     @property
     @abstractmethod
-    def dataset(self) -> str:
-        """Dataset to which the information applies."""
+    def dataset(self) -> Optional[str]:
+        """
+        Dataset to which the information applies.
+
+        MANDATORY: if `attributes`, `features`, `feature_instances`,
+            `attribute_instances`, and `other` are `None`.
+        """
 
     @property
     @abstractmethod
-    def other(self) -> str:
+    def other(self) -> Optional[str]:
         """
         Class of information that does not fall into the other categories to
         which the information applies.
+
+        MANDATORY: if `attributes`, `features`, `feature_instances`,
+            `attribute_instances`, and `dataset` are `None`.
         """
 
 
 class Scope(ABC):
-    """Information about the scope of the resource."""
+    """
+    The target resource and physical extent for which information is reported.
+    Information about the scope of the resource.
+    """
 
     @property
     @abstractmethod
@@ -134,13 +165,18 @@ class Scope(ABC):
 
     @property
     @abstractmethod
-    def extent(self) -> Sequence[Extent]:
-        """"""
+    def extent(self) -> Optional[Sequence[Extent]]:
+        """
+        Information about the horizontal, vertical, and temporal extent of
+        the specified resource.
+        """
 
     @property
     @abstractmethod
-    def level_description(self) -> Sequence[ScopeDescription]:
-        """"""
+    def level_description(self) -> Optional[Sequence[ScopeDescription]]:
+        """
+        Detailed information/listing of the items specified by the level.
+        """
 
 
 class MaintenanceInformation(ABC):
@@ -154,6 +190,8 @@ class MaintenanceInformation(ABC):
         """
         Frequency with which changes and additions are made to the resource
         after the initial resource is completed.
+
+        MANDATORY: if `user_defined_maintenance_frequency` is `None`.
         """
 
     @property
@@ -164,7 +202,11 @@ class MaintenanceInformation(ABC):
     @property
     @abstractmethod
     def user_defined_maintenance_frequency(self) -> Optional[timedelta]:
-        """Maintenance period other than those defined."""
+        """
+        Maintenance period other than those defined.
+
+        MANDATORY: if `user_defined_maintenance_frequency` is `None`.
+        """
 
     @property
     @abstractmethod

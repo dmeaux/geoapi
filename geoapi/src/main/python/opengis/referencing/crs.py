@@ -23,8 +23,10 @@ referencing systems derived from the ISO 19111 international standard.
 
 __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from collections.abc import Sequence
+from enum import Enum
+from typing import Optional
 
 from opengis.referencing.cs import (
     CartesianCS,
@@ -37,14 +39,52 @@ from opengis.referencing.datum import (
     Datum,
     EngineeringDatum,
     GeodeticDatum,
-    IdentifiedObject,
     TemporalDatum,
     VerticalDatum,
 )
 from opengis.metadata.extent import Extent
+from opengis.metadata.identification import Identifier
 
 
-class ReferenceSystem(IdentifiedObject):
+class ReferenceSystemTypeCode(Enum):
+    """"""
+
+    COMPOUND_ENGINEERING_PARAMETRIC = "compoundEngineeringParametric"
+    COMPOUND_ENGINEERING_PARAMETRIC_TEMPORAL = \
+        "compoundEngineeringParametricTemporal"
+    COMPOUND_ENGINEERING_TEMPORAL = "compoundEngineeringTemporal"
+    COMPOUND_ENGINEERING_VERTICAL = "compoundEngineeringVertical"
+    COMPOUND_ENGINEERING_VERTICAL_TEMPORAL = \
+        "compoundEngineeringVerticalTemporal"
+    COMPOUND_GEOGRAPHIC2D_PARAMETRIC = "compoundGeographic2DParametric"
+    COMPOUND_GEOGRAPHIC2D_PARAMETRIC_TEMPORAL = \
+        "compoundGeographic2DParametricTemporal"
+    COMPOUND_GEOGRAPHIC2D_TEMPORAL = "compoundGeographic2DTemporal"
+    COMPOUND_GEOGRAPHIC2D_VERTICAL = "compoundGeographic2DVertical"
+    COMPOUND_GEOGRAPHIC2D_VERTICAL_TEMPORAL = \
+        "compoundGeographic2DVerticalTemporal"
+    COMPOUND_GEOGRAPHIC3D_TEMPORAL = "compoundGeographic3DTemporal"
+    COMPOUND_PROJECTED2D_PARAMETRIC = "compoundProjected2DParametric"
+    COMPOUND_PROJECTED2D_PARAMETRIC_TEMPORAL = \
+        "compoundProjected2DParametricTemporal"
+    COMPOUND_PROJECTED_TEMPORAL = "compoundProjectedTemporal"
+    COMPOUND_PROJECTED_VERTICAL = "compoundProjectedVertical"
+    COMPOUND_PROJECTED_VERTICAL_TEMPORAL = "compoundProjectedVerticalTemporal"
+    ENGINEERING = "engineering"
+    ENGINEERING_DESIGN = "engineeringDesign"
+    ENGINEERING_IMAGE = "engineeringImage"
+    GEODETIC_GEOCENTRIC = "geodeticGeocentric"
+    GEODETIC_GEOGRAPHIC_2D = "geodeticGeographic2D"
+    GEODETIC_GEOGRAPHIC_3D = "geodeticGeographic3D"
+    GEOGRAPHIC_IDENTIFIER = "geographicIdentifier"
+    LINEAR = "linear"
+    PARAMETRIC = "parametric"
+    PROJECTED = "projected"
+    TEMPORAL = "temporal"
+    VERTICAL = "vertical"
+
+
+class ReferenceSystem(ABC):
     """
     Description of a spatial and temporal reference system used by a dataset.
     """
@@ -69,6 +109,30 @@ class ReferenceSystem(IdentifiedObject):
 
         :return: The domain of usage, or null if none.
         :rtype: str
+        """
+
+    # MD_ReferenceSystem properties
+    @property
+    @abstractmethod
+    def reference_system_identifier(self) -> Optional[Identifier]:
+        """
+        Identifier and codespace for reference system.
+
+        NOTE: Refer to to SC_CRS in ISO 19111 and ISO 19111-2 when coordinate
+        reference system information is not given through reference system
+        identifier.
+
+        Example: EPSG::4326
+        """
+
+    @property
+    @abstractmethod
+    def reference_system_type(self) -> Optional[ReferenceSystemTypeCode]:
+        """
+        Type of reference system used.
+
+        Example: `COMPOUND_GEOGRAPHIC2D_PARAMETRIC`
+        (compoundGeographic2D-Parametric)
         """
 
 

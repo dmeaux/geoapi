@@ -26,6 +26,7 @@ __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from enum import Enum
+from typing import Optional
 
 from opengis.metadata.citation import Citation, OnlineResource, Responsibility
 
@@ -79,22 +80,22 @@ class ApplicationSchemaInformation(ABC):
 
     @property
     @abstractmethod
-    def schema_ascii(self) -> str:
+    def schema_ascii(self) -> Optional[str]:
         """Full application schema given as an ASCII file."""
 
     @property
     @abstractmethod
-    def graphics_file(self) -> OnlineResource:
+    def graphics_file(self) -> Optional[OnlineResource]:
         """Full application schema given as a graphics file."""
 
     @property
     @abstractmethod
-    def software_development_file(self) -> OnlineResource:
+    def software_development_file(self) -> Optional[OnlineResource]:
         """Full application schema given as a software development file."""
 
     @property
     @abstractmethod
-    def software_development_file_format(self) -> str:
+    def software_development_file_format(self) -> Optional[str]:
         """
         Software dependent format used for the application schema software
         dependent file.
@@ -109,8 +110,13 @@ class ExtendedElementInformation(ABC):
 
     @property
     @abstractmethod
-    def name(self) -> str:
-        """Name of the extended metadata element."""
+    def name(self) -> Optional[str]:
+        """
+        Name of the extended metadata element.
+
+        MANDATORY: if `data_type` != CODE_LIST and `datatype` != ENUMERATION
+            and `data_type` != CODE_LIST_ELEMENT.
+        """
 
     @property
     @abstractmethod
@@ -119,13 +125,22 @@ class ExtendedElementInformation(ABC):
 
     @property
     @abstractmethod
-    def obligation(self) -> ObligationCode:
-        """Obligation of the extended element."""
+    def obligation(self) -> Optional[ObligationCode]:
+        """
+        Obligation of the extended element.
+
+        MANDATORY: if `data_type` != CODE_LIST and `datatype` != ENUMERATION
+            and `data_type` != CODE_LIST_ELEMENT.
+        """
 
     @property
     @abstractmethod
-    def condition(self) -> str:
-        """Condition under which the extended element is mandatory."""
+    def condition(self) -> Optional[str]:
+        """
+        Condition under which the extended element is mandatory.
+        
+        MANDATORY: if `obligation` == .
+        """
 
     @property
     @abstractmethod
@@ -137,13 +152,23 @@ class ExtendedElementInformation(ABC):
 
     @property
     @abstractmethod
-    def maximum_occurrence(self) -> int:
-        """Maximum occurrence of the extended element."""
+    def maximum_occurrence(self) -> Optional[int]:
+        """
+        Maximum occurrence of the extended element.
+
+        MANDATORY: if `data_type` != CODE_LIST and `datatype` != ENUMERATION
+            and `data_type` != CODE_LIST_ELEMENT.
+        """
 
     @property
     @abstractmethod
-    def domain_value(self) -> str:
-        """Valid values that can be assigned to the extended element."""
+    def domain_value(self) -> Optional[str]:
+        """
+        Valid values that can be assigned to the extended element.
+
+        MANDATORY: if `data_type` != CODE_LIST and `datatype` != ENUMERATION
+            and `data_type` != CODE_LIST_ELEMENT.
+        """
 
     @property
     @abstractmethod
@@ -164,7 +189,7 @@ class ExtendedElementInformation(ABC):
 
     @property
     @abstractmethod
-    def rationale(self) -> str:
+    def rationale(self) -> Optional[str]:
         """Reason for creating the extended element."""
 
     @property
@@ -172,17 +197,38 @@ class ExtendedElementInformation(ABC):
     def source(self) -> Sequence[Responsibility]:
         """Name of the person or organisation creating the extended element."""
 
+    @property
+    @abstractmethod
+    def concept_name(self) -> Optional[str]:
+        """
+        The name of the item.
+
+        MANDATORY: if `data_type` != CODE_LIST and `datatype` != ENUMERATION
+            and `data_type` != CODE_LIST_ELEMENT.
+        """
+
+    @property
+    @abstractmethod
+    def code(self) -> Optional[str]:
+        """Language neutral identifier.
+
+        MANDATORY: if `data_type` != CODE_LIST and `datatype` != ENUMERATION
+            and `data_type` != CODE_LIST_ELEMENT.
+        """
+
 
 class MetadataExtensionInformation(ABC):
     """Information describing metadata extensions."""
 
     @property
     @abstractmethod
-    def extension_on_line_resource(self) -> OnlineResource:
+    def extension_on_line_resource(self) -> Optional[OnlineResource]:
         """
         Information about on-line sources containing the community profile
-        name and the extended metadata elements. Information for all new
-        metadata elements.
+        name and the extended metadata elements and information for all new
+        metadata elements about on-line sources containing the community
+        profile name, the extended metadata elements and information about all
+        new metadata elements.
         """
 
     @property
@@ -190,4 +236,7 @@ class MetadataExtensionInformation(ABC):
     def extended_element_information(self) -> Sequence[
         ExtendedElementInformation
     ]:
-        """"""
+        """
+        Provides information about a new metadata element, not found
+        in ISO 19115, which is required to describe the resource.
+        """
