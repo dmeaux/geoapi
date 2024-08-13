@@ -41,10 +41,10 @@
     - [x] metadata.naming.TypeName
     - [x] metadata.naming.MemberName
 - [ ] `PT_Locale`
-    - [ ] Webscrape ISO 639-2 codes and store as JSON file
-        - [ ] Convert JSON to immutable data type in python
+    - [x] Webscrape ISO 639-2 codes and store as JSON file
+        - [ ] Convert JSON to python source file with immutable data type 
     - [ ] Webscrape ISO 3166-1 country codes and store as JSON file
-        - [ ] Convert JSON to immutable data type in python
+        - [ ] Convert JSON to python source file with immutable data type 
     - [ ] `metadata.InstrumentEventList.locale`
     - [ ] `metadata.base.Metadata`
         - [ ] default_locale
