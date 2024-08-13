@@ -9,7 +9,7 @@
 - [ ] 19112
 - [ ] 19115
 - [ ] **19115-1:2014**
-    - ***Start on Table B.7.1*** then continue with addendums.
+    - ***Start on Table B.18.1*** (PT_Locale related) then continue with addendums.
     - [ ] 19115-1 A1 (2018)
     - [ ] 19115-1 A2 (2020)
     - metadata.lineage
@@ -42,9 +42,9 @@
     - [x] metadata.naming.MemberName
 - [ ] `PT_Locale`
     - [x] Webscrape ISO 639-2 codes and store as JSON file
-        - [ ] Convert JSON to python source file with immutable data type 
-    - [ ] Webscrape ISO 3166-1 country codes and store as JSON file
-        - [ ] Convert JSON to python source file with immutable data type 
+        - [ ] ***Convert JSON to python source file with immutable data type ***
+    - [ ] ***Webscrape ISO 3166-1 country codes and store as JSON file***
+        - [ ] ***Convert JSON to python source file with immutable data type ***
     - [ ] `metadata.InstrumentEventList.locale`
     - [ ] `metadata.base.Metadata`
         - [ ] default_locale
