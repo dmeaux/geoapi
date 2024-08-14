@@ -22,4 +22,3 @@ text or a character string.
 """
 
 __author__ = "David Meaux (Geomatys)"
-

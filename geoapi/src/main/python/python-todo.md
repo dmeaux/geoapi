@@ -43,10 +43,13 @@
 - [ ] `PT_Locale`
     - [x] Webscrape ISO 639-2 codes and store as JSON file (part of Joekulsarlon project)
         - [x] Fix Static type checking errors.
-        - [x] Change process to save to parquet instead of JSON.
+        - [x] Change process to save to parquet and JSON.
         - [x] Double-check parquet file for custom metadata, which is stored in the schema's metadata
-    - [ ] Webscrape ISO 3166-1 country codes and store in parquet file (part of Joekulsarlon project)
-    - [ ] Webscrape IANA Character Sets and stare in parquet file (part of Joekulsarlon project)
+        - [x] Convert JSON to Python Enum
+    - [ ] Webscrape ISO 3166-1 country codes and store in JSON and parquet files (part of Joekulsarlon project)
+        - [ ] convert JSON to Python Enum
+    - [ ] Webscrape IANA Character Sets and store in parquet file (part of Joekulsarlon project)
+        - [ ] Convert JSON to Python Enum
     - [ ] `metadata.InstrumentEventList.locale`
     - [ ] `metadata.base.Metadata`
         - [ ] default_locale
