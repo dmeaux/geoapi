@@ -30,7 +30,7 @@
 - [ ] Filter
 - [ ] Moving Feature
 
-## OOP branch
+## Library of Enums and Abstract Classes
 - [x] Conform to PEP8; reflect ISO inheritance patterns
 - [x] Abstract method return types
     - [x] pass
@@ -41,10 +41,12 @@
     - [x] metadata.naming.TypeName
     - [x] metadata.naming.MemberName
 - [ ] `PT_Locale`
-    - [x] Webscrape ISO 639-2 codes and store as JSON file
-        - [ ] ***Convert JSON to python source file with immutable data type ***
-    - [ ] ***Webscrape ISO 3166-1 country codes and store as JSON file***
-        - [ ] ***Convert JSON to python source file with immutable data type ***
+    - [x] Webscrape ISO 639-2 codes and store as JSON file (part of Joekulsarlon project)
+        - [x] Fix Static type checking errors.
+        - [x] Change process to save to parquet instead of JSON.
+        - [x] Double-check parquet file for custom metadata, which is stored in the schema's metadata
+    - [ ] Webscrape ISO 3166-1 country codes and store in parquet file (part of Joekulsarlon project)
+    - [ ] Webscrape IANA Character Sets and stare in parquet file (part of Joekulsarlon project)
     - [ ] `metadata.InstrumentEventList.locale`
     - [ ] `metadata.base.Metadata`
         - [ ] default_locale
