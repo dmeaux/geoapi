@@ -18,7 +18,8 @@
 """This is the representation module.
 
 This module contains geographic metadata structures regarding representation
-derived from the ISO 19115-1:2014 international standard.
+derived from the ISO 19115-1:2014 and ISO 19115-2:2019 international
+standards.
 """
 
 __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"

@@ -18,7 +18,7 @@
 """This is the acquisition module.
 
 This subpackage contains geographic metadata structures regarding data
-acquisition that are derived from the ISO 19115-1:2014 international
+acquisition that are derived from the ISO 19115-2:2019 international
 standard.
 """
 
