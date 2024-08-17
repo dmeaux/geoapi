@@ -15,6 +15,9 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
+
+# author: David Meaux
+
 """This is the extension module.
 
 This module contains geographic metadata structures for metadata elements that
@@ -25,7 +28,7 @@ from opengis.metadata.citation import Citation, OnlineResource, Responsibility
 
 
 struct DatatypeCode():
-    alias CLASS = "class"
+    alias trait = "class"
     alias CODE_LIST = "codelist"
     alias ENUMERATION = "enumeration"
     alias CODE_LIST_ELEMENT = "codelistElement"

@@ -15,6 +15,9 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
+
+# author: David Meaux
+
 """This is the operation module.
 
 This module contains geographic metadata structures regarding referencing
@@ -147,7 +150,7 @@ trait PassThroughOperation(SingleOperation):
         """
         ...
 
-    fn modified_coordinates(self) -> Sequence[int]:
+    fn modified_coordinates(self) -> Sequence[Int]:
         """
         Ordered sequence of positive integers defining the positions in a coordinate tuple of the coordinates affected
         by this pass-through operation.

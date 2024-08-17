@@ -15,6 +15,9 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
+
+# author: David Meaux
+
 """This is the citation module.
 
 This module contains geographic metadata structures regarding metadata
@@ -220,15 +223,15 @@ trait OnlineResourceCollectionElement(CollectionElement, OnlineResource):
 trait Contact():
     """Information required to enable contact with the responsible person and/or organisation."""
 
-    fn phone[T:TelephoneCollectionElement](self) -> Tuple[T]:
+    fn phone[ElementType:TelephoneCollectionElement](self) -> Tuple[ElementType]:
         """Telephone numbers at which the organisation or individual may be contacted."""
         ...
 
-    fn address[T:AddressCollectionElement](self) -> Tuple[T]:
+    fn address[ElementType:AddressCollectionElement](self) -> Tuple[ElementType]:
         """Physical and email address at which the organisation or individual may be contacted."""
         ...
 
-    fn online_resource[T:OnlineResourceCollectionElement](self) -> Tuple[T]:
+    fn online_resource[ElementType:OnlineResourceCollectionElement](self) -> Tuple[ElementType]:
         """On-line information that can be used to contact the individual or organisation."""
         ...
 
@@ -258,11 +261,11 @@ trait Party():
         """Name of the party."""
         ...
 
-    fn contact_info[T:ContactCollectionElement](self) -> Tuple[T]:
+    fn contact_info[ElementType:ContactCollectionElement](self) -> Tuple[ElementType]:
         """Contact information for the party."""
         ...
 
-    fn party_identifier[T: IdentifierCollectionElement](self) -> Tuple[T]:
+    fn party_identifier[ElementType: IdentifierCollectionElement](self) -> Tuple[ElementType]:
         """Identifier of the party."""
         ...
 
@@ -281,11 +284,11 @@ trait Responsibility():
         """Function performed by the responsible party."""
         ...
 
-    fn extent[T: ExtentCollectionElement](self) -> Tuple[T]:
+    fn extent[ElementType: ExtentCollectionElement](self) -> Tuple[ElementType]:
         """Spatial or temporal extent of the role."""
         ...
 
-    fn party[T: PartyCollectionElement](self) -> Tuple[T]:
+    fn party[ElementType: PartyCollectionElement](self) -> Tuple[ElementType]:
         ...
 
 
@@ -318,7 +321,7 @@ trait Organisation(Party):
         """Graphic identifying organization."""
         ...
 
-    fn individual[T: IndividualCollectionElement](self) -> Tuple[T]:
+    fn individual[ElementType: IndividualCollectionElement](self) -> Tuple[ElementType]:
         ...
 
 
@@ -357,15 +360,15 @@ trait Citation():
         """Date of the edition."""
         ...
 
-    fn identifier[T: IdentifierCollectionElement](self) -> Tuple[T]:
+    fn identifier[ElementType: IdentifierCollectionElement](self) -> Tuple[ElementType]:
         """Value uniquely identifying an object within a namespace."""
         ...
 
-    fn cited_responsible_party[T: RepresentableCollectionElement](self) -> Tuple[T]:
+    fn cited_responsible_party[ElementType: RepresentableCollectionElement](self) -> Tuple[ElementType]:
         """Name and position information for an individual or organisation that is responsible for the resource."""
         ...
 
-    fn presentation_form[T: PresentationFormCode](self) -> Tuple[T]:
+    fn presentation_form[ElementType: PresentationFormCode](self) -> Tuple[ElementType]:
         """Mode in which the resource is represented."""
         ...
 
@@ -385,7 +388,7 @@ trait Citation():
         """International Standard Serial Number."""
         ...
 
-    fn online_resource[T: OnlineResourceCollectionElement](self) -> Tuple[T]:
+    fn online_resource[ElementType: OnlineResourceCollectionElement](self) -> Tuple[ElementType]:
         """Online reference to the cited resource."""
         ...
 
