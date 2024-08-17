@@ -251,7 +251,7 @@ trait Georectified(GridSpatialRepresentation):
     the grid origin, cell spacing, and orientation.
     """
 
-    fn check_point_availability(self) -> bool:
+    fn check_point_availability(self) -> Bool:
         """
         Indication of whether or not geographic position points are available
         to test the accuracy of the georeferenced grid data.
@@ -321,11 +321,11 @@ trait Georeferenceable(GridSpatialRepresentation):
     the geographic or map location of the raster points to be located.
     """
 
-    fn control_point_availability(self) -> bool:
+    fn control_point_availability(self) -> Bool:
         """Indication of whether or not control point(s) exists."""
         ...
 
-    fn orientation_parameter_availability(self) -> bool:
+    fn orientation_parameter_availability(self) -> Bool:
         """
         Indication of whether or not orientation parameters are available.
         """
