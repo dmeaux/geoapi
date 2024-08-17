@@ -18,8 +18,9 @@
 """This is the lineage module.
 
 This module contains geographic metadata structures derived from the
-ISO 19115-1:2014 international standard regarding the lineage of the data,
-that is how the data has changed and the sources from which it is derived.
+ISO 19115-1:2014 and ISO 19115-2:2019 international standards regarding
+the lineage of the data, that is how the data has changed and the sources
+from which it is derived.
 """
 
 __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
