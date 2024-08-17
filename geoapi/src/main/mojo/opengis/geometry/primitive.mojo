@@ -26,7 +26,7 @@ the ISO 19107 international standard.
 from opengis.referencing.crs import CoordinateReferenceSystem
 
 
-trait DirectPosition():
+trait DirectPosition:
     """Holds the coordinates for a position within some coordinate reference
     system.
     """
@@ -34,7 +34,7 @@ trait DirectPosition():
     # ===-------------------------------------------------------------------===#
     # Abstract Methods
     # ===-------------------------------------------------------------------===#
-    
+
     fn coordinate_reference_system(self) -> CoordinateReferenceSystem:
         """The coordinate reference system in which the coordinate tuple
         is given."""

@@ -36,7 +36,8 @@ from opengis.metadata.citation import (
 from opengis.metadata.identification import Resolution
 from opengis.metadata.maintenance import Scope
 
-trait NominalResolution():
+
+trait NominalResolution:
     """Distance between adjacent pixels."""
 
     fn scanning_resolution(self) -> Float64:
@@ -48,7 +49,7 @@ trait NominalResolution():
         ...
 
 
-trait Source():
+trait Source:
     """Information about the source resource used in creating the data specified
     by the scope.
     """
@@ -58,7 +59,7 @@ trait Source():
         ...
 
     fn source_spatial_resolution(self) -> Resolution:
-        """Level of detail expressed as a scale factor, a distance or an 
+        """Level of detail expressed as a scale factor, a distance or an
         angle.
         """
         ...
@@ -72,7 +73,9 @@ trait Source():
         """Recommended reference to be used for the source resource."""
         ...
 
-    fn source_metadata[ElementType: CitationCollectionElement](self) -> Tuple[ElementType]:
+    fn source_metadata[
+        ElementType: CitationCollectionElement
+    ](self) -> Tuple[ElementType]:
         """Identifier and link to source metadata."""
         ...
 
@@ -80,7 +83,9 @@ trait Source():
         """Type of resource and/or extent of the source."""
         ...
 
-    fn source_step[ElementType: ProcessStepCollectionElement](self) -> Tuple[ElementType]:
+    fn source_step[
+        ElementType: ProcessStepCollectionElement
+    ](self) -> Tuple[ElementType]:
         """Information about process steps in which this source was used."""
         ...
 
@@ -97,11 +102,13 @@ trait SourceCollectionElement(CollectionElement, Source):
     """
     Abstract collection element conforming to the Source trait.
     """
+
     ...
 
 
-trait Algorithm():
-    """Details of the methodology by which geographic information was derived from the instrument readings."""
+trait Algorithm:
+    """Details of the methodology by which geographic information was derived from the instrument readings.
+    """
 
     fn citation(self) -> Citation:
         """Information identifying the algorithm and version or date."""
@@ -116,20 +123,27 @@ trait AlgorithmCollectionElement(CollectionElement, Algorithm):
     """
     Abstract collection element conforming to the Algorithm trait.
     """
+
     ...
 
 
-trait Processing():
-    """Comprehensive information about the procedure(s), process(es) and algorithm(s) applied in the process step."""
+trait Processing:
+    """Comprehensive information about the procedure(s), process(es) and algorithm(s) applied in the process step.
+    """
 
-    fn algorithm[ElementType: AlgorithmCollectionElement](self) -> Tuple[ElementType]:
+    fn algorithm[
+        ElementType: AlgorithmCollectionElement
+    ](self) -> Tuple[ElementType]:
         ...
 
     fn identifier(self) -> Identifier:
-        """Information to identify the processing package that produced the data."""
+        """Information to identify the processing package that produced the data.
+        """
         ...
 
-    fn software_reference[ElementType: CitationCollectionElement](self) -> Tuple[ElementType]:
+    fn software_reference[
+        ElementType: CitationCollectionElement
+    ](self) -> Tuple[ElementType]:
         """Reference to document describing processing software."""
         ...
 
@@ -137,16 +151,19 @@ trait Processing():
         """Additional details about the processing procedures."""
         ...
 
-    fn documentation[ElementType: CitationCollectionElement](self) -> Tuple[ElementType]:
+    fn documentation[
+        ElementType: CitationCollectionElement
+    ](self) -> Tuple[ElementType]:
         """Reference to documentation describing the processing."""
         ...
 
     fn run_time_parameters(self) -> String:
-        """Parameters to control the processing operations, entered at run time."""
+        """Parameters to control the processing operations, entered at run time.
+        """
         ...
 
 
-trait ProcessStepReport():
+trait ProcessStepReport:
     """Report of what occurred during the process step."""
 
     fn name(self) -> String:
@@ -166,14 +183,17 @@ trait ProcessStepReportCollectionElement(CollectionElement, ProcessStepReport):
     """
     Abstract collection element conforming to the ProcessStepReport trait.
     """
+
     ...
 
 
-trait ProcessStep():
-    """Information about an event or transformation in the life of a resource including the process used to maintain the resource."""
+trait ProcessStep:
+    """Information about an event or transformation in the life of a resource including the process used to maintain the resource.
+    """
 
     fn description(self) -> String:
-        """Description of the event, including related parameters or tolerances."""
+        """Description of the event, including related parameters or tolerances.
+        """
         ...
 
     fn rationale(self) -> String:
@@ -184,11 +204,16 @@ trait ProcessStep():
         """Date, time, range or period of process step."""
         ...
 
-    fn processor[ElementType: ResponsibilityCollectionElement](self) -> Tuple[ElementType]:
-        """Identification of, and means of communication with, person(s) and organisation(s) associated with the process step."""
+    fn processor[
+        ElementType: ResponsibilityCollectionElement
+    ](self) -> Tuple[ElementType]:
+        """Identification of, and means of communication with, person(s) and organisation(s) associated with the process step.
+        """
         ...
 
-    fn reference[ElementType: CitationCollectionElement](self) -> Tuple[ElementType]:
+    fn reference[
+        ElementType: CitationCollectionElement
+    ](self) -> Tuple[ElementType]:
         """Process step documentation."""
         ...
 
@@ -202,7 +227,9 @@ trait ProcessStep():
     fn processing_information(self) -> Processing:
         ...
 
-    fn report[ElementType: ProcessStepReportCollectionElement](self) -> Tuple[ElementType]:
+    fn report[
+        ElementType: ProcessStepReportCollectionElement
+    ](self) -> Tuple[ElementType]:
         ...
 
     fn output[ElementType: SourceCollectionElement](self) -> Tuple[ElementType]:
@@ -213,25 +240,33 @@ trait ProcessStepCollectionElement(CollectionElement, ProcessStep):
     """
     Abstract collection element conforming to the ProcessStep trait.
     """
+
     ...
 
 
-trait Lineage():
-    """Information about the events or source data used in constructing the data specified by the scope or lack of knowledge about lineage."""
+trait Lineage:
+    """Information about the events or source data used in constructing the data specified by the scope or lack of knowledge about lineage.
+    """
 
     fn statement(self) -> String:
-        """General explanation of the data producer's knowledge about the lineage of a resource."""
+        """General explanation of the data producer's knowledge about the lineage of a resource.
+        """
         ...
 
     fn scope(self) -> Scope:
-        """Type of resource and/or extent to which the lineage information applies."""
+        """Type of resource and/or extent to which the lineage information applies.
+        """
         ...
 
-    fn additional_documentation[ElementType: CitationCollectionElement](self) -> Tuple[ElementType]:
+    fn additional_documentation[
+        ElementType: CitationCollectionElement
+    ](self) -> Tuple[ElementType]:
         ...
 
     fn source[ElementType: SourceCollectionElement](self) -> Tuple[ElementType]:
         ...
 
-    fn process_step[ElementType: ProcessStepCollectionElement](self) -> Tuple[ElementType]:
+    fn process_step[
+        ElementType: ProcessStepCollectionElement
+    ](self) -> Tuple[ElementType]:
         ...

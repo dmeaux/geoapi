@@ -48,7 +48,7 @@ from opengis.metadata.representation import SpatialRepresentation
 from opengis.referencing.crs import ReferenceSystem
 
 
-trait PortrayalCatalogueReference():
+trait PortrayalCatalogueReference:
     """Information identifying the portrayal catalogue used."""
 
     fn portrayal_catalogue_citation(self) -> Sequence[Citation]:
@@ -56,7 +56,7 @@ trait PortrayalCatalogueReference():
         ...
 
 
-trait MetadataScope():
+trait MetadataScope:
     """Information about the scope of the resource."""
 
     fn resource_scope(self) -> ScopeCode:
@@ -68,7 +68,7 @@ trait MetadataScope():
         ...
 
 
-trait Metadata():
+trait Metadata:
     """Root entity which defines metadata about a resource or resources."""
 
     fn metadata_identifier(self) -> Optional[Identifier]:
@@ -138,9 +138,9 @@ trait Metadata():
         """Online location where the metadata is available."""
         ...
 
-    fn spatial_representation_info(self) -> Optional[Sequence[
-        SpatialRepresentation
-    ]]:
+    fn spatial_representation_info(
+        self,
+    ) -> Optional[Sequence[SpatialRepresentation]]:
         """Digital representation of spatial information in the dataset."""
         ...
 
@@ -163,9 +163,9 @@ trait Metadata():
         """
         ...
 
-    fn metadata_extension_info(self) -> Optional[Sequence[
-        MetadataExtensionInformation
-    ]]:
+    fn metadata_extension_info(
+        self,
+    ) -> Optional[Sequence[MetadataExtensionInformation]]:
         """Information describing metadata extensions."""
         ...
 
@@ -190,9 +190,9 @@ trait Metadata():
         """Overall assessment of quality of a resource(s)."""
         ...
 
-    fn portrayal_catalogue_info(self) -> Optional[Sequence[
-        PortrayalCatalogueReference
-    ]]:
+    fn portrayal_catalogue_info(
+        self,
+    ) -> Optional[Sequence[PortrayalCatalogueReference]]:
         """
         Information about the catalogue of rules defined for the portrayal of
         a resource(s).
@@ -203,9 +203,9 @@ trait Metadata():
         """Restrictions on the access and use of metadata."""
         ...
 
-    fn application_schema_info(self) -> Optional[Sequence[
-        ApplicationSchemaInformation
-    ]]:
+    fn application_schema_info(
+        self,
+    ) -> Optional[Sequence[ApplicationSchemaInformation]]:
         """Information about the conceptual schema of a dataset."""
         ...
 
@@ -231,8 +231,8 @@ trait Metadata():
         """
         ...
 
-    fn acquisition_information(self) -> Optional[
-        Sequence[AcquisitionInformation]
-    ]:
+    fn acquisition_information(
+        self,
+    ) -> Optional[Sequence[AcquisitionInformation]]:
         """Information about the acquisition of the data."""
         ...

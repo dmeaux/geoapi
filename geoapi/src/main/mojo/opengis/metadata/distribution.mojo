@@ -24,10 +24,15 @@ This module contains geographic metadata structures regarding data
 distribution derived from the ISO 19115-1:2014 international standard.
 """
 
-from opengis.metadata.citation import Citation, Identifier, OnlineResource, Responsibility
+from opengis.metadata.citation import (
+    Citation,
+    Identifier,
+    OnlineResource,
+    Responsibility,
+)
 
 
-struct MediumFormatCode():
+struct MediumFormatCode:
     alias CPIO = "cpio"
     alias TAR = "tar"
     alias HIGH_SIERRA = "highSierra"
@@ -37,7 +42,7 @@ struct MediumFormatCode():
     alias UDF = "udf"
 
 
-trait Medium():
+trait Medium:
     """Information about the media on which the resource can be distributed."""
 
     fn name(self) -> Citation:
@@ -61,15 +66,17 @@ trait Medium():
         ...
 
     fn medium_note(self) -> String:
-        """Description of other limitations or requirements for using the medium."""
+        """Description of other limitations or requirements for using the medium.
+        """
         ...
 
     fn identifier(self) -> Identifier:
         ...
 
 
-trait Format():
-    """Description of the computer language construct that specifies the representation of data objects in a record, file, message, storage device or transmission channel."""
+trait Format:
+    """Description of the computer language construct that specifies the representation of data objects in a record, file, message, storage device or transmission channel.
+    """
 
     fn format_specification_citation(self) -> Citation:
         """Citation/URL of the specification for the format."""
@@ -80,21 +87,22 @@ trait Format():
         ...
 
     fn file_decompression_technique(self) -> String:
-        """Recommendations of algorithms or processes that can be applied to read or expand resources to which compression techniques have been applied."""
+        """Recommendations of algorithms or processes that can be applied to read or expand resources to which compression techniques have been applied.
+        """
         ...
 
     fn medium(self) -> Sequence[Medium]:
         """Medium used by the format."""
         ...
 
-    fn format_distributor(self) -> Sequence['Distributor']:
+    fn format_distributor(self) -> Sequence["Distributor"]:
         ...
-
 
 
 from opengis.metadata.naming import GenericName, RecordType, Record
 
-trait DataFile():
+
+trait DataFile:
     """Description of a transfer data file."""
 
     fn file_name(self):
@@ -110,27 +118,33 @@ trait DataFile():
         ...
 
     fn feature_types(self) -> Sequence[GenericName]:
-        """Provides the list of feature types concerned by the transfer data file."""
+        """Provides the list of feature types concerned by the transfer data file.
+        """
         ...
 
 
-trait DigitalTransferOptions():
-    """Technical means and media by which a resource is obtained from the distributor."""
+trait DigitalTransferOptions:
+    """Technical means and media by which a resource is obtained from the distributor.
+    """
 
     fn units_of_distribution(self) -> String:
-        """Tiles, layers, geographic areas, etc., in which data is available. NOTE: unitsOfDistribution applies to both onLine and offLine distributions."""
+        """Tiles, layers, geographic areas, etc., in which data is available. NOTE: unitsOfDistribution applies to both onLine and offLine distributions.
+        """
         ...
 
     fn transfer_size(self) -> Float64:
-        """Estimated size of a unit in the specified transfer format, expressed in megabytes. The transfer size is > 0.0."""
+        """Estimated size of a unit in the specified transfer format, expressed in megabytes. The transfer size is > 0.0.
+        """
         ...
 
     fn on_line(self) -> Sequence[OnlineResource]:
-        """Information about online sources from which the resource can be obtained."""
+        """Information about online sources from which the resource can be obtained.
+        """
         ...
 
     fn off_line(self) -> Sequence[Medium]:
-        """Information about offline media on which the resource can be obtained."""
+        """Information about offline media on which the resource can be obtained.
+        """
         ...
 
     fn transfer_frequency(self):
@@ -142,13 +156,13 @@ trait DigitalTransferOptions():
         ...
 
 
-
-
-trait StandardOrderProcess():
-    """Common ways in which the resource may be obtained or received, and related instructions and fee information."""
+trait StandardOrderProcess:
+    """Common ways in which the resource may be obtained or received, and related instructions and fee information.
+    """
 
     fn fees(self) -> String:
-        """Fees and terms for retrieving the resource. Include monetary units (as specified in ISO 4217)."""
+        """Fees and terms for retrieving the resource. Include monetary units (as specified in ISO 4217).
+        """
         ...
 
     fn planned_available_date_time(self) -> datetime:
@@ -156,7 +170,8 @@ trait StandardOrderProcess():
         ...
 
     fn ordering_instructions(self) -> String:
-        """General instructions, terms and services provided by the distributor."""
+        """General instructions, terms and services provided by the distributor.
+        """
         ...
 
     fn turnaround(self) -> String:
@@ -172,11 +187,12 @@ trait StandardOrderProcess():
         ...
 
 
-trait Distributor():
+trait Distributor:
     """Information about the distributor."""
 
     fn distributor_contact(self) -> Responsibility:
-        """Party from whom the resource may be obtained. This list need not be exhaustive."""
+        """Party from whom the resource may be obtained. This list need not be exhaustive.
+        """
         ...
 
     fn distribution_order_process(self) -> Sequence[StandardOrderProcess]:
@@ -189,8 +205,9 @@ trait Distributor():
         ...
 
 
-trait Distribution():
-    """Information about the distributor of and options for obtaining the resource."""
+trait Distribution:
+    """Information about the distributor of and options for obtaining the resource.
+    """
 
     fn description(self) -> String:
         ...

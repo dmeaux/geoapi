@@ -28,7 +28,7 @@ from opengis.metadata.citation import Responsibility, Citation
 from opengis.metadata.maintenance import Scope
 
 
-struct ClassificationCode():
+struct ClassificationCode:
     alias UNCLASSIFIED = "unclassified"
     alias RESTRICTED = "restricted"
     alias CONFIDENTIAL = "confidential"
@@ -40,7 +40,7 @@ struct ClassificationCode():
     alias LIMITED_DISTRIBUTION = "limitedDistribution"
 
 
-struct RestrictionCode():
+struct RestrictionCode:
     alias COPYRIGHT = "copyright"
     alias PATENT = "patent"
     alias PATENT_PENDING = "patentPending"
@@ -60,8 +60,9 @@ struct RestrictionCode():
     alias IN_CONFIDENCE = "in-confidence"
 
 
-trait Releasability():
-    """State, nation or organization to which resource can be released to e.g. NATO unclassified releasable to PfP."""
+trait Releasability:
+    """State, nation or organization to which resource can be released to e.g. NATO unclassified releasable to PfP.
+    """
 
     fn addressee(self) -> Sequence[Responsibility]:
         """Party responsible for the Release statement."""
@@ -76,15 +77,17 @@ trait Releasability():
         ...
 
 
-trait Constraints():
+trait Constraints:
     """Restrictions on the access and use of a resource or metadata."""
 
     fn use_limitation(self) -> Sequence[String]:
-        """Limitation affecting the fitness for use of the resource or metadata. Example, "not to be used for navigation"."""
+        """Limitation affecting the fitness for use of the resource or metadata. Example, "not to be used for navigation".
+        """
         ...
 
     fn constraint_application_scope(self) -> Scope:
-        """Spatial and temporal extent of the application of the constraint restrictions."""
+        """Spatial and temporal extent of the application of the constraint restrictions.
+        """
         ...
 
     fn graphic(self) -> Sequence[BrowseGraphic]:
@@ -92,11 +95,13 @@ trait Constraints():
         ...
 
     fn reference(self) -> Sequence[Citation]:
-        """Citation/URL for the limitation or constraint, e.g. copyright statement, license agreement, etc."""
+        """Citation/URL for the limitation or constraint, e.g. copyright statement, license agreement, etc.
+        """
         ...
 
     fn releasability(self) -> Releasability:
-        """Information concerning the parties to whom the resource can or cannot be released and the party responsible for determining the releasibility."""
+        """Information concerning the parties to whom the resource can or cannot be released and the party responsible for determining the releasibility.
+        """
         ...
 
     fn responsible_party(self) -> Sequence[Responsibility]:
@@ -105,30 +110,36 @@ trait Constraints():
 
 
 trait LegalConstraints(Constraints):
-    """Restrictions and legal prerequisites for accessing and using the resource or metadata."""
+    """Restrictions and legal prerequisites for accessing and using the resource or metadata.
+    """
 
     fn access_constraints(self) -> Sequence[RestrictionCode]:
-        """Access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata."""
+        """Access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata.
+        """
         ...
 
     fn use_constraints(self) -> Sequence[RestrictionCode]:
-        """Constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations or warnings on using the resource or metadata."""
+        """Constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations or warnings on using the resource or metadata.
+        """
         ...
 
     fn other_constraints(self) -> Sequence[String]:
-        """Other restrictions and legal prerequisites for accessing and using the resource or metadata."""
+        """Other restrictions and legal prerequisites for accessing and using the resource or metadata.
+        """
         ...
 
 
 trait SecurityConstraints(Constraints):
-    """Handling restrictions imposed on the resource or metadata for national security or similar security concerns."""
+    """Handling restrictions imposed on the resource or metadata for national security or similar security concerns.
+    """
 
     fn classification(self) -> ClassificationCode:
         """Name of the handling restrictions on the resource or metadata."""
         ...
 
     fn user_note(self) -> String:
-        """Explanation of the application of the legal constraints or other restrictions and legal prerequisites for obtaining and using the resource or metadata."""
+        """Explanation of the application of the legal constraints or other restrictions and legal prerequisites for obtaining and using the resource or metadata.
+        """
         ...
 
     fn classification_system(self) -> String:
@@ -136,5 +147,6 @@ trait SecurityConstraints(Constraints):
         ...
 
     fn handling_description(self) -> String:
-        """Additional information about the restrictions on handling the resource or metadata."""
+        """Additional information about the restrictions on handling the resource or metadata.
+        """
         ...

@@ -30,13 +30,13 @@ from opengis.metadata.naming import ScopedName, GenericName
 from opengis.metadata.identification import DataIdentification, Identification
 
 
-struct CouplingType():
+struct CouplingType:
     alias LOOSE = "loose"
     alias MIXED = "mixed"
     alias TIGHT = "tight"
 
 
-struct DCPList():
+struct DCPList:
     alias XML = "XML"
     alias CORBA = "CORBA"
     alias JAVA = "JAVA"
@@ -49,29 +49,33 @@ struct DCPList():
     alias WEB_SERVICES = "WebServices"
 
 
-struct ParameterDirection():
+struct ParameterDirection:
     alias IN = "in"
     alias OUT = "out"
     alias IN_OUT = "in/out"
 
 
-trait OperationMetadata():
-    """Describes the signature of one and only one method provided by the service."""
+trait OperationMetadata:
+    """Describes the signature of one and only one method provided by the service.
+    """
 
     fn operation_name(self) -> String:
         """A unique identifier for this interface."""
         ...
 
     fn distributed_computing_platform(self) -> Sequence[DCPList]:
-        """Distributed computing platforms on which the operation has been implemented."""
+        """Distributed computing platforms on which the operation has been implemented.
+        """
         ...
 
     fn operation_description(self) -> String:
-        """Free text description of the intent of the operation and the results of the operation."""
+        """Free text description of the intent of the operation and the results of the operation.
+        """
         ...
 
     fn invocation_name(self) -> String:
-        """The name used to invoke this interface within the context of the DCP. The name is identical for all DCPs."""
+        """The name used to invoke this interface within the context of the DCP. The name is identical for all DCPs.
+        """
         ...
 
     fn connect_point(self) -> Sequence[OnlineResource]:
@@ -83,11 +87,12 @@ trait OperationMetadata():
         ...
 
     fn depends_on(self) -> Sequence[OperationMetadata]:
-        """List of operation that must be completed immediately before current operation is invoked."""
+        """List of operation that must be completed immediately before current operation is invoked.
+        """
         ...
 
 
-trait OperationChainMetadata():
+trait OperationChainMetadata:
     """Operation Chain Information."""
 
     fn name(self) -> String:
@@ -95,18 +100,21 @@ trait OperationChainMetadata():
         ...
 
     fn description(self) -> String:
-        """A narrative explanation of the services in the chain and resulting output."""
+        """A narrative explanation of the services in the chain and resulting output.
+        """
         ...
 
     fn operation(self) -> Sequence[OperationMetadata]:
         ...
 
 
-trait CoupledResource():
-    """Links a given operationName (mandatory attribute of SV_OperationMetadata) with a data set identified by an 'identifier'."""
+trait CoupledResource:
+    """Links a given operationName (mandatory attribute of SV_OperationMetadata) with a data set identified by an 'identifier'.
+    """
 
     fn scoped_name(self) -> ScopedName:
-        """Scoped identifier of the resource in the context of the given service instance. NOTE: name of the resources (i.e. dataset) as it is used by a service instance (e.g. layer name or featureTypeName)."""
+        """Scoped identifier of the resource in the context of the given service instance. NOTE: name of the resources (i.e. dataset) as it is used by a service instance (e.g. layer name or featureTypeName).
+        """
         ...
 
     fn resource_reference(self) -> Sequence[Citation]:
@@ -121,18 +129,22 @@ trait CoupledResource():
 
 
 trait ServiceIdentification(Identification):
-    """Identification of capabilities which a service provider makes available to a service user through a set of interfaces that define a behaviour - See ISO 19119 for further information."""
+    """Identification of capabilities which a service provider makes available to a service user through a set of interfaces that define a behaviour - See ISO 19119 for further information.
+    """
 
     fn service_type(self) -> GenericName:
-        """A service type name, E.G. 'discovery', 'view', 'download', 'transformation', or 'invoke'."""
+        """A service type name, E.G. 'discovery', 'view', 'download', 'transformation', or 'invoke'.
+        """
         ...
 
     fn service_type_version(self) -> Sequence[String]:
-        """Provide for searching based on the version of serviceType. For example, we may only be interested in OGC Catalogue V1.1 services. If version is maintained as a separate attribute, users can easily search for all services of a type regardless of the version."""
+        """Provide for searching based on the version of serviceType. For example, we may only be interested in OGC Catalogue V1.1 services. If version is maintained as a separate attribute, users can easily search for all services of a type regardless of the version.
+        """
         ...
 
     fn access_properties(self) -> StandardOrderProcess:
-        """Information about the availability of the service, including, 'fees' 'planned' 'available date and time' 'ordering instructions' 'turnaround'."""
+        """Information about the availability of the service, including, 'fees' 'planned' 'available date and time' 'ordering instructions' 'turnaround'.
+        """
         ...
 
     fn coupling_type(self) -> CouplingType:
@@ -140,7 +152,8 @@ trait ServiceIdentification(Identification):
         ...
 
     fn coupled_resource(self) -> Sequence[CoupledResource]:
-        """Further description of the data coupling in the case of tightly coupled services."""
+        """Further description of the data coupling in the case of tightly coupled services.
+        """
         ...
 
     fn operated_dataset(self) -> Sequence[Citation]:

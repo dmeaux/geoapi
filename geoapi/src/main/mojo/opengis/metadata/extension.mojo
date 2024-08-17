@@ -27,8 +27,8 @@ are not contained in the ISO 19115-1:2014 international standard.
 from opengis.metadata.citation import Citation, OnlineResource, Responsibility
 
 
-struct DatatypeCode():
-    alias trait = "class"
+struct DatatypeCode:
+    alias CLASS = "class"
     alias CODE_LIST = "codelist"
     alias ENUMERATION = "enumeration"
     alias CODE_LIST_ELEMENT = "codelistElement"
@@ -45,14 +45,14 @@ struct DatatypeCode():
     alias ASSOCIATION = "association"
 
 
-struct ObligationCode():
+struct ObligationCode:
     alias MANDATORY = "mandatory"
     alias OPTIONAL = "optional"
     alias CONDITIONAL = "conditional"
     alias FORBIDDEN = "null"
 
 
-trait ApplicationSchemaInformation():
+trait ApplicationSchemaInformation:
     """Information about the application schema used to build the dataset."""
 
     fn name(self) -> Citation:
@@ -80,12 +80,14 @@ trait ApplicationSchemaInformation():
         ...
 
     fn software_development_file_format(self) -> String:
-        """Software dependent format used for the application schema software dependent file."""
+        """Software dependent format used for the application schema software dependent file.
+        """
         ...
 
 
-trait ExtendedElementInformation():
-    """New metadata element, not found in ISO 19115, which is required to describe geographic data."""
+trait ExtendedElementInformation:
+    """New metadata element, not found in ISO 19115, which is required to describe geographic data.
+    """
 
     fn name(self) -> String:
         """Name of the extended metadata element."""
@@ -104,7 +106,8 @@ trait ExtendedElementInformation():
         ...
 
     fn data_type(self) -> DatatypeCode:
-        """Code which identifies the kind of value provided in the extended element."""
+        """Code which identifies the kind of value provided in the extended element.
+        """
         ...
 
     fn maximum_occurrence(self) -> Int:
@@ -116,11 +119,13 @@ trait ExtendedElementInformation():
         ...
 
     fn parent_entity(self) -> Sequence[String]:
-        """Name of the metadata entity(s) under which this extended metadata element may appear. The name(s) may be standard metadata element(s) or other extended metadata element(s)."""
+        """Name of the metadata entity(s) under which this extended metadata element may appear. The name(s) may be standard metadata element(s) or other extended metadata element(s).
+        """
         ...
 
     fn rule(self) -> String:
-        """Specifies how the extended element relates to other existing elements and entities."""
+        """Specifies how the extended element relates to other existing elements and entities.
+        """
         ...
 
     fn rationale(self) -> String:
@@ -132,12 +137,15 @@ trait ExtendedElementInformation():
         ...
 
 
-trait MetadataExtensionInformation():
+trait MetadataExtensionInformation:
     """Information describing metadata extensions."""
 
     fn extension_on_line_resource(self) -> OnlineResource:
-        """Information about on-line sources containing the community profile name and the extended metadata elements. Information for all new metadata elements."""
+        """Information about on-line sources containing the community profile name and the extended metadata elements. Information for all new metadata elements.
+        """
         ...
 
-    fn extended_element_information(self) -> Sequence[ExtendedElementInformation]:
+    fn extended_element_information(
+        self,
+    ) -> Sequence[ExtendedElementInformation]:
         ...

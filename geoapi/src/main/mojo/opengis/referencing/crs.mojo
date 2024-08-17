@@ -24,10 +24,22 @@ This module contains geographic metadata structures regarding coordinate
 referencing systems derived from the ISO 19111 international standard.
 """
 
-from opengis.referencing.cs \
-    import CoordinateSystem, VerticalCS, TimeCS, AffineCS, CartesianCS, EllipsoidalCS
-from opengis.referencing.datum \
-    import IdentifiedObject, Datum, VerticalDatum, TemporalDatum, EngineeringDatum, GeodeticDatum
+from opengis.referencing.cs import (
+    CoordinateSystem,
+    VerticalCS,
+    TimeCS,
+    AffineCS,
+    CartesianCS,
+    EllipsoidalCS,
+)
+from opengis.referencing.datum import (
+    IdentifiedObject,
+    Datum,
+    VerticalDatum,
+    TemporalDatum,
+    EngineeringDatum,
+    GeodeticDatum,
+)
 from opengis.metadata.extent import Extent
 
 
@@ -53,6 +65,7 @@ trait CoordinateReferenceSystem(ReferenceSystem):
     """
     Abstract coordinate reference system, usually defined by a coordinate system and a datum.
     """
+
     ...
 
 

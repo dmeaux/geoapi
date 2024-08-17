@@ -28,7 +28,7 @@ from opengis.metadata.citation import Citation, Identifier
 from opengis.metadata.naming import GenericName, MemberName, Record, RecordType
 
 
-struct BandDefinition():
+struct BandDefinition:
     """Designation of the criterion for defining wavelengths of a spectral band.
     """
 
@@ -59,7 +59,7 @@ struct BandDefinition():
     """
 
 
-struct CoverageContentTypeCode():
+struct CoverageContentTypeCode:
     """Transformation function to be used when scaling a physical value of a
     given element.
     """
@@ -74,9 +74,8 @@ struct CoverageContentTypeCode():
     alias COORDINATE = "coordinate"
 
 
-struct ImagingConditionCode():
-    """Code which indicates conditions which may affect the image.
-    """
+struct ImagingConditionCode:
+    """Code which indicates conditions which may affect the image."""
 
     alias BLURRED_IMAGE = "blurredImage"
     alias CLOUD = "cloud"
@@ -91,7 +90,7 @@ struct ImagingConditionCode():
     alias TERRAIN_MASKING = "terrainMasking"
 
 
-struct PolarisationOrientationCode():
+struct PolarisationOrientationCode:
     """Polarization of the antenna in relation to the wave form."""
 
     alias HORIZONTAL = "horizontal"
@@ -126,7 +125,7 @@ struct PolarisationOrientationCode():
     """
 
 
-struct TransferFunctionTypeCode():
+struct TransferFunctionTypeCode:
     """Transform function to be used when scaling a physical value for a given
     element.
     """
@@ -139,7 +138,7 @@ struct TransferFunctionTypeCode():
     """Function used when transformation is exponential."""
 
 
-trait RangeElementDescription():
+trait RangeElementDescription:
     """Description of specific range elements."""
 
     fn name(self) -> String:
@@ -158,7 +157,7 @@ trait RangeElementDescription():
         ...
 
 
-trait RangeDimension():
+trait RangeDimension:
     """Information on the range of attribute values."""
 
     fn sequence_identifier(self) -> Optional[MemberName]:
@@ -182,7 +181,7 @@ trait RangeDimension():
         ...
 
 
-trait AttributeGroup():
+trait AttributeGroup:
     """Information about the `content_type` for groups of attributes for a
     specific `RangeDimension`.
     """
@@ -348,8 +347,9 @@ trait Band(SampleDimension):
         ...
 
 
-trait ContentInformation():
+trait ContentInformation:
     """Description of the content of a resource."""
+
     ...
 
 
@@ -374,9 +374,9 @@ trait CoverageDescription(ContentInformation):
         """
         ...
 
-    fn range_element_description(self) -> Optional[Sequence[
-        RangeElementDescription
-    ]]:
+    fn range_element_description(
+        self,
+    ) -> Optional[Sequence[RangeElementDescription]]:
         """
         Provides the description of the specific range elements of a coverage.
         """
@@ -471,7 +471,7 @@ trait ImageDescription(CoverageDescription):
         ...
 
 
-trait FeatureTypeInfo():
+trait FeatureTypeInfo:
     """Information about the occurring feature type."""
 
     fn feature_type_name(self) -> GenericName:

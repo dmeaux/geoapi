@@ -27,7 +27,8 @@ derived from the ISO 19115-1:2014 international standard.
 from opengis.metadata.citation import Date, Responsibility
 from opengis.metadata.extent import Extent
 
-struct MaintenanceFrequencyCode():
+
+struct MaintenanceFrequencyCode:
     alias CONTINUAL = "continual"
     alias DAILY = "daily"
     alias WEEKLY = "weekly"
@@ -45,7 +46,7 @@ struct MaintenanceFrequencyCode():
     alias BIENNIALLY = "biennially"
 
 
-struct ScopeCode():
+struct ScopeCode:
     alias COLLECTION_HARDWARE = "collectionHardware"
     alias COLLECTION_SESSION = "collectionSession"
     alias SERIES = "series"
@@ -74,7 +75,7 @@ struct ScopeCode():
     alias APPLICATION = "application"
 
 
-trait ScopeDescription():
+trait ScopeDescription:
     """Description of the trait of information covered by the information."""
 
     fn attributes(self) -> Sequence[String]:
@@ -98,11 +99,12 @@ trait ScopeDescription():
         ...
 
     fn other(self) -> String:
-        """Trait of information that does not fall into the other categories to which the information applies."""
+        """Trait of information that does not fall into the other categories to which the information applies.
+        """
         ...
 
 
-trait Scope():
+trait Scope:
     """New: information about the scope of the resource."""
 
     fn level(self) -> ScopeCode:
@@ -116,11 +118,12 @@ trait Scope():
         ...
 
 
-trait MaintenanceInformation():
+trait MaintenanceInformation:
     """Information about the scope and frequency of updating."""
 
     fn maintenance_and_update_frequency(self) -> MaintenanceFrequencyCode:
-        """Frequency with which changes and additions are made to the resource after the initial resource is completed."""
+        """Frequency with which changes and additions are made to the resource after the initial resource is completed.
+        """
         ...
 
     fn maintenance_date(self) -> Sequence[Date]:
@@ -136,9 +139,11 @@ trait MaintenanceInformation():
         ...
 
     fn maintenance_note(self) -> Sequence[String]:
-        """Information regarding specific requirements for maintaining the resource."""
+        """Information regarding specific requirements for maintaining the resource.
+        """
         ...
 
     fn contact(self) -> Sequence[Responsibility]:
-        """Identification of, and means of communicating with, person(s) and organisation(s) with responsibility for maintaining the metadata."""
+        """Identification of, and means of communicating with, person(s) and organisation(s) with responsibility for maintaining the metadata.
+        """
         ...

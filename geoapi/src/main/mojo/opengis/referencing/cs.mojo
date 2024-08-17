@@ -27,7 +27,7 @@ systems derived from the ISO 19111 international standard.
 from opengis.referencing.datum import IdentifiedObject
 
 
-struct AxisDirection():
+struct AxisDirection:
     """
     The direction of positive increase in the coordinate value for a coordinate system axis.
     This direction is exact in some cases, and is approximate in other cases.
@@ -66,7 +66,7 @@ struct AxisDirection():
     alias WEST_SOUTH_WEST = "westSouthWest"
 
 
-struct RangeMeaning():
+struct RangeMeaning:
     """
     Meaning of the axis value range specified through minimum value and maximum value.
     """
@@ -174,6 +174,7 @@ trait AffineCS(CoordinateSystem):
     """
     A 2- or 3-dimensional coordinate system with straight axes that are not necessarily orthogonal.
     """
+
     ...
 
 
@@ -182,6 +183,7 @@ trait CartesianCS(CoordinateSystem):
     A 2- or 3-dimensional coordinate system with orthogonal straight axes. All axes shall have the same length unit of
     measure.
     """
+
     ...
 
 
@@ -190,6 +192,7 @@ trait CylindricalCS(CoordinateSystem):
     A 3-dimensional coordinate system consisting of a PolarCS extended by a straight axis perpendicular to the plane
     spanned by the polar CS.
     """
+
     ...
 
 
@@ -198,6 +201,7 @@ trait EllipsoidalCS(CoordinateSystem):
     A 2- or 3-dimensional coordinate system in which position is specified by geodetic latitude, geodetic longitude,
     and (in the 3D case) ellipsoidal height.
     """
+
     ...
 
 
@@ -207,6 +211,7 @@ trait LinearCS(CoordinateSystem):
     The associated coordinate is the distance – with or without offset – from the origin point,
     specified through the datum definition, to the point along the axis.
     """
+
     ...
 
 
@@ -215,6 +220,7 @@ trait ParametricCS(CoordinateSystem):
     A 1-dimensional coordinate system containing a single axis. This coordinate system uses parameter values or
     functions to describe the position of a point.
     """
+
     ...
 
 
@@ -223,6 +229,7 @@ trait PolarCS(CoordinateSystem):
     A 2-dimensional coordinate system in which position is specified by the distance from the origin and the angle
     between the line from the origin to a point and a reference direction.
     """
+
     ...
 
 
@@ -231,6 +238,7 @@ trait SphericalCS(CoordinateSystem):
     A 3-dimensional coordinate system with one distance measured from the origin and two angular coordinates.
     Not to be confused with an EllipsoidalCS based on an ellipsoid "degenerated" into a sphere.
     """
+
     ...
 
 
@@ -239,6 +247,7 @@ trait TimeCS(CoordinateSystem):
     A 1-dimensional coordinate system containing a single time axis. This coordinate system is used to describe the
     temporal position of a point in the specified time units from a specified time origin.
     """
+
     ...
 
 
@@ -249,4 +258,5 @@ trait VerticalCS(CoordinateSystem):
     vertical coordinate system axis. An exact definition is deliberately not provided as the complexities of the subject
     fall outside the scope of the ISO 19111 specification.
     """
+
     ...

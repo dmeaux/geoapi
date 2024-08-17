@@ -30,7 +30,7 @@ from opengis.metadata.extent import Extent
 from opengis.metadata.identification import ProgressCode
 
 
-struct ContextCode():
+struct ContextCode:
     """Designation of criterion for defining the context of the scanning
     process event.
     """
@@ -43,7 +43,7 @@ struct ContextCode():
     """Event related to a navigational manoeuvre."""
 
 
-struct EventTypeCode():
+struct EventTypeCode:
     """Type of event related to a platform, instrument, or sensor."""
 
     alias ANNOUNCEMENT = "announcement"
@@ -78,8 +78,9 @@ struct EventTypeCode():
     """Event related to cleaning the platform/instrument/sensor."""
 
 
-struct GeometryTypeCode():
+struct GeometryTypeCode:
     """Geometric description of the collection."""
+
     alias POINT = "point"
     """Single geographic point of interest."""
     alias LINEAR = "linear"
@@ -90,7 +91,7 @@ struct GeometryTypeCode():
     """Series of linear collections grouped by way points."""
 
 
-struct ObjectiveTypeCode():
+struct ObjectiveTypeCode:
     """Temporal persistence of collection objective."""
 
     alias INSTANTANEOUS_COLLECTION = "instantaneousCollection"
@@ -101,7 +102,7 @@ struct ObjectiveTypeCode():
     """Collection over specified domain."""
 
 
-struct OperationTypeCode():
+struct OperationTypeCode:
     """Code indicating whether the data contained in this packet is real
     (originates from live-fly or other non-simulated operational sources),
     simulated (originates from target simulator sources), or synthesized
@@ -116,7 +117,7 @@ struct OperationTypeCode():
     """Mix of real and simulated data."""
 
 
-struct PriorityCode():
+struct PriorityCode:
     """Ordered list of priorities."""
 
     alias CRITICAL = "critical"
@@ -129,7 +130,7 @@ struct PriorityCode():
     """To be completed when resources are available."""
 
 
-struct SequenceCode():
+struct SequenceCode:
     """Temporal relation of activation."""
 
     alias START = "start"
@@ -140,7 +141,7 @@ struct SequenceCode():
     """Collection without a significant duration."""
 
 
-struct TriggerCode():
+struct TriggerCode:
     """Mechanism of activation."""
 
     alias AUTOMATIC = "automatic"
@@ -151,7 +152,7 @@ struct TriggerCode():
     """Event instaigated by planned internal stimuli."""
 
 
-trait Revision():
+trait Revision:
     """History of the revision of an event"""
 
     fn description(self) -> String:
@@ -167,7 +168,7 @@ trait Revision():
         ...
 
 
-trait InstrumentEvent():
+trait InstrumentEvent:
     """An event related to a platform, instrument, or sensor."""
 
     fn citation(self) -> Optional[Sequence[Citation]]:
@@ -191,7 +192,7 @@ trait InstrumentEvent():
         ...
 
 
-trait InstrumentEventList():
+trait InstrumentEventList:
     """List of events relaed to platform, instrument, or sensor."""
 
     fn citation(self) -> Optional[Sequence[Citation]]:
@@ -221,7 +222,7 @@ trait InstrumentEventList():
         ...
 
 
-trait Instrument():
+trait Instrument:
     """Designations for the measuring instruments."""
 
     fn citation(self) -> Sequence[Citation]:
@@ -263,7 +264,7 @@ trait Sensor(Instrument):
         ...
 
 
-trait Platform():
+trait Platform:
     """Designations for the platform used to acquire the dataset."""
 
     fn citation(self) -> Citation:
@@ -279,7 +280,8 @@ trait Platform():
         ...
 
     fn sponsor(self) -> Sequence[Responsibility]:
-        """Organization responsible for building, launch, or operation of the platform."""
+        """Organization responsible for building, launch, or operation of the platform.
+        """
         ...
 
     fn other_property(self) -> Optional[Record]:
@@ -299,7 +301,7 @@ trait Platform():
         ...
 
 
-trait PlatformPass():
+trait PlatformPass:
     """Identification of collection coverage. Identifies a particular pass
     made by the platform during data acquisition. A platform pass is used to
     provide supporting identifying information for an event and for data
@@ -313,12 +315,12 @@ trait PlatformPass():
         """Temporal and spatial extent of the pass."""
         ...
 
-    fn related_event(self) -> Optional[Sequence['Event']]:
+    fn related_event(self) -> Optional[Sequence["Event"]]:
         """Occurrence of one or more events for a pass."""
         ...
 
 
-trait Event():
+trait Event:
     """Identification of a significant collection point within an
     operation.
     """
@@ -343,7 +345,7 @@ trait Event():
         """Time the event occurred."""
         ...
 
-    fn expected_objective(self) -> Optional[Sequence['Objective']]:
+    fn expected_objective(self) -> Optional[Sequence["Objective"]]:
         """An objective expected to be completed by the event."""
         ...
 
@@ -353,12 +355,11 @@ trait Event():
 
     fn related_sensor(self) -> Sequence[Instrument]:
         """An `Instrument` related to
-            the event."""
+        the event."""
 
 
-trait EnvironmentalRecord():
-    """Information about the environmental conditions during the acquisition.
-    """
+trait EnvironmentalRecord:
+    """Information about the environmental conditions during the acquisition."""
 
     fn average_air_temperature(self) -> Optional[Float64]:
         """
@@ -401,7 +402,7 @@ trait EnvironmentalRecord():
         """
 
 
-trait Objective():
+trait Objective:
     """Describes the characteristics, spatial and temporal extent of the intended
     object to be observed.
     """
@@ -440,7 +441,7 @@ trait Objective():
         """Instrument which senses the objective data."""
 
 
-trait Operation():
+trait Operation:
     """Designations for the operation used to acquire the dataset."""
 
     fn description(self) -> Optional[String]:
@@ -473,7 +474,7 @@ trait Operation():
         """Type of other property description."""
         ...
 
-    fn child_operation(self) -> Optional[Sequence['Operation']]:
+    fn child_operation(self) -> Optional[Sequence["Operation"]]:
         """Sub-missions that make up part of a larger mission."""
         ...
 
@@ -481,11 +482,11 @@ trait Operation():
         """Object(s) or area(s) of interest to be sensed."""
         ...
 
-    fn parent_operation(self) -> 'Operation':
+    fn parent_operation(self) -> "Operation":
         """Heritage of the operation."""
         ...
 
-    fn plan(self) -> Optional['Plan']:
+    fn plan(self) -> Optional["Plan"]:
         """Plan satisfied by th operation."""
         ...
 
@@ -497,7 +498,7 @@ trait Operation():
         """Record of an event occuring during an operation."""
 
 
-trait RequestedDate():
+trait RequestedDate:
     """Range of date validity."""
 
     fn requested_date_of_collection(self) -> datetime:
@@ -508,7 +509,7 @@ trait RequestedDate():
         """Latest date and time collection must be completed."""
 
 
-trait Requirement():
+trait Requirement:
     """Requirement to be satisfied by the planned data acquisition."""
 
     fn citation(self) -> Optional[Citation]:
@@ -541,11 +542,11 @@ trait Requirement():
         """Date and time after which collection is no longer valid."""
         ...
 
-    fn satisfied_plan(self) -> Optional[Sequence['Plan']]:
+    fn satisfied_plan(self) -> Optional[Sequence["Plan"]]:
         """Plan that identifies solution to satisfy the requirement."""
 
 
-trait Plan():
+trait Plan:
     """Designations for the planning information related to meeting requirements.
     """
 
@@ -572,7 +573,7 @@ trait Plan():
         """Requirement satisfied by the plan."""
 
 
-trait AcquisitionInformation():
+trait AcquisitionInformation:
     """Designations for the measuring instruments and their bands, the platform
     carrying them, and the mission to which the data contributes.
     """

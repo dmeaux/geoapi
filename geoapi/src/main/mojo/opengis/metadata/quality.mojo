@@ -35,13 +35,13 @@ from opengis.metadata.naming import Record, RecordType
 from opengis.metadata.representation import SpatialRepresentationTypeCode
 
 
-struct EvaluationMethodTypeCode():
+struct EvaluationMethodTypeCode:
     alias DIRECT_INTERNAL = "directInternal"
     alias DIRECT_EXTERNAL = "directExternal"
     alias INDIRECT = "indirect"
 
 
-struct ValueStructure():
+struct ValueStructure:
     alias BAG = "BAG"
     alias SET = "SET"
     alias SEQUENCE = "SEQUENCE"
@@ -50,7 +50,7 @@ struct ValueStructure():
     alias COVERAGE = "COVERAGE"
 
 
-trait StandaloneQualityReportInformation():
+trait StandaloneQualityReportInformation:
     """Reference to an external stadalone quality report."""
 
     fn report_reference(self) -> Citation:
@@ -62,7 +62,7 @@ trait StandaloneQualityReportInformation():
         ...
 
 
-trait Result():
+trait Result:
     """Generalization of more specific result classes."""
 
     fn result_scope(self) -> Scope:
@@ -74,7 +74,7 @@ trait Result():
         ...
 
 
-trait EvaluationMethod():
+trait EvaluationMethod:
     """Description of the evaluation method and procedure applied."""
 
     fn evaluation_method_type(self) -> EvaluationMethodTypeCode:
@@ -90,19 +90,22 @@ trait EvaluationMethod():
         ...
 
     fn reference_doc(self) -> Sequence[Citation]:
-        """Information on documents which are referenced in developing and applying a data quality evaluation method."""
+        """Information on documents which are referenced in developing and applying a data quality evaluation method.
+        """
         ...
 
     fn date_time(self) -> Sequence[Date]:
-        """Date or range of dates on which a data quality measure was applied."""
+        """Date or range of dates on which a data quality measure was applied.
+        """
         ...
 
 
-trait MeasureReference():
+trait MeasureReference:
     """Reference to the measure used."""
 
     fn measure_identification(self) -> Identifier:
-        """Identifier of the measure, value uniquely identifying the measure within a namespace."""
+        """Identifier of the measure, value uniquely identifying the measure within a namespace.
+        """
         ...
 
     fn name_of_measure(self) -> Sequence[String]:
@@ -114,31 +117,34 @@ trait MeasureReference():
         ...
 
 
-trait Element():
+trait Element:
     """Aspect of quantitative quality information."""
 
     fn Standalone_quality_report_details(self) -> String:
-        """Clause in the standaloneQualityReport where this data quality element or any related data quality element (original results in case of derivation or aggregation) is described."""
+        """Clause in the standaloneQualityReport where this data quality element or any related data quality element (original results in case of derivation or aggregation) is described.
+        """
         ...
 
     fn Measure(self) -> MeasureReference:
         """Reference to measure used."""
         ...
 
-     fn Evaluation_method(self) -> EvaluationMethod:
+    fn Evaluation_method(self) -> EvaluationMethod:
         """Evaluation information."""
         ...
 
     fn result(self) -> Sequence[Result]:
-        """Values obtained from applying a data quality measure against a specified acceptable conformance quality level."""
+        """Values obtained from applying a data quality measure against a specified acceptable conformance quality level.
+        """
         ...
 
-     fn derived_element(self) -> Sequence[Element]:
-        """In case of aggregation or derivation, indicates the original element."""
+    fn derived_element(self) -> Sequence[Element]:
+        """In case of aggregation or derivation, indicates the original element.
+        """
         ...
 
 
-trait DataQuality():
+trait DataQuality:
     """Quality information for the data specified by a data quality scope."""
 
     fn scope(self) -> Scope:
@@ -146,14 +152,15 @@ trait DataQuality():
         ...
 
     fn report(self) -> Sequence[Element]:
-        """Quantitative quality information for the data specified by the scope."""
+        """Quantitative quality information for the data specified by the scope.
+        """
         ...
 
     fn standalone_quality_report(self) -> StandaloneQualityReportInformation:
         ...
 
 
-trait Description():
+trait Description:
     """Data quality measure description."""
 
     fn text_description(self) -> String:
@@ -165,7 +172,7 @@ trait Description():
         ...
 
 
-trait SourceReference():
+trait SourceReference:
     """Reference to the source of the data quality measure."""
 
     fn citation(self) -> Citation:
@@ -173,7 +180,7 @@ trait SourceReference():
         ...
 
 
-trait BasicMeasure():
+trait BasicMeasure:
     """Data quality basic measure."""
 
     fn name(self) -> String:
@@ -189,11 +196,12 @@ trait BasicMeasure():
         ...
 
     fn value_type(self) -> TypeName:
-        """Value type for the result of the basic measure (shall be one of the data types defined in ISO/TS 19103:2005)."""
+        """Value type for the result of the basic measure (shall be one of the data types defined in ISO/TS 19103:2005).
+        """
         ...
 
 
-trait Measure():
+trait Measure:
     """Data quality measure."""
 
     fn measure_identifier(self) -> Identifier:
@@ -204,8 +212,9 @@ trait Measure():
         """Name of the data quality measure applied to the data."""
         ...
 
-    fn alias(self) -> String:
-        """Another recognized name, an abbreviation or a short name for the same data quality measure."""
+    fn measure_alias(self) -> String:
+        """Another recognized name, an abbreviation or a short name for the same data quality measure.
+        """
         ...
 
     fn element_name(self) -> TypeName:
@@ -213,15 +222,18 @@ trait Measure():
         ...
 
     fn definition(self) -> String:
-        """Definition of the fundamental concept for the data quality measure."""
+        """Definition of the fundamental concept for the data quality measure.
+        """
         ...
 
     fn description(self) -> description:
-        """Description of the data quality measure, including all formulae and/or illustrations needed to establish the result of applying the measure."""
+        """Description of the data quality measure, including all formulae and/or illustrations needed to establish the result of applying the measure.
+        """
         ...
 
     fn value_type(self) -> TypeName:
-        """Value type for reporting a data quality result (shall be one of the data types defined in ISO/19103:2005)."""
+        """Value type for reporting a data quality result (shall be one of the data types defined in ISO/19103:2005).
+        """
         ...
 
     fn value_structure(self) -> ValueStructure:
@@ -233,20 +245,26 @@ trait Measure():
         ...
 
     fn basic_measure(self) -> BasicMeasure:
-        """Definition of the fundamental concept for the data quality measure."""
+        """Definition of the fundamental concept for the data quality measure.
+        """
         ...
 
     fn source_reference(self) -> Sequence[SourceReference]:
-        """Reference to the source of an item that has been adopted from an external source."""
+        """Reference to the source of an item that has been adopted from an external source.
+        """
         ...
 
     fn parameter(self):
-        """Reference to the source of an item that has been adopted from an external source."""
+        """Reference to the source of an item that has been adopted from an external source.
+        """
         ...
 
 
 trait TemporalQuality(Element):
-    """Accuracy of the temporal attributes and temporal relationships of features."""
+    """Accuracy of the temporal attributes and temporal relationships of features.
+    """
+
+
 ...
 
 
@@ -260,16 +278,22 @@ trait Metaquality(Element):
 
 trait Confidence(Metaquality):
     """Trustworthiness of a data quality result."""
+
+
 ...
 
 
 trait Representativity(Metaquality):
     """Trustworthiness of a data quality result."""
+
+
 ...
 
 
 trait DataEvaluation(EvaluationMethod):
     """Data evaluation method."""
+
+
 ...
 
 
@@ -277,7 +301,8 @@ trait SimpleBasedInspection(DataEvaluation):
     """Sample based inspection."""
 
     fn sampling_scheme(self) -> String:
-        """Information of the type of sampling scheme and description of the sampling procedure."""
+        """Information of the type of sampling scheme and description of the sampling procedure.
+        """
         ...
 
     fn lot_description(self) -> String:
@@ -285,7 +310,8 @@ trait SimpleBasedInspection(DataEvaluation):
         ...
 
     fn simple_ratio(self) -> String:
-        """Information on how many samples on average are extracted for inspection from each lot of population."""
+        """Information on how many samples on average are extracted for inspection from each lot of population.
+        """
         ...
 
 
@@ -293,17 +319,24 @@ trait IndirectEvaluation(DataEvaluation):
     """Indirect evaluation."""
 
     fn deductive_source(self) -> String:
-        """Information on which data are used as sources in deductive evaluation method."""
+        """Information on which data are used as sources in deductive evaluation method.
+        """
         ...
 
 
 trait Homogeneity(Metaquality):
-    """Expected or tested uniformity of the results obtained for a data quality evaluation."""
+    """Expected or tested uniformity of the results obtained for a data quality evaluation.
+    """
+
+
 ...
 
 
 trait FullInspection(DataEvaluation):
-    """Test of every item in the population specified by the data quality scope."""
+    """Test of every item in the population specified by the data quality scope.
+    """
+
+
 ...
 
 
@@ -317,109 +350,161 @@ trait DescriptiveResult(Result):
 
 trait AggregationDerivation(EvaluationMethod):
     """Aggregation or derivation method."""
+
+
 ...
 
 
 trait PositionalAccuracy(Element):
     """Accuracy of the position of features."""
+
+
 ...
 
 
 trait AbsoluteExternalPositionalAccuracy(PositionalAccuracy):
-    """Closeness of reported coordinate values to values accepted as or being true."""
+    """Closeness of reported coordinate values to values accepted as or being true.
+    """
+
+
 ...
 
 
 trait GriddedDataPositionalAccuracy(PositionalAccuracy):
-    """Closeness of gridded data position values to values accepted as or being true."""
+    """Closeness of gridded data position values to values accepted as or being true.
+    """
+
+
 ...
 
 
 trait RelativeInternalPositionalAccuracy(PositionalAccuracy):
-    """Closeness of the relative positions of features in the scope to their respective relative positions accepted as or being true."""
+    """Closeness of the relative positions of features in the scope to their respective relative positions accepted as or being true.
+    """
+
+
 ...
 
 
 trait TemporalConsistency(TemporalQuality):
     """Correctness of ordered events or sequences, if reported."""
+
+
 ...
 
 
 trait TemporalValidity(TemporalQuality):
     """Validity of data specified by the scope with respect to time."""
+
+
 ...
 
 
 trait AccuracyOfATimeMeasurement(TemporalQuality):
-    """Correctness of the temporal references of an item (reporting of error in time measurement)."""
+    """Correctness of the temporal references of an item (reporting of error in time measurement).
+    """
+
+
 ...
 
 
 trait ThematicAccuracy(Element):
-    """Accuracy of quantitative attributes and the correctness of non-quantitative attributes and of the classifications of features and their relationships."""
+    """Accuracy of quantitative attributes and the correctness of non-quantitative attributes and of the classifications of features and their relationships.
+    """
+
+
 ...
 
 
 trait ThematicClassificationCorrectness(ThematicAccuracy):
-    """Comparison of the classes assigned to features or their attributes to a universe of discourse."""
+    """Comparison of the classes assigned to features or their attributes to a universe of discourse.
+    """
+
+
 ...
 
 
 trait QuantitativeAttributeAccuracy(ThematicAccuracy):
     """Accuracy of quantitative attributes."""
+
+
 ...
 
 
 trait NonQuantitativeAttributeCorrectness(ThematicAccuracy):
     """Correctness of non-quantitative attributes."""
+
+
 ...
 
 
 trait LogicalConsistency(Element):
-    """Degree of adherence to logical rules of data structure, attribution and relationships (data structure can be conceptual, logical or physical)."""
+    """Degree of adherence to logical rules of data structure, attribution and relationships (data structure can be conceptual, logical or physical).
+    """
+
+
 ...
 
 
 trait ConceptualConsistency(LogicalConsistency):
     """Adherence to rules of the conceptual schema."""
+
+
 ...
 
 
 trait DomainConsistency(LogicalConsistency):
     """Adherence of values to the value domains."""
+
+
 ...
 
 
 trait FormatConsistency(LogicalConsistency):
-    """Degree to which data is stored in accordance with the physical structure of the dataset, as described by the scope."""
+    """Degree to which data is stored in accordance with the physical structure of the dataset, as described by the scope.
+    """
+
+
 ...
 
 
 trait TopologicalConsistency(LogicalConsistency):
-    """Correctness of the explicitly encoded topological characteristics of the dataset as described by the scope."""
+    """Correctness of the explicitly encoded topological characteristics of the dataset as described by the scope.
+    """
+
+
 ...
 
 
 trait Completeness(Element):
-    """Presence and absence of features, their attributes and their relationships."""
+    """Presence and absence of features, their attributes and their relationships.
+    """
+
+
 ...
 
 
 trait CompletenessCommission(Completeness):
     """Excess data present in the dataset, as described by the scope."""
+
+
 ...
 
 
 trait CompletenessOmission(Completeness):
     """Data absent from the dataset, as described by the scope."""
+
+
 ...
 
 
 trait ConformanceResult(Result):
-    """Information about the outcome of evaluating the obtained value (or set of values) against a specified acceptable conformance quality level."""
+    """Information about the outcome of evaluating the obtained value (or set of values) against a specified acceptable conformance quality level.
+    """
 
     fn specification(self) -> Citation:
-        """Citation of data product specification or user requirement against which data is being evaluated."""
+        """Citation of data product specification or user requirement against which data is being evaluated.
+        """
         ...
 
     fn explanation(self) -> String:
@@ -432,7 +517,8 @@ trait ConformanceResult(Result):
 
 
 trait CoverageResult(Result):
-    """Result of a data quality measure organising the measured values as a coverage."""
+    """Result of a data quality measure organising the measured values as a coverage.
+    """
 
     fn spatial_representation_type(self) -> SpatialRepresentationTypeCode:
         """Method used to spatially represent the coverage result."""
@@ -452,17 +538,19 @@ trait CoverageResult(Result):
 
 
 trait QuantitativeResult(Result):
-    """The values or information about the value(s) (or set of values) obtained from applying a data quality measure."""
+    """The values or information about the value(s) (or set of values) obtained from applying a data quality measure.
+    """
 
     fn value(self) -> Sequence[Record]:
-        """Quantitative value or values, content determined by the evaluation procedure used, accordingly with the value type and valueStructure defined for the measure."""
+        """Quantitative value or values, content determined by the evaluation procedure used, accordingly with the value type and valueStructure defined for the measure.
+        """
         ...
 
     fn value_unit(self) -> Unit:
         """Value unit for reporting a data quality result."""
         ...
 
-
     fn value_record_type(self) -> RecordType:
-        """Value type for reporting a data quality result, depends of the implementation."""
+        """Value type for reporting a data quality result, depends of the implementation.
+        """
         ...

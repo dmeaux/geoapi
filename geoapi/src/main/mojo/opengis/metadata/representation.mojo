@@ -31,7 +31,7 @@ from opengis.metadata.quality import DataQuality, Element
 from opengis.referencing.crs import ReferenceSystem
 
 
-trait CellGeometryCode():
+trait CellGeometryCode:
     """Code indicating the geometry represented by the grid cell value."""
 
     alias POINT = "point"
@@ -40,7 +40,7 @@ trait CellGeometryCode():
     alias STRATUM = "stratum"
 
 
-trait DimensionNameTypeCode():
+trait DimensionNameTypeCode:
     """Name of the dimension."""
 
     alias ROW = "row"
@@ -53,7 +53,7 @@ trait DimensionNameTypeCode():
     alias TIME = "time"
 
 
-trait GeometricObjectTypeCode():
+trait GeometricObjectTypeCode:
     """
     Name of point or vector objects used to locate sero-, one-, two-, or
     three-dimensional spatial locations in the dataset.
@@ -67,7 +67,7 @@ trait GeometricObjectTypeCode():
     alias SURFACE = "surface"
 
 
-trait PixelOrientationCode():
+trait PixelOrientationCode:
     """Point in a pixel corresponding to the Earth location of the pixel"""
 
     alias CENTRE = "centre"
@@ -77,7 +77,7 @@ trait PixelOrientationCode():
     alias UPPER_LEFT = "upperLeft"
 
 
-trait SpatialRepresentationTypeCode():
+trait SpatialRepresentationTypeCode:
     """Method used to represent geographic information in the resource."""
 
     alias VECTOR = "vector"
@@ -88,7 +88,7 @@ trait SpatialRepresentationTypeCode():
     alias VIDEO = "video"
 
 
-trait TopologyLevelCode():
+trait TopologyLevelCode:
     """Degree of the complexity of the spatial relationships."""
 
     alias GEOMETRY_ONLY = "geometryOnly"
@@ -102,7 +102,7 @@ trait TopologyLevelCode():
     alias ABSTRACT = "abstract"
 
 
-trait Dimension():
+trait Dimension:
     """Axis properties."""
 
     fn dimension_name(self) -> DimensionNameTypeCode:
@@ -131,7 +131,7 @@ trait Dimension():
         ...
 
 
-trait GeolocationInformation():
+trait GeolocationInformation:
     """Geolocation information with data quality."""
 
     fn quality_info(self) -> Optional[Sequence[DataQuality]]:
@@ -141,7 +141,7 @@ trait GeolocationInformation():
         ...
 
 
-trait GCP():
+trait GCP:
     """Information on a ground control point (GSP)."""
 
     fn geographic_coordinates(self) -> DirectPosition:
@@ -175,7 +175,7 @@ trait GCPCollection(GeolocationInformation):
         """Ground control point(s) used in the collection."""
 
 
-trait GeometricObjects():
+trait GeometricObjects:
     """Number of objects, listed by geometric object type, used in the
     resource/dataset.
     """
@@ -196,7 +196,7 @@ trait GeometricObjects():
         ...
 
 
-trait SpatialRepresentation():
+trait SpatialRepresentation:
     """Digital mechanism used to represent spatial information."""
 
     fn scope(self) -> Scope:
