@@ -27,7 +27,8 @@ from the ISO 19111 international standard.
 from opengis.metadata.citation import Identifier
 from opengis.metadata.extent import Extent
 
-struct RealizationMethod():
+
+struct RealizationMethod:
     """
     Specification of the method by which the vertical reference frame is realized.
     """
@@ -37,7 +38,7 @@ struct RealizationMethod():
     alias TIDAL = "tidal"
 
 
-trait IdentifiedObject():
+trait IdentifiedObject:
     """
     Identification and remarks information for a reference system or CRS-related
     object.
@@ -216,4 +217,5 @@ trait EngineeringDatum(Datum):
     """
     Defines the origin of an engineering coordinate reference system.
     """
+
     ...

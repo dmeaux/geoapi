@@ -55,7 +55,7 @@ trait CustomTraitTwo():
     - [ ] 19115-1 A2 (2020)
     - metadata.lineage
         - ProcessStep
-- [x] 19115-2:2018
+- [x] 19115-2:2019
     - [x] 19115-2 A1 (2022)
     - modules
         - metadata.aquisition
@@ -71,7 +71,8 @@ trait CustomTraitTwo():
 - [ ] Filter
 - [ ] Moving Feature
 
-## Library of Enums and Abstract Classes
+## Library of `trait`s and `struct`s of `alias`es
+- [ ] Add code documentation to indicate which functions are mandatory for ISO 19115-1:2014
 - [ ] ***Replace Python `Sequence` type with Custom Trait Collection***
 - [ ] reflect ISO inheritance patterns
 - [ ] __str__ overrides
@@ -145,7 +146,6 @@ trait CustomTraitTwo():
     - [ ] `datum.Datum` object
     - [ ] `operation` module
         - [ ] `MathTransform` vs. `Transform`
-- [ ] Add code documentation to indicate which attributes/properties/fields are mandatory for ISO 19115-1:2014
 - [ ] Finish incomplete code documentation
     - [ ] Add missing `trait`, `struct`, `alias`, `function`, `parameter`, `argument`, `return type` descriptions with *examples*.
     - [ ] Add definition for each CodeList value in its corresponding Enum class.

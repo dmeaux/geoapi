@@ -25,7 +25,7 @@ citations derived from the ISO 19115-1:2014 international standard.
 """
 
 
-struct DateTypeCode():
+struct DateTypeCode:
     alias CREATION = "creation"
     alias PUBLICATION = "publication"
     alias REVISION = "revision"
@@ -44,7 +44,7 @@ struct DateTypeCode():
     alias DISTRIBUTION = "distribution"
 
 
-struct OnLineFunctionCode():
+struct OnLineFunctionCode:
     alias DOWNLOAD = "download"
     alias INFORMATION = "information"
     alias OFFLINE_ACCESS = "offlineAccess"
@@ -58,7 +58,7 @@ struct OnLineFunctionCode():
     alias FILE_ACCESS = "fileAccess"
 
 
-struct PresentationFormCode():
+struct PresentationFormCode:
     alias DOCUMENT_DIGITAL = "documentDigital"
     alias DOCUMENT_HARDCOPY = "documentHardcopy"
     alias IMAGE_DIGITAL = "imageDigital"
@@ -82,7 +82,7 @@ struct PresentationFormCode():
     alias DIAGRAM_HARDCOPY = "diagramHardcopy"
 
 
-struct RoleCode():
+struct RoleCode:
     alias RESOURCE_PROVIDER = "resourceProvider"
     alias CUSTODIAN = "custodian"
     alias OWNER = "owner"
@@ -105,17 +105,19 @@ struct RoleCode():
     alias STAKEHOLDER = "stakeholder"
 
 
-struct TelephoneTypeCode():
+struct TelephoneTypeCode:
     alias VOICE = "voice"
     alias FACSIMILE = "facsimile"
     alias SMS = "sms"
 
 
-trait Series():
-    """Information about the series, or aggregate resource, to which a resource belongs."""
+trait Series:
+    """Information about the series, or aggregate resource, to which a resource belongs.
+    """
 
     fn name(self) -> String:
-        """Name of the series, or aggregate resource, of which the resource is a part."""
+        """Name of the series, or aggregate resource, of which the resource is a part.
+        """
         ...
 
     fn issue_identification(self) -> String:
@@ -123,15 +125,17 @@ trait Series():
         ...
 
     fn page(self) -> String:
-        """Details on which pages of the publication the article was published."""
+        """Details on which pages of the publication the article was published.
+        """
         ...
 
 
-trait Address():
+trait Address:
     """Location of the responsible individual or organisation."""
 
     fn delivery_point(self) -> Tuple[String]:
-        """Address line for the location (as described in ISO 11180, Annex A)."""
+        """Address line for the location (as described in ISO 11180, Annex A).
+        """
         ...
 
     fn city(self) -> String:
@@ -151,7 +155,8 @@ trait Address():
         ...
 
     fn electronic_mail_address(self) -> Tuple[String]:
-        """Address of the electronic mailbox of the responsible organisation or individual."""
+        """Address of the electronic mailbox of the responsible organisation or individual.
+        """
         ...
 
 
@@ -159,14 +164,17 @@ trait AddressCollectionElement(CollectionElement, Address):
     """
     Abstract collection element conforming to the Address trait.
     """
+
     ...
 
 
-trait Telephone():
-    """Telephone numbers for contacting the responsible individual or organisation."""
+trait Telephone:
+    """Telephone numbers for contacting the responsible individual or organisation.
+    """
 
     fn number(self) -> String:
-        """Telephone number by which individuals can contact responsible organisation or individual."""
+        """Telephone number by which individuals can contact responsible organisation or individual.
+        """
         ...
 
     fn number_type(self) -> TelephoneTypeCode:
@@ -178,14 +186,17 @@ trait TelephoneCollectionElement(CollectionElement, Telephone):
     """
     Abstract collection element conforming to the Telephone trait.
     """
+
     ...
 
 
-trait OnlineResource():
-    """Information about on-line sources from which the resource, specification, or community profile name and extended metadata elements can be obtained."""
+trait OnlineResource:
+    """Information about on-line sources from which the resource, specification, or community profile name and extended metadata elements can be obtained.
+    """
 
     fn linkage(self):
-        """Location (address) for on-line access using a Uniform Resource Locator/Uniform Resource Identifier address or similar addressing scheme such as http://www.statkart.no/isotc211."""
+        """Location (address) for on-line access using a Uniform Resource Locator/Uniform Resource Identifier address or similar addressing scheme such as http://www.statkart.no/isotc211.
+        """
         ...
 
     fn protocol(self) -> String:
@@ -193,7 +204,8 @@ trait OnlineResource():
         ...
 
     fn application_profile(self) -> String:
-        """Name of an application profile that can be used with the online resource."""
+        """Name of an application profile that can be used with the online resource.
+        """
         ...
 
     fn name(self) -> String:
@@ -217,30 +229,43 @@ trait OnlineResourceCollectionElement(CollectionElement, OnlineResource):
     """
     Abstract collection element conforming to the OnlineResource trait.
     """
+
     ...
 
 
-trait Contact():
-    """Information required to enable contact with the responsible person and/or organisation."""
+trait Contact:
+    """Information required to enable contact with the responsible person and/or organisation.
+    """
 
-    fn phone[ElementType:TelephoneCollectionElement](self) -> Tuple[ElementType]:
-        """Telephone numbers at which the organisation or individual may be contacted."""
+    fn phone[
+        ElementType: TelephoneCollectionElement
+    ](self) -> Tuple[ElementType]:
+        """Telephone numbers at which the organisation or individual may be contacted.
+        """
         ...
 
-    fn address[ElementType:AddressCollectionElement](self) -> Tuple[ElementType]:
-        """Physical and email address at which the organisation or individual may be contacted."""
+    fn address[
+        ElementType: AddressCollectionElement
+    ](self) -> Tuple[ElementType]:
+        """Physical and email address at which the organisation or individual may be contacted.
+        """
         ...
 
-    fn online_resource[ElementType:OnlineResourceCollectionElement](self) -> Tuple[ElementType]:
-        """On-line information that can be used to contact the individual or organisation."""
+    fn online_resource[
+        ElementType: OnlineResourceCollectionElement
+    ](self) -> Tuple[ElementType]:
+        """On-line information that can be used to contact the individual or organisation.
+        """
         ...
 
     fn hours_of_service(self) -> Tuple[String]:
-        """Time period (including time zone) when individuals can contact the organisation or individual."""
+        """Time period (including time zone) when individuals can contact the organisation or individual.
+        """
         ...
 
     fn contact_instructions(self) -> String:
-        """Supplemental instructions on how or when to contact the individual or organisation."""
+        """Supplemental instructions on how or when to contact the individual or organisation.
+        """
         ...
 
     fn contact_type(self) -> String:
@@ -251,21 +276,26 @@ trait ContactCollectionElement(CollectionElement, Contact):
     """
     Abstract collection element conforming to the Contact trait.
     """
+
     ...
 
 
-trait Party():
+trait Party:
     """Information about the individual and/or organisation of the party."""
 
     fn name(self) -> String:
         """Name of the party."""
         ...
 
-    fn contact_info[ElementType:ContactCollectionElement](self) -> Tuple[ElementType]:
+    fn contact_info[
+        ElementType: ContactCollectionElement
+    ](self) -> Tuple[ElementType]:
         """Contact information for the party."""
         ...
 
-    fn party_identifier[ElementType: IdentifierCollectionElement](self) -> Tuple[ElementType]:
+    fn party_identifier[
+        ElementType: IdentifierCollectionElement
+    ](self) -> Tuple[ElementType]:
         """Identifier of the party."""
         ...
 
@@ -274,10 +304,11 @@ trait PartyCollectionElement(CollectionElement, Party):
     """
     Abstract collection element conforming to the Party trait.
     """
+
     ...
 
 
-trait Responsibility():
+trait Responsibility:
     """Information about the party and their role."""
 
     fn role(self) -> RoleCode:
@@ -296,6 +327,7 @@ trait ResponsibilityCollectionElement(CollectionElement, Responsibility):
     """
     Abstract collection element conforming to the Responsibility trait.
     """
+
     ...
 
 
@@ -311,6 +343,7 @@ trait IndividualCollectionElement(CollectionElement, Individual):
     """
     Abstract collection element conforming to the Individual trait.
     """
+
     ...
 
 
@@ -321,11 +354,13 @@ trait Organisation(Party):
         """Graphic identifying organization."""
         ...
 
-    fn individual[ElementType: IndividualCollectionElement](self) -> Tuple[ElementType]:
+    fn individual[
+        ElementType: IndividualCollectionElement
+    ](self) -> Tuple[ElementType]:
         ...
 
 
-trait Date():
+trait Date:
     """Reference date and event used to describe it."""
 
     fn date(self) -> datetime:
@@ -337,7 +372,7 @@ trait Date():
         ...
 
 
-trait Citation():
+trait Citation:
     """Standardized resource reference."""
 
     fn title(self) -> String:
@@ -345,7 +380,8 @@ trait Citation():
         ...
 
     fn alternate_title(self) -> Tuple[String]:
-        """Short name or other language name by which the cited information is known. Example: DCW as an alternative title for Digital Chart of the World."""
+        """Short name or other language name by which the cited information is known. Example: DCW as an alternative title for Digital Chart of the World.
+        """
         ...
 
     fn date(self) -> Tuple[datetime]:
@@ -360,24 +396,33 @@ trait Citation():
         """Date of the edition."""
         ...
 
-    fn identifier[ElementType: IdentifierCollectionElement](self) -> Tuple[ElementType]:
+    fn identifier[
+        ElementType: IdentifierCollectionElement
+    ](self) -> Tuple[ElementType]:
         """Value uniquely identifying an object within a namespace."""
         ...
 
-    fn cited_responsible_party[ElementType: RepresentableCollectionElement](self) -> Tuple[ElementType]:
-        """Name and position information for an individual or organisation that is responsible for the resource."""
+    fn cited_responsible_party[
+        ElementType: RepresentableCollectionElement
+    ](self) -> Tuple[ElementType]:
+        """Name and position information for an individual or organisation that is responsible for the resource.
+        """
         ...
 
-    fn presentation_form[ElementType: PresentationFormCode](self) -> Tuple[ElementType]:
+    fn presentation_form[
+        ElementType: PresentationFormCode
+    ](self) -> Tuple[ElementType]:
         """Mode in which the resource is represented."""
         ...
 
     fn series(self) -> Series:
-        """Information about the series, or aggregate resource, of which the resource is a part."""
+        """Information about the series, or aggregate resource, of which the resource is a part.
+        """
         ...
 
     fn other_citation_details(self) -> Tuple[String]:
-        """Other information required to complete the citation that is not recorded elsewhere."""
+        """Other information required to complete the citation that is not recorded elsewhere.
+        """
         ...
 
     fn ISBN(self) -> String:
@@ -388,7 +433,9 @@ trait Citation():
         """International Standard Serial Number."""
         ...
 
-    fn online_resource[ElementType: OnlineResourceCollectionElement](self) -> Tuple[ElementType]:
+    fn online_resource[
+        ElementType: OnlineResourceCollectionElement
+    ](self) -> Tuple[ElementType]:
         """Online reference to the cited resource."""
         ...
 
@@ -401,18 +448,21 @@ trait CitationCollectionElement(CollectionElement, Citation):
     """
     Abstract collection element conforming to the Citation trait.
     """
+
     ...
 
 
-trait Identifier():
+trait Identifier:
     """Value uniquely identifying an object within a namespace."""
 
     fn authority(self) -> Citation:
-        """Citation for the code namespace and optionally the person or party responsible for maintenance of that namespace."""
+        """Citation for the code namespace and optionally the person or party responsible for maintenance of that namespace.
+        """
         ...
 
     fn code(self) -> String:
-        """Alphanumeric value identifying an instance in the namespace e.g. EPSG::4326."""
+        """Alphanumeric value identifying an instance in the namespace e.g. EPSG::4326.
+        """
         ...
 
     fn code_space(self) -> String:
@@ -424,7 +474,8 @@ trait Identifier():
         ...
 
     fn description(self) -> String:
-        """Natural language description of the meaning of the code value E.G for codeSpace = EPSG, code = 4326: description = WGS-84" to "for codeSpace = EPSG, code = EPSG::4326: description = WGS-84."""
+        """Natural language description of the meaning of the code value E.G for codeSpace = EPSG, code = 4326: description = WGS-84" to "for codeSpace = EPSG, code = EPSG::4326: description = WGS-84.
+        """
         ...
 
 
@@ -432,4 +483,5 @@ trait IdentifierCollectionElement(CollectionElement, Identifier):
     """
     Abstract collection element conforming to the Identifier trait.
     """
+
     ...

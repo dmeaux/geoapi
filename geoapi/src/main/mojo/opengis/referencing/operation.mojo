@@ -164,8 +164,7 @@ trait Transformation(SingleOperation):
     """
 
     fn source_crs(self) -> CoordinateReferenceSystem:
-        """Returns the source CRS.
-        """
+        """Returns the source CRS."""
         ...
 
     fn target_crs(self) -> CoordinateReferenceSystem:
