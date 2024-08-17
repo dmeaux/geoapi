@@ -18,8 +18,8 @@
 """This is the base module.
 
 This subpackage contains geographic metadata structures regarding data
-acquisition that are derived from the ISO 19115-2:2019 international
-standard.
+acquisition that are derived from theISO 19115-1:2014 and ISO 19115-2:2019
+international standards.
 """
 
 __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
