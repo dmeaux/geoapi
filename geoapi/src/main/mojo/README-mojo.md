@@ -30,16 +30,21 @@ trait CustomTraitTwo():
 ```
 
 ## TODO
-- [ ] Make sure [Mojo Style Guide](https://github.com/modularml/mojo/blob/nightly/stdlib/docs/style-guide.md) is followed
-    - [ ] Package
-    - [ ] Subpackages
-    - [ ] Modules
-    - [ ] Traits
-    - [ ] Structs
-    - [ ] Aliases
-    - [ ] functions
-    - [ ] parameter names (T -> ElementType)
+- [x] Make sure [Mojo Style Guide](https://github.com/modularml/mojo/blob/nightly/stdlib/docs/style-guide.md) is followed
+    - [x] Package
+    - [x] Subpackages
+    - [x] Modules
+    - [x] Traits
+    - [x] Structs
+    - [x] Aliases
+    - [x] functions
+    - [x] parameter names (T -> ElementType)
     - [ ] [docstrings](https://github.com/modularml/mojo/blob/nightly/stdlib/docs/docstring-style-guide.md)
+        - [x] Remove \n emmediately after opening docstring quotes
+        - [ ] Add missing docstrings
+        - [ ] Add parameter types
+        - [ ] Add return types
+
 ## Specifications
 ### ISO Standards
 - [ ] **19103**
@@ -75,13 +80,13 @@ trait CustomTraitTwo():
 - [ ] Add code documentation to indicate which functions are mandatory for ISO 19115-1:2014
 - [ ] ***Replace Python `Sequence` type with Custom Trait Collection***
 - [ ] reflect ISO inheritance patterns
-- [ ] __str__ overrides
-    - [ ] metadata.naming.LocalName
-    - [ ] metadata.naming.ScopedName
-    - [ ] metadata.naming.TypeName
-    - [ ] metadata.naming.MemberName
+- [x] __str__ overrides
+    - [x] metadata.naming.LocalName
+    - [x] metadata.naming.ScopedName
+    - [x] metadata.naming.TypeName
+    - [x] metadata.naming.MemberName
 - [ ] `PT_Locale`
-    - [ ] ISO 639-2 codes as Mojo 🔥 `struct`
+    - [x] ISO 639-2 codes as Mojo 🔥 `struct`
     - [ ] ISO 3166-1 country codes as Mojo 🔥 `struct`
     - [ ] IANA Character Sets as Mojo 🔥 `struct`
     - [ ] `metadata.InstrumentEventList.locale`
@@ -128,6 +133,7 @@ trait CustomTraitTwo():
         - [ ] LanguageCode
         - [ ] CharacterSetCode
     - [ ] 7.2.2 Date and Time mappings (ISO 19103:2015 §7.2.2 to 7.2.4)
+        - Use [Martin Vuyk forge_tools.datetime](https://github.com/martinvuyk/forge-tools) until Mojo🔥 implements datetime package.
         - [ ] Date: **???**
         - [ ] Time: **???**
         - [ ] DateTime: **???**

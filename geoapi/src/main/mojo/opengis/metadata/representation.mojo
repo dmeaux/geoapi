@@ -118,8 +118,7 @@ trait Dimension:
         ...
 
     fn dimension_title(self) -> Optional[String]:
-        """
-        Enhancement/modifier of the dimension name, e.g.,
+        """Enhancement/modifier of the dimension name, e.g.,
         for a different time dimension: dimensiont_title = 'runtime'
         or more a more general case : dimension_name = 'column'
         dimension_title = 'Longitude'.
@@ -135,8 +134,7 @@ trait GeolocationInformation:
     """Geolocation information with data quality."""
 
     fn quality_info(self) -> Optional[Sequence[DataQuality]]:
-        """
-        Provides an overall assessment of quality of geolocation information.
+        """Provides an overall assessment of quality of geolocation information.
         """
         ...
 
@@ -145,8 +143,7 @@ trait GCP:
     """Information on a ground control point (GSP)."""
 
     fn geographic_coordinates(self) -> DirectPosition:
-        """
-        Geographic or map position of the control point, in either two
+        """Geographic or map position of the control point, in either two
         or three dimensions.
         """
         ...
@@ -181,8 +178,7 @@ trait GeometricObjects:
     """
 
     fn geometric_object_type(self) -> GeometricObjectTypeCode:
-        """
-        Name of point or vector objects used to locate zero-, one-, two-,
+        """Name of point or vector objects used to locate zero-, one-, two-,
         or three-dimensional spatial locations in the resource/dataset.
         """
         ...
@@ -220,8 +216,7 @@ trait GridSpatialRepresentation(SpatialRepresentation):
         ...
 
     fn transformation_parameter_availability(self):
-        """
-        Indication of whether or not parameters for transformation between
+        """Indication of whether or not parameters for transformation between
         image coordinates and geographic or map coordinates exist
         (are available).
         """
@@ -232,8 +227,7 @@ trait VectorSpatialRepresentation(SpatialRepresentation):
     """Information about the vector spatial objects in the resource."""
 
     fn topology_level(self) -> Optional[TopologyLevelCode]:
-        """
-        Code which identifies the degree of complexity of the spatial
+        """Code which identifies the degree of complexity of the spatial
         relationships.
         """
         ...
@@ -252,15 +246,13 @@ trait Georectified(GridSpatialRepresentation):
     """
 
     fn check_point_availability(self) -> Bool:
-        """
-        Indication of whether or not geographic position points are available
+        """Indication of whether or not geographic position points are available
         to test the accuracy of the georeferenced grid data.
         """
         ...
 
     fn check_point_description(self) -> Optional[String]:
-        """
-        Description of geographic position points used to test the accuracy of
+        """Description of geographic position points used to test the accuracy of
         the georeferenced grid data.
 
         MANDATORY: if `check_point_availability` == `True`.
@@ -268,8 +260,7 @@ trait Georectified(GridSpatialRepresentation):
         ...
 
     fn corner_points(self) -> Optional[Sequence[GM_Point]]:
-        """
-        Earth location in the coordinate system defined by the Spatial
+        """Earth location in the coordinate system defined by the Spatial
         Reference System and the grid coordinate of the cells at opposite ends
         of grid coverage along two diagonals in the grid spatial dimensions.
         There are four corner points in a georectified grid; at least two
@@ -282,16 +273,14 @@ trait Georectified(GridSpatialRepresentation):
         ...
 
     fn centre_point(self) -> Optional[GM_Point]:
-        """
-        Earth location in the coordinate system defined by the Spatial
+        """Earth location in the coordinate system defined by the Spatial
         Reference System and the grid coordinate of the cell halfway between
         opposite ends of the grid in the spatial dimensions.
         """
         ...
 
     fn point_in_pixel(self) -> PixelOrientationCode:
-        """
-        Point in a pixel corresponding to the Earth location of the pixel.
+        """Point in a pixel corresponding to the Earth location of the pixel.
         """
         ...
 
@@ -304,8 +293,7 @@ trait Georectified(GridSpatialRepresentation):
         ...
 
     fn check_point(self) -> Optional[Sequence[GCP]]:
-        """
-        Geographic references used to validate georectification of the data.
+        """Geographic references used to validate georectification of the data.
         """
         ...
 
@@ -326,8 +314,7 @@ trait Georeferenceable(GridSpatialRepresentation):
         ...
 
     fn orientation_parameter_availability(self) -> Bool:
-        """
-        Indication of whether or not orientation parameters are available.
+        """Indication of whether or not orientation parameters are available.
         """
         ...
 
@@ -344,7 +331,6 @@ trait Georeferenceable(GridSpatialRepresentation):
         ...
 
     fn geolocation_information(self) -> Sequence[GeolocationInformation]:
-        """
-        Information that can be used to geo-locate the data.
+        """Information that can be used to geo-locate the data.
         """
         ...

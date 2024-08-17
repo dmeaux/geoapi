@@ -81,8 +81,7 @@ trait CoordinateSystemAxis(IdentifiedObject):
     """
 
     fn abbreviation(self) -> String:
-        """
-        The abbreviation used for this coordinate system axes.
+        """The abbreviation used for this coordinate system axes.
         This abbreviation is also used to identify the coordinate in a coordinate tuple.
 
         :return: The coordinate system axis abbreviation.
@@ -91,8 +90,7 @@ trait CoordinateSystemAxis(IdentifiedObject):
         ...
 
     fn direction(self) -> AxisDirection:
-        """
-        Direction of this coordinate system axis.
+        """Direction of this coordinate system axis.
 
         :return: The coordinate system axis direction.
         :rtype: AxisDirection
@@ -100,8 +98,7 @@ trait CoordinateSystemAxis(IdentifiedObject):
         ...
 
     fn unit(self):
-        """
-        Returns the unit of measure used for this coordinate system axis.
+        """Returns the unit of measure used for this coordinate system axis.
         The value of a coordinate in a coordinate tuple shall be recorded using this unit of measure, whenever those
         coordinates use a coordinate reference system that uses a coordinate system that uses this axis.
 
@@ -110,28 +107,23 @@ trait CoordinateSystemAxis(IdentifiedObject):
         ...
 
     fn minimum_value(self) -> Float64:
-        """
-        Returns the minimum value normally allowed for this axis, in the unit of measure for the axis.
+        """Returns the minimum value normally allowed for this axis, in the unit of measure for the axis.
         If there is no minimum value, then this method returns negative infinity.
 
         :return: The minimum value, or the negative infinity if none.
         :rtype: Float64
-        """
-        return Float64("-inf")
+        """return Float64("-inf")
 
     fn maximum_value(self) -> Float64:
-        """
-        Returns the maximum value normally allowed for this axis, in the unit of measure for the axis.
+        """Returns the maximum value normally allowed for this axis, in the unit of measure for the axis.
         If there is no maximum value, then this method returns positive infinity.
 
         :return: The maximum value, or the positive infinity if none.
         :rtype: Float64
-        """
-        return Float64("inf")
+        """return Float64("inf")
 
     fn range_meaning(self) -> RangeMeaning:
-        """
-        Returns the meaning of axis value range specified by the minimum and maximum values. This element shall be
+        """Returns the meaning of axis value range specified by the minimum and maximum values. This element shall be
         omitted when both minimum and maximum values are omitted. It may be included when minimum and/or maximum values
         are included. If this element is omitted when minimum or maximum values are included, the meaning is unspecified
 
@@ -150,8 +142,7 @@ trait CoordinateSystem(IdentifiedObject):
     """
 
     fn dimension(self) -> Int:
-        """
-        Returns the dimension of the coordinate system.
+        """Returns the dimension of the coordinate system.
 
         :return: The dimension of the coordinate system.
         :rtype: Int
@@ -159,8 +150,7 @@ trait CoordinateSystem(IdentifiedObject):
         ...
 
     fn axis(self, dimension: Int) -> CoordinateSystemAxis:
-        """
-        Returns the axis for this coordinate system at the specified dimension.
+        """Returns the axis for this coordinate system at the specified dimension.
 
         :param dimension: The zero based index of axis.
         :type dimension: Int
