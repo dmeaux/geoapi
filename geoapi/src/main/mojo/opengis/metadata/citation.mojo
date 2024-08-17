@@ -24,8 +24,13 @@ This module contains geographic metadata structures regarding metadata
 citations derived from the ISO 19115-1:2014 international standard.
 """
 
+from opengis.metadata.extent import Extent, ExtentCollectionElement
+from opengis.metadata.identification import BrowseGraphic, BrowseGraphicCollectionElement
+
 
 struct DateTypeCode:
+    """Datatype of element or entity."""
+
     alias CREATION = "creation"
     alias PUBLICATION = "publication"
     alias REVISION = "revision"
@@ -45,6 +50,8 @@ struct DateTypeCode:
 
 
 struct OnLineFunctionCode:
+    """Function performed by the resource."""
+
     alias DOWNLOAD = "download"
     alias INFORMATION = "information"
     alias OFFLINE_ACCESS = "offlineAccess"
@@ -59,6 +66,8 @@ struct OnLineFunctionCode:
 
 
 struct PresentationFormCode:
+    """Mode in which the data are represented."""
+
     alias DOCUMENT_DIGITAL = "documentDigital"
     alias DOCUMENT_HARDCOPY = "documentHardcopy"
     alias IMAGE_DIGITAL = "imageDigital"
@@ -83,6 +92,8 @@ struct PresentationFormCode:
 
 
 struct RoleCode:
+    """Function performed by the responsible party."""
+
     alias RESOURCE_PROVIDER = "resourceProvider"
     alias CUSTODIAN = "custodian"
     alias OWNER = "owner"
@@ -106,6 +117,8 @@ struct RoleCode:
 
 
 struct TelephoneTypeCode:
+    """Type of telephone."""
+
     alias VOICE = "voice"
     alias FACSIMILE = "facsimile"
     alias SMS = "sms"
@@ -221,7 +234,23 @@ trait OnlineResource:
         ...
 
     fn protocol_request(self) -> String:
-        """Protocol used by the accessed resource."""
+        """Request used to access the resource depending on the protocol
+        (to be used mainly for POST requests).
+
+        Protocol used by the accessed resource.
+
+        Example POST/XML:
+
+        <GetFeatures service = "WFS"
+                     version="2.0.0"
+                     outputFormat="application/gml+xml; version=3.2"
+                     xmlns=http://www.opengis.net/wfs/2.0
+                     xmlns:xsi=http://www.w3.org/2001/XMLSchema-instance
+                     xsi:schemaLocation="http://www.opengis.net/wfs/2.0
+                        http://schemas.opengis.net/wfs/2.0.0/wfs.xsd">
+        <Query typeNames="Roads" />
+        </GetFeatures>
+        """
         ...
 
 
@@ -269,6 +298,7 @@ trait Contact:
         ...
 
     fn contact_type(self) -> String:
+        """Type of the contact."""
         ...
 
 
@@ -350,7 +380,7 @@ trait IndividualCollectionElement(CollectionElement, Individual):
 trait Organisation(Party):
     """Information about the party if the party is an organisation."""
 
-    fn logo(self) -> Sequence[BrowseGraphic]:
+    fn logo(self) -> Tuple[BrowseGraphicCollectionElement]:
         """Graphic identifying organization."""
         ...
 
@@ -410,7 +440,7 @@ trait Citation:
         ...
 
     fn presentation_form[
-        ElementType: PresentationFormCode
+        ElementType: PresentationFormCodeCollectionElement
     ](self) -> Tuple[ElementType]:
         """Mode in which the resource is represented."""
         ...
@@ -425,11 +455,11 @@ trait Citation:
         """
         ...
 
-    fn ISBN(self) -> String:
+    fn isbn(self) -> String:
         """International Standard Book Number."""
         ...
 
-    fn ISSN(self) -> String:
+    fn issn(self) -> String:
         """International Standard Serial Number."""
         ...
 
@@ -439,7 +469,7 @@ trait Citation:
         """Online reference to the cited resource."""
         ...
 
-    fn graphic(self) -> Sequence[BrowseGraphic]:
+    fn graphic(self) -> Tuple[BrowseGraphicCollectionElement]:
         """Citation graphic or logo for cited party."""
         ...
 
@@ -474,7 +504,9 @@ trait Identifier:
         ...
 
     fn description(self) -> String:
-        """Natural language description of the meaning of the code value E.G for codeSpace = EPSG, code = 4326: description = WGS-84" to "for codeSpace = EPSG, code = EPSG::4326: description = WGS-84.
+        """Natural language description of the meaning of the code value.
+
+        Example: for code_space = EPSG, code = 4326, description = WGS-84.
         """
         ...
 
