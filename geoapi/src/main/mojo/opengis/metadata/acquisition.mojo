@@ -153,7 +153,7 @@ struct TriggerCode:
 
 
 trait Revision:
-    """History of the revision of an event"""
+    """History of the revision of an event."""
 
     fn description(self) -> String:
         """Description of the revision."""
@@ -200,15 +200,13 @@ trait InstrumentEventList:
         ...
 
     fn description(self) -> String:
-        """
-        Description of the language and character set used for the
+        """Description of the language and character set used for the
         `InstrumentationEventList`.
         """
         ...
 
     fn locale(self) -> Optional[PT_Locale]:
-        """
-        Description of the language and character set used for the
+        """Description of the language and character set used for the
         `InstrumentationEventList`.
         """
         ...
@@ -244,7 +242,7 @@ trait Instrument:
         ...
 
     fn mounted_on(self) -> Platform:
-        """Platform on which the instrument is mounted"""
+        """Platform on which the instrument is mounted."""
         ...
 
     fn sensor(self) -> Optional[Sequence[Sensor]]:
@@ -257,10 +255,10 @@ trait Instrument:
 
 
 trait Sensor(Instrument):
-    """Specific type of instrument"""
+    """Specific type of instrument."""
 
     fn hosted(self) -> Optional[Instrument]:
-        """Instrument on which the sensor is hosted"""
+        """Instrument on which the sensor is hosted."""
         ...
 
 
@@ -362,34 +360,29 @@ trait EnvironmentalRecord:
     """Information about the environmental conditions during the acquisition."""
 
     fn average_air_temperature(self) -> Optional[Float64]:
-        """
-        Average air temperature along the flight pass during the photo flight.
+        """Average air temperature along the flight pass during the photo flight.
         """
         ...
 
     fn max_relative_humidity(self) -> Optional[Float64]:
-        """
-        Maximum realative humitiy along the flight pass during the photo
+        """Maximum realative humitiy along the flight pass during the photo
         flight.
         """
         ...
 
     fn max_altitude(self) -> Optional[Float64]:
-        """
-        Maximum altitude during the photo flight.
+        """Maximum altitude during the photo flight.
         """
         ...
 
     fn meteorological_conditions(self) -> Optional[String]:
-        """
-        Meteorological conditions in the photo flight area, in particular
+        """Meteorological conditions in the photo flight area, in particular
         clouds, snow, and wind.
         """
         ...
 
     fn solar_azimuth(self) -> Optional[Float64]:
-        """
-        Clockwise angle in degrees from north to the centre of the sun's disc.
+        """Clockwise angle in degrees from north to the centre of the sun's disc.
 
         NOTE: This Angle is calculated from the nadir point of the sensor, not
         the centre point of the image.
@@ -397,8 +390,7 @@ trait EnvironmentalRecord:
         ...
 
     fn solar_elevation(self) -> Optional[Float64]:
-        """
-        Angle between the horizonand the centre of the sun's disk.
+        """Angle between the horizonand the centre of the sun's disk.
         """
 
 
@@ -513,8 +505,7 @@ trait Requirement:
     """Requirement to be satisfied by the planned data acquisition."""
 
     fn citation(self) -> Optional[Citation]:
-        """
-        Identification of reference or guidance material for the requirement.
+        """Identification of reference or guidance material for the requirement.
         """
         ...
 
@@ -551,8 +542,7 @@ trait Plan:
     """
 
     fn type(self) -> Optional[GeometryTypeCode]:
-        """
-        Manner of sampling geometry the planner expects for collection of the
+        """Manner of sampling geometry the planner expects for collection of the
         objective data.
         """
         ...
@@ -587,21 +577,18 @@ trait AcquisitionInformation:
         ...
 
     fn acquisition_requirement(self) -> Optional[Sequence[Requirement]]:
-        """
-        Identifies the requirement the data acquisition intends to satisfy.
+        """Identifies the requirement the data acquisition intends to satisfy.
         """
         ...
 
     fn environmental_conditions(self) -> Optional[EnvironmentalRecord]:
-        """
-        A record of the environmental circumstances during the data
+        """A record of the environmental circumstances during the data
         acquisition.
         """
         ...
 
     fn instrument(self) -> Optional[Sequence[Instrument]]:
-        """
-        General information about the instrument used in data acquisition.
+        """General information about the instrument used in data acquisition.
         """
         ...
 
@@ -610,13 +597,11 @@ trait AcquisitionInformation:
         ...
 
     fn operation(self) -> Optional[Sequence[Operation]]:
-        """
-        General information about an identifiable activity which provided the
+        """General information about an identifiable activity which provided the
         data.
         """
         ...
 
     fn platform(self) -> Optional[Sequence[Platform]]:
-        """
-        General information about the platform from which the data were taken.
+        """General information about the platform from which the data were taken.
         """

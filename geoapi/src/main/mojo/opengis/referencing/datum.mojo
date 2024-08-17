@@ -45,20 +45,17 @@ trait IdentifiedObject:
     """
 
     fn name(self) -> Identifier:
-        """
-        The primary name by which this object is identified.
+        """The primary name by which this object is identified.
         """
         ...
 
     fn remarks(self) -> String:
-        """
-        Comments on or information about this object, including data source information.
+        """Comments on or information about this object, including data source information.
         """
         ...
 
     fn to_wkt(self) -> String:
-        """
-        Returns a Well-Known Text (WKT) for this object.
+        """Returns a Well-Known Text (WKT) for this object.
         """
         ...
 
@@ -69,28 +66,24 @@ trait Datum(IdentifiedObject):
     """
 
     fn anchor_point(self) -> String:
-        """
-        Description, possibly including coordinates, of the point or points used to anchor the datum to the Earth.
+        """Description, possibly including coordinates, of the point or points used to anchor the datum to the Earth.
         """
         ...
 
     fn domain_of_validity(self) -> Extent:
-        """
-        Information about spatial, vertical, and temporal extent. This interface has four optional attributes
+        """Information about spatial, vertical, and temporal extent. This interface has four optional attributes
         (geographic elements, temporal elements, and vertical elements) and an element called description. At least one
         of the four shall be used.
         """
         ...
 
     fn realization_epoch(self) -> datetime:
-        """
-        The time after which this datum definition is valid.
+        """The time after which this datum definition is valid.
         """
         ...
 
     fn scope(self) -> String:
-        """
-        Description of domain of usage, or limitations of usage, for which this datum object is valid.
+        """Description of domain of usage, or limitations of usage, for which this datum object is valid.
         """
         ...
 
@@ -101,20 +94,17 @@ trait TemporalDatum(Datum):
     """
 
     fn anchor_point(self) -> None:
-        """
-        This attribute is defined in the Datum parent interface, but is not used by a temporal datum.
+        """This attribute is defined in the Datum parent interface, but is not used by a temporal datum.
         """
         ...
 
     fn realization_epoch(self) -> None:
-        """
-        This attribute is defined in the Datum parent interface, but is not used by a temporal datum.
+        """This attribute is defined in the Datum parent interface, but is not used by a temporal datum.
         """
         ...
 
     fn origin(self) -> datetime:
-        """
-        The date and time origin of this temporal datum.
+        """The date and time origin of this temporal datum.
         """
         ...
 
@@ -125,8 +115,7 @@ trait VerticalDatum(Datum):
     """
 
     fn realization_method(self) -> RealizationMethod:
-        """
-        The type of this vertical datum.
+        """The type of this vertical datum.
         """
         ...
 
@@ -137,40 +126,34 @@ trait Ellipsoid(IdentifiedObject):
     """
 
     fn axis_unit(self):
-        """
-        Linear unit of the semi-major and semi-minor axis values.
+        """Linear unit of the semi-major and semi-minor axis values.
         """
         ...
 
     fn semi_major_axis(self) -> Float64:
-        """
-        Length of the semi-major axis of the ellipsoid. This is the equatorial radius in axis linear unit.
+        """Length of the semi-major axis of the ellipsoid. This is the equatorial radius in axis linear unit.
         """
         ...
 
     fn semi_minor_axis(self) -> Float64:
-        """
-        Length of the semi-minor axis of the ellipsoid. This is the polar radius in axis linear unit.
+        """Length of the semi-minor axis of the ellipsoid. This is the polar radius in axis linear unit.
         """
         ...
 
     fn inverse_flattering(self) -> Float64:
-        """
-        Value of the inverse of the flattening constant.
+        """Value of the inverse of the flattening constant.
         """
         ...
 
     fn is_inf_definitive(self) -> Bool:
-        """
-        Indicates if the inverse flattening is definitive for this ellipsoid. Some ellipsoids use the IVF as the
+        """Indicates if the inverse flattening is definitive for this ellipsoid. Some ellipsoids use the IVF as the
         defining value, and calculate the polar radius whenever asked. Other ellipsoids use the polar radius to
         calculate the IVF whenever asked. This distinction can be important to avoid floating-point rounding errors.
         """
         ...
 
     fn is_sphere(self) -> Bool:
-        """
-        true if the ellipsoid is degenerate and is actually a sphere.
+        """true if the ellipsoid is degenerate and is actually a sphere.
         The sphere is completely defined by the semi-major axis, which is the radius of the sphere.
         """
         ...
@@ -182,14 +165,12 @@ trait PrimeMeridian(IdentifiedObject):
     """
 
     fn greenwich_longitude(self) -> Float64:
-        """
-        Longitude of the prime meridian measured from the Greenwich meridian, positive eastward.
+        """Longitude of the prime meridian measured from the Greenwich meridian, positive eastward.
         """
         ...
 
     fn angular_unit(self):
-        """
-        Returns the angular unit of the Greenwich longitude.
+        """Returns the angular unit of the Greenwich longitude.
         """
         ...
 
@@ -201,14 +182,12 @@ trait GeodeticDatum(Datum):
     """
 
     fn ellipsoid(self) -> Ellipsoid:
-        """
-        Returns the ellipsoid.
+        """Returns the ellipsoid.
         """
         ...
 
     fn prime_meridian(self) -> PrimeMeridian:
-        """
-        Returns the prime meridian.
+        """Returns the prime meridian.
         """
         ...
 

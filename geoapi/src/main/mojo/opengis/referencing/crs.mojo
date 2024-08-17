@@ -49,14 +49,12 @@ trait ReferenceSystem(IdentifiedObject):
     """
 
     fn domain_of_validity(self) -> Extent:
-        """
-        Area or region or timeframe in which this (coordinate) reference system is valid.
+        """Area or region or timeframe in which this (coordinate) reference system is valid.
         """
         ...
 
     fn scope(self) -> String:
-        """
-        Description of domain of usage, or limitations of usage, for which this Reference System object is valid.
+        """Description of domain of usage, or limitations of usage, for which this Reference System object is valid.
         """
         ...
 
@@ -75,14 +73,12 @@ trait SingleCRS(CoordinateReferenceSystem):
     """
 
     fn coordinate_system(self) -> CoordinateSystem:
-        """
-        Returns the coordinate system.
+        """Returns the coordinate system.
         """
         ...
 
     fn datum(self) -> Datum:
-        """
-        Returns the datum.
+        """Returns the datum.
         """
         ...
 
@@ -94,8 +90,7 @@ trait CompoundCRS(CoordinateReferenceSystem):
     """
 
     fn components(self) -> Sequence[SingleCRS]:
-        """
-        The ordered list of coordinate reference systems.
+        """The ordered list of coordinate reference systems.
         """
         ...
 
@@ -106,14 +101,12 @@ trait VerticalCRS(SingleCRS):
     """
 
     fn coordinate_system(self) -> VerticalCS:
-        """
-        Returns the coordinate system, which must be vertical.
+        """Returns the coordinate system, which must be vertical.
         """
         ...
 
     fn datum(self) -> VerticalDatum:
-        """
-        Returns the datum, which must be vertical.
+        """Returns the datum, which must be vertical.
         """
         ...
 
@@ -124,14 +117,12 @@ trait TemporalCRS(SingleCRS):
     """
 
     fn coordinate_system(self) -> TimeCS:
-        """
-        Returns the coordinate system, which must be temporal.
+        """Returns the coordinate system, which must be temporal.
         """
         ...
 
     fn datum(self) -> TemporalDatum:
-        """
-        Returns the datum, which must be temporal.
+        """Returns the datum, which must be temporal.
         """
         ...
 
@@ -142,8 +133,7 @@ trait EngineeringCRS(SingleCRS):
     """
 
     fn datum(self) -> EngineeringDatum:
-        """
-        Returns the datum, which must be an engineering one.
+        """Returns the datum, which must be an engineering one.
         """
         ...
 
@@ -155,14 +145,12 @@ trait DerivedCRS(SingleCRS):
     """
 
     fn base_crs(self) -> CoordinateReferenceSystem:
-        """
-        Returns the base coordinate reference system.
+        """Returns the base coordinate reference system.
         """
         ...
 
     fn conversion_from_base(self):
-        """
-        Returns the conversion from the base CRS to this CRS.
+        """Returns the conversion from the base CRS to this CRS.
         """
         ...
 
@@ -173,8 +161,7 @@ trait GeodeticCRS(SingleCRS):
     """
 
     fn datum(self) -> GeodeticDatum:
-        """
-        Returns the datum, which must be geodetic.
+        """Returns the datum, which must be geodetic.
         """
         ...
 
@@ -186,8 +173,7 @@ trait GeographicCRS(GeodeticCRS):
     """
 
     fn coordinate_system(self) -> EllipsoidalCS:
-        """
-        Returns the coordinate system, which must be ellipsoidal.
+        """Returns the coordinate system, which must be ellipsoidal.
         """
         ...
 
@@ -198,25 +184,21 @@ trait ProjectedCRS(DerivedCRS):
     """
 
     fn conversion_from_base(self):
-        """
-        Returns the map projection from the base CRS to this CRS.
+        """Returns the map projection from the base CRS to this CRS.
         """
         ...
 
     fn base_crs(self) -> GeographicCRS:
-        """
-        Returns the base coordinate reference system, which must be geographic.
+        """Returns the base coordinate reference system, which must be geographic.
         """
         ...
 
     fn coordinate_system(self) -> CartesianCS:
-        """
-        Returns the coordinate system, which must be cartesian.
+        """Returns the coordinate system, which must be cartesian.
         """
         ...
 
     fn datum(self) -> GeodeticDatum:
-        """
-        Returns the datum.
+        """Returns the datum.
         """
         ...

@@ -76,16 +76,14 @@ trait Metadata:
         ...
 
     fn default_locale(self) -> Optional[PT_Locale]:
-        """
-        Language and character set used for documenting metadata.
+        """Language and character set used for documenting metadata.
 
         MANDATORY: if UTF-8 not used and not defined in encoding.
         """
         ...
 
     fn parent_metadata(self) -> Optional[Citation]:
-        """
-        Identification of the parent metadata record.
+        """Identification of the parent metadata record.
 
         MANDATORY: if there is an upper level object.
         """
@@ -96,24 +94,21 @@ trait Metadata:
         ...
 
     fn date_info(self) -> Sequence[Date]:
-        """
-        Date(s) associated with the metadata.
+        """Date(s) associated with the metadata.
 
         NOTE: 'Creation' date must be provided, others can also be provided.
         """
         ...
 
     fn metadata_standard(self) -> Optional[Sequence[Citation]]:
-        """
-        Citation for the standards to which the metadata conforms.
+        """Citation for the standards to which the metadata conforms.
 
         NOTE: Metadata standard citations should include an identifier.
         """
         ...
 
     fn metadata_profile(self) -> Optional[Sequence[Citation]]:
-        """
-        Citation(s) for the profile(s) of the metadata standard to which the
+        """Citation(s) for the profile(s) of the metadata standard to which the
         metadata conform.
 
         NOTE: Metadata citations should include an identifier.
@@ -121,15 +116,13 @@ trait Metadata:
         ...
 
     fn alternative_metadata_reference(self) -> Optional[Sequence[Citation]]:
-        """
-        Reference to alternative metadata,e.g., Dublin Core, FGDC, or metadata
+        """Reference to alternative metadata,e.g., Dublin Core, FGDC, or metadata
         in a non-ISO standard for the same resource.
         """
         ...
 
     fn other_locale(self) -> Optional[Sequence[PT_Locale]]:
-        """
-        Provides information about an alternatively used localized character
+        """Provides information about an alternatively used localized character
         strings.
         """
         ...
@@ -145,8 +138,7 @@ trait Metadata:
         ...
 
     fn reference_system_info(self) -> Optional[Sequence[ReferenceSystem]]:
-        """
-        Description of the spatial and temporal reference systems used in
+        """Description of the spatial and temporal reference systems used in
         the dataset.
 
         The reference system may be:
@@ -170,8 +162,7 @@ trait Metadata:
         ...
 
     fn identification_info(self) -> Sequence[Identification]:
-        """
-        Basic information about the resource(s) to which the metadata applies.
+        """Basic information about the resource(s) to which the metadata applies.
         """
         ...
 
@@ -180,8 +171,7 @@ trait Metadata:
         ...
 
     fn distribution_info(self) -> Optional[Sequence[Distribution]]:
-        """
-        Information about the distributor of and options for obtaining the
+        """Information about the distributor of and options for obtaining the
         resource(s).
         """
         ...
@@ -193,8 +183,7 @@ trait Metadata:
     fn portrayal_catalogue_info(
         self,
     ) -> Optional[Sequence[PortrayalCatalogueReference]]:
-        """
-        Information about the catalogue of rules defined for the portrayal of
+        """Information about the catalogue of rules defined for the portrayal of
         a resource(s).
         """
         ...
@@ -210,22 +199,19 @@ trait Metadata:
         ...
 
     fn metadata_maintenance(self) -> Optional[MaintenanceInformation]:
-        """
-        Information about the frequency of metadata updates, and the scope of
+        """Information about the frequency of metadata updates, and the scope of
         those updates.
         """
         ...
 
     fn resource_lineage(self) -> Optional[Sequence[Lineage]]:
-        """
-        Information about the provenance, sources and/or the production
+        """Information about the provenance, sources and/or the production
         processes applied to the resource.
         """
         ...
 
     fn metadata_scope(self) -> Optional[Sequence[MetadataScope]]:
-        """
-        The scope or type of resource for which metadata is provided.
+        """The scope or type of resource for which metadata is provided.
 
         MANDATORY: if `Metadata` is about a resource other than a dataset.
         """

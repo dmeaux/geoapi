@@ -150,8 +150,7 @@ trait RangeElementDescription:
         ...
 
     fn range_element(self) -> Sequence[Record]:
-        """
-        Specific range elements, i.e. range elements associated with a name
+        """Specific range elements, i.e. range elements associated with a name
         and their definition.
         """
         ...
@@ -161,8 +160,7 @@ trait RangeDimension:
     """Information on the range of attribute values."""
 
     fn sequence_identifier(self) -> Optional[MemberName]:
-        """
-        Number that uniquely identifies instances of bands of wavelengths on
+        """Number that uniquely identifies instances of bands of wavelengths on
         which a sensor operates.
         """
         ...
@@ -172,8 +170,7 @@ trait RangeDimension:
         ...
 
     fn name(self) -> Optional[Sequence[Identifier]]:
-        """
-        Identifiers for each attribute included in the resource.
+        """Identifiers for each attribute included in the resource.
 
         NOTE: These identifiers can be used to provide names for the
         resource's attribute from a standard set of names.
@@ -200,8 +197,7 @@ trait SampleDimension(RangeDimension):
     """
 
     fn max_value(self) -> Optional[Float64]:
-        """
-        Maximum value of data values in each dimension included in the
+        """Maximum value of data values in each dimension included in the
         resource.
 
         NOTE: Restricted to UomLength in the `Band` class.
@@ -235,63 +231,54 @@ trait SampleDimension(RangeDimension):
         ...
 
     fn mean_value(self) -> Optional[Float64]:
-        """
-        Mean value of data values in each dimension included in the resource.
+        """Mean value of data values in each dimension included in the resource.
         """
         ...
 
     fn number_of_values(self) -> OptionalInt:
-        """
-        This gives the number of values used in a thematicClassification
+        """This gives the number of values used in a thematicClassification
         resource, e.g., the number of classes in a Land Cover Type coverage or
         the number of cells with data in other types of coverages.
         """
         ...
 
     fn standard_deviation(self) -> Optional[Float64]:
-        """
-        Standard deviation of data values in each dimension included in the
+        """Standard deviation of data values in each dimension included in the
         resource.
         """
         ...
 
     fn other_property_type(self) -> Optional[RecordType]:
-        """
-        Type of other attribute description (i.e. netcdf/variable in ncml.xsd).
+        """Type of other attribute description (i.e. netcdf/variable in ncml.xsd).
         """
         ...
 
     fn other_property(self) -> Optional[Record]:
-        """
-        Instance of otherAttributeType that defines attributes not explicitly
+        """Instance of otherAttributeType that defines attributes not explicitly
         included in `CoverageType`.
         """
         ...
 
     fn bits_per_value(self) -> OptionalInt:
-        """
-        Maximum number of significant bits in the uncompressed representation
+        """Maximum number of significant bits in the uncompressed representation
         for the value in each band of each pixel.
         """
         ...
 
     fn transfer_function_type(self) -> Optional[TransferFunctionTypeCode]:
-        """
-        Type of transfer function to be used when scaling a physical value for
+        """Type of transfer function to be used when scaling a physical value for
         a given element.
         """
         ...
 
     fn range_element_description(self) -> Sequence[RangeElementDescription]:
-        """
-        Provides the description and values of the specific range elements of
+        """Provides the description and values of the specific range elements of
         a sample dimension.
         """
         ...
 
     fn nominal_spatial_resolution(self) -> Optional[Float64]:
-        """
-        Smallest distance between which separate points can be distinguished,
+        """Smallest distance between which separate points can be distinguished,
         as specified in instrument design.
         """
         ...
@@ -301,22 +288,19 @@ trait Band(SampleDimension):
     """Range of wavelengths in the electromagnetic spectrum."""
 
     fn bound_max(self) -> Optional[Float64]:
-        """
-        Bounding maximum. The longest wavelength that the sensor is capable of
+        """Bounding maximum. The longest wavelength that the sensor is capable of
         collecting within a designated band.
         """
         ...
 
     fn bound_min(self) -> Optional[Float64]:
-        """
-        Bounding minimum. The shortest wavelength that the sensor is capable of
+        """Bounding minimum. The shortest wavelength that the sensor is capable of
         collecting within a designated band.
         """
         ...
 
     fn bound_unit(self) -> Optional[UomLength]:
-        """
-        Bounding units. The units in which the sensor wavelengths are
+        """Bounding units. The units in which the sensor wavelengths are
         expressed.
 
         MANDATORY if `bound_max` or `bound_min` is specified.
@@ -332,8 +316,7 @@ trait Band(SampleDimension):
         ...
 
     fn band_boundary_definition(self) -> Optional[BandDefinition]:
-        """
-        Designation of criterion for defining maximum and minimum wavelengths
+        """Designation of criterion for defining maximum and minimum wavelengths
         for a spectral band.
         """
         ...
@@ -361,15 +344,13 @@ trait CoverageDescription(ContentInformation):
         ...
 
     fn processing_level_code(self) -> Optional[Identifier]:
-        """
-        Code and codespace that identifies the level of processing that has
+        """Code and codespace that identifies the level of processing that has
         been applied to the resource.
         """
         ...
 
     fn attribute_group(self) -> Optional[Sequence[AttributeGroup]]:
-        """
-        Information on the group(s) of related attributes of the resource
+        """Information on the group(s) of related attributes of the resource
         with the same type.
         """
         ...
@@ -377,8 +358,7 @@ trait CoverageDescription(ContentInformation):
     fn range_element_description(
         self,
     ) -> Optional[Sequence[RangeElementDescription]]:
-        """
-        Provides the description of the specific range elements of a coverage.
+        """Provides the description of the specific range elements of a coverage.
         """
         ...
 
@@ -387,8 +367,7 @@ trait ImageDescription(CoverageDescription):
     """Information about an image's suitability for use."""
 
     fn illumination_elevation_angle(self) -> Optional[Float64]:
-        """
-        Illumination elevation measured in degrees clockwise from the target
+        """Illumination elevation measured in degrees clockwise from the target
         plane at intersection of the optical line of sight with the Earth's
         surface.
 
@@ -400,8 +379,7 @@ trait ImageDescription(CoverageDescription):
         ...
 
     fn illumination_azimuth_angle(self) -> Optional[Float64]:
-        """
-        Illumination azimuth measured in degrees clockwise from true north at
+        """Illumination azimuth measured in degrees clockwise from true north at
         the time the image is taken.
 
         NOTE: For images from a scanning device, refer to the centre pixel of
@@ -420,8 +398,7 @@ trait ImageDescription(CoverageDescription):
         ...
 
     fn cloud_cover_percentage(self) -> Optional[Float64]:
-        """
-        Area of the dataset obscured by clouds, expressed as a percentage of
+        """Area of the dataset obscured by clouds, expressed as a percentage of
         the spatial extent.
 
         Domain: 0.0 - 100.0
@@ -429,43 +406,37 @@ trait ImageDescription(CoverageDescription):
         ...
 
     fn compression_generation_quantity(self) -> OptionalInt:
-        """
-        Count of the number of lossy compression cycles performed on the image.
+        """Count of the number of lossy compression cycles performed on the image.
         """
         ...
 
     fn triangulation_indicator(self) -> Optional[Bool]:
-        """
-        Indication of whether or not triangulation has been performed upon the
+        """Indication of whether or not triangulation has been performed upon the
         image.
         """
         ...
 
     fn radiometric_calibration_data_availability(self) -> Optional[Bool]:
-        """
-        Indication of whether or not the radiometric calibration information
+        """Indication of whether or not the radiometric calibration information
         for generating the radiometrically calibrated standard data product is
         available.
         """
         ...
 
     fn camera_calibration_information_availability(self) -> Optional[Bool]:
-        """
-        Indication of whether or not constants are available which allow for
+        """Indication of whether or not constants are available which allow for
         camera calibration corrections.
         """
         ...
 
     fn film_distortion_information_availability(self) -> Optional[Bool]:
-        """
-        Indication of whether or not Calibration Reseau information is
+        """Indication of whether or not Calibration Reseau information is
         available.
         """
         ...
 
     fn lens_distortion_information_availability(self) -> Optional[Bool]:
-        """
-        Indication of whether or not lens aberration correction information is
+        """Indication of whether or not lens aberration correction information is
         available.
         """
         ...
@@ -479,8 +450,7 @@ trait FeatureTypeInfo:
         ...
 
     fn feature_instance_count(self) -> OptionalInt:
-        """
-        Number of occurences of feature instances for this type.
+        """Number of occurences of feature instances for this type.
 
         Domain: > 0
         """
@@ -492,8 +462,7 @@ trait FeatureCatalogueDescription(ContentInformation):
     """
 
     fn compliance_code(self) -> Optional[Bool]:
-        """
-        Indication of whether or not the cited feature catalogue complies with
+        """Indication of whether or not the cited feature catalogue complies with
         ISO 19110.
         """
         ...
@@ -503,15 +472,13 @@ trait FeatureCatalogueDescription(ContentInformation):
         ...
 
     fn included_with_dataset(self) -> Optional[Bool]:
-        """
-        Indication of whether or not the feature catalogue is included with
+        """Indication of whether or not the feature catalogue is included with
         the resource.
         """
         ...
 
     fn feature_types(self) -> Optional[Sequence[FeatureTypeInfo]]:
-        """
-        Subset of feature types from cited feature catalogue occurring in
+        """Subset of feature types from cited feature catalogue occurring in
         dataset.
         """
         ...
@@ -530,8 +497,7 @@ trait FeatureCatalogue(ContentInformation):
     """A catalogue of feature types."""
 
     fn feature_catalogue(self) -> Optional[Sequence[FC_FeatureCatalogue]]:
-        """
-        The catalogue of feature types, attribution, operations, and
+        """The catalogue of feature types, attribution, operations, and
         relationships used by the resource.
 
         FC_FeatureCatalogue from ISO 19110

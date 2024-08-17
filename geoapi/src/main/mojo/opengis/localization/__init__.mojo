@@ -18,9 +18,8 @@
 
 # author: David Meaux
 
-"""This is the metadata subpackage.
+"""This is the localization subpackage.
 
-This subpackage contains geographic metadata structures derived from the
-ISO 19115-1:2014 and ISO 19115-2:2019 international standards and data
-quality structuresderived from the ISO 19157:2013 international standard.
+This subpackage contains structures from the ISO 639-2, ISO 3166-1,
+and IANA Character Sets international standards.
 """

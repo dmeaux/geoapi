@@ -38,14 +38,12 @@ trait Formula:
     """
 
     fn formula(self) -> String:
-        """
-        Formula(s) or procedure used by the operation method.
+        """Formula(s) or procedure used by the operation method.
         """
         ...
 
     fn citation(self) -> Citation:
-        """
-        Reference to a publication giving the formula(s) or procedure used by the coordinate operation method.
+        """Reference to a publication giving the formula(s) or procedure used by the coordinate operation method.
         """
         ...
 
@@ -56,16 +54,14 @@ trait OperationMethod(IdentifiedObject):
     """
 
     fn formula(self) -> Formula:
-        """
-        Formula(s) or procedure used by this operation method. This may be a reference to a publication.
+        """Formula(s) or procedure used by this operation method. This may be a reference to a publication.
         Note that the operation method may not be analytic, in which case this attribute references or
         contains the procedure, not an analytic formula.
         """
         ...
 
     fn parameters(self):
-        """
-        The set of parameters.
+        """The set of parameters.
         """
         ...
 
@@ -77,44 +73,38 @@ trait CoordinateOperation(IdentifiedObject):
     """
 
     fn source_crs(self) -> CoordinateReferenceSystem:
-        """
-        Returns the source CRS. The source CRS is mandatory for transformations only.
+        """Returns the source CRS. The source CRS is mandatory for transformations only.
         Conversions may have a source CRS that is not specified here, but through
         `DerivedCRS.getBaseCRS()` instead.
         """
         ...
 
     fn target_crs(self) -> CoordinateReferenceSystem:
-        """
-        Returns the target CRS. The target CRS is mandatory for transformations only.
+        """Returns the target CRS. The target CRS is mandatory for transformations only.
         Conversions may have a target CRS that is not specified here, but through
         `DerivedCRS` instead.
         """
         ...
 
     fn operation_version(self) -> String:
-        """
-        Version of the coordinate transformation (i.e., instantiation due to the stochastic nature of the parameters).
+        """Version of the coordinate transformation (i.e., instantiation due to the stochastic nature of the parameters).
         Mandatory when describing a transformation, and should not be supplied for a conversion.
         """
         ...
 
     fn coordinate_operation_accuracy(self) -> Sequence[PositionalAccuracy]:
-        """
-        Estimate(s) of the impact of this operation on point accuracy. Gives position error estimates for target
+        """Estimate(s) of the impact of this operation on point accuracy. Gives position error estimates for target
         coordinates of this coordinate operation, assuming no errors in source coordinates.
         """
         ...
 
     fn domain_of_validity(self) -> Extent:
-        """
-        Area or region or timeframe in which this coordinate operation is valid.
+        """Area or region or timeframe in which this coordinate operation is valid.
         """
         ...
 
     fn scope(self) -> String:
-        """
-        Description of domain of usage, or limitations of usage, for which this operation is valid.
+        """Description of domain of usage, or limitations of usage, for which this operation is valid.
         """
         ...
 
@@ -126,14 +116,12 @@ trait SingleOperation(CoordinateOperation):
     """
 
     fn method(self) -> OperationMethod:
-        """
-        Returns the operation method.
+        """Returns the operation method.
         """
         ...
 
     fn parameter_values(self):
-        """
-        Returns the parameter values.
+        """Returns the parameter values.
         """
         ...
 
@@ -145,14 +133,12 @@ trait PassThroughOperation(SingleOperation):
     """
 
     fn operation(self) -> SingleOperation:
-        """
-        Returns the operation to apply on the subset of a coordinate tuple.
+        """Returns the operation to apply on the subset of a coordinate tuple.
         """
         ...
 
     fn modified_coordinates(self) -> Sequence[Int]:
-        """
-        Ordered sequence of positive integers defining the positions in a coordinate tuple of the coordinates affected
+        """Ordered sequence of positive integers defining the positions in a coordinate tuple of the coordinates affected
         by this pass-through operation.
         """
         ...
@@ -168,14 +154,12 @@ trait Transformation(SingleOperation):
         ...
 
     fn target_crs(self) -> CoordinateReferenceSystem:
-        """
-        Returns the target CRS.
+        """Returns the target CRS.
         """
         ...
 
     fn operation_version(self) -> String:
-        """
-        Version of the coordinate transformation (i.e., instantiation due to the stochastic nature of the parameters).
+        """Version of the coordinate transformation (i.e., instantiation due to the stochastic nature of the parameters).
         This attribute is mandatory in a Transformation.
         """
         ...
@@ -187,21 +171,18 @@ trait Conversion(SingleOperation):
     """
 
     fn source_crs(self) -> CoordinateReferenceSystem:
-        """
-        Returns the source CRS. Conversions may have a source CRS that is not specified here, but through
+        """Returns the source CRS. Conversions may have a source CRS that is not specified here, but through
         `DerivedCRS.getBaseCRS()` instead.
         """
         ...
 
     fn target_crs(self) -> CoordinateReferenceSystem:
-        """
-        Returns the target CRS. Conversions may have a target CRS that is not specified here, but through
+        """Returns the target CRS. Conversions may have a target CRS that is not specified here, but through
         `DerivedCRS` instead.
         """
         ...
 
     fn operation_version(self) -> None:
-        """
-        This attribute is declared in `CoordinateOperation` but is not used in a conversion.
+        """This attribute is declared in `CoordinateOperation` but is not used in a conversion.
         """
         ...
