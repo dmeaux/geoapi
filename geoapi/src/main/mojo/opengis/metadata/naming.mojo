@@ -15,6 +15,9 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
+
+# author: David Meaux
+
 """This is the naming module.
 
 This module contains geographic metadata structures regarding naming derived
@@ -42,7 +45,7 @@ trait GenericName():
         ...
 
     # The following function creates a recursive definition
-    # fn parsed_name[T:LocalNameCollectionElement](self) -> Tuple[T]:
+    # fn parsed_name[ElementType: LocalNameCollectionElement](self) -> Tuple[ElementType]:
     #     """The sequence of local names making this generic name. The length of this sequence is the depth. It does not include the scope."""
     #     ...
 

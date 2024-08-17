@@ -21,10 +21,20 @@ This module contains primitive geometry data structures derived from
 the ISO 19107 international standard.
 """
 
+# author: David Meaux
+
 from opengis.referencing.crs import CoordinateReferenceSystem
 
 
 trait DirectPosition():
+    """Holds the coordinates for a position within some coordinate reference
+    system.
+    """
+
+    # ===-------------------------------------------------------------------===#
+    # Abstract Methods
+    # ===-------------------------------------------------------------------===#
+    
     fn coordinate_reference_system(self) -> CoordinateReferenceSystem:
         """The coordinate reference system in which the coordinate tuple
         is given."""

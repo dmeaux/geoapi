@@ -15,11 +15,15 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
+
+# author: David Meaux
+
 """This is the lineage module.
 
 This module contains geographic metadata structures derived from the
-ISO 19115-1:2014 international standard regarding the lineage of the data,
-that is how the data has changed and the sources from which it is derived.
+ISO 19115-1:2014 and ISO 19115-2:2019 international standards regarding
+the lineage of the data, that is how the data has changed and the sources
+from which it is derived.
 """
 
 from opengis.metadata.citation import (
@@ -68,7 +72,7 @@ trait Source():
         """Recommended reference to be used for the source resource."""
         ...
 
-    fn source_metadata[T: CitationCollectionElement](self) -> Tuple[T]:
+    fn source_metadata[ElementType: CitationCollectionElement](self) -> Tuple[ElementType]:
         """Identifier and link to source metadata."""
         ...
 
@@ -76,7 +80,7 @@ trait Source():
         """Type of resource and/or extent of the source."""
         ...
 
-    fn source_step[T: ProcessStepCollectionElement](self) -> Tuple[T]:
+    fn source_step[ElementType: ProcessStepCollectionElement](self) -> Tuple[ElementType]:
         """Information about process steps in which this source was used."""
         ...
 
@@ -118,14 +122,14 @@ trait AlgorithmCollectionElement(CollectionElement, Algorithm):
 trait Processing():
     """Comprehensive information about the procedure(s), process(es) and algorithm(s) applied in the process step."""
 
-    fn algorithm[T: AlgorithmCollectionElement](self) -> Tuple[T]:
+    fn algorithm[ElementType: AlgorithmCollectionElement](self) -> Tuple[ElementType]:
         ...
 
     fn identifier(self) -> Identifier:
         """Information to identify the processing package that produced the data."""
         ...
 
-    fn software_reference[T: CitationCollectionElement](self) -> Tuple[T]:
+    fn software_reference[ElementType: CitationCollectionElement](self) -> Tuple[ElementType]:
         """Reference to document describing processing software."""
         ...
 
@@ -133,7 +137,7 @@ trait Processing():
         """Additional details about the processing procedures."""
         ...
 
-    fn documentation[T: CitationCollectionElement](self) -> Tuple[T]:
+    fn documentation[ElementType: CitationCollectionElement](self) -> Tuple[ElementType]:
         """Reference to documentation describing the processing."""
         ...
 
@@ -180,11 +184,11 @@ trait ProcessStep():
         """Date, time, range or period of process step."""
         ...
 
-    fn processor[T: ResponsibilityCollectionElement](self) -> Tuple[T]:
+    fn processor[ElementType: ResponsibilityCollectionElement](self) -> Tuple[ElementType]:
         """Identification of, and means of communication with, person(s) and organisation(s) associated with the process step."""
         ...
 
-    fn reference[T: CitationCollectionElement](self) -> Tuple[T]:
+    fn reference[ElementType: CitationCollectionElement](self) -> Tuple[ElementType]:
         """Process step documentation."""
         ...
 
@@ -192,16 +196,16 @@ trait ProcessStep():
         """Type of resource and/or extent to which the process step applies."""
         ...
 
-    fn source[T: SourceCollectionElement](self) -> Tuple[T]:
+    fn source[ElementType: SourceCollectionElement](self) -> Tuple[ElementType]:
         ...
 
     fn processing_information(self) -> Processing:
         ...
 
-    fn report[T: ProcessStepReportCollectionElement](self) -> Tuple[T]:
+    fn report[ElementType: ProcessStepReportCollectionElement](self) -> Tuple[ElementType]:
         ...
 
-    fn output[T: SourceCollectionElement](self) -> Tuple[T]:
+    fn output[ElementType: SourceCollectionElement](self) -> Tuple[ElementType]:
         ...
 
 
@@ -223,11 +227,11 @@ trait Lineage():
         """Type of resource and/or extent to which the lineage information applies."""
         ...
 
-    fn additional_documentation[T: CitationCollectionElement](self) -> Tuple[T]:
+    fn additional_documentation[ElementType: CitationCollectionElement](self) -> Tuple[ElementType]:
         ...
 
-    fn source[T: SourceCollectionElement](self) -> Tuple[T]:
+    fn source[ElementType: SourceCollectionElement](self) -> Tuple[ElementType]:
         ...
 
-    fn process_step[T: ProcessStepCollectionElement](self) -> Tuple[T]:
+    fn process_step[ElementType: ProcessStepCollectionElement](self) -> Tuple[ElementType]:
         ...

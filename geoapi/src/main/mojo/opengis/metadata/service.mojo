@@ -15,6 +15,9 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
+
+# author: David Meaux
+
 """This is the service module.
 
 This module contains geographic metadata structures regarding data services

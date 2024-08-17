@@ -18,6 +18,8 @@
 """This is the metadata subpackage.
 
 This subpackage contains geographic metadata structures derived from the
-ISO 19115-1:2014 international standard and data quality structures
-derived from the ISO 19157:2013 international standard.
+ISO 19115-1:2014 and ISO 19115-2:2019 international standards and data
+quality structuresderived from the ISO 19157:2013 international standard.
 """
+
+# author: David Meaux
