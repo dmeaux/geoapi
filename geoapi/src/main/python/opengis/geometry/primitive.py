@@ -107,6 +107,76 @@ class Rotation(Enum):
     COUNTER_CLOCKWISE_LEFT = "counter-clockwise/left"
 
 
+class CurveRelativeDirection(Enum):
+    """
+    `CurveRelativeDirection` refers to the vectors associated with
+    a curve. Some common vector directions are:
+
+        - tangent, the direction in which the curve points;
+        - the inverse tangent, i.e. the opposite of the tangent;
+        - the binormal, the direction towards the center of curvature, i.e.
+            the inside of the curve;
+        - the inverse binormal (reverseBiNormal), the opposite of the
+            binormal, on the outside of the curve;
+        - leftNormal, to the left of the tangent;
+        - rightNormal, to the right of the tangent;
+        - upNormal, relative to the reference surface;
+        - downNormal, the opposite of upNormal.
+
+    These values can be used to extend or replace the 2D directions
+    of `RelativeDirection`.
+    """
+    TANGENT = "tangent"
+    REVERSE_TANGENT = "reverseTangent"
+    NORMAL = "normal"
+    REVERSE_NORMAL = "reverseNormal"
+    BINORMAL = "biNormal"
+    REVERSE_BINORMAL = "reverseBiNormal"
+    LEFT_NORMAL = "leftNormal"
+    RIGHT_NORMAL = "rightNormal"
+    UP_NORMAL = "upNormal"
+    DOWN_NORMAL = "downNormal"
+
+
+class FixedDirection(Enum):
+    """
+    `FixedDirection` enumerates common potential fixed reference directions
+    for azimuth, generally used in reference to the globe, a map,
+    a coordinate system or a grid. Common values include true north or south,
+    magnetic north or south, grid north or south (reference to a grid
+    or projection).
+    """
+    TRUE_NORTH = "trueNorth"
+    MAGNETIC_NORTH = "magneticNorth"
+    GRID_NORTH = "gridNorth"
+    TRUE_SOUTH = "trueSouth"
+    MAGNETIC_SOUTH = "magneticsouth"
+    GRID_SOUTH = "gridsouth"
+
+
+class RelativeDirection(Enum):
+    """
+    `RelativeDirection` enumerates common potential relative reference
+    directions for azimuth, generally used in reference to a moving
+    vehicle. Common values include front, rear, port (90° left) or
+    starboard (90° right).
+    """
+    FORE_FOREWARD = "fore/forward"
+    AFT_BACKWARD = "aft/backward"
+    PORT_LEFT = "port/left"
+    STARBOARD_RIGHT = "starboard/right"
+
+
+class Rotation(Enum):
+    """
+    `Rotation` enumerates the two potential directions of rotation for an
+    angular measurement, clockwise and anti-clockwise. These directions
+    of rotation are considered as seen from above the reference surface.
+    """
+    CLOCKWISE_RIGHT = "clockwise/right"
+    COUNTER_CLOCKWISE_LEFT = "counter-clockwise/left"
+
+
 class DirectPosition(ABC):
     """
     Holds the coordinates for a position within some coordinate
