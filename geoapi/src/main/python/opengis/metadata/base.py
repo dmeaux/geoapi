@@ -15,14 +15,15 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the base module.
+"""This is the `base` module.
 
 This subpackage contains geographic metadata structures regarding data
 acquisition that are derived from theISO 19115-1:2014 and ISO 19115-2:2019
 international standards.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 11 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
@@ -84,9 +85,10 @@ class Metadata(ABC):
 
     @property
     @abstractmethod
-    def default_locale(self) -> Optional[PT_Locale]:
+    def default_locale(self) -> Optional[str]:
         """
         Language and character set used for documenting metadata.
+        A string conforming to IETF BCP 47.
 
         MANDATORY: if UTF-8 not used and not defined in encoding.
         """
@@ -143,10 +145,10 @@ class Metadata(ABC):
 
     @property
     @abstractmethod
-    def other_locale(self) -> Optional[Sequence[PT_Locale]]:
+    def other_locale(self) -> Optional[Sequence[str]]:
         """
         Provides information about an alternatively used localized character
-        strings.
+        strings. A string conforming to IETF BCP 47.
         """
 
     @property
@@ -169,11 +171,11 @@ class Metadata(ABC):
         the dataset.
 
         The reference system may be:
-        * An ISO 19111 object such as `CoordinateReferenceSystem`.
-        * A `ReferenceSystem` with the `identifier` property (from
+        - An ISO 19111 object such as `CoordinateReferenceSystem`.
+        - A `ReferenceSystem` with the `identifier` property (from
             ISO 19111) sets to a list of `Identifier` values such as
             `["EPSG::4326"]`.
-        * An object with the `referenceSystemIdentifier` property (from
+        - An object with the `referenceSystemIdentifier` property (from
             ISO 19115) sets to a single `Identifier` value such as
                 `"EPSG::4326"`,
         The ReferenceSystem object may optionally have a

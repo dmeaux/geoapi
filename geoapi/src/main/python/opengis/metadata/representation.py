@@ -15,20 +15,22 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the representation module.
+"""This is the `representation` module.
 
 This module contains geographic metadata structures regarding representation
 derived from the ISO 19115-1:2014 and ISO 19115-2:2019 international
 standards.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 11 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from enum import Enum
 from typing import Optional
 
+from opengis.geometry.primitive import DirectPosition, Point
 from opengis.metadata.citation import Citation
 from opengis.metadata.maintenance import Scope
 from opengis.metadata.naming import Record
@@ -40,22 +42,47 @@ class CellGeometryCode(Enum):
     """Code indicating the geometry represented by the grid cell value."""
 
     POINT = "point"
+    """Each cell represents a point."""
+
     AREA = "area"
+    """Each cell represents an area."""
+
     VOXEL = "voxel"
+    """
+    Each cell represents a volumetric measurement on a regular grid in
+    three dimensional space.
+    """
+
     STRATUM = "stratum"
+    """Height range for a single point vertical profile."""
 
 
 class DimensionNameTypeCode(Enum):
     """Name of the dimension."""
 
     ROW = "row"
+    """Ordinate (y) axis."""
+
     COLUMN = "column"
+    """Abscissa (x) axis."""
+
     VERTICAL = "vertical"
+    """Vertical (z) axis."""
+
     TRACK = "track"
+    """Along the direction of motion of the scan point."""
+
     CROSS_TRACK = "crossTrack"
+    """Perpendicular to the direction of motion of the scan point."""
+
     LINE = "line"
+    """Scan line of a sensor."""
+
     SAMPLE = "sample"
+    """Element along a scan line."""
+
     TIME = "time"
+    """Duration."""
 
 
 class GeometricObjectTypeCode(Enum):
@@ -65,46 +92,146 @@ class GeometricObjectTypeCode(Enum):
     """
 
     COMPLEX = "complex"
+    """
+    Set of geometric primitives such that their boundaries can be
+    represented as a union of other primitives.
+    """
+
     COMPOSITE = "composite"
+    """Connected set of curves, solids or surfaces."""
+
     CURVE = "curve"
+    """
+    Bounded, 1-dimensional geometric primitive, representing the continuous
+    image of a line.
+    """
+
     POINT = "point"
+    """
+    Zero-dimensional geometric primitive, representing a position but not
+    having an extent.
+    """
+
     SOLID = "solid"
+    """
+    Bounded, connected 3-dimensional geometric primitive, representing the
+    continuous image of a region of space.
+    """
+
     SURFACE = "surface"
+    """
+    Bounded, connected 2-dimensional geometric primitive, representing the
+    continuous image of a region of a plane.
+    """
 
 
 class PixelOrientationCode(Enum):
     """Point in a pixel corresponding to the Earth location of the pixel"""
 
     CENTRE = "centre"
+    """
+    Point halfway between the lower left and the upper right of the pixel.
+    """
+
     LOWER_LEFT = "lowerLeft"
+    """
+    The corner in the pixel closest to the origin of the SRS; if two are at
+    the same distance from the origin, the one with the smallest x-value.
+    """
+
     LOWER_RIGHT = "lowerRight"
+    """Next corner counterclockwise from the lower left."""
+
     UPPER_RIGHT = "upperRight"
+    """Next corner counterclockwise from the lower right."""
+
     UPPER_LEFT = "upperLeft"
+    """Next corner counterclockwise from the upper right."""
 
 
 class SpatialRepresentationTypeCode(Enum):
     """Method used to represent geographic information in the resource."""
 
     VECTOR = "vector"
+    """Vector data are used to represent geographic data."""
+
     GRID = "grid"
+    """Grid data are used to represent geographic data."""
+
     TEXT_TABLE = "textTable"
+    """Textual or tabular data are used to represent geographic data."""
+
     TIN = "tin"
+    """Triangulated irregular network."""
+
     STEREO_MODEL = "stereoModel"
+    """
+    Three-dimensional view formed by the intersecting homologous rays of
+    an overlapping pair of images.
+    """
+
     VIDEO = "video"
+    """Scene from a video recording."""
 
 
 class TopologyLevelCode(Enum):
     """Degree of the complexity of the spatial relationships."""
 
     GEOMETRY_ONLY = "geometryOnly"
+    """
+    Geometry objects without any additional structure which describes topology.
+    """
+
     TOPOLOGY_1D = "topology1D"
+    """
+    1-Dimensional topological complex - commonly called “chain-node” topology.
+    """
+
     PLANAR_GRAPH = "planarGraph"
+    """
+    1-Dimensional topological complex that is planar.
+
+    NOTE: A planar graph is a graph that can be drawn in a plane in such a way
+    that no two edges intersect except at a vertex.
+    """
+
     FULL_PLANAR_GRAPH = "fullPlanarGraph"
+    """
+    2-Dimensional topological complex that is planar.
+
+    NOTE: A 2-dimensional topological complex is commonly called
+    “full topology” in a cartographic 2D environment.
+    """
+
     SURFACE_GRAPH = "surfaceGraph"
+    """
+    1-Dimensional topological complex that is isomorphic to a subset of
+    a surface.
+
+    NOTE: A geometric complex is isomorphic to a topological complex if their
+    elements are in a one-to-one, dimensional-and boundary-preserving
+    correspondence to one another.
+    """
+
     FULL_SURFACE_GRAPH = "fullSurfaceGraph"
+    """
+    2-Dimensional topological complex that is isomorphic to a subset of
+    a surface.
+    """
+
     TOPOLOGY_3D = "topology3D"
+    """
+    3-Dimensional topological complex.
+
+    NOTE: A topological complex is a collection of topological primitives that
+    are closed under the boundary operations.
+    """
+
     FULL_TOPOLOGY_3D = "fullTopology3D"
+    """Complete coverage of a 3D Euclidean coordinate space."""
+
     ABSTRACT = "abstract"
+    """Topological complex without any specified geometric realisation."""
 
 
 class Dimension(ABC):
@@ -223,7 +350,7 @@ class SpatialRepresentation(ABC):
 
     @property
     @abstractmethod
-    def scope(self) -> Scope:
+    def scope(self) -> Optional[Scope]:
         """Level and extent of the spatial representation."""
 
 
@@ -247,7 +374,7 @@ class GridSpatialRepresentation(SpatialRepresentation):
 
     @property
     @abstractmethod
-    def transformation_parameter_availability(self):
+    def transformation_parameter_availability(self) -> bool:
         """
         Indication of whether or not parameters for transformation between
         image coordinates and geographic or map coordinates exist
@@ -300,7 +427,7 @@ class Georectified(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def corner_points(self) -> Optional[Sequence[GM_Point]]:
+    def corner_points(self) -> Optional[Sequence[Point]]:
         """
         Earth location in the coordinate system defined by the Spatial
         Reference System and the grid coordinate of the cells at opposite ends
@@ -309,13 +436,13 @@ class Georectified(GridSpatialRepresentation):
         corner points along one diagonal are required. The first corner point
         corresponds to the origin of the grid.
 
-        NOTE: The length of the `Sequence` of `GM_Points` should be 2 - 4
+        NOTE: The length of the `Sequence` of `Points` should be 2 - 4
         (i.e. 2, 3, or 4).
         """
 
     @property
     @abstractmethod
-    def centre_point(self) -> Optional[GM_Point]:
+    def centre_point(self) -> Optional[Point]:
         """
         Earth location in the coordinate system defined by the Spatial
         Reference System and the grid coordinate of the cell halfway between
@@ -337,7 +464,12 @@ class Georectified(GridSpatialRepresentation):
     @property
     @abstractmethod
     def transformation_dimension_mapping(self) -> Optional[Sequence[str]]:
-        """Information about which grid axes are the spatial (map) axes."""
+        """
+        Information about which grid axes are the spatial (map) axes.
+
+        NOTE: The length of the `Sequence` of `str` should be 2. That is
+        len(list(str)) should return 2.
+        """
 
     @property
     @abstractmethod

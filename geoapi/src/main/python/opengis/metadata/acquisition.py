@@ -15,19 +15,20 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the acquisition module.
+"""This is the `acquisition` module.
 
 This subpackage contains geographic metadata structures regarding data
 acquisition that are derived from the ISO 19115-2:2019 international
 standard.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 11 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from datetime import datetime, date
+from datetime import date, datetime
 from enum import Enum
 from typing import Optional
 
@@ -35,8 +36,8 @@ from opengis.metadata.citation import Citation, Identifier, Responsibility
 from opengis.metadata.constraints import Constraints
 from opengis.metadata.extent import Extent
 from opengis.metadata.identification import ProgressCode
-from opengis.metadata.naming import Record, RecordType
 from opengis.metadata.maintenance import Scope
+from opengis.metadata.naming import Record, RecordType
 
 
 class ContextCode(Enum):
@@ -47,8 +48,10 @@ class ContextCode(Enum):
 
     ACQUISITION = "acquisition"
     """Event related to a specific collection."""
+
     PASS = "pass"
     """Event related to a sequence of collections."""
+
     WAY_POINT = "wayPoint"
     """Event related to a navigational manoeuvre."""
 
@@ -61,31 +64,43 @@ class EventTypeCode(Enum):
     Announcementannouncement about future events relevant to the
     platform/instrument/sensor.
     """
+
     CALIBRATION = "calibration"
     """Calibration event for the platform/instrument/sensor."""
+
     CALIBRATION_COEFFICIENT_UPDATE = "calibrationCoefficientUpdate"
     """Update of calibration information for the platform/instrument/sensor."""
+
     DATA_LOSS = "dataLoss"
     """Event related to data loss."""
+
     FATAL = "fatal"
     """Event that renders the platform/instrument/sensor unusable."""
+
     MANOEUVRE = "manoeuvre"
     """Event related to a manoeuvre of the platform/instrument/sensor."""
+
     MISSING_DATA = "missingData"
     """Event related to missing data from the platform/instrument/sensor."""
+
     NOTICE = "notice"
     """Notice about events related to the platform/instrument/sensor."""
+
     PRELAUNCH = "prelaunch"
     """Event related to prelaunch period for the platform/instrument/sensor."""
+
     SEVERE = "severe"
     """
     Event with significant impact on the performance of the platform/
     instrument/sensor.
     """
+
     SWITCH_OFF = "switchOff"
     """Event related to switching off platform/instrument/sensor."""
+
     SWITCH_ON = "switchOn"
     """Event related to switching on platform/instrument/sensor."""
+
     CLEAN = "clean"
     """Event related to cleaning the platform/instrument/sensor."""
 
@@ -95,10 +110,13 @@ class GeometryTypeCode(Enum):
 
     POINT = "point"
     """Single geographic point of interest."""
+
     LINEAR = "linear"
     """Extended collection in a single vector."""
+
     AREAL = "areal"
     """Collection of a geographic area defined by a polygon (coverage)."""
+
     STRIP = "strip"
     """Series of linear collections grouped by way points."""
 
@@ -108,8 +126,10 @@ class ObjectiveTypeCode(Enum):
 
     INSTANTANEOUS_COLLECTION = "instantaneousCollection"
     """Single instance of collection."""
+
     PERSISTENT_VIEW = "persistentView"
     """Multiple instances of collection."""
+
     SURVEY = "survey"
     """Collection over specified domain."""
 
@@ -124,8 +144,10 @@ class OperationTypeCode(Enum):
 
     REAL = "real"
     """Originates from live-fly or other non-simulated operational source."""
+
     SIMULATED = "simulated"
     """Originates from target simulator sources."""
+
     SYNTHESIZED = "synthesized"
     """Mix of real and simulated data."""
 
@@ -135,10 +157,13 @@ class PriorityCode(Enum):
 
     CRITICAL = "critical"
     """Of decisive importance."""
+
     HIGH_IMPORTANCE = "highImportance"
     """Requires resources to be made available."""
+
     MEDIUM_IMPORTANCE = "mediumImportance"
     """Normal operation priority."""
+
     LOW_IMPORTANCE = "lowImportance"
     """To be completed when resources are available."""
 
@@ -148,8 +173,10 @@ class SequenceCode(Enum):
 
     START = "start"
     """Beginning of collection."""
+
     END = "end"
     """End of collection."""
+
     INSTANTANEOUS = "instantaneous"
     """Collection without a significant duration."""
 
@@ -159,8 +186,10 @@ class TriggerCode(Enum):
 
     AUTOMATIC = "automatic"
     """Event due to external stimuli."""
+
     MANUAL = "manual"
     """Event manually instigated."""
+
     PRE_PROGRAMMED = "preProgrammed"
     """Event instaigated by planned internal stimuli."""
 
@@ -231,10 +260,10 @@ class InstrumentEventList(ABC):
 
     @property
     @abstractmethod
-    def locale(self) -> Optional[PT_Locale]:
+    def locale(self) -> Optional[str]:
         """
         Description of the language and character set used for the
-        `InstrumentationEventList`.
+        `InstrumentationEventList`. A string conforming to IETF BCP 47.
         """
 
     @property

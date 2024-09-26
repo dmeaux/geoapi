@@ -15,18 +15,19 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the cs module.
+"""This is the `cs` module.
 
 This module contains geographic metadata structures regarding coordinate
 systems derived from the ISO 19111 international standard.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 2 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 from abc import abstractmethod
 from enum import Enum
 
-from opengis.referencing.datum import IdentifiedObject
+from opengis.referencing.common import IdentifiedObject
 
 
 class AxisDirection(Enum):
@@ -36,37 +37,161 @@ class AxisDirection(Enum):
     approximate in other cases.
     """
 
-    COLUMN_NEGATIVE = "columnNegative"
-    COLUMN_POSITIVE = "columnPositive"
-    DISPLAY_DOWN = "displayDown"
-    DISPLAY_LEFT = "displayLeft"
-    DISPLAY_RIGHT = "displayRight"
-    DISPLAY_UP = "displayUp"
-    DOWN = "down"
-    EAST = "east"
-    EAST_NORTH_EAST = "eastNorthEast"
-    EAST_SOUTH_EAST = "eastSouthEast"
-    FUTURE = "future"
-    GEOCENTRIC_X = "geocentricX"
-    GEOCENTRIC_Y = "geocentricY"
-    GEOCENTRIC_Z = "geocentricZ"
     NORTH = "north"
-    NORTH_EAST = "northEast"
+    """
+    Axis positive direction is north. In a geodetic or projected CRS, north is
+    defined through the geodetic reference frame. In an engineering CRS, north
+    may be defined with respect to an engineering object rather than a
+    geographical direction.
+    """
+
     NORTH_NORTH_EAST = "northNorthEast"
-    NORTH_NORTH_WEST = "northNorthWest"
-    NORTH_WEST = "northWest"
-    PAST = "past"
-    ROW_NEGATIVE = "rowNegative"
-    ROW_POSITIVE = "rowPositive"
-    SOUTH = "south"
+    """Axis positive direction is approximately north-north-east."""
+
+    NORTH_EAST = "northEast"
+    """Axis positive direction is approximately north-east."""
+
+    EAST_NORTH_EAST = "eastNorthEast"
+    """Axis positive direction is approximately east-north-east."""
+
+    EAST = "east"
+    """Axis positive direction is ϖ/2 radians clockwise from north."""
+
+    EAST_SOUTH_EAST = "eastSouthEast"
+    """Axis positive direction is approximately east-south-east."""
+
     SOUTH_EAST = "southEast"
+    """Axis positive direction is approximately south-east."""
+
     SOUTH_SOUTH_EAST = "southSouthWest"
+    """Axis positive direction is approximately south-south-east."""
+
+    SOUTH = "south"
+    """Axis positive direction is ϖ radians clockwise from north."""
+
     SOUTH_SOUTH_WEST = "southSouthWest"
+    """Axis positive direction is approximately south-south-west."""
+
     SOUTH_WEST = "southWest"
-    UP = "up"
-    WEST = "west"
-    WEST_NORTH_WEST = "westNorthWest"
+    """Axis positive direction is approximately south-west."""
+
     WEST_SOUTH_WEST = "westSouthWest"
+    """Axis positive direction is approximately west-south-west."""
+
+    WEST = "west"
+    """Axis positive direction is 3ϖ/2 radians clockwise from north."""
+
+    WEST_NORTH_WEST = "westNorthWest"
+    """Axis positive direction is approximately west-north-west."""
+
+    NORTH_WEST = "northWest"
+    """Axis positive direction is approximately north-west."""
+
+    NORTH_NORTH_WEST = "northNorthWest"
+    """Axis positive direction is approximately north-north-west."""
+
+    UP = "up"
+    """Axis positive direction is up relative to gravity."""
+
+    DOWN = "down"
+    """Axis positive direction is down relative to gravity."""
+
+    GEOCENTRIC_X = "geocentricX"
+    """
+    Axis positive direction is in the equatorial plane from the centre of the
+    modelled Earth towards the intersection of the equator with the prime
+    meridian.
+    """
+
+    GEOCENTRIC_Y = "geocentricY"
+    """
+    Axis positive direction is in the equatorial plane from the centre of the
+    modelled Earth towards the intersection of the equator and the meridian
+    ϖ/2 radians eastwards from the prime meridian.
+    """
+
+    GEOCENTRIC_Z = "geocentricZ"
+    """
+    Axis positive direction is from the centre of the modelled Earth parallel
+    to its rotation axis and towards its north pole.
+    """
+
+    COLUMN_POSITIVE = "columnPositive"
+    """Axis positive direction is towards higher pixel column."""
+
+    COLUMN_NEGATIVE = "columnNegative"
+    """Axis positive direction is towards lower pixel column."""
+
+    ROW_POSITIVE = "rowPositive"
+    """Axis positive direction is towards higher pixel row."""
+
+    ROW_NEGATIVE = "rowNegative"
+    """Axis positive direction is towards lower pixel row."""
+
+    DISPLAY_RIGHT = "displayRight"
+    """Axis positive direction is right in display."""
+
+    DISPLAY_LEFT = "displayLeft"
+    """Axis positive direction is left in display."""
+
+    DISPLAY_UP = "displayUp"
+    """
+    Axis positive direction is towards top of approximately vertical display
+    surface.
+    """
+
+    DISPLAY_DOWN = "displayDown"
+    """
+    Axis positive direction is towards bottom of approximately vertical
+    display surface.
+    """
+
+    FORWARD = "forward"
+    """
+    Axis positive direction is forward; for an observer at the centre of the
+    object this is will be towards its front, bow or nose.
+    """
+
+    AFT = "aft"
+    """
+    Axis positive direction is aft; for an observer at the centre of the
+    object this will be towards its back, stern or tail.
+    """
+
+    PORT = "port"
+    """
+    Axis positive direction is port; for an observer at the centre of the
+    object this will be towards its left.
+    """
+
+    STARBOARD = "starboard"
+    """
+    Axis positive direction is starboard; for an observer at the centre of the
+    object this will be towards its right.
+    """
+
+    CLOCKWISE = "clockwise"
+    """Axis positive direction is clockwise from a specified direction."""
+
+    COUNTER_CLOCKWISE = "counterclockwise"
+    """
+    Axis positive direction is counter clockwise from a specified direction.
+    """
+
+    TOWARDS = "towards"
+    """Axis positive direction is towards the object."""
+
+    AWAY_FROM = "awayfrom"
+    """Axis positive direction is away from the object."""
+
+    FUTURE = "future"
+    """Temporal axis positive direction is towards the future."""
+
+    PAST = "past"
+    """Temporal axis positive direction is towards the past."""
+
+    UNSPECIFIED = "unspecified"
+    """Axis positive direction is unspecified."""
 
 
 class RangeMeaning(Enum):
@@ -76,7 +201,16 @@ class RangeMeaning(Enum):
     """
 
     EXACT = "exact"
+    """
+    Any value between and including minimumValue and maximumValue is valid.
+    """
+
     WRAPAROUND = "wraparound"
+    """
+    The axis is continuous with values wrapping around at the minimum_value
+    and maximum_value. Values with the same meaning repeat modulo the
+    difference between maximum_value and minimum_value.
+    """
 
 
 class CoordinateSystemAxis(IdentifiedObject):

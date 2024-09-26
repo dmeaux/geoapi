@@ -15,13 +15,14 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the distribution module.
+"""This is the `distribution` module.
 
 This module contains geographic metadata structures regarding data
 distribution derived from the ISO 19115-1:2014 international standard.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 11 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
@@ -42,12 +43,25 @@ class MediumFormatCode(Enum):
     """Method used to write to the medium."""
 
     CPIO = "cpio"
+    """Copy In / Out (UNIX file format and command)."""
+
     TAR = "tar"
+    """Tape Archive."""
+
     HIGH_SIERRA = "highSierra"
+    """High sierra file system."""
+
     ISO_9660 = "iso9660"
+    """Information processing - volume and file structure of CD-ROM."""
+
     ISO_9660_ROCK_RIDGE = "iso9660RockRidge"
+    """Rock ridge interchange protocol (UNIX)."""
+
     ISO_9660_APPLE_HFS = "iso9660AppleHFS"
+    """Hierarchical file system (Macintosh)."""
+
     UDF = "udf"
+    """Universal disk format."""
 
 
 class Medium(ABC):
@@ -140,7 +154,7 @@ class DataFile(ABC):
 
     @property
     @abstractmethod
-    def file_name(self):
+    def file_name(self) -> str:
         """Name of the file that contains the data."""
 
     @property

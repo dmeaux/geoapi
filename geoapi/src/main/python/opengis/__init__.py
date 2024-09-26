@@ -15,7 +15,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the opengis (opengis) package.
+"""This is the GeoAPI (`opengis`) package.
 
 This package implements the Open Geospatial Consortium, Inc.'s GeoAPI (geoapi)
 specification in Python and contains geographic structures derived from various
@@ -23,7 +23,7 @@ OGC/ISO international standards.
 """
 
 __package_name__ = "opengis"
-__version__ = 4.0
+__version__ = "4.0a1"
 __author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
 __license_type__ = "© 2013-2024 Open Geospatial Consortium, Inc.\
 Licensed under the Apache License, Version 2.0."

@@ -15,19 +15,21 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the extent module.
+"""This is the `extent` module.
 
 This module contains geographic metadata structures regarding data extent
 derived from the ISO 19115-1:2014 international standard.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 11 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from datetime import datetime
 from typing import Optional
 
+from opengis.geometry.primitive import Geometry
 from opengis.metadata.citation import Identifier
 from opengis.referencing.crs import ReferenceSystem, VerticalCRS
 
@@ -47,7 +49,7 @@ class VerticalExtent(ABC):
 
     @property
     @abstractmethod
-    def vertical_crs(self) -> Optional[VerticalCRS]:
+    def vertical_crs(self) -> Optional['VerticalCRS']:
         """
         Provides information about the vertical coordinate reference system
         to which the maximum and minimum elevation values are measured.
@@ -62,7 +64,7 @@ class VerticalExtent(ABC):
 
     @property
     @abstractmethod
-    def vertical_crs_id(self) -> Optional[ReferenceSystem]:
+    def vertical_crs_id(self) -> Optional['ReferenceSystem']:
         """
         Identifies the vertical coordinate reference system used for the
         minimum and maximum values.
@@ -80,7 +82,7 @@ class Extent(ABC):
         """
         Extent of the referring object.
 
-        Sets of points defining the bounding polygon or any other GM_Object
+        Sets of points defining the bounding polygon or any other
         geometry (point, line or polygon).
 
         MANDATORY: if `geographic_element`, `temproal_element`,
@@ -150,10 +152,10 @@ class BoundingPolygon(GeographicExtent):
 
     @property
     @abstractmethod
-    def polygon(self) -> Sequence[GM_Object]:
+    def polygon(self) -> Sequence[Geometry]:
         """
-        Sets of points defining the bounding polygon or any other `GM_Object`
-        geometry (point, line, or polygon).
+        Sets of points defining the bounding polygon or any other `Geometry`
+        object (point, line, or polygon).
         """
 
 
@@ -214,7 +216,7 @@ class GeographicDescription(GeographicExtent):
 
     @property
     @abstractmethod
-    def geographic_identifier(self) -> Identifier:
+    def geographic_identifier(self) -> 'Identifier':
         """
         Identifier used to represent a geographic area.
 

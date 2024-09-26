@@ -15,13 +15,14 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the service module.
+"""This is the `service` module.
 
 This module contains geographic metadata structures regarding data services
 derived from the ISO 19115-1:2014 international standard.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 11 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
@@ -38,22 +39,58 @@ class CouplingType(Enum):
     """Class of information to which the referencing entity applies."""
 
     LOOSE = "loose"
+    """
+    Service instance is loosely coupled with a data instance,
+    i.e. no `DataIdentification` class has to be described.
+    """
+
     MIXED = "mixed"
+    """
+    Service instance is mixed coupled with a data instance,
+
+    i.e. `DataIdentification` describes the associated data
+    instance and additionally the service instance might work
+    with other external data instances.
+    """
+
     TIGHT = "tight"
+    """
+    Service instance is tightly coupled with a data instance,
+    i.e. `DataIdentification` class MUST be described.
+    """
 
 
 class DCPList(Enum):
     """Class of information to which the referencing entity applies."""
     XML = "XML"
+    "Extensible Markup Language"
+
     CORBA = "CORBA"
+    """Common Object request Broker Architecture"""
+
     JAVA = "JAVA"
+    """Object-oriented programming language"""
+
     COM = "COM"
+    """Component Object Model"""
+
     SQL = "SQL"
+    """Structured Query Language"""
+
     SOAP = "SOAP"
+    """Simple Object Access Protocol"""
+
     Z3950 = "Z3950"
+    """ISO 23950"""
+
     HTTP = "HTTP"
+    """Hypertext Transfer Protocol"""
+
     FTP = "FTP"
+    """File Transfer Protocol"""
+
     WEB_SERVICES = "WebServices"
+    """Web service"""
 
 
 class ParameterDirection(Enum):
@@ -64,8 +101,10 @@ class ParameterDirection(Enum):
 
     IN = "in"
     """Input to a process."""
+
     OUT = "out"
     """Output of a process."""
+
     IN_OUT = "in/out"
     """Both an input and an output."""
 
@@ -94,7 +133,7 @@ class OperationChainMetadata(ABC):
 
 class CoupledResource(ABC):
     """
-    Links a given operationName (mandatory attribute of SV_OperationMetadata)
+    Links a given operationName (mandatory attribute of `OperationMetadata`)
     with a dataset identified by an 'identifier'.
     """
 
@@ -220,7 +259,7 @@ class ServiceIdentification(Identification):
     @abstractmethod
     def contains_operations(self) -> Optional[Sequence['OperationMetadata']]:
         """
-        Provides information about the operationsthat comprise the service.
+        Provides information about the operations that comprise the service.
         """
 
     @property
@@ -236,7 +275,7 @@ class ServiceIdentification(Identification):
     @property
     @abstractmethod
     def contains_chain(self) -> Optional[Sequence[OperationChainMetadata]]:
-        """Provide infromation about the chain applied by the resource."""
+        """Provides infromation about the chain applied by the resource."""
 
 
 class Parameter(ABC):
@@ -314,7 +353,7 @@ class OperationMetadata(ABC):
 
     @property
     @abstractmethod
-    def parameters(self) -> Optional[Parameter]:
+    def parameters(self) -> Optional[Sequence[Parameter]]:
         """The parameters that are required for this interface."""
 
     @property

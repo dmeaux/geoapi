@@ -15,7 +15,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the lineage module.
+"""This is the `lineage` module.
 
 This module contains geographic metadata structures derived from the
 ISO 19115-1:2014 and ISO 19115-2:2019 international standards regarding
@@ -23,7 +23,8 @@ the lineage of the data, that is how the data has changed and the sources
 from which it is derived.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 11 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
@@ -36,6 +37,7 @@ from opengis.metadata.maintenance import Scope
 from opengis.metadata.naming import MemberName, Record, RecordType
 from opengis.metadata.service import ParameterDirection
 from opengis.referencing.crs import ReferenceSystem
+from opengis.util.measure import Distance
 
 
 class NominalResolution(ABC):

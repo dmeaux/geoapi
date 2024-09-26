@@ -15,10 +15,11 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the referencing subpackage.
+"""This is the `referencing` subpackage.
 
 This subpackage contains spatial referencing data structures derived from
 the ISO 19111 international standard.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 2 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"

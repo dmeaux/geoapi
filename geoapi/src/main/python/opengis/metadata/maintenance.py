@@ -15,16 +15,17 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the maintenance module.
+"""This is the `maintenance` module.
 
 This module contains geographic metadata structures regarding data maintenance
 derived from the ISO 19115-1:2014 international standard.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 11 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
-from collections.abc import Sequence
+from collections.abc import Sequence, Set
 from datetime import timedelta
 from enum import Enum
 from typing import Optional
@@ -40,51 +41,141 @@ class MaintenanceFrequencyCode(Enum):
     """
 
     CONTINUAL = "continual"
+    """Resource is repeatedly and frequentlyupdated."""
+
     DAILY = "daily"
+    """Resource is updated each day"""
+
     WEEKLY = "weekly"
+    """Resource is updated on a weekly basis."""
+
     FORTNIGHTLY = "fortnightly"
+    """Resource is updated every two weeks."""
+
     MONTHLY = "monthly"
+    """Resource is updated each month."""
+
     QUARTERLY = "quarterly"
+    """Resource is updatedevery three months."""
+
     BIANNUALLY = "biannually"
+    """Resource is updated twice each year."""
+
     ANNUALLY = "annually"
+    """Resource is updated every year."""
+
     AS_NEEDED = "asNeeded"
+    """Resource is updated as deemed necessary."""
+
     IRREGULAR = "irregular"
+    """Resource is updated in intervals that are uneven in duration."""
+
     NOT_PLANNED = "notPlanned"
+    """There are no plans to update the data."""
+
     UNKNOWN = "unknown"
+    """Frequency of maintenance for the data is not known."""
+
     PERIODIC = "periodic"
+    """Resource is updated at regular intervals."""
+
     SEMIMONTHLY = "semimonthly"
+    """Resource is updated twice monthly."""
+
     BIENNIALLY = "biennially"
+    """Resource is updated every two years."""
 
 
 class ScopeCode(Enum):
     """Class of information to which the referencing entity applies."""
 
-    COLLECTION_HARDWARE = "collectionHardware"
-    COLLECTION_SESSION = "collectionSession"
-    SERIES = "series"
-    DATASET = "dataset"
-    NON_GEOGRAPHIC_DATASET = "nonGeographicDataset"
-    DIMENSION_GROUP = "dimensionGroup"
-    FEATURE_TYPE = "featureType"
-    FEATURE = "feature"
-    ATTRIBUTE_TYPE = "attributeType"
     ATTRIBUTE = "attribute"
+    """Information applies to the attribute value."""
+
+    ATTRIBUTE_TYPE = "attributeType"
+    """Information applies to the characteristic of a feature."""
+
+    COLLECTION_HARDWARE = "collectionHardware"
+    """Information applies to the collection hardware class."""
+
+    COLLECTION_SESSION = "collectionSession"
+    """Information applies to the collection session."""
+
+    DATASET = "dataset"
+    """Information applies to the dataset."""
+
+    SERIES = "series"
+    """Information applies to the series."""
+
+    NON_GEOGRAPHIC_DATASET = "nonGeographicDataset"
+    """Information applies to the non-geographic dataset."""
+
+    DIMENSION_GROUP = "dimensionGroup"
+    """Information applies to a dimension group."""
+
+    FEATURE = "feature"
+    """Information applies to a featiure."""
+
+    FEATURE_TYPE = "featureType"
+    """Information applies to a feature type."""
+
     PROPERTY_TYPE = "propertyType"
+    """Information applies to a property type."""
+
     FIELD_SESSION = "fieldSession"
+    """Information applies to a field session."""
+
     SOFTWARE = "software"
+    """Information applies to a computer program or routine."""
+
     SERVICE = "service"
+    """
+    Information applies to a capability which a service provider entity makes
+    available to s service user entity through a set of interfaces that define
+    a behaviour, such as a use case.
+    """
+
     MODEL = "model"
+    """
+    Information applies to a copy or imitation of an existing or hypothetical
+    object.
+    """
+
     TILE = "tile"
+    """Information applies to a tile, a spatial subset of geographic data."""
+
     METADATA = "metadata"
+    """Information applies to metadata."""
+
     INITIATIVE = "initiative"
+    """Information applies to an intitiative."""
+
     SAMPLE = "sample"
+    """Information applies to a sample."""
+
     DOCUMENT = "document"
+    """Information applies to a document."""
+
     REPOSITORY = "repository"
+    """Information applies to a repository."""
+
     AGGREGATE = "aggregate"
+    """Information applies to an aggregate resource."""
+
     PRODUCT = "product"
+    """Metadata describing an ISO 19131 data product specification."""
+
     COLLECTION = "collection"
+    """Information applies to an unstructured set."""
+
     COVERAGE = "coverage"
+    """Information applies to a coverage."""
+
     APPLICATION = "application"
+    """
+    Information resource hosted on a specific set of hardware and accessible
+    over a network.
+    """
 
 
 class ScopeDescription(ABC):
@@ -92,7 +183,7 @@ class ScopeDescription(ABC):
 
     @property
     @abstractmethod
-    def attributes(self) -> Optional[Sequence[str]]:
+    def attributes(self) -> Optional[Set[str]]:
         """
         Instances of attribute types to which the information applies.
 
@@ -102,7 +193,7 @@ class ScopeDescription(ABC):
 
     @property
     @abstractmethod
-    def features(self) -> Optional[Sequence[str]]:
+    def features(self) -> Optional[Set[str]]:
         """
         Instances of feature types to which the information applies.
 
@@ -112,7 +203,7 @@ class ScopeDescription(ABC):
 
     @property
     @abstractmethod
-    def feature_instances(self) -> Optional[Sequence[str]]:
+    def feature_instances(self) -> Optional[Set[str]]:
         """
         Feature instances to which the information applies.
 
@@ -122,7 +213,7 @@ class ScopeDescription(ABC):
 
     @property
     @abstractmethod
-    def attribute_instances(self) -> Optional[Sequence[str]]:
+    def attribute_instances(self) -> Optional[Set[str]]:
         """
         Attribute instances to which the information applies.
 

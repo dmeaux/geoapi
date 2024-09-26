@@ -15,13 +15,14 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the content module.
+"""This is the `content` module.
 
 This module contains geographic metadata structures regarding data content
 derived from the ISO 19115-1:2014 and ISO 19115-2:2019 international standards.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 11 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
@@ -30,6 +31,7 @@ from typing import Optional
 
 from opengis.metadata.citation import Citation, Identifier
 from opengis.metadata.naming import GenericName, MemberName, Record, RecordType
+from opengis.util.measure import UnitOfMeasure, UomLength
 
 
 class BandDefinition(Enum):
@@ -42,21 +44,25 @@ class BandDefinition(Enum):
     Width of a distribution equal to the distance between the outer two points\
     on the distribution having power level half of that at the peak.
     """
+
     HALF_MAXIMUM = "halfMaximum"
     """
     Width of a distribution equal to the distance between the outer two points
     on the distribution having power level half of that at the peak.
     """
+
     FIFTY_PERCENT = "fiftyPercent"
     """
     Full spectral width of a spectral power density measured at 50 % of its
     peak height.
     """
+
     ONE_OVER_E = "oneOverE"
     """
     Width of a distribution equal to the distance between the outer two points
     on the distribution having power level 1/e that of the peak.
     """
+
     EQUIVALENT_WIDTH = "equivalentWidth"
     """
     Width of a band with full sensitivity or absorption at every wavelength
@@ -71,13 +77,54 @@ class CoverageContentTypeCode(Enum):
     """
 
     IMAGE = "image"
+    """
+    Meaningful numerical representation of a physical parameter that is not
+    the actual value of the physical parameter.
+    """
+
     THEMATIC_CLASSIFICATION = "thematicClassification"
+    """
+    Code value with no quantitative meaning, used to represent a
+    physical quantity.
+    """
+
     PHYSICAL_MEASUREMENT = "physicalMeasurement"
+    """Value in physical units of the quantity being measured."""
+
     AUXILLARY_INFORMATION = "auxillaryInformation"
+    """
+    Data, usually a physical measurement, used to support the calculation
+    of the primary PHYSICAL_MEASUREMENT coverages in the dataset.
+
+    EXAMPLE: Grid of aerosol optical thickness used in the calculation of a
+    sea surface temperature product.
+    """
+
     QUALITY_INFORMATION = "qualityInformation"
+    """
+    Data used to characterize the quality of the PHYSICAL_MEASUREMENT coverages
+    in the dataset.
+
+    NOTE: Typically included in a gmi:QE_CoverageResult.
+    """
+
     REFERENCE_INFORMATION = "referenceInformation"
+    """
+    Reference information used to support the calculation or use of the
+    PHYSICAL_MEASUREMENT coverages in the dataset.
+
+    EXAMPLE: Grids of latitude/longitude used to geolocate
+    the physical measurements.
+    """
+
     MODEL_RESULT = "modelResult"
+    """
+    Resources with values that are calculated using a model rather than being
+    observed or calculated from observations.
+    """
+
     COORDINATE = "coordinate"
+    """Data used to provide coordinate axis values."""
 
 
 class ImagingConditionCode(Enum):
@@ -86,16 +133,45 @@ class ImagingConditionCode(Enum):
     """
 
     BLURRED_IMAGE = "blurredImage"
+    """Portion of the image is blurred."""
+
     CLOUD = "cloud"
+    """Portion of the image is partially obscured by cloud cover."""
+
     DEGRADING_OBLIQUITY = "degradingObliquity"
+    """
+    Acute angle between the plane of the ecliptic (the plane of the Earth's
+    orbit) and the plane of the celestial equator.
+    """
+
     FOG = "fog"
+    """Portion of the image is partially obscured by fog."""
+
     HEAVY_SMOKE_OR_DUST = "heavySmokeOrDust"
+    """Portion of the image is partially obscured by heavy smoke or dust."""
+
     NIGHT = "night"
+    """Image was taken at night."""
+
     RAIN = "rain"
+    """Image was taken during rainfall."""
+
     SEMI_DARKNESS = "semiDarkness"
+    """
+    Image was taken during semi-dark conditions - twilight conditions.
+    """
     SHADOW = "shadow"
+    """Portion of the image is obscured by shadow."""
+
     SNOW = "snow"
+    """Portion of the image is obscured by snow."""
+
     TERRAIN_MASKING = "terrainMasking"
+    """
+    The absence of collection data of a given point or area caused by the
+    relative location of topographic features which obstruct the collection
+    path between the collector(s) and the subject(s) of interes.
+    """
 
 
 class PolarisationOrientationCode(Enum):
@@ -106,26 +182,31 @@ class PolarisationOrientationCode(Enum):
     Polarization of the sensor oriented in the horizontal plane in relation to
     swathe direction.
     """
+
     VERTICAL = "vertical"
     """
     Polarization of the sensor oriented in the vertical plane in relation to
     swathe direction.
     """
+
     LEFT_CIRCULAR = "leftCircular"
     """
     Polarization of the sensor oriented in the left circular plane in relation
     to swathe direction.
     """
+
     RIGHT_CIRCULAR = "rightCircular"
     """
     Polarization of the sensor oriented in the right circular plane in relation
     to swathe direction.
     """
+
     THETA = "theta"
     """
     Polarization of the sensor oriented in the angle between +90° and 0°
     parallel to swathe direction.
     """
+
     PHI = "phi"
     """
     Polarization of the sensor oriented in the +90° and 0° perpendicular to
@@ -141,8 +222,10 @@ class TransferFunctionTypeCode(Enum):
 
     LINEAR = "linear"
     """Function used when transformation is first order polynomial."""
+
     LOGARITHMIC = "logarithmic"
     """Function used when transformation is logartihmic."""
+
     EXPONENTIAL = "exponential"
     """Function used when transformation is exponential."""
 
@@ -245,7 +328,7 @@ class SampleDimension(RangeDimension):
         Units of data in each dimension included in the resource.
 
         NOTE: that the type of this is `UnitOfMeasure` and that it is
-        restricted to `UomLength` in the `Band` class.
+        restricted further for the `Band` class to being of type `UomLength`.
 
         MANDATORY if `max_value` or `min_value` is specified.
         """
@@ -381,7 +464,8 @@ class Band(SampleDimension):
 
     @property
     @abstractmethod
-    def transmitted_polarisation(self) -> Optional[PolarisationOrientationCode]:
+    def transmitted_polarisation(self) -> \
+            Optional[PolarisationOrientationCode]:
         """Polarisation of the transmitter or detector."""
 
     @property
@@ -560,8 +644,11 @@ class FeatureCatalogueDescription(ContentInformation):
 
     @property
     @abstractmethod
-    def locale(self) -> Optional[Sequence[PT_Locale]]:
-        """Language(s) and character set(s) used within the catalogue."""
+    def locale(self) -> Optional[Sequence[str]]:
+        """
+        Language(s) and character set(s) used within the catalogue. A string
+        conforming to IETF BCP 47.
+        """
 
     @property
     @abstractmethod
@@ -591,15 +678,17 @@ class FeatureCatalogueDescription(ContentInformation):
         """
 
 
-class FeatureCatalogue(ContentInformation):
-    """A catalogue of feature types."""
+# ISO 19115:2014 MD_FeatureCatalogue
+# Need to implement ISO 19110 FC_FeatureCatalogue and related objects
+# class FeatureCatalogue(ContentInformation):
+#     """A catalogue of feature types."""
 
-    @property
-    @abstractmethod
-    def feature_catalogue(self) -> Optional[Sequence[FC_FeatureCatalogue]]:
-        """
-        The catalogue of feature types, attribution, operations, and
-        relationships used by the resource.
+#     @property
+#     @abstractmethod
+#     def feature_catalogue(self) -> Optional[Sequence[FC_FeatureCatalogue]]:
+#         """
+#         The catalogue of feature types, attribution, operations, and
+#         relationships used by the resource.
 
-        FC_FeatureCatalogue from ISO 19110
-        """
+#         Derived from FC_FeatureCatalogue from ISO 19110.
+#         """

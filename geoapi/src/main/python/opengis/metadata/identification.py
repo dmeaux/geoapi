@@ -15,14 +15,15 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the identification module.
+"""This is the `identification` module.
 
 This module contains geographic metadata structures regarding identification
 information codelists and common base classes derived from the
 ISO 19115-1:2014 international standard.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 11 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
@@ -41,84 +42,241 @@ from opengis.metadata.distribution import Format
 from opengis.metadata.extent import Extent
 from opengis.metadata.maintenance import MaintenanceInformation
 from opengis.metadata.representation import SpatialRepresentationTypeCode
+from opengis.util.measure import Angle, Distance
 
 
 class AssociationTypeCode(Enum):
     """Justification for the correlation of two resources."""
 
     CROSS_REFERENCE = "crossReference"
+    """Reference from one resource to another."""
+
     LARGER_WORK_CITATION = "largerWorkCitation"
+    """Reference to a master resource of which this one is a part."""
+
     PART_OF_SEAMLESS_DATABASE = "partOfSeamlessDatabase"
-    SOURCE = "source"
+    """Part of same structured set of data held in a computer."""
+
+    # deprecated Removed in ISO 19115:2014.
+    # SOURCE = "source"
+    # """
+    # Mapping and charting information from which the dataset content
+    # originates.
+    # """
+
     STEREO_MATE = "stereoMate"
+    """
+    Part of a set of imagery that when used together, provides
+    three-dimensional images.
+    """
+
     IS_COMPOSED_OF = "isComposedOf"
+    """Reference to resources that are parts of this resource."""
+
     COLLECTIVE_TITLE = "collectiveTitle"
+    """
+    Common title for a collection of resources.
+
+    NOTE: Title identifies elements of a series collectively, combined with
+    information about what volumes are available at the source cite.
+    """
+
     SERIES = "series"
+    """
+    Associated through a common heritage such as produced to a common product
+    specification.
+    """
+
     DEPENDENCY = "dependency"
+    """Associated through a dependency."""
+
     REVISION_OF = "revisionOf"
+    """Resource is a revision of associated resource."""
 
 
 class InitiativeTypeCode(Enum):
     """Type of aggregation activity in which resources are related."""
 
     CAMPAIGN = "campaign"
+    """Series of organized planned actions."""
+
     COLLECTION = "collection"
+    """Accumulation of resources assembled for a specific purpose."""
+
     EXERCISE = "exercise"
+    """Specific performance of a function or group of functions."""
+
     EXPERIMENT = "experiment"
+    """Process designed to find if something is effective or valid."""
+
     INVESTIGATION = "investigation"
+    """Search or systematic inquiry."""
+
     MISSION = "mission"
+    """Specific operation of a data collection system."""
+
     SENSOR = "sensor"
+    """Device or piece of equipment which detects or records."""
+
     OPERATION = "operation"
+    """Action that is part of a series of actions."""
+
     PLATFORM = "platform"
+    """Vehicle or other support base that holds a sensor."""
+
     PROCESS = "process"
+    """Method of doing something involving a number of steps."""
+
     PROGRAM = "program"
+    """Specific planned activity."""
+
     PROJECT = "project"
+    """Organized undertaking, research, or development."""
+
     STUDY = "study"
+    """Examination or investigation."""
+
     TASK = "task"
+    """Piece of work."""
+
     TRIAL = "trial"
+    """Process of testing to discover or demonstrate something."""
 
 
 class KeywordTypeCode(Enum):
     """Methods used to group similar keywords."""
 
     DISCIPLINE = "discipline"
+    """Keyword identifies a branch of instruction or specialized learning."""
+
     PLACE = "place"
+    """Keyword identifies a location."""
+
     STRATUM = "stratum"
+    """
+    Keyword identifies the layer(s) of any deposited substance or levels
+    within an ordered system.
+    """
+
     TEMPORAL = "temporal"
+    """Keyword identifies a time period related to the resource."""
+
     THEME = "theme"
+    """Keyword identifies a particular subject or topic."""
+
     DATA_CENTRE = "dataCentre"
+    """
+    Keyword identifies a repository or archive that manages and
+    distributes data.
+    """
+
     FEATURE_TYPE = "featureType"
+    """
+    Keyword identifies a resource containing or about a collection of feature
+    instances with common characteristics.
+    """
+
     INSTRUMENT = "instrument"
+    """
+    Keyword identifies a device used to measure or compare physical properties.
+    """
+
     PLATFORM = "platform"
+    """Keyword identifies a structure upon which an instrument is mounted."""
+
     PROCESS = "process"
+    """Keyword identifies a series of actions or natural occurrences."""
+
     PROJECT = "project"
+    """
+    Keyword identifies an endeavour undertaken to create or modify a product
+    or service.
+    """
+
     SERVICE = "service"
+    """
+    Keyword identifies an activity carried out by one party for the benefit
+    of another.
+    """
+
     PRODUCT = "product"
+    """Keyword identifies a type of product."""
+
     SUB_TOPIC_CATEGORY = "subTopicCategory"
+    """
+    Refinement of a topic category for the purpose of geographic
+    data classification.
+    """
+
     TAXON = "taxon"
+    """Keyword identifies a taxonomy of the resource."""
 
 
 class ProgressCode(Enum):
     """Status of the resource."""
 
     COMPLETED = "completed"
+    """Has been completed."""
+
     HISTORICAL_ARCHIVE = "historicalArchive"
+    """Stored in an offline storage facility."""
+
     OBSOLETE = "obsolete"
+    """No longer relevant."""
+
     ON_GOING = "onGoing"
+    """Continually being updated."""
+
     PLANNED = "planned"
+    """
+    Fixed date has been established upon or by which the resource will be
+    created or updated.
+    """
+
     REQUIRED = "required"
+    """Needs to be generated or updated."""
+
     UNDER_DEVELOPMENT = "underDevelopment"
+    """Currently in the process of being created."""
+
     FINAL = "final"
+    """Progress concluded and no changes will be accepted."""
+
     PENDING = "pending"
+    """Committed to, but not yet addressed."""
+
     RETIRED = "retired"
+    """
+    Item is no longer recommended for use. It has not been superseded
+    by another item.
+    """
+
     SUPERSEDED = "superseded"
+    """Replaced by new."""
+
     TENTATIVE = "tentative"
+    """Provisional changes likely before resource becomes final or complete."""
+
     VALID = "valid"
+    """Acceptable under specific conditions."""
+
     ACCEPTED = "accepted"
+    """Agreed to by sponsor."""
+
     NOT_ACCEPTED = "notAccepted"
+    """Rejected by sponsor."""
+
     WITHDRAWN = "withdrawn"
+    """Removed from consideration."""
+
     PROPOSED = "proposed"
+    """Suggested that development needs to be undertaken."""
+
     DEPRECATED = "deprecated"
+    """
+    Resource superseded and will become obsolete, use only
+    for historical purposes.
+    """
 
 
 class TopicCategoryCode(Enum):
@@ -134,18 +292,176 @@ class TopicCategoryCode(Enum):
     """
 
     FARMING = "farming"
+    """
+    Rearing of animals and/or cultivation of plants.
+
+    EXAMPLES: Agriculture, irrigation, aquaculture, plantations, herding,
+    pests and diseases affecting crops and livestock.
+    """
+
     BIOTA = "biota"
+    """
+    Flora and/or fauna in natural environment.
+
+    EXAMPLES: Wildlife, vegetation, biological sciences, ecology, wilderness,
+    sealife, wetlands, habitat.
+    """
+
     BOUNDARIES = "boundaries"
+    """
+    Legal land descriptions, maritime boundaries.
+
+    EXAMPLES: Political and administrative boundaries, territorial seas, EEZ,
+    port security zones.
+    """
+
     CLIMATOLOGY_METEOROLOGY_ATMOSPHERE = "climatologyMeteorologyAtmosphere"
+    """
+    Processes and phenomena of the atmosphere.
+
+    EXAMPLES: Cloud cover, weather, climate, atmospheric conditions,
+    climate change, precipitation.
+    """
+
     ECONOMY = "economy"
+    """
+    Economic activities, conditions and employment.
+
+    EXAMPLES: Production, labour, revenue, commerce, industry, tourism and
+    ecotourism, forestry, fisheries, commercial or subsistence hunting,
+    exploration and exploitation of resources such as minerals, oil and gas.
+    """
+
     ELEVATION = "elevation"
+    """
+    Height above or below a vertical datum.
+
+    EXAMPLES: Altitude, bathymetry, digital elevation models, slope,
+    derived products.
+    """
+
     ENVIRONMENT = "environment"
+    """
+    Environmental resources, protection and conservation.
+
+    EXAMPLES: Environmental pollution, waste storage and treatment,
+    environmental impact assessment, monitoring environmental risk,
+    nature reserves, landscape.
+    """
+
+    GEOSCIENTIFIC_INFORMATION = "geoscientificInformation"
+    """
+    Information pertaining to earth sciences.
+
+    EXAMPLES: Geophysical features and processes, geology, minerals,
+    sciences dealing with the composition, structure and origin of the
+    Earth's rocks, risks of earthquakes, volcanic activity, landslides,
+    gravity information, soils, permafrost, hydrogeology, erosion.
+    """
+
+    HEALTH = "health"
+    """
+    Health, health services, human ecology, and safety.
+
+    EXAMPLES: Disease and illness, factors affecting health, hygiene,
+    substance abuse, mental and physical health, health services.
+    """
+
+    IMAGERY_BASE_MAPS_EARTH_COVER = "imageryBaseMapsEarthCover"
+    """
+    Base maps.
+
+    EXAMPLES: Land cover, topographic maps, imagery, unclassified images,
+    annotations.
+    """
+
+    INTELLIGENCE_MILITARY = "intelligenceMilitary"
+    """
+    Military bases, structures, activities.
+
+    EXAMPLES: Barracks, training grounds, military transportation,
+    information collection.
+    """
+
+    INLAND_WATERS = "inlandWaters"
+    """
+    Inland water features, drainage systems and their characteristics.
+
+    EXAMPLES: Rivers and glaciers, salt lakes, water utilization plans, dams,
+    currents, floods, water quality, hydrologic information.
+    """
+
+    LOCATION = "location"
+    """
+    Positional information and services.
+
+    EXAMPLES: Addresses, geodetic networks, control points, postal zones and
+    services, place names.
+    """
+
+    OCEANS = "oceans"
+    """
+    Features and characteristics of salt water bodies (excluding
+    inland waters).
+
+    EXAMPLES: Tides, tsunamis, coastal information, reefs.
+    """
+
+    PLANNING_CADASTRE = "planningCadastre"
+    """
+    Information used for appropriate actions for future use of the land.
+
+    EXAMPLES: Land use maps, zoning maps, cadastral surveys, land ownership.
+    """
+
     SOCIETY = "society"
+    """
+    Characteristics of society and cultures.
+
+    EXAMPLES: Settlements, anthropology, archaeology, education,
+    traditional beliefs, manners and customs, demographic data,
+    recreational areas and activities, social impact assessments,
+    crime and justice, census information.
+    """
+
     STRUCTURE = "structure"
+    """
+    Man-made construction.
+
+    EXAMPLES: Buildings, museums, churches, factories, housing, monuments,
+    shops, towers.
+    """
+
     TRANSPORTATION = "transportation"
+    """
+    Means and aids for conveying persons and/or goods.
+
+    EXAMPLES: Roads, airports/airstrips, shipping routes, tunnels,
+    nautical charts, vehicle or vessel location, aeronautical charts,
+    railways.
+    """
+
     UTILITIES_COMMUNICATION = "utilitiesCommunication"
+    """
+    Energy, water and waste systems and communications infrastructure
+    and services.
+
+    EXAMPLES: Hydroelectricity, geothermal, solar and nuclear sources
+    of energy, water purification and distribution, sewage collection and
+    disposal, electricity and gas distribution, data communication,
+    telecommunication, radio, communication networks.
+    """
+
     EXTRA_TERRESTRIAL = "extraTerrestrial"
+    """Region more than 100 km above the surface of the Earth."""
+
     DISASTER = "disaster"
+    """
+    Information related to disasters.
+
+    EXAMPLES: Site of the disaster, evacuation zone,
+    disaster-prevention facility, disaster relief activities.
+    """
 
 
 class BrowseGraphic(ABC):
@@ -206,10 +522,10 @@ class KeywordClass(ABC):
 
     @property
     @abstractmethod
-    def concept_identifier(self) -> Optional[URI]:
+    def concept_identifier(self) -> Optional[str]:
         """
-        URI of concept in ontology specified by the ontology attribute; this
-        concept is labeled by the className: CharacterString.
+        URI (as a string) of concept in ontology specified by the ontology
+        attribute; this concept is labeled by a `str`.
         """
 
     @property
@@ -227,9 +543,8 @@ class Keywords(ABC):
     """
     Keywords, their type and reference source.
 
-        NOTE: When the resource
-    described is a service, one instance of `Keyword` shall refer to the
-    service taxonomy defined in ISO 19119, 8.3).
+    NOTE: When the resource described is a service, one instance of `Keyword`
+    shall refer to the service taxonomy defined in ISO 19119, 8.3).
     """
 
     @property
@@ -347,7 +662,7 @@ class RepresentativeFraction(ABC):
 
 
 class Resolution(ABC):
-    """Level of detail expressed as a scale factor, a distance or an angle."""
+    """Level of detail expressed as a scale factor, a distance, or an angle."""
 
     @property
     @abstractmethod
@@ -564,7 +879,7 @@ class Identification(ABC):
     @property
     @abstractmethod
     def descriptive_keywords(self) -> Optional[Sequence[Keywords]]:
-        """Category keywords, their type, and reference source."""
+        """Category keywords, their type and reference source."""
 
     @property
     @abstractmethod
@@ -590,19 +905,20 @@ class DataIdentification(Identification):
 
     @property
     @abstractmethod
-    def default_locale(self) -> Optional[PT_Locale]:
+    def default_locale(self) -> Optional[str]:
         """
-        Language and character set used within the resource.
+        Language and character set used within the resource. A string
+        conforming to IETF BCP 47.
 
         MANDATORY: if a language is used in the resource.
         """
 
     @property
     @abstractmethod
-    def other_locale(self) -> Optional[Sequence[PT_Locale]]:
+    def other_locale(self) -> Optional[Sequence[str]]:
         """
-        Alternat localised language(s) and character set(s) used within
-        the resource.
+        Alternate localised language(s) and character set(s) used within
+        the resource. A string conforming to IETF BCP 47.
         """
 
     @property

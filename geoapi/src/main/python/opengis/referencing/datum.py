@@ -15,20 +15,23 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the datum module.
+"""This is the `datum` module.
 
 This module contains geographic metadata structures regarding datums derived
 from the ISO 19111 international standard.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 2 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from datetime import datetime
 from enum import Enum
+from typing import Optional
 
-from opengis.metadata.citation import Identifier
 from opengis.metadata.extent import Extent
+from opengis.referencing.common import IdentifiedObject
+from opengis.util.measure import UomAngle, UomLength
 
 
 class RealizationMethod(Enum):
@@ -37,45 +40,19 @@ class RealizationMethod(Enum):
     realized.
     """
     LEVELLING = "levelling"
+    """
+    The realization is by adjustment of a levelling network fixed to one or
+    more tide gauges.
+    """
+
     GEOID = "geoid"
+    """
+    The realization is through a geoid height model or a height correction
+    model. This is applied to a specified geodetic CRS.
+    """
+
     TIDAL = "tidal"
-
-
-class IdentifiedObject(ABC):
-    """
-    Identification and remarks information for a reference system or
-    CRS-related object.
-    """
-
-    @property
-    @abstractmethod
-    def name(self) -> Identifier:
-        """
-        The primary name by which this object is identified.
-
-        :return: The primary name.
-        :rtype: Identifier
-        """
-
-    @property
-    @abstractmethod
-    def remarks(self) -> str:
-        """
-        Comments on or information about this object, including data source
-        information.
-
-        :return: The remarks, or None.
-        :rtype: str
-        """
-
-    @abstractmethod
-    def to_wkt(self) -> str:
-        """
-        Returns a Well-Known Text (WKT) for this object.
-
-        :return: The Well Know Text for this object.
-        :rtype: str
-        """
+    """The realization is through a tidal model or by tidal predictions."""
 
 
 class Datum(IdentifiedObject):
@@ -86,7 +63,7 @@ class Datum(IdentifiedObject):
 
     @property
     @abstractmethod
-    def anchor_point(self) -> str | None:
+    def anchor_point(self) -> Optional[str]:
         """
         Description, possibly including coordinates, of the point or points
         used to anchor the datum to the Earth.
@@ -104,7 +81,7 @@ class Datum(IdentifiedObject):
 
     @property
     @abstractmethod
-    def realization_epoch(self) -> datetime | None:
+    def realization_epoch(self) -> Optional[datetime]:
         """
         The time after which this datum definition is valid.
         """
@@ -169,7 +146,7 @@ class Ellipsoid(IdentifiedObject):
 
     @property
     @abstractmethod
-    def axis_unit(self):
+    def axis_unit(self) -> UomLength:
         """
         Linear unit of the semi-major and semi-minor axis values.
         """
@@ -234,7 +211,7 @@ class PrimeMeridian(IdentifiedObject):
 
     @property
     @abstractmethod
-    def angular_unit(self):
+    def angular_unit(self) -> UomAngle:
         """
         Returns the angular unit of the Greenwich longitude.
         """

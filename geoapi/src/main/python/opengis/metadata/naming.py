@@ -15,16 +15,18 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the naming module.
+"""This is the `naming` module.
 
 This module contains geographic metadata structures regarding naming derived
 from the ISO 19115-1:2014 international standard.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 11 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
+from typing import Any
 
 
 class NameSpace(ABC):
@@ -32,7 +34,7 @@ class NameSpace(ABC):
 
     @property
     @abstractmethod
-    def is_global(self):
+    def is_global(self) -> bool:
         """
         Indicates whether this namespace is a "top level" namespace. Global,
         or top-level namespaces are not contained within another namespace.
@@ -90,7 +92,10 @@ class LocalName(GenericName):
     @property
     @abstractmethod
     def depth(self) -> int:
-        """The number of levels specified by this name, which is always 1 for a local name."""
+        """
+        The number of levels specified by this name, which is always 1 for
+        a local name.
+        """
         return 1
 
     @property
@@ -100,7 +105,6 @@ class LocalName(GenericName):
         The sequence of local names. Since this object is itself a locale name,
         the parsed name is always a singleton containing only `self`.
         """
-        return list(self)
 
 
 class ScopedName(GenericName):
@@ -192,5 +196,5 @@ class Record(ABC):
 
     @property
     @abstractmethod
-    def field(self):
+    def field(self) -> dict[str, Any]:
         """The dictionary of all (name, value) pairs in this record."""

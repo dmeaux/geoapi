@@ -15,50 +15,103 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 # ===-----------------------------------------------------------------------===
-"""This is the quality module.
+"""This is the `quality` module.
 
 
 This module contains geographic metadata structures derived from the
 ISO 19115-1:2014 international standard and data quality structures derived
-from the ISO 19157:2013 international standard.
+from the ISO 19157:2013, including addendum A1 (2018) international standard.
 """
 
-__author__ = "Martin Desruisseaux(Geomatys), David Meaux (Geomatys)"
+__author__ = "OGC Topic 11 (for abstract model and documentation), " +\
+    "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from datetime import datetime
 from enum import Enum
+from typing import Optional
 
 from opengis.metadata.citation import Citation, Identifier
-from opengis.metadata.content import CoverageDescription
+from opengis.metadata.content import RangeDimension
 from opengis.metadata.distribution import DataFile, Format
 from opengis.metadata.identification import BrowseGraphic
 from opengis.metadata.maintenance import Scope
 from opengis.metadata.naming import Record, RecordType, TypeName
 from opengis.metadata.representation import (
-    SpatialRepresentationTypeCode,
     SpatialRepresentation,
+    SpatialRepresentationTypeCode,
 )
+from opengis.util.measure import UnitOfMeasure
 
 
 class EvaluationMethodTypeCode(Enum):
     """Type of method for evaluating an identified data quality measure."""
 
-    IRECT_INTERNAL = "directInternal"
-    DIRECT_EXTERNAL = "directExternal"
-    INDIRECT = "indirect"
+    # DQ_EvaluationMethodTypeCode: directInternal
+    DIRECT_INTERNAL = "001"
+    """
+    Method of evaluating the quality of a data set based on inspection
+    of items within the data set, where all data required is internal
+    to the data set being evaluated.
+    """
+
+    # DQ_EvaluationMethodTypeCode: directExternal
+    DIRECT_EXTERNAL = "002"
+    """
+    Method of evaluating the quality of a data set based on inspection
+    of items within the data set, where reference data external to the data
+    set being evaluated is required.
+    """
+
+    # DQ_EvaluationMethodTypeCode: indirect
+    INDIRECT = "003"
+    """
+    Method of evaluating the quality of a data set based on external knowledge.
+    """
 
 
 class ValueStructure(Enum):
     """The way in which values are grouped together."""
 
-    BAG = "BAG"
-    SET = "SET"
-    SEQUENCE = "SEQUENCE"
-    TABLE = "TABLE"
-    MATRIX = "MATRIX"
-    COVERAGE = "COVERAGE"
+    # DQM_ValueStructure: bag
+    BAG = "001"
+    """
+    Finite, unordered collection of related items (objects or values).
+    """
+
+    # DQM_ValueStructure: set
+    SET = "002"
+    """
+    Unordered collection of related items (objects or values) with no
+    repetition (ISO 19107:2003).
+    """
+
+    # DQM_ValueStructure: sequence
+    SEQUENCE = "003"
+    """
+    Finite, ordered collection of related items (objects or values) that may
+    be repeated (ISO 19107:2003).
+    """
+
+    # DQM_ValueStructure: table
+    TABLE = "004"
+    """
+    An arrangement of data in which each item may be identified by means of
+    arguments or keys (ISO/IEC 2382-4:1999).
+    """
+
+    # DQM_ValueStructure: matrix
+    MATRIX = "005"
+    """Rectangular array of numbers (ISO/TS 19129:2009)."""
+
+    # DQM_ValueStructure: coverage
+    COVERAGE = "006"
+    """
+    Feature that acts as a function to return values from its range for any
+    direct position within its spatial, temporal or spatiotemporal domain
+    (ISO 19123:2005).
+    """
 
 
 class StandaloneQualityReportInformation(ABC):
@@ -177,7 +230,7 @@ class Element(ABC):
 
     @property
     @abstractmethod
-    def derived_element(self) -> Sequence[Element]:
+    def derived_element(self) -> Sequence['Element']:
         """
         In case of aggregation or derivation, indicates the original element.
         """
@@ -200,8 +253,9 @@ class DataQuality(ABC):
 
     @property
     @abstractmethod
-    def standalone_quality_report(self) -> StandaloneQualityReportInformation:
-        """"""
+    def standalone_quality_report(self) -> \
+            Optional[StandaloneQualityReportInformation]:
+        """Reference and abstract of the attached standalone quality report."""
 
 
 class Description(ABC):
@@ -554,8 +608,11 @@ class ConformanceResult(Result):
 
     @property
     @abstractmethod
-    def is_conform(self):
-        """Indication of the conformance result where 0 = fail and 1 = pass."""
+    def is_conform(self) -> bool:
+        """
+        Indication of the conformance result where `False` == fail
+        and `True` == pass.
+        """
 
 
 class CoverageResult(Result):
@@ -571,23 +628,42 @@ class CoverageResult(Result):
 
     @property
     @abstractmethod
-    def result_file(self) -> DataFile:
-        """"""
-
-    @property
-    @abstractmethod
     def result_spatial_representation(self) -> SpatialRepresentation:
-        """"""
+        """
+        Gives a numerical representation of the data quality measurements
+        making up the coverage result.
+        """
 
     @property
     @abstractmethod
-    def result_content_description(self) -> CoverageDescription:
-        """"""
+    def result_content(self) -> Optional[Sequence[RangeDimension]]:
+        """
+        Describes the content of the result coverage, when the quality
+        coverage is included in the described resource, i.e. the semantic
+        definition of the data quality measures.
+
+        MANDATORY: if `result_format` and `result_file` not provided.
+        """
 
     @property
     @abstractmethod
-    def result_format(self) -> Format:
-        """"""
+    def result_format(self) -> Optional[Format]:
+        """
+        Provides information about the data format of the result coverage data.
+
+        MANDATORY: if `result_content` not provided.
+        """
+
+    # Below property not defined in ISO 19157:2023
+    @property
+    @abstractmethod
+    def result_file(self) -> Optional[DataFile]:
+        """
+        Provides information about the data file containing the result
+        coverage data.
+
+        MANDATORY: if `result_content` not provided.
+        """
 
 
 class QuantitativeResult(Result):
@@ -609,7 +685,6 @@ class QuantitativeResult(Result):
     @abstractmethod
     def value_unit(self) -> UnitOfMeasure:
         """Value unit for reporting a data quality result."""
-
 
     @property
     @abstractmethod
