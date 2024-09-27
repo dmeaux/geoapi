@@ -329,10 +329,11 @@ class Vector(ABC):
         represents the local tangent vector vector in the local
         coordinate differentials.
 
-        EXAMPLE: If the Euclidean (E²) plane is used, then the `DirectPosition`
-        is a pair of coordinates (x, y) and the the vector consists of the
-        differentials in both directions. Consequently, the offset is of
-        length 2 and has a coordinate base of (dx, dy).
+        Example:
+            If the Euclidean (E²) plane is used, then the `DirectPosition`
+            is a pair of coordinates (x, y) and the the vector consists of the
+            differentials in both directions. Consequently, the offset is of
+            length 2 and has a coordinate base of (dx, dy).
         """
 
     @property

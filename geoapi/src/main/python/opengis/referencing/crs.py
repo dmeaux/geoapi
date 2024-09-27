@@ -63,7 +63,8 @@ class ReferenceSystemTypeCode(Enum):
     Compound spatio-parametric coordinate reference system containing an
     engineering coordinate reference system and a parametric reference system.
 
-    EXAMPLE: [local] x, y, pressure
+    Example:
+        [local] x, y, pressure
     """
 
     COMPOUND_ENGINEERING_PARAMETRIC_TEMPORAL = \
@@ -73,7 +74,8 @@ class ReferenceSystemTypeCode(Enum):
     an engineering coordinate reference system, a parametric reference system,
     and a temporal coordinate reference system.
 
-    EXAMPLE: [local] x, y, pressure, time
+    Example:
+        [local] x, y, pressure, time
     """
 
     COMPOUND_ENGINEERING_TEMPORAL = "compoundEngineeringTemporal"
@@ -82,7 +84,8 @@ class ReferenceSystemTypeCode(Enum):
     an engineering coordinate reference system and a temporal coordinate
     reference system.
 
-    EXAMPLE: [local] x, y, time
+    Example:
+        [local] x, y, time
     """
 
     COMPOUND_ENGINEERING_VERTICAL = "compoundEngineeringVertical"
@@ -91,7 +94,8 @@ class ReferenceSystemTypeCode(Enum):
     engineering coordinate reference system and a vertical coordinate
     reference system.
 
-    EXAMPLE: [local] x, y, height
+    Example:
+        [local] x, y, height
     """
 
     COMPOUND_ENGINEERING_VERTICAL_TEMPORAL = \
@@ -100,7 +104,8 @@ class ReferenceSystemTypeCode(Enum):
     Compound spatio-temporal coordinate reference system containing an
     engineering, a vertical, and a temporal coordinate reference system.
 
-    EXAMPLE: [local] x, y, height, time
+    Example:
+        [local] x, y, height, time
     """
 
     COMPOUND_GEOGRAPHIC2D_PARAMETRIC = "compoundGeographic2DParametric"
@@ -109,7 +114,8 @@ class ReferenceSystemTypeCode(Enum):
     dimensional geographic horizontal coordinate reference system and a
     parametric reference system.
 
-    EXAMPLE: latitude, longitude, pressure
+    Example:
+        latitude, longitude, pressure
     """
 
     COMPOUND_GEOGRAPHIC2D_PARAMETRIC_TEMPORAL = \
@@ -119,7 +125,8 @@ class ReferenceSystemTypeCode(Enum):
     a 2 dimensional geographic horizontal, a parametric, and a temporal
     reference system.
 
-    EXAMPLE: latitude, longitude, pressure, time
+    Example:
+        latitude, longitude, pressure, time
     """
 
     COMPOUND_GEOGRAPHIC2D_TEMPORAL = "compoundGeographic2DTemporal"
@@ -128,7 +135,8 @@ class ReferenceSystemTypeCode(Enum):
     a 2 dimensional geographic horizontal coordinate reference system and a
     temporal reference system.
 
-    EXAMPLE: latitude, longitude, time
+    Example:
+        latitude, longitude, time
     """
 
     COMPOUND_GEOGRAPHIC2D_VERTICAL = "compoundGeographic2DVertical"
@@ -137,7 +145,8 @@ class ReferenceSystemTypeCode(Enum):
     reference system ais a horizontal geodetic coordinate reference system and
     one is a vertical reference system.
 
-    EXAMPLE: latitude, longitude, [gravity-related] height or depth
+    Example:
+        latitude, longitude, [gravity-related] height or depth
     """
 
     COMPOUND_GEOGRAPHIC2D_VERTICAL_TEMPORAL = \
@@ -147,7 +156,8 @@ class ReferenceSystemTypeCode(Enum):
     2 dimensional geographic horizontal, a vertical, and a temporal coordinate
     reference system.
 
-    EXAMPLE: latitude, longitude, height, time
+    Example:
+        latitude, longitude, height, time
     """
 
     COMPOUND_GEOGRAPHIC3D_TEMPORAL = "compoundGeographic3DTemporal"
@@ -155,7 +165,8 @@ class ReferenceSystemTypeCode(Enum):
     Compound spatio-temporal coordinate reference system containing a
     3 dimensional geographic and a temporal coordinate reference system.
 
-    EXAMPLE: latitude, longitude, ellipsoidal height, time
+    Example:
+        latitude, longitude, ellipsoidal height, time
     """
 
     COMPOUND_PROJECTED2D_PARAMETRIC = "compoundProjected2DParametric"
@@ -164,7 +175,8 @@ class ReferenceSystemTypeCode(Enum):
     projected horizontal coordinate reference system and a parametric
     reference system.
 
-    EXAMPLE: easting, northing, density
+    Example:
+        easting, northing, density
     """
 
     COMPOUND_PROJECTED2D_PARAMETRIC_TEMPORAL = \
@@ -174,7 +186,8 @@ class ReferenceSystemTypeCode(Enum):
     a projected horizontal, a parametric, and a temporal coordinate reference
     system.
 
-    EXAMPLE: easting, northing, density, time
+    Example:
+        easting, northing, density, time
     """
 
     COMPOUND_PROJECTED_TEMPORAL = "compoundProjectedTemporal"
@@ -182,7 +195,8 @@ class ReferenceSystemTypeCode(Enum):
     Compound spatial reference system containing a horizontal projected
     coordinate reference system and a vertical coordinate reference system.
 
-    EXAMPLE: easting, northing, [gravity-related] height or depth
+    Example:
+        easting, northing, [gravity-related] height or depth
     """
 
     COMPOUND_PROJECTED_VERTICAL = "compoundProjectedVertical"
@@ -190,7 +204,8 @@ class ReferenceSystemTypeCode(Enum):
     Compound spatial reference system containing a horizontal projected
     coordinate reference system and a vertical coordinate reference system.
 
-    EXAMPLE: easting, northing, [gravity-related] height or depth
+    Example:
+        easting, northing, [gravity-related] height or depth
     """
 
     COMPOUND_PROJECTED_VERTICAL_TEMPORAL = "compoundProjectedVerticalTemporal"
@@ -199,7 +214,8 @@ class ReferenceSystemTypeCode(Enum):
     projected horizontal, a vertical, and a temporal coordinate reference
     system.
 
-    EXAMPLE: easting, northing, height, time
+    Example:
+        easting, northing, height, time
     """
 
     ENGINEERING = "engineering"
@@ -207,7 +223,8 @@ class ReferenceSystemTypeCode(Enum):
     Coordinate reference system based on an engineering datum (datum
     describing the relationship of a coordinate system to a local reference).
 
-    EXAMPLE: [local] x, y
+    Example:
+        [local] x, y
     """
 
     ENGINEERING_DESIGN = "engineeringDesign"
@@ -215,7 +232,8 @@ class ReferenceSystemTypeCode(Enum):
     Engineering coordinate reference system in which the base representation
     of a moving object is specified.
 
-    EXAMPLE: [local] x, y
+    Example:
+        [local] x, y
     """
 
     ENGINEERING_IMAGE = "engineeringImage"
@@ -223,7 +241,8 @@ class ReferenceSystemTypeCode(Enum):
     Coordinate reference system based on an image datum (engineering datum
     which defines the relationship of a coordinate system to an image).
 
-    EXAMPLE: row, column
+    Example:
+        row, column
     """
 
     GEODETIC_GEOCENTRIC = "geodeticGeocentric"
@@ -231,7 +250,8 @@ class ReferenceSystemTypeCode(Enum):
     Geodetic coordinate reference system having a Cartesian 3D coordinate
     system.
 
-    EXAMPLE: [geocentric] X, Y, Z
+    Example:
+        [geocentric] X, Y, Z
     """
 
     GEODETIC_GEOGRAPHIC_2D = "geodeticGeographic2D"
@@ -239,7 +259,8 @@ class ReferenceSystemTypeCode(Enum):
     Geodetic coordinate reference system having an ellipsoidal 2D coordinate
     system.
 
-    EXAMPLE: latitude, longitude
+    Example:
+        latitude, longitude
     """
 
     GEODETIC_GEOGRAPHIC_3D = "geodeticGeographic3D"
@@ -247,7 +268,8 @@ class ReferenceSystemTypeCode(Enum):
     Geodetic coordinate reference system having an ellipsoidal 3D coordinate
     system.
 
-    EXAMPLE: latitude, longitude, ellipsoidal height
+    Example:
+        latitude, longitude, ellipsoidal height
     """
 
     GEOGRAPHIC_IDENTIFIER = "geographicIdentifier"
@@ -255,7 +277,8 @@ class ReferenceSystemTypeCode(Enum):
     Spatial reference in the form of a label or code that identifies a
     location.
 
-    EXAMPLE: post coade
+    Example:
+        post coade
     """
 
     LINEAR = "linear"
@@ -264,7 +287,8 @@ class ReferenceSystemTypeCode(Enum):
     linear geographic feature and distance along that segment from a given
     point.
 
-    EXAMPLE: x km along road
+    Example:
+        x km along road
     """
 
     PARAMETRIC = "parametric"
@@ -272,7 +296,8 @@ class ReferenceSystemTypeCode(Enum):
     Coordinate reference system based on a parametric datum (datum describing
     the relationship of a parametric coordinate system to an object).
 
-    EXAMPLE: pressure
+    Example:
+        pressure
     """
 
     PROJECTED = "projected"
@@ -280,14 +305,16 @@ class ReferenceSystemTypeCode(Enum):
     Coordinate reference system derived from a two-dimensional geodetic
     coordinate reference system by applying a map projection.
 
-    EXAMPLE: easting, northing
+    Example:
+        easting, northing
     """
 
     TEMPORAL = "temporal"
     """
     Reference system against which time is measured.
 
-    EXAMPLE: time
+    Example:
+        time
     """
 
     VERTICAL = "vertical"
@@ -296,7 +323,8 @@ class ReferenceSystemTypeCode(Enum):
     (datum describing the relation of gravity-related heights or depths
     to the Earth).
 
-    EXAMPLE: [gravity-related] height or depth
+    Example:
+        [gravity-related] height or depth
     """
 
 
@@ -356,9 +384,11 @@ class ReferenceSystem(ABC):
         reference system information is not given through reference system
         identifier.
 
-        Example: EPSG::4326
+        Example:
+            EPSG::4326
 
-        MANDATORY: if `crs` is `None`.
+        MANDATORY:
+            If `coordinate_reference_system` is `None`.
         """
 
     @property
@@ -369,7 +399,8 @@ class ReferenceSystem(ABC):
         Full description of the coordinate reference system from which a set
         of coordinates is referenced.
 
-        MANDATORY: if `reference_system_identifier` is `None`.
+        MANDATORY:
+            If `reference_system_identifier` is `None`.
         """
 
     @property
@@ -379,7 +410,8 @@ class ReferenceSystem(ABC):
         The epoch from which coordinates in a dynamic coordinate reference
         system are referenced.
 
-        MANDATORY: if the coordinate reference system is dynamic.
+        MANDATORY:
+            If the coordinate reference system is dynamic.
         """
 
     @property
@@ -388,8 +420,9 @@ class ReferenceSystem(ABC):
         """
         Type of reference system used.
 
-        Example: `COMPOUND_GEOGRAPHIC2D_PARAMETRIC`
-        (compoundGeographic2DParametric)
+        Example:
+            `COMPOUND_GEOGRAPHIC2D_PARAMETRIC`
+            (compoundGeographic2DParametric)
         """
 
 

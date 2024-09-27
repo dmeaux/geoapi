@@ -262,8 +262,11 @@ class CoordinateOperation(IdentifiedObject):
     def operation_version(self) -> Optional[str]:
         """
         Version of the coordinate transformation (i.e., instantiation due to
-        the stochastic nature of the parameters). Mandatory when describing a
-        transformation, and should not be supplied for a conversion.
+        the stochastic nature of the parameters).
+
+        MANDATORY:
+            When describing a transformation, and should not be supplied for
+            a conversion.
         """
 
     @property

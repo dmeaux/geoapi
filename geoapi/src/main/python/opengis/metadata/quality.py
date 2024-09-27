@@ -308,6 +308,38 @@ class BasicMeasure(ABC):
         """
 
 
+class Parameter(ABC):
+    """Data quality parameter."""
+
+    @property
+    @abstractmethod
+    def name(self) -> str:
+        """Name of the data quality parameter."""
+
+    @property
+    @abstractmethod
+    def definition(self) -> str:
+        """Definition of the data quality parameter."""
+
+    @property
+    @abstractmethod
+    def description(self) -> Optional[Description]:
+        """Description of the data quality parameter."""
+
+    @property
+    @abstractmethod
+    def value_type(self) -> TypeName:
+        """
+        Value type of the data quality parameter (shall be one of the data
+        types defined in ISO/TS 19103:2005).
+        """
+    
+    @property
+    @abstractmethod
+    def value_structure(self) -> Optional[ValueStructure]:
+        """Structure of the data quality parameter."""
+
+
 class Measure(ABC):
     """Data quality measure."""
 
@@ -384,7 +416,7 @@ class Measure(ABC):
 
     @property
     @abstractmethod
-    def parameter(self):
+    def parameter(self) -> Optional[Parameter]:
         """
         Reference to the source of an item that has been adopted from an
         external source.
@@ -642,7 +674,8 @@ class CoverageResult(Result):
         coverage is included in the described resource, i.e. the semantic
         definition of the data quality measures.
 
-        MANDATORY: if `result_format` and `result_file` not provided.
+        MANDATORY:
+            If `result_format` and `result_file` not provided.
         """
 
     @property
@@ -651,7 +684,8 @@ class CoverageResult(Result):
         """
         Provides information about the data format of the result coverage data.
 
-        MANDATORY: if `result_content` not provided.
+        MANDATORY:
+            If `result_content` not provided.
         """
 
     # Below property not defined in ISO 19157:2023
@@ -662,7 +696,8 @@ class CoverageResult(Result):
         Provides information about the data file containing the result
         coverage data.
 
-        MANDATORY: if `result_content` not provided.
+        MANDATORY:
+            If `result_content` not provided.
         """
 
 

@@ -150,7 +150,8 @@ class CoupledResource(ABC):
         NOTE: name of the resources (i.e. dataset) as it is used by
         a service instance
 
-        Example: layer name or `feature_type_name`.
+        Example:
+            Layer name or `feature_type_name`.
         """
 
     @property
@@ -227,7 +228,8 @@ class ServiceIdentification(Identification):
         """
         Type of coupling between service and associated data (if exists).
 
-        MANDATORY: if `coupled_resource` is not `None`.
+        MANDATORY:
+            If `coupled_resource` is not `None`.
         """
 
     @property
