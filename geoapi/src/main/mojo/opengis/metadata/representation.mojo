@@ -16,13 +16,16 @@
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
 
-# author: David Meaux
+# author: OGC Topic 11 (for abstract model and documentation), David Meaux
 
-"""This is the representation module.
+"""This is the `representation` module.
 
 This module contains geographic metadata structures regarding representation
-derived from the ISO 19115-1:2014 international standard.
+derived from the ISO 19115-1:2014 and ISO 19115-2:2019 international
+standards.
 """
+
+from collections import Optional
 
 from opengis.metadata.citation import Citation
 from opengis.metadata.maintenance import Scope
@@ -35,71 +38,179 @@ trait CellGeometryCode:
     """Code indicating the geometry represented by the grid cell value."""
 
     alias POINT = "point"
+    """Each cell represents a point."""
+
     alias AREA = "area"
+    """Each cell represents an area."""
+
     alias VOXEL = "voxel"
+    """Each cell represents a volumetric measurement on a regular grid in
+    three dimensional space.
+    """
+
     alias STRATUM = "stratum"
+    """Height range for a single point vertical profile."""
 
 
 trait DimensionNameTypeCode:
     """Name of the dimension."""
 
     alias ROW = "row"
+    """Ordinate (y) axis."""
+
     alias COLUMN = "column"
+    """Abscissa (x) axis."""
+
     alias VERTICAL = "vertical"
+    """Vertical (z) axis."""
+
     alias TRACK = "track"
+    """Along the direction of motion of the scan point."""
+
     alias CROSS_TRACK = "crossTrack"
+    """Perpendicular to the direction of motion of the scan point."""
+
     alias LINE = "line"
+    """Scan line of a sensor."""
+
     alias SAMPLE = "sample"
+    """Element along a scan line."""
+
     alias TIME = "time"
+    """Duration."""
 
 
 trait GeometricObjectTypeCode:
-    """
-    Name of point or vector objects used to locate sero-, one-, two-, or
+    """Name of point or vector objects used to locate sero-, one-, two-, or
     three-dimensional spatial locations in the dataset.
     """
 
     alias COMPLEX = "complex"
+    """Set of geometric primitives such that their boundaries can be
+    represented as a union of other primitives.
+    """
+
     alias COMPOSITE = "composite"
+    """Connected set of curves, solids or surfaces."""
+
     alias CURVE = "curve"
+    """Bounded, 1-dimensional geometric primitive, representing the continuous
+    image of a line.
+    """
+
     alias POINT = "point"
+    """Zero-dimensional geometric primitive, representing a position but not
+    having an extent.
+    """
+
     alias SOLID = "solid"
+    """Bounded, connected 3-dimensional geometric primitive, representing the
+    continuous image of a region of space.
+    """
+
     alias SURFACE = "surface"
+    """Bounded, connected 2-dimensional geometric primitive, representing the
+    continuous image of a region of a plane.
+    """
 
 
 trait PixelOrientationCode:
     """Point in a pixel corresponding to the Earth location of the pixel"""
 
     alias CENTRE = "centre"
+    """Point halfway between the lower left and the upper right of the pixel.
+    """
+
     alias LOWER_LEFT = "lowerLeft"
+    """The corner in the pixel closest to the origin of the SRS; if two are at
+    the same distance from the origin, the one with the smallest x-value.
+    """
+
     alias LOWER_RIGHT = "lowerRight"
+    """Next corner counterclockwise from the lower left."""
+
     alias UPPER_RIGHT = "upperRight"
+    """Next corner counterclockwise from the lower right."""
+
     alias UPPER_LEFT = "upperLeft"
+    """Next corner counterclockwise from the upper right."""
 
 
 trait SpatialRepresentationTypeCode:
     """Method used to represent geographic information in the resource."""
 
     alias VECTOR = "vector"
+    """Vector data are used to represent geographic data."""
+
     alias GRID = "grid"
+    """Grid data are used to represent geographic data."""
+
     alias TEXT_TABLE = "textTable"
+    """Textual or tabular data are used to represent geographic data."""
+
     alias TIN = "tin"
+    """Triangulated irregular network."""
+
     alias STEREO_MODEL = "stereoModel"
+    """Three-dimensional view formed by the intersecting homologous rays of
+    an overlapping pair of images.
+    """
+
     alias VIDEO = "video"
+    """Scene from a video recording."""
 
 
 trait TopologyLevelCode:
     """Degree of the complexity of the spatial relationships."""
 
     alias GEOMETRY_ONLY = "geometryOnly"
+    """Geometry objects without any additional structure which describes topology.
+    """
+
     alias TOPOLOGY_1D = "topology1D"
+    """1-Dimensional topological complex - commonly called “chain-node” topology.
+    """
+
     alias PLANAR_GRAPH = "planarGraph"
+    """1-Dimensional topological complex that is planar.
+
+    alias NOTE: A planar graph is a graph that can be drawn in a plane in such a way
+    that no two edges intersect except at a vertex.
+    """
+
     alias FULL_PLANAR_GRAPH = "fullPlanarGraph"
+    """2-Dimensional topological complex that is planar.
+
+    alias NOTE: A 2-dimensional topological complex is commonly called
+    “full topology” in a cartographic 2D environment.
+    """
+
     alias SURFACE_GRAPH = "surfaceGraph"
+    """1-Dimensional topological complex that is isomorphic to a subset of
+    a surface.
+
+    alias NOTE: A geometric complex is isomorphic to a topological complex if their
+    elements are in a one-to-one, dimensional-and boundary-preserving
+    correspondence to one another.
+    """
+
     alias FULL_SURFACE_GRAPH = "fullSurfaceGraph"
+    """2-Dimensional topological complex that is isomorphic to a subset of
+    a surface.
+    """
+
     alias TOPOLOGY_3D = "topology3D"
+    """3-Dimensional topological complex.
+
+    alias NOTE: A topological complex is a collection of topological primitives that
+    are closed under the boundary operations.
+    """
+
     alias FULL_TOPOLOGY_3D = "fullTopology3D"
+    """Complete coverage of a 3D Euclidean coordinate space."""
+
     alias ABSTRACT = "abstract"
+    """Topological complex without any specified geometric realisation."""
 
 
 trait Dimension:
@@ -133,7 +244,7 @@ trait Dimension:
 trait GeolocationInformation:
     """Geolocation information with data quality."""
 
-    fn quality_info(self) -> Optional[Sequence[DataQuality]]:
+    fn quality_info(self) -> Optional[Tuple[DataQuality]]:
         """Provides an overall assessment of quality of geolocation information.
         """
         ...
@@ -148,7 +259,7 @@ trait GCP:
         """
         ...
 
-    fn accuracy_report(self) -> Optional[Sequence[Element]]:
+    fn accuracy_report(self) -> Optional[Tuple[Element]]:
         """Accuracy of a ground control point."""
         ...
 
@@ -168,14 +279,14 @@ trait GCPCollection(GeolocationInformation):
         """Coordinate system in which the ground control points are defined."""
         ...
 
-    fn gcp(self) -> Sequence[GCP]:
+    fn gcp(self) -> Tuple[GCP]:
         """Ground control point(s) used in the collection."""
+        ...
 
 
 trait GeometricObjects:
     """Number of objects, listed by geometric object type, used in the
-    resource/dataset.
-    """
+    resource/dataset."""
 
     fn geometric_object_type(self) -> GeometricObjectTypeCode:
         """Name of point or vector objects used to locate zero-, one-, two-,
@@ -187,7 +298,8 @@ trait GeometricObjects:
         """Total number of the point or vector object type occurring in the
         resource/dataset.
 
-        Domain: > 0
+        Domain:
+            > 0
         """
         ...
 
@@ -195,7 +307,7 @@ trait GeometricObjects:
 trait SpatialRepresentation:
     """Digital mechanism used to represent spatial information."""
 
-    fn scope(self) -> Scope:
+    fn scope(self) -> Optional[Scope]:
         """Level and extent of the spatial representation."""
         ...
 
@@ -207,7 +319,7 @@ trait GridSpatialRepresentation(SpatialRepresentation):
         """Number of independent spatial-temporal axes."""
         ...
 
-    fn axis_dimension_properties(self) -> Sequence[Dimension]:
+    fn axis_dimension_properties(self) -> Tuple[Dimension]:
         """Information about spatial-temporal axis properties."""
         ...
 
@@ -215,7 +327,7 @@ trait GridSpatialRepresentation(SpatialRepresentation):
         """Identification of grid data as point or cell."""
         ...
 
-    fn transformation_parameter_availability(self):
+    fn transformation_parameter_availability(self) -> Bool:
         """Indication of whether or not parameters for transformation between
         image coordinates and geographic or map coordinates exist
         (are available).
@@ -232,18 +344,16 @@ trait VectorSpatialRepresentation(SpatialRepresentation):
         """
         ...
 
-    fn geometric_objects(self) -> Optional[Sequence[GeometricObjects]]:
+    fn geometric_objects(self) -> Optional[Tuple[GeometricObjects]]:
         """Information about the geometric objects used in the resource."""
         ...
 
 
 trait Georectified(GridSpatialRepresentation):
-    """
-    Grid whose cells are regularly spaced in a geographic (i.e. lat / long) or
+    """Grid whose cells are regularly spaced in a geographic (i.e. lat / long) or
     map coordinate system defined in the Spatial Referencing System (SRS) so
     that any cell in the grid can be geolocated given its grid coordinate and
-    the grid origin, cell spacing, and orientation.
-    """
+    the grid origin, cell spacing, and orientation."""
 
     fn check_point_availability(self) -> Bool:
         """Indication of whether or not geographic position points are available
@@ -255,11 +365,12 @@ trait Georectified(GridSpatialRepresentation):
         """Description of geographic position points used to test the accuracy of
         the georeferenced grid data.
 
-        MANDATORY: if `check_point_availability` == `True`.
+        MANDATORY:
+            If `check_point_availability` == `True`.
         """
         ...
 
-    fn corner_points(self) -> Optional[Sequence[GM_Point]]:
+    fn corner_points(self) -> Optional[Tuple[Point]]:
         """Earth location in the coordinate system defined by the Spatial
         Reference System and the grid coordinate of the cells at opposite ends
         of grid coverage along two diagonals in the grid spatial dimensions.
@@ -267,12 +378,12 @@ trait Georectified(GridSpatialRepresentation):
         corner points along one diagonal are required. The first corner point
         corresponds to the origin of the grid.
 
-        NOTE: The length of the `Sequence` of `GM_Points` should be 2 - 4
+        NOTE: The length of the `Sequence` of `Points` should be 2 - 4
         (i.e. 2, 3, or 4).
         """
         ...
 
-    fn centre_point(self) -> Optional[GM_Point]:
+    fn centre_point(self) -> Optional[Point]:
         """Earth location in the coordinate system defined by the Spatial
         Reference System and the grid coordinate of the cell halfway between
         opposite ends of the grid in the spatial dimensions.
@@ -280,42 +391,42 @@ trait Georectified(GridSpatialRepresentation):
         ...
 
     fn point_in_pixel(self) -> PixelOrientationCode:
-        """Point in a pixel corresponding to the Earth location of the pixel.
-        """
+        """Point in a pixel corresponding to the Earth location of the pixel."""
         ...
 
     fn transformation_dimension_description(self) -> Optional[String]:
         """General description of the transformation."""
         ...
 
-    fn transformation_dimension_mapping(self) -> Optional[Sequence[String]]:
-        """Information about which grid axes are the spatial (map) axes."""
+    fn transformation_dimension_mapping(self) -> Optional[Tuple[String]]:
+        """Information about which grid axes are the spatial (map) axes.
+
+        NOTE: The length of the `Sequence` of `str` should be 2. That is
+        len(list(str)) should return 2.
+        """
         ...
 
-    fn check_point(self) -> Optional[Sequence[GCP]]:
+    fn check_point(self) -> Optional[Tuple[GCP]]:
         """Geographic references used to validate georectification of the data.
         """
         ...
 
 
 trait Georeferenceable(GridSpatialRepresentation):
-    """
-    ISO 19115-1: Grid with cells irregularly spaced in any given
+    """ISO 19115-1: Grid with cells irregularly spaced in any given
     geographic/map projection coordinate system, whose individual cells can be
     geolocated using geolocation information supplied with the data but cannot
     be geolocated from the grid properties alone.
 
     ISO 19115-2: Description of information provided in metadata that allows
-    the geographic or map location of the raster points to be located.
-    """
+    the geographic or map location of the raster points to be located."""
 
     fn control_point_availability(self) -> Bool:
         """Indication of whether or not control point(s) exists."""
         ...
 
     fn orientation_parameter_availability(self) -> Bool:
-        """Indication of whether or not orientation parameters are available.
-        """
+        """Indication of whether or not orientation parameters are available."""
         ...
 
     fn orientation_parameter_description(self) -> Optional[String]:
@@ -326,11 +437,10 @@ trait Georeferenceable(GridSpatialRepresentation):
         """Terms which support grid data georeferencing."""
         ...
 
-    fn parameter_citation(self) -> Optional[Sequence[Citation]]:
+    fn parameter_citation(self) -> Optional[Tuple[Citation]]:
         """Reference providing description of the parameters."""
         ...
 
-    fn geolocation_information(self) -> Sequence[GeolocationInformation]:
-        """Information that can be used to geo-locate the data.
-        """
+    fn geolocation_information(self) -> Tuple[GeolocationInformation]:
+        """Information that can be used to geo-locate the data."""
         ...

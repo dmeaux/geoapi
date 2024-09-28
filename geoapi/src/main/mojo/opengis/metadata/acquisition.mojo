@@ -16,14 +16,16 @@
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
 
-# author: David Meaux
+# author: OGC Topic 11 (for abstract model and documentation), David Meaux
 
-"""This is the acquisition module.
+"""This is the `acquisition` module.
 
-This module contains geographic metadata structures regarding data
+This subpackage contains geographic metadata structures regarding data
 acquisition that are derived from the ISO 19115-2:2019 international
 standard.
 """
+
+from collections import Optional
 
 from opengis.metadata.citation import Citation, Identifier, Responsibility
 from opengis.metadata.extent import Extent
@@ -153,17 +155,17 @@ struct TriggerCode:
 
 
 trait Revision:
-    """History of the revision of an event."""
+    """History of the revision of an event"""
 
     fn description(self) -> String:
         """Description of the revision."""
         ...
 
-    fn responsible_party(self) -> Sequence[Responsibility]:
+    fn responsible_party(self) -> Tuple[Responsibility]:
         """Individual or organisation responsible for the revision."""
         ...
 
-    fn date_info(self) -> Sequence[date]:
+    fn date_info(self) -> Tuple[date]:
         """Information about dates related to the revision."""
         ...
 
@@ -171,7 +173,7 @@ trait Revision:
 trait InstrumentEvent:
     """An event related to a platform, instrument, or sensor."""
 
-    fn citation(self) -> Optional[Sequence[Citation]]:
+    fn citation(self) -> Optional[Tuple[Citation]]:
         """Citation to the `InstrumentEvent`."""
         ...
 
@@ -179,7 +181,7 @@ trait InstrumentEvent:
         """Description of the `InstumentEvent`."""
         ...
 
-    fn extent(self) -> Optional[Sequence[Extent]]:
+    fn extent(self) -> Optional[Tuple[Extent]]:
         """Extent of the `InstrumentEvent`."""
         ...
 
@@ -187,7 +189,7 @@ trait InstrumentEvent:
         """Type of the `InstrumentEvent`."""
         ...
 
-    fn revision_history(self) -> Optional[Sequence[Revision]]:
+    fn revision_history(self) -> Optional[Tuple[Revision]]:
         """History of the revisions of the `InstrumentEvent`."""
         ...
 
@@ -195,7 +197,7 @@ trait InstrumentEvent:
 trait InstrumentEventList:
     """List of events relaed to platform, instrument, or sensor."""
 
-    fn citation(self) -> Optional[Sequence[Citation]]:
+    fn citation(self) -> Optional[Tuple[Citation]]:
         """Citation to the `InstrumentEventList`."""
         ...
 
@@ -205,17 +207,17 @@ trait InstrumentEventList:
         """
         ...
 
-    fn locale(self) -> Optional[PT_Locale]:
+    fn locale(self) -> Optional[String]:
         """Description of the language and character set used for the
-        `InstrumentationEventList`.
+        `InstrumentationEventList`. A string conforming to IETF BCP 47.
         """
         ...
 
-    fn constraints(self) -> Optional[Sequence[Constraints]]:
+    fn constraints(self) -> Optional[Tuple[Constraints]]:
         """Use and access constraints."""
         ...
 
-    fn instrumentation_event(self) -> Optional[Sequence[InstrumentEvent]]:
+    fn instrumentation_event(self) -> Optional[Tuple[InstrumentEvent]]:
         """Events(s) in the list of events."""
         ...
 
@@ -223,12 +225,12 @@ trait InstrumentEventList:
 trait Instrument:
     """Designations for the measuring instruments."""
 
-    fn citation(self) -> Sequence[Citation]:
+    fn citation(self) -> Optional[Tuple[Citation]]:
         """Complete citation of the instrument."""
         ...
 
     fn identifier(self) -> Identifier:
-        """Complete citation of the instrument."""
+        """Unique identification of the instrument."""
         ...
 
     fn type(self) -> String:
@@ -237,35 +239,35 @@ trait Instrument:
         """
         ...
 
-    fn description(self) -> String:
+    fn description(self) -> Optional[String]:
         """Textual description of the instrument."""
         ...
 
-    fn mounted_on(self) -> Platform:
-        """Platform on which the instrument is mounted."""
+    fn mounted_on(self) -> Optional["Platform"]:
+        """Platform on which the instrument is mounted"""
         ...
 
-    fn sensor(self) -> Optional[Sequence[Sensor]]:
+    fn sensor(self) -> Optional[Tuple["Sensor"]]:
         """Instrument has a sensor."""
         ...
 
-    fn history(self) -> Optional[InstrumentEventList]:
+    fn history(self) -> Optional["InstrumentEventList"]:
         """List of events associated with the instrument."""
         ...
 
 
 trait Sensor(Instrument):
-    """Specific type of instrument."""
+    """Specific type of instrument"""
 
     fn hosted(self) -> Optional[Instrument]:
-        """Instrument on which the sensor is hosted."""
+        """Instrument on which the sensor is hosted"""
         ...
 
 
 trait Platform:
     """Designations for the platform used to acquire the dataset."""
 
-    fn citation(self) -> Citation:
+    fn citation(self) -> Optional[Citation]:
         """Complete citation of the platform."""
         ...
 
@@ -277,8 +279,9 @@ trait Platform:
         """Narrative description of the platform supporting the instrument."""
         ...
 
-    fn sponsor(self) -> Sequence[Responsibility]:
-        """Organization responsible for building, launch, or operation of the platform.
+    fn sponsor(self) -> Optional[Tuple[Responsibility]]:
+        """Organisation responsible for building, launch, or operation of the
+        platform.
         """
         ...
 
@@ -290,11 +293,11 @@ trait Platform:
         """Type of other property description."""
         ...
 
-    fn instrument(self) -> Sequence[Instrument]:
+    fn instrument(self) -> Tuple[Instrument]:
         """Instrument(s) mounted on a platform"""
         ...
 
-    fn history(self) -> Optional[Sequence[InstrumentEventList]]:
+    fn history(self) -> Optional[Tuple[InstrumentEventList]]:
         """List of events affecting a platform."""
         ...
 
@@ -313,15 +316,14 @@ trait PlatformPass:
         """Temporal and spatial extent of the pass."""
         ...
 
-    fn related_event(self) -> Optional[Sequence["Event"]]:
+    fn related_event(self) -> Optional[Tuple["Event"]]:
         """Occurrence of one or more events for a pass."""
         ...
 
 
 trait Event:
     """Identification of a significant collection point within an
-    operation.
-    """
+    operation."""
 
     fn identifier(self) -> Identifier:
         """Event name or number."""
@@ -343,7 +345,7 @@ trait Event:
         """Time the event occurred."""
         ...
 
-    fn expected_objective(self) -> Optional[Sequence["Objective"]]:
+    fn expected_objective(self) -> Optional[Tuple["Objective"]]:
         """An objective expected to be completed by the event."""
         ...
 
@@ -351,9 +353,9 @@ trait Event:
         """A `PlatformPass` related to the `Event`."""
         ...
 
-    fn related_sensor(self) -> Sequence[Instrument]:
-        """An `Instrument` related to
-        the event."""
+    fn related_sensor(self) -> Tuple[Instrument]:
+        """An `Instrument` related to the event."""
+        ...
 
 
 trait EnvironmentalRecord:
@@ -371,8 +373,7 @@ trait EnvironmentalRecord:
         ...
 
     fn max_altitude(self) -> Optional[Float64]:
-        """Maximum altitude during the photo flight.
-        """
+        """Maximum altitude during the photo flight."""
         ...
 
     fn meteorological_conditions(self) -> Optional[String]:
@@ -390,16 +391,15 @@ trait EnvironmentalRecord:
         ...
 
     fn solar_elevation(self) -> Optional[Float64]:
-        """Angle between the horizonand the centre of the sun's disk.
-        """
+        """Angle between the horizonand the centre of the sun's disk."""
+        ...
 
 
 trait Objective:
     """Describes the characteristics, spatial and temporal extent of the intended
-    object to be observed.
-    """
+    object to be observed."""
 
-    fn identifier(self) -> Sequence[Identifier]:
+    fn identifier(self) -> Tuple[Identifier]:
         """Registered code used to identify the objective."""
         ...
 
@@ -407,30 +407,31 @@ trait Objective:
         """Priority applied to the target."""
         ...
 
-    fn type(self) -> Optional[Sequence[ObjectiveTypeCode]]:
+    fn type(self) -> Optional[Tuple[ObjectiveTypeCode]]:
         """Collection technique for the objective."""
         ...
 
-    fn function(self) -> Optional[Sequence[String]]:
+    fn function(self) -> Optional[Tuple[String]]:
         """Function performed by or at the objective."""
         ...
 
-    fn extent(self) -> Optional[Sequence[Extent]]:
+    fn extent(self) -> Optional[Tuple[Extent]]:
         """Extent information including the bounding box, bounding polygon,
         vertical and temporal extent of the objective.
         """
         ...
 
-    fn objective_occurence(self) -> Optional[Sequence[Event]]:
+    fn objective_occurence(self) -> Optional[Tuple[Event]]:
         """Event or events associated with objective completion."""
         ...
 
-    fn platform_pass(self) -> Optional[Sequence[PlatformPass]]:
+    fn platform_pass(self) -> Optional[Tuple[PlatformPass]]:
         """Pass of the platform over the objective."""
         ...
 
-    fn sensing_instrument(self) -> Optional[Sequence[Instrument]]:
+    fn sensing_instrument(self) -> Optional[Tuple[Instrument]]:
         """Instrument which senses the objective data."""
+        ...
 
 
 trait Operation:
@@ -466,11 +467,11 @@ trait Operation:
         """Type of other property description."""
         ...
 
-    fn child_operation(self) -> Optional[Sequence["Operation"]]:
+    fn child_operation(self) -> Optional[Tuple["Operation"]]:
         """Sub-missions that make up part of a larger mission."""
         ...
 
-    fn objective(self) -> Optional[Sequence[Objective]]:
+    fn objective(self) -> Optional[Tuple[Objective]]:
         """Object(s) or area(s) of interest to be sensed."""
         ...
 
@@ -482,12 +483,13 @@ trait Operation:
         """Plan satisfied by th operation."""
         ...
 
-    fn platform(self) -> Optional[Sequence[Platform]]:
+    fn platform(self) -> Optional[Tuple[Platform]]:
         """Platform (or platforms) used in the operation."""
         ...
 
-    fn significant_event(self) -> Optional[Sequence[Event]]:
+    fn significant_event(self) -> Optional[Tuple[Event]]:
         """Record of an event occuring during an operation."""
+        ...
 
 
 trait RequestedDate:
@@ -499,6 +501,7 @@ trait RequestedDate:
 
     fn latest_acceptable_date(self) -> datetime:
         """Latest date and time collection must be completed."""
+        ...
 
 
 trait Requirement:
@@ -513,11 +516,11 @@ trait Requirement:
         """Unique name, or code, for the requirement."""
         ...
 
-    fn requestor(self) -> Sequence[Responsibility]:
+    fn requestor(self) -> Tuple[Responsibility]:
         """Origin of requirement."""
         ...
 
-    fn recipient(self) -> Sequence[Responsibility]:
+    fn recipient(self) -> Tuple[Responsibility]:
         """Person(s), or body(ies), to receive results of requirement."""
         ...
 
@@ -533,7 +536,7 @@ trait Requirement:
         """Date and time after which collection is no longer valid."""
         ...
 
-    fn satisfied_plan(self) -> Optional[Sequence["Plan"]]:
+    fn satisfied_plan(self) -> Optional[Tuple["Plan"]]:
         """Plan that identifies solution to satisfy the requirement."""
 
 
@@ -555,28 +558,28 @@ trait Plan:
         """Identification of authority requesting target collection."""
         ...
 
-    fn operation(self) -> Optional[Sequence[Operation]]:
+    fn operation(self) -> Optional[Tuple[Operation]]:
         """Identification of the activity or activities that satisfy a plan."""
         ...
 
-    fn satisfied_requirement(self) -> Optional[Sequence[Requirement]]:
+    fn satisfied_requirement(self) -> Optional[Tuple[Requirement]]:
         """Requirement satisfied by the plan."""
+        ...
 
 
 trait AcquisitionInformation:
     """Designations for the measuring instruments and their bands, the platform
-    carrying them, and the mission to which the data contributes.
-    """
+    carrying them, and the mission to which the data contributes."""
 
-    fn scope(self) -> Optional[Sequence[Scope]]:
+    fn scope(self) -> Optional[Tuple[Scope]]:
         """The specific data to which the acquisition information applies."""
         ...
 
-    fn acquisition_plan(self) -> Optional[Sequence[Plan]]:
+    fn acquisition_plan(self) -> Optional[Tuple[Plan]]:
         """Identifies the plan as implemented by the acquisition."""
         ...
 
-    fn acquisition_requirement(self) -> Optional[Sequence[Requirement]]:
+    fn acquisition_requirement(self) -> Optional[Tuple[Requirement]]:
         """Identifies the requirement the data acquisition intends to satisfy.
         """
         ...
@@ -587,21 +590,21 @@ trait AcquisitionInformation:
         """
         ...
 
-    fn instrument(self) -> Optional[Sequence[Instrument]]:
-        """General information about the instrument used in data acquisition.
-        """
+    fn instrument(self) -> Optional[Tuple[Instrument]]:
+        """General information about the instrument used in data acquisition."""
         ...
 
-    fn objective(self) -> Optional[Sequence[Objective]]:
+    fn objective(self) -> Optional[Tuple[Objective]]:
         """Identification of the area or object to be sensed."""
         ...
 
-    fn operation(self) -> Optional[Sequence[Operation]]:
+    fn operation(self) -> Optional[Tuple[Operation]]:
         """General information about an identifiable activity which provided the
         data.
         """
         ...
 
-    fn platform(self) -> Optional[Sequence[Platform]]:
+    fn platform(self) -> Optional[Tuple[Platform]]:
         """General information about the platform from which the data were taken.
         """
+        ...

@@ -16,9 +16,9 @@
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
 
-# author: David Meaux
+# author: OGC Topic 2 (for abstract model and documentation), David Meaux
 
-"""This is the datum module.
+"""This is the `datum` module.
 
 This module contains geographic metadata structures regarding datums derived
 from the ISO 19111 international standard.
@@ -29,24 +29,30 @@ from opengis.metadata.extent import Extent
 
 
 struct RealizationMethod:
-    """
-    Specification of the method by which the vertical reference frame is realized.
+    """Specification of the method by which the vertical reference frame is
+    realized.
     """
 
     alias LEVELLING = "levelling"
+    """The realization is by adjustment of a levelling network fixed to one or
+    more tide gauges.
+    """
+
     alias GEOID = "geoid"
+    """The realization is through a geoid height model or a height correction
+    model. This is applied to a specified geodetic CRS.
+    """
+
     alias TIDAL = "tidal"
+    """The realization is through a tidal model or by tidal predictions."""
 
 
 trait IdentifiedObject:
-    """
-    Identification and remarks information for a reference system or CRS-related
-    object.
-    """
+    """Identification and remarks information for a reference system or CRS-related
+    object."""
 
     fn name(self) -> Identifier:
-        """The primary name by which this object is identified.
-        """
+        """The primary name by which this object is identified."""
         ...
 
     fn remarks(self) -> String:
@@ -55,14 +61,12 @@ trait IdentifiedObject:
         ...
 
     fn to_wkt(self) -> String:
-        """Returns a Well-Known Text (WKT) for this object.
-        """
+        """Returns a Well-Known Text (WKT) for this object."""
         ...
 
 
 trait Datum(IdentifiedObject):
-    """
-    Specifies the relationship of a coordinate system to the earth, thus creating a coordinate reference system.
+    """Specifies the relationship of a coordinate system to the earth, thus creating a coordinate reference system.
     """
 
     fn anchor_point(self) -> String:
@@ -78,8 +82,7 @@ trait Datum(IdentifiedObject):
         ...
 
     fn realization_epoch(self) -> datetime:
-        """The time after which this datum definition is valid.
-        """
+        """The time after which this datum definition is valid."""
         ...
 
     fn scope(self) -> String:
@@ -89,8 +92,7 @@ trait Datum(IdentifiedObject):
 
 
 trait TemporalDatum(Datum):
-    """
-    A temporal datum defines the origin of a temporal coordinate reference system.
+    """A temporal datum defines the origin of a temporal coordinate reference system.
     """
 
     fn anchor_point(self) -> None:
@@ -104,30 +106,24 @@ trait TemporalDatum(Datum):
         ...
 
     fn origin(self) -> datetime:
-        """The date and time origin of this temporal datum.
-        """
+        """The date and time origin of this temporal datum."""
         ...
 
 
 trait VerticalDatum(Datum):
-    """
-    The method through which this vertical reference frame is realized.
-    """
+    """The method through which this vertical reference frame is realized."""
 
     fn realization_method(self) -> RealizationMethod:
-        """The type of this vertical datum.
-        """
+        """The type of this vertical datum."""
         ...
 
 
 trait Ellipsoid(IdentifiedObject):
-    """
-    Geometric figure that can be used to describe the approximate shape of the earth.
+    """Geometric figure that can be used to describe the approximate shape of the earth.
     """
 
     fn axis_unit(self):
-        """Linear unit of the semi-major and semi-minor axis values.
-        """
+        """Linear unit of the semi-major and semi-minor axis values."""
         ...
 
     fn semi_major_axis(self) -> Float64:
@@ -141,8 +137,7 @@ trait Ellipsoid(IdentifiedObject):
         ...
 
     fn inverse_flattering(self) -> Float64:
-        """Value of the inverse of the flattening constant.
-        """
+        """Value of the inverse of the flattening constant."""
         ...
 
     fn is_inf_definitive(self) -> Bool:
@@ -160,8 +155,7 @@ trait Ellipsoid(IdentifiedObject):
 
 
 trait PrimeMeridian(IdentifiedObject):
-    """
-    A prime meridian defines the origin from which longitude values are determined.
+    """A prime meridian defines the origin from which longitude values are determined.
     """
 
     fn greenwich_longitude(self) -> Float64:
@@ -170,31 +164,25 @@ trait PrimeMeridian(IdentifiedObject):
         ...
 
     fn angular_unit(self):
-        """Returns the angular unit of the Greenwich longitude.
-        """
+        """Returns the angular unit of the Greenwich longitude."""
         ...
 
 
 trait GeodeticDatum(Datum):
-    """
-    Defines the location and precise orientation in 3-dimensional space of a defined ellipsoid (or sphere) that
+    """Defines the location and precise orientation in 3-dimensional space of a defined ellipsoid (or sphere) that
     approximates the shape of the earth.
     """
 
     fn ellipsoid(self) -> Ellipsoid:
-        """Returns the ellipsoid.
-        """
+        """Returns the ellipsoid."""
         ...
 
     fn prime_meridian(self) -> PrimeMeridian:
-        """Returns the prime meridian.
-        """
+        """Returns the prime meridian."""
         ...
 
 
 trait EngineeringDatum(Datum):
-    """
-    Defines the origin of an engineering coordinate reference system.
-    """
+    """Defines the origin of an engineering coordinate reference system."""
 
     ...

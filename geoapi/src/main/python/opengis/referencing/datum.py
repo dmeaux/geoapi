@@ -42,6 +42,7 @@ class RealizationMethod(Enum):
     Specification of the method by which the vertical reference frame is
     realized.
     """
+
     LEVELLING = "levelling"
     """
     The realization is by adjustment of a levelling network fixed to one or

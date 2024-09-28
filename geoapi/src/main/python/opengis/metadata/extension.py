@@ -186,8 +186,7 @@ class ExtendedElementInformation(ABC):
         Name of the extended metadata element.
 
         MANDATORY:
-
-        if `data_type` != CODE_LIST and `datatype` != ENUMERATION
+            If `data_type` != CODE_LIST and `datatype` != ENUMERATION
             and `data_type` != CODE_LIST_ELEMENT.
         """
 

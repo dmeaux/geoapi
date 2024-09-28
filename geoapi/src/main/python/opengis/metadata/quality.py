@@ -17,7 +17,6 @@
 # ===-----------------------------------------------------------------------===
 """This is the `quality` module.
 
-
 This module contains geographic metadata structures derived from the
 ISO 19115-1:2014 international standard and data quality structures derived
 from the ISO 19157:2013, including addendum A1 (2018) international standard.

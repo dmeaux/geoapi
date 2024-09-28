@@ -16,12 +16,10 @@
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
 
-# author: OGC Topic 11 (for abstract model and documentation), David Meaux
+# author: OGC Topic 20 (for abstract model and documentation), David Meaux
 
-"""This is the `metadata` subpackage.
+"""This is the `util` subpackage.
 
-This subpackage contains geographic naming structures derived from the
-ISO 19103 international standard and metadata structures derived from the
-ISO 19115-1:2014, including addendums A1(2018) and A2(2020),
-and ISO 19115-2:2019, including addendum A1(2022) international standards.
+This subpackage contains types defined in the ISO 19103:2015 specification
+for which no equivalence is already present in the Python standard library.
 """
