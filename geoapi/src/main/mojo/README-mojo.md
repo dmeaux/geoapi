@@ -1,11 +1,6 @@
 # GeoAPI - Mojo🔥
 **NOTE**: Mojo🔥 is still a very young language and is still missing some key parts, noteably basic Date and Time functionality (as of 2024-08-17). Please **do not use this library for production** environments and be aware that *it is subject to frequent **breaking** changes*.
 
-## Issues to discuss with GeoAPI committee:
-- [ ] GenericName.parsedName : Sequence<LocalName>
-    - but LocalName is a descendent ot GenericName, so it creates a recursive reference to the declaration
-- [ ] Source: Recursive declaration (SourceCollectionElement)
- 
 ## Mojo Specific Notable Points
 **Noted key missing data types** from Mojo:
 - datatime
@@ -29,7 +24,7 @@ trait CustomTraitTwo():
          ...
 ```
 
-## TODO
+## Python to Mojo Refactoring TODO
 - [x] Make sure [Mojo Style Guide](https://github.com/modularml/mojo/blob/nightly/stdlib/docs/style-guide.md) is followed
     - [x] Package
     - [x] Subpackages
@@ -40,11 +35,56 @@ trait CustomTraitTwo():
     - [x] functions
     - [x] parameter names (T -> ElementType)
     - [ ] [docstrings](https://github.com/modularml/mojo/blob/nightly/stdlib/docs/docstring-style-guide.md)
-        - [x] Remove \n emmediately after opening docstring quotes
-        - [ ] Add missing docstrings
+        - [x] Remove \n immediately after opening docstring quotes
+        - [x] Add missing docstrings
         - [ ] Add parameter types
         - [ ] Add return types
+- [x] verify all `traits` an `structs` up to date
+- [x] add `Optional` imports
+- [x] change `Sequence` to `Tuple`
+- [x] add ...
+- [ ] add code header comments
+- [ ] add custom CollectionElements for types in `Tuple`
+- [ ] Replace `AnyType` with a specific type where able
+- [ ] add datetime package from [forge-tools](https://github.com/martinvuyk/forge-tools)
+- remove recursive references
+    - [ ] GenericName.parsedName : Sequence<LocalName>
+        - but LocalName is a descendent ot GenericName, so it creates a recursive reference to the declaration
+    - [ ] Source: Recursive declaration (SourceCollectionElement)
 
+### Refactorization Completed
+- [ ] geometry
+    - [x] `__init__`
+    - [ ] primitive
+- [ ] metadata
+    - [x] `__init__`
+    - [ ] acquisition
+    - [ ] base
+    - [ ] citation
+    - [ ] constraints
+    - [ ] content
+    - [ ] distribution
+    - [ ] extension
+    - [ ] extent
+    - [ ] identification
+    - [ ] lineage
+    - [ ] maintenance
+    - [ ] naming
+    - [ ] quality
+    - [ ] representation
+    - [ ] service
+- [ ] referencing
+    - [x] `__init__`
+    - [ ] common
+    - [ ] coordinate
+    - [ ] crs
+    - [ ] cd
+    - [ ] datum
+    - [ ] operation
+- [ ] util
+    - [x] `__init__`
+    - [ ] measure
+ 
 ## Specifications
 ### ISO Standards
 - [ ] **19103**

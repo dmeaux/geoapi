@@ -16,9 +16,9 @@
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
 
-# author: David Meaux
+# author: OGC Topic 2 (for abstract model and documentation), David Meaux
 
-"""This is the referencing subpackage.
+"""This is the `referencing` subpackage.
 
 This subpackage contains spatial referencing data structures derived from
 the ISO 19111 international standard.

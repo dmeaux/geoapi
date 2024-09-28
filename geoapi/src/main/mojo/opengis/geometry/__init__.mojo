@@ -16,9 +16,9 @@
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
 
-# author: David Meaux
+# author: OGC Topic 1 (for abstract model and documentation), David Meaux
 
-"""This is the geometry subpackage.
+"""This is the `geometry` subpackage.
 
 This subpackage contains geometry data structures derived from the
 ISO 19107 international standard.

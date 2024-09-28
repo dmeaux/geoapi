@@ -16,14 +16,16 @@
 #    limitations under the License.
 # ===----------------------------------------------------------------------=== #
 
-# author: David Meaux
+# author: OGC Topic 11 (for abstract model and documentation), David Meaux
 
-"""This is the base module.
+"""This is the `base` module.
 
 This subpackage contains geographic metadata structures regarding data
 acquisition that are derived from theISO 19115-1:2014 and ISO 19115-2:2019
 international standards.
 """
+
+from collections import Optional
 
 from opengis.metadata.acquisition import AcquisitionInformation
 from opengis.metadata.citation import (
@@ -51,7 +53,7 @@ from opengis.referencing.crs import ReferenceSystem
 trait PortrayalCatalogueReference:
     """Information identifying the portrayal catalogue used."""
 
-    fn portrayal_catalogue_citation(self) -> Sequence[Citation]:
+    fn portrayal_catalogue_citation(self) -> Tuple[Citation]:
         """Bibliographic reference to the portrayal catalogue cited."""
         ...
 
@@ -75,39 +77,42 @@ trait Metadata:
         """Unique identifier for this metadata record."""
         ...
 
-    fn default_locale(self) -> Optional[PT_Locale]:
+    fn default_locale(self) -> Optional[String]:
         """Language and character set used for documenting metadata.
+        A string conforming to IETF BCP 47.
 
-        MANDATORY: if UTF-8 not used and not defined in encoding.
+        MANDATORY:
+            If UTF-8 not used and not defined in encoding.
         """
         ...
 
     fn parent_metadata(self) -> Optional[Citation]:
         """Identification of the parent metadata record.
 
-        MANDATORY: if there is an upper level object.
+        MANDATORY:
+            If there is an upper level object.
         """
         ...
 
-    fn contact(self) -> Sequence[Responsibility]:
+    fn contact(self) -> Tuple[Responsibility]:
         """Party responsible for the metadata information."""
         ...
 
-    fn date_info(self) -> Sequence[Date]:
+    fn date_info(self) -> Tuple[Date]:
         """Date(s) associated with the metadata.
 
         NOTE: 'Creation' date must be provided, others can also be provided.
         """
         ...
 
-    fn metadata_standard(self) -> Optional[Sequence[Citation]]:
+    fn metadata_standard(self) -> Optional[Tuple[Citation]]:
         """Citation for the standards to which the metadata conforms.
 
         NOTE: Metadata standard citations should include an identifier.
         """
         ...
 
-    fn metadata_profile(self) -> Optional[Sequence[Citation]]:
+    fn metadata_profile(self) -> Optional[Tuple[Citation]]:
         """Citation(s) for the profile(s) of the metadata standard to which the
         metadata conform.
 
@@ -115,38 +120,38 @@ trait Metadata:
         """
         ...
 
-    fn alternative_metadata_reference(self) -> Optional[Sequence[Citation]]:
+    fn alternative_metadata_reference(self) -> Optional[Tuple[Citation]]:
         """Reference to alternative metadata,e.g., Dublin Core, FGDC, or metadata
         in a non-ISO standard for the same resource.
         """
         ...
 
-    fn other_locale(self) -> Optional[Sequence[PT_Locale]]:
+    fn other_locale(self) -> Optional[Tuple[String]]:
         """Provides information about an alternatively used localized character
-        strings.
+        strings. A string conforming to IETF BCP 47.
         """
         ...
 
-    fn metadata_linkage(self) -> Optional[Sequence[OnlineResource]]:
+    fn metadata_linkage(self) -> Optional[Tuple[OnlineResource]]:
         """Online location where the metadata is available."""
         ...
 
     fn spatial_representation_info(
         self,
-    ) -> Optional[Sequence[SpatialRepresentation]]:
+    ) -> Optional[Tuple[SpatialRepresentation]]:
         """Digital representation of spatial information in the dataset."""
         ...
 
-    fn reference_system_info(self) -> Optional[Sequence[ReferenceSystem]]:
+    fn reference_system_info(self) -> Optional[Tuple[ReferenceSystem]]:
         """Description of the spatial and temporal reference systems used in
         the dataset.
 
         The reference system may be:
-        * An ISO 19111 object such as `CoordinateReferenceSystem`.
-        * A `ReferenceSystem` with the `identifier` property (from
+        - An ISO 19111 object such as `CoordinateReferenceSystem`.
+        - A `ReferenceSystem` with the `identifier` property (from
             ISO 19111) sets to a list of `Identifier` values such as
             `["EPSG::4326"]`.
-        * An object with the `referenceSystemIdentifier` property (from
+        - An object with the `referenceSystemIdentifier` property (from
             ISO 19115) sets to a single `Identifier` value such as
                 `"EPSG::4326"`,
         The ReferenceSystem object may optionally have a
@@ -157,44 +162,44 @@ trait Metadata:
 
     fn metadata_extension_info(
         self,
-    ) -> Optional[Sequence[MetadataExtensionInformation]]:
+    ) -> Optional[Tuple[MetadataExtensionInformation]]:
         """Information describing metadata extensions."""
         ...
 
-    fn identification_info(self) -> Sequence[Identification]:
+    fn identification_info(self) -> Tuple[Identification]:
         """Basic information about the resource(s) to which the metadata applies.
         """
         ...
 
-    fn content_info(self) -> Optional[Sequence[ContentInformation]]:
+    fn content_info(self) -> Optional[Tuple[ContentInformation]]:
         """Information about the feature and coverage characteristics."""
         ...
 
-    fn distribution_info(self) -> Optional[Sequence[Distribution]]:
+    fn distribution_info(self) -> Optional[Tuple[Distribution]]:
         """Information about the distributor of and options for obtaining the
         resource(s).
         """
         ...
 
-    fn data_quality_info(self) -> Optional[Sequence[DataQuality]]:
+    fn data_quality_info(self) -> Optional[Tuple[DataQuality]]:
         """Overall assessment of quality of a resource(s)."""
         ...
 
     fn portrayal_catalogue_info(
         self,
-    ) -> Optional[Sequence[PortrayalCatalogueReference]]:
+    ) -> Optional[Tuple[PortrayalCatalogueReference]]:
         """Information about the catalogue of rules defined for the portrayal of
         a resource(s).
         """
         ...
 
-    fn metadata_constraints(self) -> Optional[Sequence[Constraints]]:
+    fn metadata_constraints(self) -> Optional[Tuple[Constraints]]:
         """Restrictions on the access and use of metadata."""
         ...
 
     fn application_schema_info(
         self,
-    ) -> Optional[Sequence[ApplicationSchemaInformation]]:
+    ) -> Optional[Tuple[ApplicationSchemaInformation]]:
         """Information about the conceptual schema of a dataset."""
         ...
 
@@ -204,21 +209,20 @@ trait Metadata:
         """
         ...
 
-    fn resource_lineage(self) -> Optional[Sequence[Lineage]]:
+    fn resource_lineage(self) -> Optional[Tuple[Lineage]]:
         """Information about the provenance, sources and/or the production
         processes applied to the resource.
         """
         ...
 
-    fn metadata_scope(self) -> Optional[Sequence[MetadataScope]]:
+    fn metadata_scope(self) -> Optional[Tuple[MetadataScope]]:
         """The scope or type of resource for which metadata is provided.
 
-        MANDATORY: if `Metadata` is about a resource other than a dataset.
+        MANDATORY:
+            If `Metadata` is about a resource other than a dataset.
         """
         ...
 
-    fn acquisition_information(
-        self,
-    ) -> Optional[Sequence[AcquisitionInformation]]:
+    fn acquisition_information(self) -> Optional[Tuple[AcquisitionInformation]]:
         """Information about the acquisition of the data."""
         ...

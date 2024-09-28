@@ -29,5 +29,6 @@ limited to, the following:
     ISO 19111 (completed by some elements from the closely related OGC™ specification OGC 01-009),
     ISO 19109,
     ISO 19143,
+    ISO 19157:2013
     and four elements from ISO 19107 necessary to the implementation of ISO 19111
 """
