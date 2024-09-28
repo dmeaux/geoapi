@@ -2,7 +2,7 @@
 **NOTE**: Mojo🔥 is still a very young language and is still missing some key parts, noteably basic Date and Time functionality (as of 2024-08-17). Please **do not use this library for production** environments and be aware that *it is subject to frequent **breaking** changes*.
 
 ## Mojo Specific Notable Points
-**Noted key missing data types** from Mojo:
+**Noted key missing data types** from Mojo stdlib:
 - datatime
 
 The Mojo implementaiton primarily takes advantage of `trait`s and `struct`s.
@@ -45,6 +45,7 @@ trait CustomTraitTwo():
 - [x] add ...
 - [ ] add code header comments
 - [ ] add custom CollectionElements for types in `Tuple`
+- [ ] change `Int` and `Float64` types to `SIMD` where can
 - [ ] Replace `AnyType` with a specific type where able
 - [ ] add datetime package from [forge-tools](https://github.com/martinvuyk/forge-tools)
 - remove recursive references
@@ -117,7 +118,7 @@ trait CustomTraitTwo():
 - [ ] Moving Feature
 
 ## Library of `trait`s and `struct`s of `alias`es
-- [ ] Add code documentation to indicate which functions are mandatory for ISO 19115-1:2014
+- [x] Add code documentation to indicate which functions are mandatory for ISO 19115-1:2014
 - [ ] ***Replace Python `Sequence` type with Custom Trait Collection***
 - [ ] reflect ISO inheritance patterns
 - [x] __str__ overrides
