@@ -257,12 +257,12 @@ class Speed(Measure):
     @property
     @abstractmethod
     def time(self) -> UomTime:
-        "The units of measure for the time."
+        """The units of measure for the time."""
 
     @property
     @abstractmethod
     def distance(self) -> UomLength:
-        "The units of measure for the distance."
+        """The units of measure for the distance."""
 
     @property
     @abstractmethod

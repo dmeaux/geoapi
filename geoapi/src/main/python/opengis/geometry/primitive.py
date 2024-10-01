@@ -438,7 +438,7 @@ class Vector(ABC):
     @abstractmethod
     def __init__(self,
                  position: DirectPosition,
-                 coordinates: float | None = None,
+                 coordinates: Sequence[float] | None = None,
                  direction: Bearing | None = None,
                  length: measure.Length | None = None,
                  ) -> None:
@@ -468,8 +468,8 @@ class Vector(ABC):
     @abstractmethod
     def offsets(self) -> Sequence[float]:
         """
-        The offset attribute uses the direct position coordinate system and
-        represents the local tangent vector vector in the local
+        The offsets attribute uses the direct position coordinate system and
+        represents the local tangent vector in the local
         coordinate differentials.
 
         Example:

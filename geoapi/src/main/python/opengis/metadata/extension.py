@@ -213,7 +213,7 @@ class ExtendedElementInformation(ABC):
         Condition under which the extended element is mandatory.
 
         MANDATORY:
-            If `obligation` == .
+            If `obligation` == "Conditional".
         """
 
     @property

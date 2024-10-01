@@ -232,7 +232,7 @@ class Distributor(ABC):
         StandardOrderProcess
     ]]:
         """
-        Provides information abouthowthe resource may be obtained and related
+        Provides information about how the resource may be obtained and related
         instructions and fee information.
         """
 
