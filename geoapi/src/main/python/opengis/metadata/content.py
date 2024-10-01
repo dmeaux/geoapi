@@ -380,7 +380,7 @@ class SampleDimension(RangeDimension):
     @abstractmethod
     def other_property(self) -> Optional[Record]:
         """
-        Instance of otherAttributeType that defines attributes not explicitly
+        Instance of `naming.Record` that defines attributes not explicitly
         included in `CoverageType`.
         """
 
@@ -443,7 +443,8 @@ class Band(SampleDimension):
         Bounding units. The units in which the sensor wavelengths are
         expressed.
 
-        MANDATORY if `bound_max` or `bound_min` is specified.
+        MANDATORY:
+            If `bound_max` or `bound_min` is specified.
         """
 
     @property
@@ -525,10 +526,12 @@ class ImageDescription(CoverageDescription):
         plane at intersection of the optical line of sight with the Earth's
         surface.
 
-        NOTE: For images from a scanning device, refer to the centre pixel
-        of the image.
+        NOTE:
+            For images from a scanning device, refer to the centre pixel
+            of the image.
 
-        Domain: -90 - 90
+        Domain:
+            -90 - 90
         """
 
     @property
@@ -538,10 +541,12 @@ class ImageDescription(CoverageDescription):
         Illumination azimuth measured in degrees clockwise from true north at
         the time the image is taken.
 
-        NOTE: For images from a scanning device, refer to the centre pixel of
-        the image.
+        NOTE:
+            For images from a scanning device, refer to the centre pixel of
+            the image.
 
-        Domain: 0.00 - 360
+        Domain:
+            0.00 - 360
         """
 
     @property
@@ -561,7 +566,8 @@ class ImageDescription(CoverageDescription):
         Area of the dataset obscured by clouds, expressed as a percentage of
         the spatial extent.
 
-        Domain: 0.0 - 100.0
+        Domain:
+            0.0 - 100.0
         """
 
     @property
@@ -600,7 +606,7 @@ class ImageDescription(CoverageDescription):
     @abstractmethod
     def film_distortion_information_availability(self) -> Optional[bool]:
         """
-        Indication of whether or not Calibration Reseau information is
+        Indication of whether or not film distortion information is
         available.
         """
 
