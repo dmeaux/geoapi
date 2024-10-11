@@ -324,7 +324,8 @@ class ProcessStep(ABC):
     @abstractmethod
     def source(self) -> Optional[Sequence[Source]]:
         """
-        Type of the resource and/or extent to which the process step applies.
+        Information about the source data used in creating the data specified
+        by the scope.
         """
 
     @property
