@@ -19,7 +19,6 @@ package org.opengis.referencing;
 
 import java.util.Set;
 import java.util.Optional;
-import java.util.function.Function;
 import org.opengis.util.Factory;
 import org.opengis.util.FactoryException;
 import org.opengis.util.UnimplementedServiceException;
@@ -70,7 +69,7 @@ import static org.opengis.annotation.Specification.*;
  *
  * @author  OGC Topic 2 (for abstract model and documentation)
  * @author  Martin Desruisseaux (Geomatys)
- * @version 3.1
+ * @version 4.0
  * @since   3.1
  */
 @UML(identifier="RegisterOperations", specification=ISO_19111)
@@ -84,10 +83,12 @@ public interface RegisterOperations extends AuthorityFactory {
      * none of these factories is present.
      *
      * @return the vendor for this factory implementation.
+     * @throws FactoryException if an error occurred while fetching the vendor information.
      */
     @Override
-    default Citation getVendor() {
-        return citation(AuthorityFactory::getVendor);
+    default Citation getVendor() throws FactoryException {
+        final AuthorityFactory factory = factory();
+        return (factory != null) ? factory.getVendor() : null;
     }
 
     /**
@@ -99,22 +100,26 @@ public interface RegisterOperations extends AuthorityFactory {
      * none of these factories is present.
      *
      * @return the organization responsible for definition of the register.
+     * @throws FactoryException if an error occurred while fetching the authority information.
      */
     @Override
-    default Citation getAuthority() {
-        return citation(AuthorityFactory::getAuthority);
+    default Citation getAuthority() throws FactoryException {
+        final AuthorityFactory factory = factory();
+        return (factory != null) ? factory.getAuthority() : null;
     }
 
     /**
-     * Default implementation of {@link #getVendor()} and {@link #getAuthority()}.
+     * The factory to use for the default implementation of {@link #getVendor()} and {@link #getAuthority()}.
      *
-     * @param  mapper the {@code getVendor()} or {@code getAuthority()} method to invoke.
-     * @return the citation, or {@code null} if none.
+     * @return the <abbr>CRS</abbr> factory (preferred), or operation factory (fallback), or {@code null}.
+     * @throws FactoryException if an error occurred while searching or preparing the requested factory.
      */
-    private Citation citation(final Function<AuthorityFactory, Citation> mapper) {
-        return this.<AuthorityFactory>getFactory(CRSAuthorityFactory.class)
-                .or(() -> getFactory(CoordinateOperationAuthorityFactory.class))
-                .map(mapper).orElse(null);
+    private AuthorityFactory factory() throws FactoryException {
+        Optional<AuthorityFactory> factory = getFactory(CRSAuthorityFactory.class);
+        if (factory.isEmpty()) {
+            factory = getFactory(CoordinateOperationAuthorityFactory.class);
+        }
+        return factory.orElse(null);
     }
 
     /**
@@ -323,14 +328,16 @@ loop:   for (int i=0; ; i++) {
      * @return factory of the specified type.
      * @throws NullPointerException if the specified type is null.
      * @throws IllegalArgumentException if the specified type is not one of the above-cited values.
+     * @throws FactoryException if an error occurred while searching or preparing the requested factory.
      *
      * @departure integration
      *   Added for making possible to use the {@code RegisterOperations} as the single entry point
      *   where to fetch all other services.
      */
-    default <T extends Factory> Optional<T> getFactory(Class<? extends T> type) {
-        if (type.isInterface() && type != AuthorityFactory.class && type != RegisterOperations.class
-                && type.getName().startsWith("org.opengis.referencing."))
+    default <T extends Factory> Optional<T> getFactory(Class<? extends T> type) throws FactoryException {
+        if (type.isInterface() && type.getName().startsWith("org.opengis.referencing.")
+                && !type.isAssignableFrom(RegisterOperations.class)
+                && !type.equals(ObjectFactory.class))
         {
             return Optional.empty();
         }
