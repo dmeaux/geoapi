@@ -1,6 +1,6 @@
 /*
  *    GeoAPI - Java interfaces for OGC/ISO standards
- *    Copyright © 2011-2023 Open Geospatial Consortium, Inc.
+ *    Copyright © 2004-2024 Open Geospatial Consortium, Inc.
  *    http://www.geoapi.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,14 +15,34 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package org.opengis.util;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
- * <b>Deprecated</b> — {@code Position} has been removed in ISO 19107:2019.
+ * Tests {@link CodeList}.
  *
- * @author  Martin Desruisseaux (IRD, Geomatys)
- * @author  Axel Francois (LSIS/Geomatys)
+ * @author  Martin Desruisseaux (Geomatys)
  * @version 3.1
- * @since   1.0
+ * @since   3.1
  */
-@Deprecated
-package org.opengis.geometry.coordinate;
+public final class CodeListTest {
+    /**
+     * Creates a new test case.
+     */
+    public CodeListTest() {
+    }
+
+    /**
+     * Tests {@link CodeList#toComparableName(String)}.
+     */
+    @Test
+    public void testToComparableName() {
+        String identifier = "test";
+        assertSame  (identifier, CodeList.toComparableName(identifier));
+        assertEquals(identifier, CodeList.toComparableName(" te-st "));
+    }
+}
