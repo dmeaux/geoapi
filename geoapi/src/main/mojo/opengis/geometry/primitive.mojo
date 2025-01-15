@@ -23,14 +23,36 @@ the ISO 19107 international standard.
 
 # author: OGC Topic 11 (for abstract model and documentation), David Meaux
 
-from collections import Optional
+from collections import Optional, KeyElement
 
-from opengis.referencing.crs import CoordinateReferenceSystem
+from opengis.referencing.crs import (
+    CoordinateReferenceSystem,
+    CoordinateSystem,
+    )
+from opengis.util.measure import (
+    AngleCollectionElement,
+    LengthCollectionElement,
+    )
 
 
-struct CurveRelativeDirection:
+trait Direction():
+     """Abstract trait from which all types of direction inherit."""
+     ...
+
+
+@value
+struct CurveRelativeDirection(
+    Direction,
+    CollectionElement,
+    KeyElement,
+    Representable,
+    Stringable,
+    Writable,
+    ):
     """`CurveRelativeDirection` refers to the vectors associated with
-    a curve. Some common vector directions are:
+    a curve.
+
+    Some common vector directions are:
 
         - tangent, the direction in which the curve points;
         - the inverse tangent, i.e. the opposite of the tangent;
@@ -47,70 +69,586 @@ struct CurveRelativeDirection:
     of `RelativeDirection`.
     """
 
-    alias TANGENT = "tangent"
-    alias REVERSE_TANGENT = "reverseTangent"
-    alias NORMAL = "normal"
-    alias REVERSE_NORMAL = "reverseNormal"
-    alias BINORMAL = "biNormal"
-    alias REVERSE_BINORMAL = "reverseBiNormal"
-    alias LEFT_NORMAL = "leftNormal"
-    alias RIGHT_NORMAL = "rightNormal"
-    alias UP_NORMAL = "upNormal"
-    alias DOWN_NORMAL = "downNormal"
+    alias type = String
+    var value: Self.type
+    """The underlying storage value for the CurveRelativeDirection value."""
+
+    alias TANGENT = CurveRelativeDirection("tangent")
+    alias REVERSE_TANGENT = CurveRelativeDirection("reverseTangent")
+    alias NORMAL = CurveRelativeDirection("normal")
+    alias REVERSE_NORMAL = CurveRelativeDirection("reverseNormal")
+    alias BINORMAL = CurveRelativeDirection("biNormal")
+    alias REVERSE_BINORMAL = CurveRelativeDirection("reverseBiNormal")
+    alias LEFT_NORMAL = CurveRelativeDirection("leftNormal")
+    alias RIGHT_NORMAL = CurveRelativeDirection("rightNormal")
+    alias UP_NORMAL = CurveRelativeDirection("upNormal")
+    alias DOWN_NORMAL = CurveRelativeDirection("downNormal")
+
+    @always_inline
+    fn __init__(out self, *, other: Self):
+        """Copy this CurveRelativeDirection.
+
+        Args:
+            other: The CurveRelativeDirection to copy.
+        """
+        self = other
+
+    @staticmethod
+    fn _from_str(str: String) -> CurveRelativeDirection:
+        """Construct a CurveRelativeDirection from a string.
+
+        Args:
+            str: The name of the CurveRelativeDirection.
+        """
+        if str.startswith(String("CurveRelativeDirection.")):
+            return Self._from_str(str.removeprefix("CurveRelativeDirection."))
+        elif str == String("tangent"):
+            return CurveRelativeDirection.TANGENT
+        elif str == String("reverseTangent"):
+            return CurveRelativeDirection.REVERSE_TANGENT
+        elif str == String("normal"):
+            return CurveRelativeDirection.NORMAL
+        elif str == String("reverseNormal"):
+            return CurveRelativeDirection.REVERSE_NORMAL
+        elif str == String("biNormal"):
+            return CurveRelativeDirection.BINORMAL
+        elif str == String("reverseBiNormal"):
+            return CurveRelativeDirection.REVERSE_BINORMAL
+        elif str == String("leftNormal"):
+            return CurveRelativeDirection.LEFT_NORMAL
+        elif str == String("rightNormal"):
+            return CurveRelativeDirection.RIGHT_NORMAL
+        elif str == String("upNormal"):
+            return CurveRelativeDirection.UP_NORMAL
+        elif str == String("downNormal"):
+            return CurveRelativeDirection.DOWN_NORMAL
+
+    @no_inline
+    fn __str__(self) -> String:
+        """Gets the name of the CurveRelativeDirection.
+
+        Returns:
+            The name of the CurveRelativeDirection.
+        """
+
+        return String.write(self)
+
+    @no_inline
+    fn write_to[W: Writer](self, mut writer: W):
+        """
+        Formats this CurveRelativeDirection to the provided Writer.
+
+        Parameters:
+            W: A type conforming to the Writable trait.
+
+        Args:
+            writer: The object to write to.
+        """
+
+        return writer.write(self.value)
+
+    @always_inline("nodebug")
+    fn __repr__(self) -> String:
+        """Gets the representation of the CurveRelativeDirection e.g. `"CurveRelativeDirection.TANGENT"`.
+
+        Returns:
+            The representation of the CurveRelativeDirection.
+        """
+        return String.write("CurveRelativeDirection.", self)
+
+    @always_inline("nodebug")
+    fn __is__(self, rhs: CurveRelativeDirection) -> Bool:
+        """Compares one CurveRelativeDirection to another for equality.
+
+        Args:
+            rhs: The CurveRelativeDirection to compare against.
+
+        Returns:
+            True if the CurveRelativeDirections are the same and False otherwise.
+        """
+        return self == rhs
+
+    @always_inline("nodebug")
+    fn __isnot__(self, rhs: CurveRelativeDirection) -> Bool:
+        """Compares one CurveRelativeDirection to another for inequality.
+
+        Args:
+            rhs: The CurveRelativeDirection to compare against.
+
+        Returns:
+            True if the CurveRelativeDirections are the same and False otherwise.
+        """
+        return self != rhs
+
+    @always_inline("nodebug")
+    fn __eq__(self, rhs: CurveRelativeDirection) -> Bool:
+        """Compares one CurveRelativeDirection to another for equality.
+
+        Args:
+            rhs: The CurveRelativeDirection to compare against.
+
+        Returns:
+            True if the CurveRelativeDirections are the same and False otherwise.
+        """
+        return self.value == rhs.value
+
+    @always_inline("nodebug")
+    fn __ne__(self, rhs: CurveRelativeDirection) -> Bool:
+        """Compares one CurveRelativeDirection to another for inequality.
+
+        Args:
+            rhs: The CurveRelativeDirection to compare against.
+
+        Returns:
+            False if the CurveRelativeDirections are the same and True otherwise.
+        """
+        return self.value != rhs.value
+
+    fn __hash__(self) -> UInt:
+        """Return a 64-bit hash for this `CurveRelativeDirection` value.
+
+        Returns:
+            A 64-bit integer hash of this `CurveRelativeDirection` value.
+        """
+        return hash(self.value)    
 
 
-struct FixedDirection:
-    """`FixedDirection` enumerates common potential fixed reference directions
+@value
+struct FixedDirection(
+    Direction,
+    CollectionElement,
+    KeyElement,
+    Representable,
+    Stringable,
+    Writable,
+    ):
+    """Enumerates common potential fixed reference directions
     for azimuth, generally used in reference to the globe, a map,
     a coordinate system or a grid. Common values include true north or south,
     magnetic north or south, grid north or south (reference to a grid
     or projection).
     """
 
-    alias TRUE_NORTH = "trueNorth"
-    alias MAGNETIC_NORTH = "magneticNorth"
-    alias GRID_NORTH = "gridNorth"
-    alias TRUE_SOUTH = "trueSouth"
-    alias MAGNETIC_SOUTH = "magneticsouth"
-    alias GRID_SOUTH = "gridsouth"
+    alias type = String
+    var value: Self.type
+    """The underlying storage value for the FixedDirection value."""
+
+    alias TRUE_NORTH = FixedDirection("trueNorth")
+    alias MAGNETIC_NORTH = FixedDirection("magneticNorth")
+    alias GRID_NORTH = FixedDirection("gridNorth")
+    alias TRUE_SOUTH = FixedDirection("trueSouth")
+    alias MAGNETIC_SOUTH = FixedDirection("magneticsouth")
+    alias GRID_SOUTH = FixedDirection("gridsouth")
+
+    @always_inline
+    fn __init__(out self, *, other: Self):
+        """Copy this FixedDirection.
+
+        Args:
+            other: The FixedDirection to copy.
+        """
+        self = other
+
+    @staticmethod
+    fn _from_str(str: String) -> FixedDirection:
+        """Construct a FixedDirection from a string.
+
+        Args:
+            str: The name of the FixedDirection.
+        """
+        if str.startswith(String("FixedDirection.")):
+            return Self._from_str(str.removeprefix("FixedDirection."))
+        elif str == String("trueNorth"):
+            return FixedDirection.TRUE_NORTH
+        elif str == String("magneticNorth"):
+            return FixedDirection.MAGNETIC_NORTH
+        elif str == String("gridNorth"):
+            return FixedDirection.GRID_NORTH
+        elif str == String("trueSouth"):
+            return FixedDirection.TRUE_SOUTH
+        elif str == String("magneticsouth"):
+            return FixedDirection.MAGNETIC_SOUTH
+        elif str == String("gridsouth"):
+            return FixedDirection.GRID_SOUTH
+
+    @no_inline
+    fn __str__(self) -> String:
+        """Gets the name of the FixedDirection.
+
+        Returns:
+            The name of the FixedDirection.
+        """
+
+        return String.write(self)
+
+    @no_inline
+    fn write_to[W: Writer](self, mut writer: W):
+        """
+        Formats this FixedDirection to the provided Writer.
+
+        Parameters:
+            W: A type conforming to the Writable trait.
+
+        Args:
+            writer: The object to write to.
+        """
+
+        return writer.write(self.value)
+
+    @always_inline("nodebug")
+    fn __repr__(self) -> String:
+        """Gets the representation of the FixedDirection e.g. `"FixedDirection.TRUE_NORTH"`.
+
+        Returns:
+            The representation of the FixedDirection.
+        """
+        return String.write("FixedDirection.", self)
+
+    @always_inline("nodebug")
+    fn __is__(self, rhs: FixedDirection) -> Bool:
+        """Compares one FixedDirection to another for equality.
+
+        Args:
+            rhs: The FixedDirection to compare against.
+
+        Returns:
+            True if the FixedDirections are the same and False otherwise.
+        """
+        return self == rhs
+
+    @always_inline("nodebug")
+    fn __isnot__(self, rhs: FixedDirection) -> Bool:
+        """Compares one FixedDirection to another for inequality.
+
+        Args:
+            rhs: The FixedDirection to compare against.
+
+        Returns:
+            True if the FixedDirections are the same and False otherwise.
+        """
+        return self != rhs
+
+    @always_inline("nodebug")
+    fn __eq__(self, rhs: FixedDirection) -> Bool:
+        """Compares one FixedDirection to another for equality.
+
+        Args:
+            rhs: The FixedDirection to compare against.
+
+        Returns:
+            True if the FixedDirections are the same and False otherwise.
+        """
+        return self.value == rhs.value
+
+    @always_inline("nodebug")
+    fn __ne__(self, rhs: FixedDirection) -> Bool:
+        """Compares one FixedDirection to another for inequality.
+
+        Args:
+            rhs: The FixedDirection to compare against.
+
+        Returns:
+            False if the FixedDirections are the same and True otherwise.
+        """
+        return self.value != rhs.value
+
+    fn __hash__(self) -> UInt:
+        """Return a 64-bit hash for this `FixedDirection` value.
+
+        Returns:
+            A 64-bit integer hash of this `FixedDirection` value.
+        """
+        return hash(self.value)    
 
 
-struct RelativeDirection:
-    """`RelativeDirection` enumerates common potential relative reference
-    directions for azimuth, generally used in reference to a moving
-    vehicle. Common values include front, rear, port (90° left) or
-    starboard (90° right).
+@value
+struct RelativeDirection(
+    Direction,
+    CollectionElement,
+    KeyElement,
+    Representable,
+    Stringable,
+    Writable,
+    ):
+    """Enumerates common potential relative reference directions for azimuth,
+    generally used in reference to a moving vehicle. Common values include front, rear,
+    port (90° left) or starboard (90° right).
     """
 
-    alias FORE_FOREWARD = "fore/forward"
-    alias AFT_BACKWARD = "aft/backward"
-    alias PORT_LEFT = "port/left"
-    alias STARBOARD_RIGHT = "starboard/right"
+    alias type = String
+    var value: Self.type
+    """The underlying storage value for the RelativeDirection value."""
+    
+    alias FORE_FOREWARD = RelativeDirection("fore/forward")
+    alias AFT_BACKWARD = RelativeDirection("aft/backward")
+    alias PORT_LEFT = RelativeDirection("port/left")
+    alias STARBOARD_RIGHT = RelativeDirection("starboard/right")
+
+    @always_inline
+    fn __init__(out self, *, other: Self):
+        """Copy this RelativeDirection.
+
+        Args:
+            other: The RelativeDirection to copy.
+        """
+        self = other
+
+    @staticmethod
+    fn _from_str(str: String) -> RelativeDirection:
+        """Construct a RelativeDirection from a string.
+
+        Args:
+            str: The name of the RelativeDirection.
+        """
+        if str.startswith(String("RelativeDirection.")):
+            return Self._from_str(str.removeprefix("RelativeDirection."))
+        elif str == String("fore/forward"):
+            return RelativeDirection.FORE_FOREWARD
+        elif str == String("aft/backward"):
+            return RelativeDirection.AFT_BACKWARD
+        elif str == String("port/left"):
+            return RelativeDirection.PORT_LEFT
+        elif str == String("starboard/right"):
+            return RelativeDirection.STARBOARD_RIGHT
+
+    @no_inline
+    fn __str__(self) -> String:
+        """Gets the name of the RelativeDirection.
+
+        Returns:
+            The name of the RelativeDirection.
+        """
+
+        return String.write(self)
+
+    @no_inline
+    fn write_to[W: Writer](self, mut writer: W):
+        """Formats this RelativeDirection to the provided Writer.
+
+        Parameters:
+            W: A type conforming to the Writable trait.
+
+        Args:
+            writer: The object to write to.
+        """
+
+        return writer.write(self.value)
+
+    @always_inline("nodebug")
+    fn __repr__(self) -> String:
+        """Gets the representation of the RelativeDirection e.g. `"RelativeDirection.TRUE_NORTH"`.
+
+        Returns:
+            The representation of the RelativeDirection.
+        """
+        return String.write("RelativeDirection.", self)
+
+    @always_inline("nodebug")
+    fn __is__(self, rhs: RelativeDirection) -> Bool:
+        """Compares one RelativeDirection to another for equality.
+
+        Args:
+            rhs: The RelativeDirection to compare against.
+
+        Returns:
+            True if the RelativeDirections are the same and False otherwise.
+        """
+        return self == rhs
+
+    @always_inline("nodebug")
+    fn __isnot__(self, rhs: RelativeDirection) -> Bool:
+        """Compares one RelativeDirection to another for inequality.
+
+        Args:
+            rhs: The RelativeDirection to compare against.
+
+        Returns:
+            True if the RelativeDirections are the same and False otherwise.
+        """
+        return self != rhs
+
+    @always_inline("nodebug")
+    fn __eq__(self, rhs: RelativeDirection) -> Bool:
+        """Compares one RelativeDirection to another for equality.
+
+        Args:
+            rhs: The RelativeDirection to compare against.
+
+        Returns:
+            True if the RelativeDirections are the same and False otherwise.
+        """
+        return self.value == rhs.value
+
+    @always_inline("nodebug")
+    fn __ne__(self, rhs: RelativeDirection) -> Bool:
+        """Compares one RelativeDirection to another for inequality.
+
+        Args:
+            rhs: The RelativeDirection to compare against.
+
+        Returns:
+            False if the RelativeDirections are the same and True otherwise.
+        """
+        return self.value != rhs.value
+
+    fn __hash__(self) -> UInt:
+        """Return a 64-bit hash for this `RelativeDirection` value.
+
+        Returns:
+            A 64-bit integer hash of this `RelativeDirection` value.
+        """
+        return hash(self.value)
 
 
-struct Rotation:
-    """`Rotation` enumerates the two potential directions of rotation for an
+@value
+struct Rotation(
+    CollectionElement,
+    KeyElement,
+    Representable,
+    Stringable,
+    Writable,
+    ):
+    """Enumerates the two potential directions of rotation for an
     angular measurement, clockwise and anti-clockwise. These directions
     of rotation are considered as seen from above the reference surface.
     """
 
-    alias CLOCKWISE_RIGHT = "clockwise/right"
-    alias COUNTER_CLOCKWISE_LEFT = "counter-clockwise/left"
+    alias type = String
+    var value: String
+    """The underlying storage value for the Rotation value."""
+
+    alias CLOCKWISE_RIGHT = Rotation("clockwise/right")
+    alias COUNTER_CLOCKWISE_LEFT = Rotation("counter-clockwise/left")
+
+    @always_inline
+    fn __init__(out self, *, other: Self):
+        """Copy this Rotation.
+
+        Args:
+            other: The Rotation to copy.
+        """
+        self = other
+
+    @staticmethod
+    fn _from_str(str: String) -> Rotation:
+        """Construct a Rotation from a string.
+
+        Args:
+            str: The name of the Rotation.
+        """
+        if str.startswith(String("Rotation.")):
+            return Self._from_str(str.removeprefix("Rotation."))
+        elif str == String("clockwise/right"):
+            return Rotation.CLOCKWISE_RIGHT
+        elif str == String("counter-clockwise/left"):
+            return Rotation.COUNTER_CLOCKWISE_LEFT
+
+    @no_inline
+    fn __str__(self) -> String:
+        """Gets the name of the Rotation.
+
+        Returns:
+            The name of the Rotation.
+        """
+
+        return String.write(self)
+
+    @no_inline
+    fn write_to[W: Writer](self, mut writer: W):
+        """
+        Formats this Rotation to the provided Writer.
+
+        Parameters:
+            W: A type conforming to the Writable trait.
+
+        Args:
+            writer: The object to write to.
+        """
+
+        return writer.write(self.value)
+
+    @always_inline("nodebug")
+    fn __repr__(self) -> String:
+        """Gets the representation of the Rotation e.g. `"Rotation.TRUE_NORTH"`.
+
+        Returns:
+            The representation of the Rotation.
+        """
+        return String.write("Rotation.", self)
+
+    @always_inline("nodebug")
+    fn __is__(self, rhs: Rotation) -> Bool:
+        """Compares one Rotation to another for equality.
+
+        Args:
+            rhs: The Rotation to compare against.
+
+        Returns:
+            True if the Rotations are the same and False otherwise.
+        """
+        return self == rhs
+
+    @always_inline("nodebug")
+    fn __isnot__(self, rhs: Rotation) -> Bool:
+        """Compares one Rotation to another for inequality.
+
+        Args:
+            rhs: The Rotation to compare against.
+
+        Returns:
+            True if the Rotations are the same and False otherwise.
+        """
+        return self != rhs
+
+    @always_inline("nodebug")
+    fn __eq__(self, rhs: Rotation) -> Bool:
+        """Compares one Rotation to another for equality.
+
+        Args:
+            rhs: The Rotation to compare against.
+
+        Returns:
+            True if the Rotations are the same and False otherwise.
+        """
+        return self.value == rhs.value
+
+    @always_inline("nodebug")
+    fn __ne__(self, rhs: Rotation) -> Bool:
+        """Compares one Rotation to another for inequality.
+
+        Args:
+            rhs: The Rotation to compare against.
+
+        Returns:
+            False if the Rotations are the same and True otherwise.
+        """
+        return self.value != rhs.value
+
+    fn __hash__(self) -> UInt:
+        """Return a 64-bit hash for this `Rotation` value.
+
+        Returns:
+            A 64-bit integer hash of this `Rotation` value.
+        """
+        return hash(self.value)
+
+
+trait DirectPositionCollectionElement(CollectionElement, DirectPosition):
+    """Abstract collection element conforming to the DirectPosition trait."""
+    ...
 
 
 trait DirectPosition:
-    """Holds the coordinates for a position within some coordinate
-    reference system."""
+    """Holds the coordinates for a position within some coordinate reference system."""
 
-    fn coordinate(self) -> Tuple[Int | Float64]:
+    fn coordinate[dtype: DType](self) -> Tuple[SIMD[dtype, 1]]:
         """A sequence of real numbers that hold the coordinate values for this
         position in the specified reference system.
         """
         ...
 
-    fn coordinate_reference_system(self) -> "CoordinateReferenceSystem":
-        """The coordinate reference system in which the coordinate tuple is given.
-        """
+    fn coordinate_reference_system(self) -> CoordinateReferenceSystem:
+        """The coordinate reference system in which the coordinate tuple is given."""
         ...
 
     fn dimension(self) -> Int:
@@ -118,11 +656,17 @@ trait DirectPosition:
         ...
 
 
+trait EnvelopeCollectionElement(CollectionElement, Envelope):
+     """Abstract collection element conforming to the Envelope trait."""
+     ...
+
+
 trait Envelope:
     """An `Envelope` is often referred to as a box or rectangle defining a minimum
     enclosing area. Whatever its size, an `Envelope` can be represented
-    unambiguously as two `DirectPositions` (coordinate points). To code an
-    `Envelope`, you simply need to code these two points. This is consistent
+    unambiguously as two `DirectPositions` (coordinate points).
+    
+    To code an`Envelope`, you simply need to code these two points. This is consistent
     with all the coordinate systems in ISO 19107:2019. It should be remembered
     that, even if the CoordinateSystem is purely spatial without being
     globally bijective, the coordinate may not be valid in the associated
@@ -150,17 +694,29 @@ trait Envelope:
         ...
 
 
-trait ReferenceDirection:
+trait ReferenceDirectionCollectionElement(CollectionElement, ReferenceDirection):
+     """Abstract collection element conforming to the ReferenceDirection trait."""
+     ...
+
+
+trait ReferenceDirection(Direction):
     """The ReferenceDirection interface is empty, but must be “implemented” by
     any data type that can represent a direction (or tangent unit vector) at
     a point. This leads to a circular, but valid, possibly recursive
     definition for the Bearing data type.
     """
+    ...
+
+
+trait BearingCollectionElement(CollectionElement, Bearing):
+     """Abstract collection element conforming to the Bearing trait."""
+     ...
 
 
 trait Bearing:
-    """The Bearing data type indicates a direction. The azimuth can take one
-    of two forms forms:
+    """The Bearing data type indicates a direction.
+    
+    The azimuth can take one of two forms forms:
 
     - a set of angles, one of which is a plane azimuth and the second a
       measure of altitude (positive above the horizontal, negative below
@@ -190,22 +746,19 @@ trait Bearing:
     Azimuths can be measured in both directions, as absolute values (such as
     true north, see azimuth) or relative (such as “before” or “after”)."""
 
-    fn __init__(
-        self,
-        v: "Vector",
-        reference: ReferenceDirection
-        | CurveRelativeDirection
-        | RelativeDirection
-        | FixedDirection,
+    fn __init__[reference_type: Direction](
+        out self,
+        v: Vector,
+        reference: reference_type,
         rotation: Rotation,
-    ) -> None:
+    ):
         """The default azimuth constructor considers a non-zero vector at a
         point and creates an azimuth at that point, with the classic default
         values for the most common fixed azimuth.
         """
         ...
 
-    fn angle(self) -> Tuple["Angle"]:
+    fn angle[type: AngleCollectionElement](self) -> Tuple[type]:
         """In this variant of Bearing, generally used for 2D coordinate systems,
         the first angle (azimuth) is measured from a coordinate axis (usually
         north) in a clockwise direction, parallel to the tangent plane of the
@@ -218,7 +771,7 @@ trait Bearing:
         """
         ...
 
-    fn direction(self) -> Optional["Vector"]:
+    fn direction[type: VectorCollectionElement](self) -> Optional[type]:
         """In this variant of Bearing, generally used for 3D coordinate systems,
         the direction is expressed as an arbitrary vector in the
         coordinate system.
@@ -238,6 +791,11 @@ trait Bearing:
         is measured.
         """
         ...
+
+
+trait VectorCollectionElement(CollectionElement, Vector):
+    """Abstract collection element conforming to the Vector trait."""
+    ...
 
 
 trait Vector:
@@ -260,13 +818,16 @@ trait Vector:
     tangents in the direction of increasing φ, respectively λ, and represent
     a basis for local tangent spaces."""
 
-    fn __init__(
-        self,
+    fn __init__[coordinate_type: DType,
+    coordinate_size: Int,
+    direction_type: BearingCollectionElement,
+    length_type: LengthCollectionElement](
+        out self,
         position: DirectPosition,
-        coordinates: float | None = None,
-        direction: Bearing | None = None,
-        length: "Length | None" = None,
-    ) -> None:
+        coordinates: Optional[Tuple[Float64]],
+        direction: Optional[direction_type],
+        length: Optional[length_type],
+    ):
         """The constructor vector creates a vector with the given offsets or
         direction and length at the specified direct position, in the
         coordinate space of the direct position.
@@ -306,26 +867,31 @@ trait Vector:
         """
         ...
 
-    fn coordinate_system(self) -> "CoordinateSystem":
+    fn coordinate_system(self) -> CoordinateSystem:
         """The `coordinate_system` attribute is the origin system and, therefore,
         determines the coordinates of the local tangent space in which the
         vector exists.
         """
         ...
 
-    fn cross_product(self, v2: "Vector") -> "Vector":
+    fn cross_product(self, v2: Vector) -> Vector:
         """The cross product is a third vector perpendicular to the other two.
         If the vector space is only two-dimensional, the cross product gives
         an oriented intensity and not a vector.
         """
         ...
 
-    fn dot_product(self, v2: "Vector") -> Float64:
+    fn dot_product(self, v2: Vector) -> Float64:
         """The dot product operation yields a real value which is the sum of the
         products of the corresponding coefficients coefficients of the
         two vectors.
         """
         ...
+
+
+trait TransfiniteSetOfDirectPositionsCollectionElement(CollectionElement, TransfiniteSetOfDirectPositions):
+     """Abstract collection element conforming to the TransfiniteSetOfDirectPositions trait."""
+     ...
 
 
 trait TransfiniteSetOfDirectPositions:
@@ -358,6 +924,11 @@ trait TransfiniteSetOfDirectPositions:
             [x ∈ A] ⇒ [A.contains(x) = TRUE]
         """
         ...
+
+
+trait GeometryCollectionElement(CollectionElement, Geometry):
+     """Abstract collection element conforming to the Geometry trait."""
+     ...
 
 
 trait Geometry(TransfiniteSetOfDirectPositions):
@@ -396,11 +967,16 @@ trait Geometry(TransfiniteSetOfDirectPositions):
         """
         ...
 
-    fn coordinate_reference_system(self) -> "CoordinateReferenceSystem":
+    fn coordinate_reference_system(self) -> CoordinateReferenceSystem:
         """The coordinate reference system in which the coordinate geometry
         is given.
         """
         ...
+
+
+trait PrimitiveCollectionElement(CollectionElement, Primitive):
+    """Abstract collection element conforming to the Primitive trait."""
+    ...
 
 
 trait Primitive(Geometry):
@@ -410,7 +986,7 @@ trait Primitive(Geometry):
     Curve, Surface and Solid.
     """
 
-    fn segment(self) -> Optional[Tuple["Primitive"]]:
+    fn segment[type: PrimitiveCollectionElement](self) -> Optional[Tuple[type]]:
         """The `segment` role lists the components (smallest primitives of the
         same dimension contained) of Primitive, each of which defines aGeometry
         portion of the Primitive. The order of the segments is the order in
@@ -419,9 +995,13 @@ trait Primitive(Geometry):
         ...
 
 
+trait PointCollectionElement(CollectionElement, Point):
+     """Abstract collection element conforming to the Point trait."""
+     ...
+
+
 trait Point(Primitive):
-    """A Geometry Point instance is a unique location given by a direct position.
-    """
+    """A Geometry Point instance is a unique location given by a direct position."""
 
     fn position(self) -> DirectPosition:
         """The `position` attribute gives the location of the `Point` in its

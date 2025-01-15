@@ -1,9 +1,17 @@
 # GeoAPI - Mojo🔥
 **NOTE**: Mojo🔥 is still a very young language and is still missing some key parts, noteably basic Date and Time functionality (as of 2024-08-17). Please **do not use this library for production** environments and be aware that *it is subject to frequent **breaking** changes*.
 
+The Mojo project within GeoAPI (\<geoapi root\>/geoapi/src/main/mojo/opengis) was created using [🪄 Magic](ttps://docs.modular.com/magic/), Modular's package manager and virtual environment manager for Python and Mojo.
+
 ## Mojo Specific Notable Points
+This project uses the MAX ‍👨‍🚀 **nightly build**, which is the bleeding edge development version of Mojo and the MAX AI Inference platform. You can use a more stable version by changing the modular channel in `mojoproject.toml` from "https://conda.modular.com/max-nightly" to "https://conda.modular.com/max" and then running the following in the terminal:
+```bash
+magic remove max
+magic add max
+```
+
 **Noted key missing data types** from Mojo stdlib:
-- datatime
+- datetime
 
 The Mojo implementaiton primarily takes advantage of `trait`s and `struct`s.
 
@@ -13,11 +21,11 @@ trait CustomTrait():
      fn function_one(self):
          ...
 
-trait CustomTraitCollection(CollectionElement, CustomTrait):
-     """
-     Abstract collection element conforming to the CustomTrait trait.
-     """
+
+trait CustomTraitCollectionElement(CollectionElement, CustomTrait):
+     """Abstract collection element conforming to the CustomTrait trait."""
      ...
+
 
 trait CustomTraitTwo():
      fn function_two[ElementType: CustomTraitCollection](self) -> Tuple[ElementType]:
@@ -33,11 +41,11 @@ trait CustomTraitTwo():
     - [x] Structs
     - [x] Aliases
     - [x] functions
-    - [x] parameter names (T -> ElementType)
+    - [x] argument names (T -> ElementType)
     - [ ] [docstrings](https://github.com/modularml/mojo/blob/nightly/stdlib/docs/docstring-style-guide.md)
         - [x] Remove \n immediately after opening docstring quotes
         - [x] Add missing docstrings
-        - [ ] Add parameter types
+        - [ ] Add argument types
         - [ ] Add return types
 - [x] verify all `traits` an `structs` up to date
 - [x] add `Optional` imports
@@ -45,7 +53,6 @@ trait CustomTraitTwo():
 - [x] add ...
 - [ ] add code header comments
 - [ ] add custom CollectionElements for types in `Tuple`
-- [ ] change `Int` and `Float64` types to `SIMD` where can
 - [ ] Replace `AnyType` with a specific type where able
 - [ ] add datetime package from [forge-tools](https://github.com/martinvuyk/forge-tools)
 - remove recursive references
@@ -54,9 +61,9 @@ trait CustomTraitTwo():
     - [ ] Source: Recursive declaration (SourceCollectionElement)
 
 ### Refactorization Completed
-- [ ] geometry
+- [] geometry
     - [x] `__init__`
-    - [ ] primitive
+    - [x] primitive
 - [ ] metadata
     - [x] `__init__`
     - [ ] acquisition

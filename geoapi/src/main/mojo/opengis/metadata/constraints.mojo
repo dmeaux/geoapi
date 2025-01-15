@@ -24,46 +24,183 @@ This module contains geographic metadata structures regarding data constraints
 derived from the ISO 19115-1:2014 international standard.
 """
 
-from collections import Optional
+from collections import Optional, KeyElement
 
 from opengis.metadata.citation import Responsibility, Citation
 from opengis.metadata.maintenance import Scope
 
 
-struct ClassificationCode:
+@value
+struct ClassificationCode(
+    CollectionElement,
+    KeyElement,
+    Representable,
+    Stringable,
+    Writable,
+):
     """Name of the handling restrictions on the resource."""
 
-    alias UNCLASSIFIED = "unclassified"
+    alias type = String
+    var value: Self.type
+    """The underlying storage value for the ClassificationCode value."""
+
+    alias UNCLASSIFIED = ClassificationCode("unclassified")
     """Available for general disclosure."""
 
-    alias RESTRICTED = "restricted"
+    alias RESTRICTED = ClassificationCode("restricted")
     """Not for general disclosure."""
 
-    alias CONFIDENTIAL = "confidential"
+    alias CONFIDENTIAL = ClassificationCode("confidential")
     """Available for someone who can be entrusted with information."""
 
-    alias SECRET = "secret"
+    alias SECRET = ClassificationCode("secret")
     """Kept or meant to be kept private, unknown, or hidden from all but a select
     group of people.
     """
 
-    alias TOP_SECRET = "topSecret"
+    alias TOP_SECRET = ClassificationCode("topSecret")
     """Of the highest secrecy."""
 
-    alias SENSITIVE_BUT_UNCLASSIFIED = "sensitiveButUnclassified"
+    alias SENSITIVE_BUT_UNCLASSIFIED = ClassificationCode("sensitiveButUnclassified")
     """Although unclassified, requries strict controls over its distribution.
     """
 
-    alias FOR_OFFICIAL_USE_ONLY = "forOfficialUseOnly"
+    alias FOR_OFFICIAL_USE_ONLY = ClassificationCode("forOfficialUseOnly")
     """Unclassified information that is to be used only for official purposes
     determined by the designating body.
     """
 
-    alias PROTECTED = "protected"
+    alias PROTECTED = ClassificationCode("protected")
     """Compromise of the information could cause damage."""
 
-    alias LIMITED_DISTRIBUTION = "limitedDistribution"
+    alias LIMITED_DISTRIBUTION = ClassificationCode("limitedDistribution")
     """Destination limited by designating body."""
+
+    @always_inline
+    fn __init__(out self, *, other: Self):
+        """Copy this ClassificationCode.
+
+        Args:
+            other: The ClassificationCode to copy.
+        """
+        self = other
+
+    @staticmethod
+    fn _from_str(str: String) -> ClassificationCode:
+        """Construct a ClassificationCode from a string.
+
+        Args:
+            str: The name of the ClassificationCode.
+        """
+        if str.startswith(String("ClassificationCode.")):
+            return Self._from_str(str.removeprefix("ClassificationCode."))
+        elif str == String("unclassified"):
+            return ClassificationCode.UNCLASSIFIED
+        elif str == String("restricted"):
+            return ClassificationCode.RESTRICTED
+        elif str == String("confidential"):
+            return ClassificationCode.CONFIDENTIAL
+        elif str == String("secret"):
+            return ClassificationCode.SECRET
+        elif str == String("topSecret"):
+            return ClassificationCode.TOP_SECRET
+        elif str == String("sensitiveButUnclassified"):
+            return ClassificationCode.SENSITIVE_BUT_UNCLASSIFIED
+        elif str == String("forOfficialUseOnly"):
+            return ClassificationCode.FOR_OFFICIAL_USE_ONLY
+        elif str == String("protected"):
+            return ClassificationCode.PROTECTED
+        elif str == String("limitedDistribution"):
+            return ClassificationCode.LIMITED_DISTRIBUTION
+
+    @no_inline
+    fn __str__(self) -> String:
+        """Gets the name of the ClassificationCode.
+
+        Returns:
+            The name of the ClassificationCode.
+        """
+
+        return String.write(self.value)
+
+    @no_inline
+    fn write_to[W: Writer](self, mut writer: W):
+        """
+        Formats this ClassificationCode to the provided Writer.
+
+        Parameters:
+            W: A type conforming to the Writable trait.
+
+        Args:
+            writer: The object to write to.
+        """
+
+        return writer.write(self.value)
+
+    @always_inline("nodebug")
+    fn __repr__(self) -> String:
+        """Gets the representation of the ClassificationCode e.g. `"ClassificationCode.unclassified"`.
+
+        Returns:
+            The representation of the ClassificationCode.
+        """
+        return String.write("ClassificationCode.", self)
+
+    @always_inline("nodebug")
+    fn __is__(self, rhs: ClassificationCode) -> Bool:
+        """Compares one ClassificationCode to another for equality.
+
+        Args:
+            rhs: The ClassificationCode to compare against.
+
+        Returns:
+            True if the ClassificationCodes are the same and False otherwise.
+        """
+        return self == rhs
+
+    @always_inline("nodebug")
+    fn __isnot__(self, rhs: ClassificationCode) -> Bool:
+        """Compares one ClassificationCode to another for inequality.
+
+        Args:
+            rhs: The ClassificationCode to compare against.
+
+        Returns:
+            True if the ClassificationCodes are the same and False otherwise.
+        """
+        return self != rhs
+
+    @always_inline("nodebug")
+    fn __eq__(self, rhs: ClassificationCode) -> Bool:
+        """Compares one ClassificationCode to another for equality.
+
+        Args:
+            rhs: The ClassificationCode to compare against.
+
+        Returns:
+            True if the ClassificationCodes are the same and False otherwise.
+        """
+        return self.value == rhs.value
+
+    @always_inline("nodebug")
+    fn __ne__(self, rhs: ClassificationCode) -> Bool:
+        """Compares one ClassificationCode to another for inequality.
+
+        Args:
+            rhs: The ClassificationCode to compare against.
+
+        Returns:
+            False if the ClassificationCodes are the same and True otherwise.
+        """
+        return self.value != rhs.value
+
+    fn __hash__(self) -> UInt:
+        """Return a 64-bit hash for this `ClassificationCode` value.
+
+        Returns:
+            A 64-bit integer hash of this `ClassificationCode` value.
+        """
+        return hash(self.value)
 
 
 struct RestrictionCode:

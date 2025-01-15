@@ -1,6 +1,6 @@
 [project]
-authors = ["David Meaux <david@davidmeaux.com>"]
-channels = ["conda-forge", "https://conda.modular.com/max"]
+authors = ["David Meaux <david.meaux@geomatys.com>"]
+channels = ["conda-forge", "https://conda.modular.com/max-nightly"]
 description = "Add a short description here"
 name = "opengis"
 platforms = ["linux-64"]
@@ -9,4 +9,4 @@ version = "0.1.0"
 [tasks]
 
 [dependencies]
-max = ">=24.5.0,<25"
+max = ">=25.1.0.dev2024121705,<26"
