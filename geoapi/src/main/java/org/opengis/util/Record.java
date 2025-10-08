@@ -101,20 +101,6 @@ public interface Record {
 
     /**
      * Returns the value for a field of the specified name.
-     *
-     * @param  name  the name of the field to lookup.
-     * @return the value of the field for the given name.
-     *
-     * @deprecated This method has been removed from the ISO 19103:2015 standard. It has been kept in GeoAPI
-     *             for convenience, but renamed {@link #get(MemberName)} for consistency with common practice.
-     */
-    @Deprecated(since="3.1")
-    default Object locate(MemberName name) {
-        return get(name);
-    }
-
-    /**
-     * Returns the value for a field of the specified name.
      * This is functionally equivalent to the following code:
      *
      * {@snippet lang="java" :
@@ -128,15 +114,9 @@ public interface Record {
      * @return the value of the field for the given name.
      *
      * @see RecordType#locate(MemberName)
-     *
-     * @departure historic
-     *   This method was named {@code locate} in ISO 19103:2005 and removed in ISO 19103:2015.
-     *   It has been kept in GeoAPI as a convenience shortcut for a frequently used operation.
-     *
-     * @since 3.1
      */
     @UML(identifier="locate", obligation=MANDATORY, specification=ISO_19103, version=2005)
-    default Object get(MemberName name) {
+    default Object locate(MemberName name) {
         return getFields().get(name);
     }
 

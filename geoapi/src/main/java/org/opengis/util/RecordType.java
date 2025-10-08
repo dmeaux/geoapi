@@ -189,7 +189,7 @@ public interface RecordType extends Type {
      *   as a shortcut to other methods.
      *
      * @see #getFieldTypes()
-     * @see Record#get(MemberName)
+     * @see Record#locate(MemberName)
      */
     @UML(identifier="locate", obligation=MANDATORY, specification=ISO_19103, version=2005)
     default TypeName locate(MemberName name) {
