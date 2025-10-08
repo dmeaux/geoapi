@@ -405,17 +405,32 @@ public final strictfp class Assertions {
     }
 
     /**
+     * Asserts that the given matrix is equal to the expected one, with a tolerance of zero.
+     * Positive zeros are considered equal to negative zeros, and any NaN value is considered equal
+     * to all other NaN values.
+     *
+     * @param expected  the expected matrix, which may be {@code null}.
+     * @param actual    the matrix to compare, or {@code null}.
+     * @param label     header of the exception message in case of failure, or {@code null} if none.
+     */
+    public static void assertMatrixEquals(final Matrix expected, final Matrix actual, final String label) {
+        assertMatrixEquals(expected, actual, 0, label);
+    }
+
+    /**
      * Asserts that the given matrix is equal to the expected one, up to the given tolerance value.
+     * Positive zeros are considered equal to negative zeros, and any NaN value is considered equal
+     * to all other NaN values.
      *
      * @param expected   the expected matrix, which may be {@code null}.
      * @param actual     the matrix to compare, or {@code null}.
      * @param tolerance  the tolerance threshold.
-     * @param message    header of the exception message in case of failure, or {@code null} if none.
+     * @param label      header of the exception message in case of failure, or {@code null} if none.
      *
      * @see org.opengis.test.referencing.TransformTestCase#assertMatrixEquals(Matrix, Matrix, Matrix, String)
      */
-    public static void assertMatrixEquals(final Matrix expected, final Matrix actual, final double tolerance, final String message) {
-        if (isNull(expected, actual, message)) {
+    public static void assertMatrixEquals(final Matrix expected, final Matrix actual, final double tolerance, final String label) {
+        if (isNull(expected, actual, label)) {
             return;
         }
         final int numRow = actual.getNumRow();
@@ -427,7 +442,7 @@ public final strictfp class Assertions {
                 final double e = expected.getElement(j,i);
                 final double a = actual.getElement(j,i);
                 if (!(StrictMath.abs(e - a) <= tolerance) && Double.doubleToLongBits(a) != Double.doubleToLongBits(e)) {
-                    fail(nonNull(message) + "Matrix.getElement(" + j + ", " + i + "): expected " + e + " but got " + a);
+                    fail(nonNull(label) + "Matrix.getElement(" + j + ", " + i + "): expected " + e + " but got " + a);
                 }
             }
         }
