@@ -46,7 +46,7 @@ find target/src/ -name "*.java" \
 #
 M2R=~/.m2/repository
 DEPS=$M2R/javax/measure/unit-api/2.1.3/unit-api-2.1.3.jar
-DEPS=$DEPS:$M2R/tech/uom/seshat/1.3/seshat-1.3.jar
+DEPS=$DEPS:$M2R/tech/uom/seshat/1.5/seshat-1.5.jar
 DEPS=$DEPS:$M2R/javax/vecmath/vecmath/1.5.2/vecmath-1.5.2.jar
 DEPS=$DEPS:$M2R/org/junit/jupiter/junit-jupiter-api/5.13.1/junit-jupiter-api-5.13.1.jar
 DEPS=$DEPS:$M2R/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar
