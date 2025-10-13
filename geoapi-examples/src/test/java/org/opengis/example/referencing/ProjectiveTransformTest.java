@@ -31,7 +31,7 @@ public class ProjectiveTransformTest extends AffineTransformTest {
     }
 
     /**
-     * {@return the factory to use for testing purpose.}
+     * {@return the factory to use for testing purpose}
      */
     static SimpleTransformFactory factory() {
         return new SimpleTransformFactory() {

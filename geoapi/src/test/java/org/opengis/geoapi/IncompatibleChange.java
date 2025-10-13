@@ -60,7 +60,7 @@ final class IncompatibleChange {
     }
 
     /**
-     * {@return the accepted incompatible changes between GeoAPI 3.0.2 and GeoAPI 3.1}.
+     * Returns the accepted incompatible changes between GeoAPI 3.0.2 and GeoAPI 3.1.
      */
     static Set<IncompatibleChange> for31() {
         return fill("org.opengis.metadata.content.Band.getUnits",
@@ -69,7 +69,7 @@ final class IncompatibleChange {
     }
 
     /**
-     * {@return the accepted incompatible changes between GeoAPI 3.1 and GeoAPI 4.0}.
+     * Returns the accepted incompatible changes between GeoAPI 3.1 and GeoAPI 4.0.
      */
     static Set<IncompatibleChange> for40() {
         return fill();
@@ -91,7 +91,7 @@ final class IncompatibleChange {
     }
 
     /**
-     * {@return a hash code value for this change}.
+     * Returns a hash code value for this change.
      */
     @Override
     public int hashCode() {
@@ -114,7 +114,7 @@ final class IncompatibleChange {
     }
 
     /**
-     * {@return a string representation of this incompatible change}.
+     * Returns a string representation of this incompatible change.
      */
     @Override
     public String toString() {

@@ -161,9 +161,11 @@ final class TimeUnit implements TemporalUnit, Serializable {
     }
 
     /**
-     * {@return the duration of this unit, which may be an estimate}.
+     * Returns the duration of this unit, which may be an estimate.
      * All durations equal or greater than one day are estimated because
      * of the possibility of daylight saving time changes and leap years.
+     *
+     * @return the duration of this unit.
      */
     @Override
     public Duration getDuration() {
@@ -171,7 +173,9 @@ final class TimeUnit implements TemporalUnit, Serializable {
     }
 
     /**
-     * {@return whether the duration of the unit is an estimate, ignoring leap seconds}.
+     * Returns whether the duration of the unit is an estimate, ignoring leap seconds.
+     *
+     * @return whether the duration is an estimation.
      */
     @Override
     public boolean isDurationEstimated() {
@@ -179,8 +183,10 @@ final class TimeUnit implements TemporalUnit, Serializable {
     }
 
     /**
-     * {@return whether this unit can be used to imply meaning from a date}.
+     * Returns whether this unit can be used to imply meaning from a date.
      * If {@code true}, the {@linkplain #getDuration() duration} is an integral multiple of days.
+     *
+     * @return whether this unit can be used to imply meaning from a date.
      */
     @Override
     public boolean isDateBased() {
@@ -188,9 +194,11 @@ final class TimeUnit implements TemporalUnit, Serializable {
     }
 
     /**
-     * {@return whether this unit can be used to imply meaning from a time}.
+     * Returns whether this unit can be used to imply meaning from a time.
      * If {@code true}, the {@linkplain #getDuration() duration} is a divisor of 24 hours.
      * Note that {@link #isDateBased()} and {@code isTimeBased()} can be both {@code false}.
+     *
+     * @return whether this unit can be used to imply meaning from a time.
      */
     @Override
     public boolean isTimeBased() {
@@ -216,10 +224,11 @@ final class TimeUnit implements TemporalUnit, Serializable {
     }
 
     /**
-     * {@return whether this unit is supported by the specified temporal object}.
+     * Returns whether this unit is supported by the specified temporal object.
      * This method delegates the work to {@link ChronoUnit}.
      *
      * @param  temporal  the temporal object to check.
+     * @return whether this unit is supported by the specified temporal object.
      */
     @Override
     public boolean isSupportedBy(final Temporal temporal) {
@@ -227,12 +236,13 @@ final class TimeUnit implements TemporalUnit, Serializable {
     }
 
     /**
-     * {@return a copy of the specified temporal object with the specified period added}.
+     * Returns a copy of the specified temporal object with the specified period added.
      * This method delegates the work to {@link ChronoUnit} with an adjusted amount.
      *
      * @param <R>       the type of temporal object.
      * @param temporal  the temporal object to add to.
      * @param amount    the amount to add to the given temporal object.
+     * @return a copy of the specified temporal object with the specified period added.
      */
     @Override
     public <R extends Temporal> R addTo(final R temporal, final long amount) {
@@ -254,8 +264,10 @@ final class TimeUnit implements TemporalUnit, Serializable {
     }
 
     /**
-     * {@return a descriptive name of this unit}.
+     * Returns a descriptive name of this unit.
      * The unit name is plural and camel-case.
+     *
+     * @return the duration with its unit.
      */
     @Override
     public String toString() {
@@ -278,7 +290,7 @@ final class TimeUnit implements TemporalUnit, Serializable {
     }
 
     /**
-     * {@return a hash-code value for this unit}.
+     * Returns a hash-code value for this unit.
      */
     @Override
     public int hashCode() {

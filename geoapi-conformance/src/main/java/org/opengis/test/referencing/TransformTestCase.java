@@ -313,11 +313,12 @@ public strictfp abstract class TransformTestCase extends TestCase {
     }
 
     /**
-     * {@return the keys to gives to the {@link #setEnabledFlags(boolean[])} method}.
+     * Returns the keys to gives to the {@link #setEnabledFlags(boolean[])} method.
      * The elements in the returned array <strong>must</strong> be in the order expected
      * by the {@link #setEnabledFlags(boolean[])} method for setting the fields.
      *
      * @param  extraSpace  additional empty slots to allocate at the end of the returned array.
+     * @return keys to gives to the {@link #setEnabledFlags(boolean[])} method.
      */
     static Configuration.Key<Boolean>[] getEnabledKeys(final int extraSpace) {
         @SuppressWarnings({"unchecked","rawtypes"})
@@ -1305,7 +1306,7 @@ public strictfp abstract class TransformTestCase extends TestCase {
     }
 
     /**
-     * {@return the tolerance modifier to use for comparing coordinate values}. The user-specified
+     * Returns the tolerance modifier to use for comparing coordinate values. The user-specified
      * value in {@link #toleranceModifier} is merged with any implementation-specific modifiers,
      * and the result is cached in {@link #cachedModifier} for reuse.
      *

@@ -72,7 +72,7 @@ public class CSValidator extends ReferencingValidator {
             this.orientation = orientation;
         }
 
-        /** {@return a string representation for debugging purpose only}. */
+        /** Returns a string representation for debugging purpose only. */
         @Override public String toString() {
             return category.name() + ':' + (orientation * ANGLE_UNIT) + '°';
         }

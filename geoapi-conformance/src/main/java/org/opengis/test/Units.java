@@ -29,7 +29,7 @@ import org.opengis.test.util.PseudoFactory;
 
 
 /**
- * Pre-defined constants for the units of measurement used by the conformance tests.
+ * Predefined constants for the units of measurement used by the conformance tests.
  * This pseudo-factory provides separated methods for all units needed by {@code geoapi-conformance}.
  *
  * @author  Martin Desruisseaux (Geomatys)
@@ -106,10 +106,11 @@ public class Units extends PseudoFactory {
     }
 
     /**
-     * {@return the dimensionless unit}. This is a workaround for what seems to be a bug
-     * in the reference implementation 1.0.1 of unit API.
+     * Returns the dimensionless unit.
+     * This is a workaround for what seems to be a bug in the reference implementation 1.0.1 of unit API.
      *
      * @param  system  the system of units to use for creating base units.
+     * @return the dimensionless unit.
      */
     private static Unit<Dimensionless> getDimensionless(final SystemOfUnits system) {
         Unit<Dimensionless> unit = system.getUnit(Dimensionless.class);

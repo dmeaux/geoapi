@@ -143,7 +143,7 @@ public strictfp class ObjectFactoryTest extends ReferencingTestCase {
     }
 
     /**
-     * {@return the authority factory tests backed by the object factories}.
+     * Returns the authority factory tests backed by the object factories.
      */
     private AuthorityFactoryTest createAuthorityFactoryTest() {
         return new AuthorityFactoryTest(new PseudoEpsgFactory(Units.getDefault(), factories, validators));

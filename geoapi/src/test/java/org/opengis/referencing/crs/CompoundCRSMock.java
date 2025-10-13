@@ -59,7 +59,7 @@ final class CompoundCRSMock implements CompoundCRS, Identifier {
     }
 
     /**
-     * {@return a dummy name for this compound CRS}.
+     * Returns a dummy name for this compound CRS.
      */
     @Override
     public Identifier getName() {
@@ -67,7 +67,7 @@ final class CompoundCRSMock implements CompoundCRS, Identifier {
     }
 
     /**
-     * {@return a dummy name for this compound CRS}.
+     * Returns a dummy name for this compound CRS.
      */
     @Override
     public String getCode() {
@@ -75,7 +75,7 @@ final class CompoundCRSMock implements CompoundCRS, Identifier {
     }
 
     /**
-     * {@return the components of this compound CRS}.
+     * Returns the components of this compound CRS.
      */
     @Override
     @SuppressWarnings("ReturnOfCollectionOrArrayField")

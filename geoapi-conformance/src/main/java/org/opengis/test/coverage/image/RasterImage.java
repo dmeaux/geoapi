@@ -87,9 +87,11 @@ final strictfp class RasterImage implements RenderedImage {
     }
 
     /**
-     * {@return the wrapped raster}. This method does <strong>not</strong> copy the raster data,
+     * Returns the wrapped raster. This method does <strong>not</strong> copy the raster data,
      * which is a violation of {@link RenderedImage} contract. However, this is not a problem
      * for the purpose of the GeoAPI tests suite.
+     *
+     * @return the raster backing this image (not a copy).
      */
     @Override
     public Raster getData() {

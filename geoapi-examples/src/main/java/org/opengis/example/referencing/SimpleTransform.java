@@ -362,7 +362,7 @@ public abstract class SimpleTransform extends SimpleIdentifiedObject implements 
     }
 
     /**
-     * {@return a hash code value calculated from the name and the CRS}.
+     * Returns a hash code value calculated from the name and the CRS.
      */
     @Override
     public int hashCode() {

@@ -303,11 +303,12 @@ public class SimpleName implements GenericName {
     }
 
     /**
-     * {@return the given generic name as a {@code SimpleName} implementation}.
+     * Returns the given generic name as a {@code SimpleName} implementation.
      * The current implementation just casts the given value,
      * but future versions may copy the name components.
      *
      * @param  name  the name to cast or copy.
+     * @return given name as a {@code SimpleName} implementation.
      */
     static SimpleName castOrCopy(final GenericName name) {
         return (SimpleName) name;
