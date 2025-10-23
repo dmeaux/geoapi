@@ -28,7 +28,6 @@ from enum import Enum
 
 import opengis.referencing.common as ref_common
 
-
 __author__ = "OGC Topic 2 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 

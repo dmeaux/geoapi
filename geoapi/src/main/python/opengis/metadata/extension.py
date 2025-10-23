@@ -26,10 +26,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from enum import Enum
-from typing import Optional
 
 import opengis.metadata.citation as meta_citation
-
 
 __author__ = "OGC Topic 11 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -150,23 +148,23 @@ class ApplicationSchemaInformation(ABC):
 
     @property
     @abstractmethod
-    def schema_ascii(self) -> Optional[str]:
+    def schema_ascii(self) -> str | None:
         """Full application schema given as an ASCII file."""
 
     @property
     @abstractmethod
-    def graphics_file(self) -> Optional[meta_citation.OnlineResource]:
+    def graphics_file(self) -> meta_citation.OnlineResource | None:
         """Full application schema given as a graphics file."""
 
     @property
     @abstractmethod
     def software_development_file(self) -> \
-            Optional[meta_citation.OnlineResource]:
+            meta_citation.OnlineResource | None:
         """Full application schema given as a software development file."""
 
     @property
     @abstractmethod
-    def software_development_file_format(self) -> Optional[str]:
+    def software_development_file_format(self) -> str | None:
         """
         Software dependent format used for the application schema software
         dependent file.
@@ -181,7 +179,7 @@ class ExtendedElementInformation(ABC):
 
     @property
     @abstractmethod
-    def name(self) -> Optional[str]:
+    def name(self) -> str | None:
         """
         Name of the extended metadata element.
 
@@ -198,7 +196,7 @@ class ExtendedElementInformation(ABC):
 
     @property
     @abstractmethod
-    def obligation(self) -> Optional[ObligationCode]:
+    def obligation(self) -> ObligationCode | None:
         """
         Obligation of the extended element.
 
@@ -209,7 +207,7 @@ class ExtendedElementInformation(ABC):
 
     @property
     @abstractmethod
-    def condition(self) -> Optional[str]:
+    def condition(self) -> str | None:
         """
         Condition under which the extended element is mandatory.
 
@@ -227,7 +225,7 @@ class ExtendedElementInformation(ABC):
 
     @property
     @abstractmethod
-    def maximum_occurrence(self) -> Optional[int]:
+    def maximum_occurrence(self) -> int | None:
         """
         Maximum occurrence of the extended element.
 
@@ -238,7 +236,7 @@ class ExtendedElementInformation(ABC):
 
     @property
     @abstractmethod
-    def domain_value(self) -> Optional[str]:
+    def domain_value(self) -> str | None:
         """
         Valid values that can be assigned to the extended element.
 
@@ -266,7 +264,7 @@ class ExtendedElementInformation(ABC):
 
     @property
     @abstractmethod
-    def rationale(self) -> Optional[str]:
+    def rationale(self) -> str | None:
         """Reason for creating the extended element."""
 
     @property
@@ -276,7 +274,7 @@ class ExtendedElementInformation(ABC):
 
     @property
     @abstractmethod
-    def concept_name(self) -> Optional[str]:
+    def concept_name(self) -> str | None:
         """
         The name of the item.
 
@@ -287,7 +285,7 @@ class ExtendedElementInformation(ABC):
 
     @property
     @abstractmethod
-    def code(self) -> Optional[str]:
+    def code(self) -> str | None:
         """Language neutral identifier.
 
         MANDATORY:
@@ -302,7 +300,7 @@ class MetadataExtensionInformation(ABC):
     @property
     @abstractmethod
     def extension_on_line_resource(self) -> \
-            Optional[meta_citation.OnlineResource]:
+            meta_citation.OnlineResource | None:
         """
         Information about on-line sources containing the community profile
         name and the extended metadata elements and information for all new

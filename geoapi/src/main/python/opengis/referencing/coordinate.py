@@ -25,12 +25,10 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import Optional
 
 import opengis.geometry.primitive as primitive
 import opengis.referencing.crs as crs
 import opengis.util.measure as measure
-
 
 __author__ = "OGC Topic 2 (for abstract model and documentation), " +\
     "David Meaux (Geomatys)"
@@ -82,7 +80,7 @@ class CoordinateMetadata(ABC):
 
     @property
     @abstractmethod
-    def coordinate_epoch(self) -> Optional[DataEpoch]:
+    def coordinate_epoch(self) -> DataEpoch | None:
         """
         Epoch at which coordinate referenced to a dynamic CRS are valid.
 

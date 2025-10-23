@@ -26,10 +26,8 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Optional
 
 import opengis.geometry.primitive as primitive
-
 
 __author__ = "OGC Topic 20 (for abstract model and documentation), " +\
     "David Meaux (Geomatys)"
@@ -102,7 +100,7 @@ class UnitOfMeasure(ABC):
 
     @property
     @abstractmethod
-    def subunit(self) -> Optional[SubUnitsPerUnit]:
+    def subunit(self) -> SubUnitsPerUnit | None:
         """The sub units per unit"""
 
 

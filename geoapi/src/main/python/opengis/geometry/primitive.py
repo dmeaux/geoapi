@@ -26,12 +26,10 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from enum import Enum
-from typing import Optional
 
 import opengis.referencing.crs as crs
 import opengis.referencing.cs as cs
 import opengis.util.measure as measure
-
 
 __author__ = "OGC Topic 1 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -217,7 +215,7 @@ class Bearing(ABC):
 
     @abstractmethod
     def __init__(self,
-                 v: 'Vector',
+                 v: Vector,
                  reference: ReferenceDirection |
                     CurveRelativeDirection |
                     RelativeDirection |
@@ -247,7 +245,7 @@ class Bearing(ABC):
 
     @property
     @abstractmethod
-    def direction(self) -> Optional['Vector']:
+    def direction(self) -> Vector | None:
         """
         In this variant of Bearing, generally used for 3D coordinate systems,
         the direction is expressed as an arbitrary vector in the
@@ -357,7 +355,7 @@ class Vector(ABC):
         """
 
     @abstractmethod
-    def cross_product(self, v2: 'Vector') -> 'Vector':
+    def cross_product(self, v2: Vector) -> Vector:
         """
         The cross product is a third vector perpendicular to the other two.
         If the vector space is only two-dimensional, the cross product gives
@@ -365,7 +363,7 @@ class Vector(ABC):
         """
 
     @abstractmethod
-    def dot_product(self, v2: 'Vector') -> float:
+    def dot_product(self, v2: Vector) -> float:
         """
         The dot product operation yields a real value which is the sum of the
         products of the corresponding coefficients coefficients of the
@@ -467,7 +465,7 @@ class Primitive(Geometry):
 
     @property
     @abstractmethod
-    def segment(self) -> Optional[Sequence['Primitive']]:
+    def segment(self) -> Sequence[Primitive] | None:
         """
         The `segment` role lists the components (smallest primitives of the
         same dimension contained) of Primitive, each of which defines aGeometry

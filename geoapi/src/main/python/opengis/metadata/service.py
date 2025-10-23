@@ -26,13 +26,11 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from enum import Enum
-from typing import Optional
 
 import opengis.metadata.citation as meta_citation
 import opengis.metadata.distribution as meta_distribution
 import opengis.metadata.identification as meta_identification
 import opengis.metadata.naming as meta_naming
-
 
 __author__ = "OGC Topic 11 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -122,7 +120,7 @@ class OperationChainMetadata(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """
         A narrative explanation of the services in the chain and resulting
         output.
@@ -130,7 +128,7 @@ class OperationChainMetadata(ABC):
 
     @property
     @abstractmethod
-    def operation(self) -> Sequence['OperationMetadata']:
+    def operation(self) -> Sequence[OperationMetadata]:
         """(Ordered) information about the operation applied by the chain."""
 
 
@@ -142,7 +140,7 @@ class CoupledResource(ABC):
 
     @property
     @abstractmethod
-    def scoped_name(self) -> Optional[meta_naming.ScopedName]:
+    def scoped_name(self) -> meta_naming.ScopedName | None:
         """
         Scoped identifier of the resource in the context of the given service
         instance.
@@ -159,7 +157,7 @@ class CoupledResource(ABC):
 
     @property
     @abstractmethod
-    def resource_reference(self) -> Optional[Sequence[meta_citation.Citation]]:
+    def resource_reference(self) -> Sequence[meta_citation.Citation] | None:
         """
         Reference to the dataset on which the service operates.
 
@@ -170,7 +168,7 @@ class CoupledResource(ABC):
     @property
     @abstractmethod
     def resource(self) -> \
-            Optional[Sequence[meta_identification.DataIdentification]]:
+            Sequence[meta_identification.DataIdentification] | None:
         """
         The tightly coupled resource.
 
@@ -182,7 +180,7 @@ class CoupledResource(ABC):
 
     @property
     @abstractmethod
-    def operation(self) -> Optional['OperationMetadata']:
+    def operation(self) -> OperationMetadata | None:
         """
         The service operation.
 
@@ -208,7 +206,7 @@ class ServiceIdentification(meta_identification.Identification):
 
     @property
     @abstractmethod
-    def service_type_version(self) -> Optional[Sequence[str]]:
+    def service_type_version(self) -> Sequence[str] | None:
         """
         Provide for searching based on the version of serviceType.
 
@@ -220,7 +218,7 @@ class ServiceIdentification(meta_identification.Identification):
     @property
     @abstractmethod
     def access_properties(self) -> \
-            Optional[meta_distribution.StandardOrderProcess]:
+            meta_distribution.StandardOrderProcess | None:
         """
         Information about the availability of the service, including 'fees',
         'planned', 'available date and time', 'ordering instructions',
@@ -229,7 +227,7 @@ class ServiceIdentification(meta_identification.Identification):
 
     @property
     @abstractmethod
-    def coupling_type(self) -> Optional[CouplingType]:
+    def coupling_type(self) -> CouplingType | None:
         """
         Type of coupling between service and associated data (if exists).
 
@@ -239,7 +237,7 @@ class ServiceIdentification(meta_identification.Identification):
 
     @property
     @abstractmethod
-    def coupled_resource(self) -> Optional[Sequence[CoupledResource]]:
+    def coupled_resource(self) -> Sequence[CoupledResource] | None:
         """
         Further description of the data coupling in the case of tightly
         coupled services.
@@ -247,24 +245,24 @@ class ServiceIdentification(meta_identification.Identification):
 
     @property
     @abstractmethod
-    def operated_dataset(self) -> Optional[Sequence[meta_citation.Citation]]:
+    def operated_dataset(self) -> Sequence[meta_citation.Citation] | None:
         """
         Provides a reference to the dataset on which the service operates.
         """
 
     @property
     @abstractmethod
-    def profile(self) -> Optional[Sequence[meta_citation.Citation]]:
+    def profile(self) -> Sequence[meta_citation.Citation] | None:
         """Profile to which the service adheres."""
 
     @property
     @abstractmethod
-    def service_standard(self) -> Optional[Sequence[meta_citation.Citation]]:
+    def service_standard(self) -> Sequence[meta_citation.Citation] | None:
         """Standard to which the service adheres."""
 
     @property
     @abstractmethod
-    def contains_operations(self) -> Optional[Sequence['OperationMetadata']]:
+    def contains_operations(self) -> Sequence[OperationMetadata] | None:
         """
         Provides information about the operations that comprise the service.
         """
@@ -272,7 +270,7 @@ class ServiceIdentification(meta_identification.Identification):
     @property
     @abstractmethod
     def operates_on(self) -> \
-            Optional[Sequence[meta_identification.DataIdentification]]:
+            Sequence[meta_identification.DataIdentification] | None:
         """
         Provides information about the resources on which the service operates.
 
@@ -282,7 +280,7 @@ class ServiceIdentification(meta_identification.Identification):
 
     @property
     @abstractmethod
-    def contains_chain(self) -> Optional[Sequence[OperationChainMetadata]]:
+    def contains_chain(self) -> Sequence[OperationChainMetadata] | None:
         """Provides infromation about the chain applied by the resource."""
 
 
@@ -304,7 +302,7 @@ class Parameter(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """A narrative explanation of the role of the parameter."""
 
     @property
@@ -340,7 +338,7 @@ class OperationMetadata(ABC):
 
     @property
     @abstractmethod
-    def operation_description(self) -> Optional[str]:
+    def operation_description(self) -> str | None:
         """
         Free text description of the intent of the operation and the results
         of the operation.
@@ -348,7 +346,7 @@ class OperationMetadata(ABC):
 
     @property
     @abstractmethod
-    def invocation_name(self) -> Optional[str]:
+    def invocation_name(self) -> str | None:
         """
         The name used to invoke this interface within the context of the DCP.
         The name is identical for all DCPs.
@@ -361,12 +359,12 @@ class OperationMetadata(ABC):
 
     @property
     @abstractmethod
-    def parameters(self) -> Optional[Sequence[Parameter]]:
+    def parameters(self) -> Sequence[Parameter] | None:
         """The parameters that are required for this interface."""
 
     @property
     @abstractmethod
-    def depends_on(self) -> Optional[Sequence['OperationMetadata']]:
+    def depends_on(self) -> Sequence[OperationMetadata] | None:
         """
         List of operation that must be completed immediately before current
         operation is invoked.

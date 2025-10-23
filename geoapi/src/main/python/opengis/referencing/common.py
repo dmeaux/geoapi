@@ -25,12 +25,10 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import Optional
 
 import opengis.metadata.citation as meta_citation
 import opengis.metadata.extent as meta_extent
 import opengis.metadata.naming as naming
-
 
 __author__ = "OGC Topic 2 (for abstract model and documentation), " +\
     "David Meaux (Geomatys)"
@@ -63,7 +61,7 @@ class IdentifiedObject(ABC):
 
     @property
     @abstractmethod
-    def identifier(self) -> Optional[Sequence[meta_citation.Identifier]]:
+    def identifier(self) -> Sequence[meta_citation.Identifier] | None:
         """
         An identifier which references elsewhere the object's defining
         information; alternatively an identifier by which this object can be
@@ -72,12 +70,12 @@ class IdentifiedObject(ABC):
 
     @property
     @abstractmethod
-    def alias(self) -> Optional[Sequence[naming.GenericName]]:
+    def alias(self) -> Sequence[naming.GenericName] | None:
         """An alternative name by which this object is identified."""
 
     @property
     @abstractmethod
-    def remarks(self) -> Optional[Sequence[str]]:
+    def remarks(self) -> Sequence[str] | None:
         """
         Comments on or information about this object, including data source
         information.
@@ -85,7 +83,7 @@ class IdentifiedObject(ABC):
 
     @property
     @abstractmethod
-    def domain(self) -> Optional[Sequence[ObjectDomain]]:
+    def domain(self) -> Sequence[ObjectDomain] | None:
         """The scope and validity of the object."""
 
     @abstractmethod

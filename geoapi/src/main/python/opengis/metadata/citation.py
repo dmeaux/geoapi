@@ -27,11 +27,9 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from datetime import datetime
 from enum import Enum
-from typing import Optional
 
 import opengis.metadata.extent as meta_extent
 import opengis.metadata.identification as meta_identification
-
 
 __author__ = "OGC Topic 11 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -355,7 +353,7 @@ class Series(ABC):
 
     @property
     @abstractmethod
-    def name(self) -> Optional[str]:
+    def name(self) -> str | None:
         """
         Name of the series, or aggregate resource, of which the resource is a
         part.
@@ -363,12 +361,12 @@ class Series(ABC):
 
     @property
     @abstractmethod
-    def issue_identification(self) -> Optional[str]:
+    def issue_identification(self) -> str | None:
         """Information identifying the issue of the series."""
 
     @property
     @abstractmethod
-    def page(self) -> Optional[str]:
+    def page(self) -> str | None:
         """
         Details on which pages of the publication the article was published.
         """
@@ -379,34 +377,34 @@ class Address(ABC):
 
     @property
     @abstractmethod
-    def delivery_point(self) -> Optional[Sequence[str]]:
+    def delivery_point(self) -> Sequence[str] | None:
         """
         Address line for the location (as described in ISO 11180, Annex A).
         """
 
     @property
     @abstractmethod
-    def city(self) -> Optional[str]:
+    def city(self) -> str | None:
         """City of the location."""
 
     @property
     @abstractmethod
-    def administrative_area(self) -> Optional[str]:
+    def administrative_area(self) -> str | None:
         """State, province of the location."""
 
     @property
     @abstractmethod
-    def postal_code(self) -> Optional[str]:
+    def postal_code(self) -> str | None:
         """ZIP or other postal code."""
 
     @property
     @abstractmethod
-    def country(self) -> Optional[str]:
+    def country(self) -> str | None:
         """Country of the physical address."""
 
     @property
     @abstractmethod
-    def electronic_mail_address(self) -> Optional[Sequence[str]]:
+    def electronic_mail_address(self) -> Sequence[str] | None:
         """
         Address of the electronic mailbox of the responsible organisation or
         individual.
@@ -429,7 +427,7 @@ class Telephone(ABC):
 
     @property
     @abstractmethod
-    def number_type(self) -> Optional[TelephoneTypeCode]:
+    def number_type(self) -> TelephoneTypeCode | None:
         """Type of telephone responsible organisation or individual."""
 
 
@@ -450,12 +448,12 @@ class OnlineResource(ABC):
 
     @property
     @abstractmethod
-    def protocol(self) -> Optional[str]:
+    def protocol(self) -> str | None:
         """Connection protocol to be used e.g. http, ftp, file."""
 
     @property
     @abstractmethod
-    def application_profile(self) -> Optional[str]:
+    def application_profile(self) -> str | None:
         """
         Name of an application profile that can be used with the online
         resource.
@@ -463,22 +461,22 @@ class OnlineResource(ABC):
 
     @property
     @abstractmethod
-    def name(self) -> Optional[str]:
+    def name(self) -> str | None:
         """Name of the online resource."""
 
     @property
     @abstractmethod
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Detailed text description of what the online resource is/does."""
 
     @property
     @abstractmethod
-    def function(self) -> Optional[OnLineFunctionCode]:
+    def function(self) -> OnLineFunctionCode | None:
         """Code for function performed by the online resource."""
 
     @property
     @abstractmethod
-    def protocol_request(self) -> Optional[str]:
+    def protocol_request(self) -> str | None:
         """
         Request used to access the resource depending on the protocol
         (to be used mainly for POST requests).
@@ -509,7 +507,7 @@ class Contact(ABC):
 
     @property
     @abstractmethod
-    def phone(self) -> Optional[Sequence[Telephone]]:
+    def phone(self) -> Sequence[Telephone] | None:
         """
         Telephone numbers at which the organisation or individual may be
         contacted.
@@ -517,7 +515,7 @@ class Contact(ABC):
 
     @property
     @abstractmethod
-    def address(self) -> Optional[Sequence[Address]]:
+    def address(self) -> Sequence[Address] | None:
         """
         Physical and email address at which the organisation or individual may
         be contacted.
@@ -525,7 +523,7 @@ class Contact(ABC):
 
     @property
     @abstractmethod
-    def online_resource(self) -> Optional[Sequence[OnlineResource]]:
+    def online_resource(self) -> Sequence[OnlineResource] | None:
         """
         On-line information that can be used to contact the individual or
         organisation.
@@ -533,7 +531,7 @@ class Contact(ABC):
 
     @property
     @abstractmethod
-    def hours_of_service(self) -> Optional[Sequence[str]]:
+    def hours_of_service(self) -> Sequence[str] | None:
         """
         Time period (including time zone) when individuals can contact the
         organisation or individual.
@@ -541,7 +539,7 @@ class Contact(ABC):
 
     @property
     @abstractmethod
-    def contact_instructions(self) -> Optional[str]:
+    def contact_instructions(self) -> str | None:
         """
         Supplemental instructions on how or when to contact the individual or
         organisation.
@@ -549,7 +547,7 @@ class Contact(ABC):
 
     @property
     @abstractmethod
-    def contact_type(self) -> Optional[str]:
+    def contact_type(self) -> str | None:
         """Type of the contact."""
 
 
@@ -558,7 +556,7 @@ class Party(ABC):
 
     @property
     @abstractmethod
-    def name(self) -> Optional[str]:
+    def name(self) -> str | None:
         """
         Name of the party.
 
@@ -568,12 +566,12 @@ class Party(ABC):
 
     @property
     @abstractmethod
-    def contact_info(self) -> Optional[Sequence[Contact]]:
+    def contact_info(self) -> Sequence[Contact] | None:
         """Contact information for the party."""
 
     @property
     @abstractmethod
-    def party_identifier(self) -> Optional[Sequence['Identifier']]:
+    def party_identifier(self) -> Sequence[Identifier] | None:
         """
         Identifier of the party.
 
@@ -592,7 +590,7 @@ class Responsibility(ABC):
 
     @property
     @abstractmethod
-    def extent(self) -> Optional[Sequence[meta_extent.Extent]]:
+    def extent(self) -> Sequence[meta_extent.Extent] | None:
         """Spatial or temporal extent of the role."""
 
     @property
@@ -606,7 +604,7 @@ class Individual(Party):
 
     @property
     @abstractmethod
-    def position_name(self) -> Optional[str]:
+    def position_name(self) -> str | None:
         """
         Position of the individual in an organisation.
 
@@ -630,7 +628,7 @@ class Organisation(Party):
 
     @property
     @abstractmethod
-    def individual(self) -> Optional[Sequence[Individual]]:
+    def individual(self) -> Sequence[Individual] | None:
         """Individuals belonging to the Organisation."""
 
 
@@ -658,7 +656,7 @@ class Citation(ABC):
 
     @property
     @abstractmethod
-    def alternate_title(self) -> Optional[Sequence[str]]:
+    def alternate_title(self) -> Sequence[str] | None:
         """
         Short name or other language name by which the cited information is
         known.
@@ -669,27 +667,27 @@ class Citation(ABC):
 
     @property
     @abstractmethod
-    def date(self) -> Optional[Sequence[Date]]:
+    def date(self) -> Sequence[Date] | None:
         """Reference date for the cited resource."""
 
     @property
     @abstractmethod
-    def edition(self) -> Optional[str]:
+    def edition(self) -> str | None:
         """Version of the cited resource."""
 
     @property
     @abstractmethod
-    def edition_date(self) -> Optional[datetime]:
+    def edition_date(self) -> datetime | None:
         """Date of the edition."""
 
     @property
     @abstractmethod
-    def identifier(self) -> Optional[Sequence['Identifier']]:
+    def identifier(self) -> Sequence[Identifier] | None:
         """Value uniquely identifying an object within a namespace."""
 
     @property
     @abstractmethod
-    def cited_responsible_party(self) -> Optional[Sequence[Responsibility]]:
+    def cited_responsible_party(self) -> Sequence[Responsibility] | None:
         """
         Name and position information for an individual or organisation that
         is responsible for the resource.
@@ -697,12 +695,12 @@ class Citation(ABC):
 
     @property
     @abstractmethod
-    def presentation_form(self) -> Optional[Sequence[PresentationFormCode]]:
+    def presentation_form(self) -> Sequence[PresentationFormCode] | None:
         """Mode in which the resource is represented."""
 
     @property
     @abstractmethod
-    def series(self) -> Optional[Series]:
+    def series(self) -> Series | None:
         """
         Information about the series, or aggregate resource, of which the
         resource is a part.
@@ -710,7 +708,7 @@ class Citation(ABC):
 
     @property
     @abstractmethod
-    def other_citation_details(self) -> Optional[Sequence[str]]:
+    def other_citation_details(self) -> Sequence[str] | None:
         """
         Other information required to complete the citation that is not
         recorded elsewhere.
@@ -718,22 +716,22 @@ class Citation(ABC):
 
     @property
     @abstractmethod
-    def isbn(self) -> Optional[str]:
+    def isbn(self) -> str | None:
         """International Standard Book Number."""
 
     @property
     @abstractmethod
-    def issn(self) -> Optional[str]:
+    def issn(self) -> str | None:
         """International Standard Serial Number."""
 
     @property
     @abstractmethod
-    def online_resource(self) -> Optional[Sequence[OnlineResource]]:
+    def online_resource(self) -> Sequence[OnlineResource] | None:
         """Online reference to the cited resource."""
 
     @property
     @abstractmethod
-    def graphic(self) -> Optional[Sequence[meta_identification.BrowseGraphic]]:
+    def graphic(self) -> Sequence[meta_identification.BrowseGraphic] | None:
         """Citation graphic or logo for cited party."""
 
 
@@ -742,7 +740,7 @@ class Identifier(ABC):
 
     @property
     @abstractmethod
-    def authority(self) -> Optional[Citation]:
+    def authority(self) -> Citation | None:
         """
         The person or party responsible for maintenance of the namespace.
 
@@ -764,17 +762,17 @@ class Identifier(ABC):
 
     @property
     @abstractmethod
-    def code_space(self) -> Optional[str]:
+    def code_space(self) -> str | None:
         """Identifier or namespace in which the code is valid."""
 
     @property
     @abstractmethod
-    def version(self) -> Optional[str]:
+    def version(self) -> str | None:
         """Version identifier for the namespace."""
 
     @property
     @abstractmethod
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """
         Natural language description of the meaning of the code value.
 

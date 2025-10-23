@@ -26,12 +26,10 @@ from __future__ import annotations
 from abc import abstractmethod
 from datetime import datetime
 from enum import Enum
-from typing import Optional
 
 import opengis.metadata.extent as meta_extent
 import opengis.referencing.common as ref_common
 import opengis.util.measure as measure
-
 
 __author__ = "OGC Topic 2 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -66,7 +64,7 @@ class Datum(ref_common.IdentifiedObject):
 
     @property
     @abstractmethod
-    def anchor_point(self) -> Optional[str]:
+    def anchor_point(self) -> str | None:
         """
         Description, possibly including coordinates, of the point or points
         used to anchor the datum to the Earth.
@@ -84,7 +82,7 @@ class Datum(ref_common.IdentifiedObject):
 
     @property
     @abstractmethod
-    def realization_epoch(self) -> Optional[datetime]:
+    def realization_epoch(self) -> datetime | None:
         """
         The time after which this datum definition is valid.
         """

@@ -27,7 +27,6 @@ from __future__ import annotations
 from abc import abstractmethod
 from collections.abc import Sequence
 from enum import Enum
-from typing import Optional
 
 import opengis.metadata.citation as citation
 import opengis.referencing.common as ref_common
@@ -35,7 +34,6 @@ import opengis.referencing.coordinate as ref_coordinate
 import opengis.referencing.cs as cs
 import opengis.referencing.datum as ref_datum
 import opengis.referencing.operation as ref_operation
-
 
 __author__ = "OGC Topic 2 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -329,7 +327,7 @@ class ReferenceSystem(ref_common.IdentifiedObject):
     """
     @property
     @abstractmethod
-    def reference_system_identifier(self) -> Optional[citation.Identifier]:
+    def reference_system_identifier(self) -> citation.Identifier | None:
         """
         Identifier and codespace for reference system.
 
@@ -347,7 +345,7 @@ class ReferenceSystem(ref_common.IdentifiedObject):
     @property
     @abstractmethod
     def coordinate_reference_system(self) -> \
-            Optional['CoordinateReferenceSystem']:
+            CoordinateReferenceSystem | None:
         """
         Full description of the coordinate reference system from which a set
         of coordinates is referenced.
@@ -358,7 +356,7 @@ class ReferenceSystem(ref_common.IdentifiedObject):
 
     @property
     @abstractmethod
-    def coordinate_epoch(self) -> Optional[ref_coordinate.DataEpoch]:
+    def coordinate_epoch(self) -> ref_coordinate.DataEpoch | None:
         """
         The epoch from which coordinates in a dynamic coordinate reference
         system are referenced.

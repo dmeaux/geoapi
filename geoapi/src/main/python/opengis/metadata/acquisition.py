@@ -28,7 +28,6 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from datetime import date, datetime
 from enum import Enum
-from typing import Optional
 
 import opengis.metadata.citation as meta_citation
 import opengis.metadata.constraints as meta_constraints
@@ -36,7 +35,6 @@ import opengis.metadata.extent as meta_extent
 import opengis.metadata.identification as meta_identification
 import opengis.metadata.maintenance as meta_maintenance
 import opengis.metadata.naming as meta_naming
-
 
 __author__ = "OGC Topic 11 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -220,7 +218,7 @@ class InstrumentEvent(ABC):
 
     @property
     @abstractmethod
-    def citation(self) -> Optional[Sequence[meta_citation.Citation]]:
+    def citation(self) -> Sequence[meta_citation.Citation] | None:
         """Citation to the `InstrumentEvent`."""
 
     @property
@@ -230,7 +228,7 @@ class InstrumentEvent(ABC):
 
     @property
     @abstractmethod
-    def extent(self) -> Optional[Sequence[meta_extent.Extent]]:
+    def extent(self) -> Sequence[meta_extent.Extent] | None:
         """Extent of the `InstrumentEvent`."""
 
     @property
@@ -240,7 +238,7 @@ class InstrumentEvent(ABC):
 
     @property
     @abstractmethod
-    def revision_history(self) -> Optional[Sequence[Revision]]:
+    def revision_history(self) -> Sequence[Revision] | None:
         """History of the revisions of the `InstrumentEvent`."""
 
 
@@ -249,7 +247,7 @@ class InstrumentEventList(ABC):
 
     @property
     @abstractmethod
-    def citation(self) -> Optional[Sequence[meta_citation.Citation]]:
+    def citation(self) -> Sequence[meta_citation.Citation] | None:
         """Citation to the `InstrumentEventList`."""
 
     @property
@@ -262,7 +260,7 @@ class InstrumentEventList(ABC):
 
     @property
     @abstractmethod
-    def locale(self) -> Optional[str]:
+    def locale(self) -> str | None:
         """
         Description of the language and character set used for the
         `InstrumentationEventList`. A string conforming to IETF BCP 47.
@@ -270,12 +268,12 @@ class InstrumentEventList(ABC):
 
     @property
     @abstractmethod
-    def constraints(self) -> Optional[Sequence[meta_constraints.Constraints]]:
+    def constraints(self) -> Sequence[meta_constraints.Constraints] | None:
         """Use and access constraints."""
 
     @property
     @abstractmethod
-    def instrumentation_event(self) -> Optional[Sequence[InstrumentEvent]]:
+    def instrumentation_event(self) -> Sequence[InstrumentEvent] | None:
         """Events(s) in the list of events."""
 
 
@@ -284,7 +282,7 @@ class Instrument(ABC):
 
     @property
     @abstractmethod
-    def citation(self) -> Optional[Sequence[meta_citation.Citation]]:
+    def citation(self) -> Sequence[meta_citation.Citation] | None:
         """Complete citation of the instrument."""
 
     @property
@@ -302,22 +300,22 @@ class Instrument(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Textual description of the instrument."""
 
     @property
     @abstractmethod
-    def mounted_on(self) -> Optional['Platform']:
+    def mounted_on(self) -> Platform | None:
         """Platform on which the instrument is mounted"""
 
     @property
     @abstractmethod
-    def sensor(self) -> Optional[Sequence['Sensor']]:
+    def sensor(self) -> Sequence[Sensor] | None:
         """Instrument has a sensor."""
 
     @property
     @abstractmethod
-    def history(self) -> Optional['InstrumentEventList']:
+    def history(self) -> InstrumentEventList | None:
         """List of events associated with the instrument."""
 
 
@@ -326,7 +324,7 @@ class Sensor(Instrument):
 
     @property
     @abstractmethod
-    def hosted(self) -> Optional[Instrument]:
+    def hosted(self) -> Instrument | None:
         """Instrument on which the sensor is hosted"""
 
 
@@ -335,7 +333,7 @@ class Platform(ABC):
 
     @property
     @abstractmethod
-    def citation(self) -> Optional[meta_citation.Citation]:
+    def citation(self) -> meta_citation.Citation | None:
         """Complete citation of the platform."""
 
     @property
@@ -350,7 +348,7 @@ class Platform(ABC):
 
     @property
     @abstractmethod
-    def sponsor(self) -> Optional[Sequence[meta_citation.Responsibility]]:
+    def sponsor(self) -> Sequence[meta_citation.Responsibility] | None:
         """
         Organisation responsible for building, launch, or operation of the
         platform.
@@ -358,12 +356,12 @@ class Platform(ABC):
 
     @property
     @abstractmethod
-    def other_property(self) -> Optional[meta_naming.Record]:
+    def other_property(self) -> meta_naming.Record | None:
         """Instance of other property type not included in `Sensor`."""
 
     @property
     @abstractmethod
-    def other_property_type(self) -> Optional[meta_naming.RecordType]:
+    def other_property_type(self) -> meta_naming.RecordType | None:
         """Type of other property description."""
 
     @property
@@ -373,7 +371,7 @@ class Platform(ABC):
 
     @property
     @abstractmethod
-    def history(self) -> Optional[Sequence[InstrumentEventList]]:
+    def history(self) -> Sequence[InstrumentEventList] | None:
         """List of events affecting a platform."""
 
 
@@ -390,12 +388,12 @@ class PlatformPass(ABC):
 
     @property
     @abstractmethod
-    def extent(self) -> Optional[meta_extent.Extent]:
+    def extent(self) -> meta_extent.Extent | None:
         """Temporal and spatial extent of the pass."""
 
     @property
     @abstractmethod
-    def related_event(self) -> Optional[Sequence['Event']]:
+    def related_event(self) -> Sequence[Event] | None:
         """Occurrence of one or more events for a pass."""
 
 
@@ -432,7 +430,7 @@ class Event(ABC):
 
     @property
     @abstractmethod
-    def expected_objective(self) -> Optional[Sequence['Objective']]:
+    def expected_objective(self) -> Sequence[Objective] | None:
         """An objective expected to be completed by the event."""
 
     @property
@@ -454,14 +452,14 @@ class EnvironmentalRecord(ABC):
 
     @property
     @abstractmethod
-    def average_air_temperature(self) -> Optional[float]:
+    def average_air_temperature(self) -> float | None:
         """
         Average air temperature along the flight pass during the photo flight.
         """
 
     @property
     @abstractmethod
-    def max_relative_humidity(self) -> Optional[float]:
+    def max_relative_humidity(self) -> float | None:
         """
         Maximum realative humitiy along the flight pass during the photo
         flight.
@@ -469,14 +467,14 @@ class EnvironmentalRecord(ABC):
 
     @property
     @abstractmethod
-    def max_altitude(self) -> Optional[float]:
+    def max_altitude(self) -> float | None:
         """
         Maximum altitude during the photo flight.
         """
 
     @property
     @abstractmethod
-    def meteorological_conditions(self) -> Optional[str]:
+    def meteorological_conditions(self) -> str | None:
         """
         Meteorological conditions in the photo flight area, in particular
         clouds, snow, and wind.
@@ -484,7 +482,7 @@ class EnvironmentalRecord(ABC):
 
     @property
     @abstractmethod
-    def solar_azimuth(self) -> Optional[float]:
+    def solar_azimuth(self) -> float | None:
         """
         Clockwise angle in degrees from north to the centre of the sun's disc.
 
@@ -494,7 +492,7 @@ class EnvironmentalRecord(ABC):
 
     @property
     @abstractmethod
-    def solar_elevation(self) -> Optional[float]:
+    def solar_elevation(self) -> float | None:
         """
         Angle between the horizonand the centre of the sun's disk.
         """
@@ -513,22 +511,22 @@ class Objective(ABC):
 
     @property
     @abstractmethod
-    def priority(self) -> Optional[str]:
+    def priority(self) -> str | None:
         """Priority applied to the target."""
 
     @property
     @abstractmethod
-    def type(self) -> Optional[Sequence[ObjectiveTypeCode]]:
+    def type(self) -> Sequence[ObjectiveTypeCode] | None:
         """Collection technique for the objective."""
 
     @property
     @abstractmethod
-    def function(self) -> Optional[Sequence[str]]:
+    def function(self) -> Sequence[str] | None:
         """Function performed by or at the objective."""
 
     @property
     @abstractmethod
-    def extent(self) -> Optional[Sequence[meta_extent.Extent]]:
+    def extent(self) -> Sequence[meta_extent.Extent] | None:
         """
         Extent information including the bounding box, bounding polygon,
         vertical and temporal extent of the objective.
@@ -536,17 +534,17 @@ class Objective(ABC):
 
     @property
     @abstractmethod
-    def objective_occurence(self) -> Optional[Sequence[Event]]:
+    def objective_occurence(self) -> Sequence[Event] | None:
         """Event or events associated with objective completion."""
 
     @property
     @abstractmethod
-    def platform_pass(self) -> Optional[Sequence[PlatformPass]]:
+    def platform_pass(self) -> Sequence[PlatformPass] | None:
         """Pass of the platform over the objective."""
 
     @property
     @abstractmethod
-    def sensing_instrument(self) -> Optional[Sequence[Instrument]]:
+    def sensing_instrument(self) -> Sequence[Instrument] | None:
         """Instrument which senses the objective data."""
 
 
@@ -555,7 +553,7 @@ class Operation(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """
         Description of the mission on which the platform observations are part
         and the objectives of that mission.
@@ -563,12 +561,12 @@ class Operation(ABC):
 
     @property
     @abstractmethod
-    def citation(self) -> Optional[meta_citation.Citation]:
+    def citation(self) -> meta_citation.Citation | None:
         """Identification of the mission."""
 
     @property
     @abstractmethod
-    def identifier(self) -> Optional[meta_citation.Identifier]:
+    def identifier(self) -> meta_citation.Identifier | None:
         """Unique identification of the operation."""
 
     @property
@@ -578,47 +576,47 @@ class Operation(ABC):
 
     @property
     @abstractmethod
-    def type(self) -> Optional[OperationTypeCode]:
+    def type(self) -> OperationTypeCode | None:
         """Collection technique for the operation."""
 
     @property
     @abstractmethod
-    def other_property(self) -> Optional[meta_naming.Record]:
+    def other_property(self) -> meta_naming.Record | None:
         """Instance of other property type not included in `Sensor`."""
 
     @property
     @abstractmethod
-    def other_property_type(self) -> Optional[meta_naming.RecordType]:
+    def other_property_type(self) -> meta_naming.RecordType | None:
         """Type of other property description."""
 
     @property
     @abstractmethod
-    def child_operation(self) -> Optional[Sequence['Operation']]:
+    def child_operation(self) -> Sequence[Operation] | None:
         """Sub-missions that make up part of a larger mission."""
 
     @property
     @abstractmethod
-    def objective(self) -> Optional[Sequence[Objective]]:
+    def objective(self) -> Sequence[Objective] | None:
         """Object(s) or area(s) of interest to be sensed."""
 
     @property
     @abstractmethod
-    def parent_operation(self) -> 'Operation':
+    def parent_operation(self) -> Operation:
         """Heritage of the operation."""
 
     @property
     @abstractmethod
-    def plan(self) -> Optional['Plan']:
+    def plan(self) -> Plan | None:
         """Plan satisfied by th operation."""
 
     @property
     @abstractmethod
-    def platform(self) -> Optional[Sequence[Platform]]:
+    def platform(self) -> Sequence[Platform] | None:
         """Platform (or platforms) used in the operation."""
 
     @property
     @abstractmethod
-    def significant_event(self) -> Optional[Sequence[Event]]:
+    def significant_event(self) -> Sequence[Event] | None:
         """Record of an event occuring during an operation."""
 
 
@@ -641,7 +639,7 @@ class Requirement(ABC):
 
     @property
     @abstractmethod
-    def citation(self) -> Optional[meta_citation.Citation]:
+    def citation(self) -> meta_citation.Citation | None:
         """
         Identification of reference or guidance material for the requirement.
         """
@@ -678,7 +676,7 @@ class Requirement(ABC):
 
     @property
     @abstractmethod
-    def satisfied_plan(self) -> Optional[Sequence['Plan']]:
+    def satisfied_plan(self) -> Sequence[Plan] | None:
         """Plan that identifies solution to satisfy the requirement."""
 
 
@@ -689,7 +687,7 @@ class Plan(ABC):
 
     @property
     @abstractmethod
-    def type(self) -> Optional[GeometryTypeCode]:
+    def type(self) -> GeometryTypeCode | None:
         """
         Manner of sampling geometry the planner expects for collection of the
         objective data.
@@ -707,12 +705,12 @@ class Plan(ABC):
 
     @property
     @abstractmethod
-    def operation(self) -> Optional[Sequence[Operation]]:
+    def operation(self) -> Sequence[Operation] | None:
         """Identification of the activity or activities that satisfy a plan."""
 
     @property
     @abstractmethod
-    def satisfied_requirement(self) -> Optional[Sequence[Requirement]]:
+    def satisfied_requirement(self) -> Sequence[Requirement] | None:
         """Requirement satisfied by the plan."""
 
 
@@ -724,24 +722,24 @@ class AcquisitionInformation(ABC):
 
     @property
     @abstractmethod
-    def scope(self) -> Optional[Sequence[meta_maintenance.Scope]]:
+    def scope(self) -> Sequence[meta_maintenance.Scope] | None:
         """The specific data to which the acquisition information applies."""
 
     @property
     @abstractmethod
-    def acquisition_plan(self) -> Optional[Sequence[Plan]]:
+    def acquisition_plan(self) -> Sequence[Plan] | None:
         """Identifies the plan as implemented by the acquisition."""
 
     @property
     @abstractmethod
-    def acquisition_requirement(self) -> Optional[Sequence[Requirement]]:
+    def acquisition_requirement(self) -> Sequence[Requirement] | None:
         """
         Identifies the requirement the data acquisition intends to satisfy.
         """
 
     @property
     @abstractmethod
-    def environmental_conditions(self) -> Optional[EnvironmentalRecord]:
+    def environmental_conditions(self) -> EnvironmentalRecord | None:
         """
         A record of the environmental circumstances during the data
         acquisition.
@@ -749,19 +747,19 @@ class AcquisitionInformation(ABC):
 
     @property
     @abstractmethod
-    def instrument(self) -> Optional[Sequence[Instrument]]:
+    def instrument(self) -> Sequence[Instrument] | None:
         """
         General information about the instrument used in data acquisition.
         """
 
     @property
     @abstractmethod
-    def objective(self) -> Optional[Sequence[Objective]]:
+    def objective(self) -> Sequence[Objective] | None:
         """Identification of the area or object to be sensed."""
 
     @property
     @abstractmethod
-    def operation(self) -> Optional[Sequence[Operation]]:
+    def operation(self) -> Sequence[Operation] | None:
         """
         General information about an identifiable activity which provided the
         data.
@@ -769,7 +767,7 @@ class AcquisitionInformation(ABC):
 
     @property
     @abstractmethod
-    def platform(self) -> Optional[Sequence[Platform]]:
+    def platform(self) -> Sequence[Platform] | None:
         """
         General information about the platform from which the data were taken.
         """

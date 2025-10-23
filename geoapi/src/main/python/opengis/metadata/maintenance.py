@@ -27,11 +27,9 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence, Set
 from datetime import timedelta
 from enum import Enum
-from typing import Optional
 
 import opengis.metadata.citation as meta_citations
 import opengis.metadata.extent as meta_extent
-
 
 __author__ = "OGC Topic 11 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -186,7 +184,7 @@ class ScopeDescription(ABC):
 
     @property
     @abstractmethod
-    def attributes(self) -> Optional[Set[str]]:
+    def attributes(self) -> Set[str] | None:
         """
         Instances of attribute types to which the information applies.
 
@@ -197,7 +195,7 @@ class ScopeDescription(ABC):
 
     @property
     @abstractmethod
-    def features(self) -> Optional[Set[str]]:
+    def features(self) -> Set[str] | None:
         """
         Instances of feature types to which the information applies.
 
@@ -208,7 +206,7 @@ class ScopeDescription(ABC):
 
     @property
     @abstractmethod
-    def feature_instances(self) -> Optional[Set[str]]:
+    def feature_instances(self) -> Set[str] | None:
         """
         Feature instances to which the information applies.
 
@@ -219,7 +217,7 @@ class ScopeDescription(ABC):
 
     @property
     @abstractmethod
-    def attribute_instances(self) -> Optional[Set[str]]:
+    def attribute_instances(self) -> Set[str] | None:
         """
         Attribute instances to which the information applies.
 
@@ -230,7 +228,7 @@ class ScopeDescription(ABC):
 
     @property
     @abstractmethod
-    def dataset(self) -> Optional[str]:
+    def dataset(self) -> str | None:
         """
         Dataset to which the information applies.
 
@@ -241,7 +239,7 @@ class ScopeDescription(ABC):
 
     @property
     @abstractmethod
-    def other(self) -> Optional[str]:
+    def other(self) -> str | None:
         """
         Class of information that does not fall into the other categories to
         which the information applies.
@@ -265,7 +263,7 @@ class Scope(ABC):
 
     @property
     @abstractmethod
-    def extent(self) -> Optional[Sequence[meta_extent.Extent]]:
+    def extent(self) -> Sequence[meta_extent.Extent] | None:
         """
         Information about the horizontal, vertical, and temporal extent of
         the specified resource.
@@ -273,7 +271,7 @@ class Scope(ABC):
 
     @property
     @abstractmethod
-    def level_description(self) -> Optional[Sequence[ScopeDescription]]:
+    def level_description(self) -> Sequence[ScopeDescription] | None:
         """
         Detailed information/listing of the items specified by the level.
         """
@@ -284,9 +282,7 @@ class MaintenanceInformation(ABC):
 
     @property
     @abstractmethod
-    def maintenance_and_update_frequency(self) -> Optional[
-        MaintenanceFrequencyCode
-    ]:
+    def maintenance_and_update_frequency(self) -> MaintenanceFrequencyCode | None:
         """
         Frequency with which changes and additions are made to the resource
         after the initial resource is completed.
@@ -297,12 +293,12 @@ class MaintenanceInformation(ABC):
 
     @property
     @abstractmethod
-    def maintenance_date(self) -> Optional[Sequence[meta_citations.Date]]:
+    def maintenance_date(self) -> Sequence[meta_citations.Date] | None:
         """Date information associated with maintenance of resource."""
 
     @property
     @abstractmethod
-    def user_defined_maintenance_frequency(self) -> Optional[timedelta]:
+    def user_defined_maintenance_frequency(self) -> timedelta | None:
         """
         Maintenance period other than those defined.
 
@@ -312,12 +308,12 @@ class MaintenanceInformation(ABC):
 
     @property
     @abstractmethod
-    def maintenance_scope(self) -> Optional[Sequence[Scope]]:
+    def maintenance_scope(self) -> Sequence[Scope] | None:
         """Information about the scope and extent of maintenance."""
 
     @property
     @abstractmethod
-    def maintenance_note(self) -> Optional[Sequence[str]]:
+    def maintenance_note(self) -> Sequence[str] | None:
         """
         Information regarding specific requirements for maintaining the
         resource.
@@ -325,7 +321,7 @@ class MaintenanceInformation(ABC):
 
     @property
     @abstractmethod
-    def contact(self) -> Optional[Sequence[meta_citations.Responsibility]]:
+    def contact(self) -> Sequence[meta_citations.Responsibility] | None:
         """
         Identification of, and means of communicating with, person(s) and
         organisation(s) with responsibility for maintaining the metadata.

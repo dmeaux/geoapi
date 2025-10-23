@@ -26,12 +26,10 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from datetime import datetime
-from typing import Optional
 
 import opengis.geometry.primitive as primitive
 import opengis.metadata.citation as meta_citation
 import opengis.referencing.crs as crs
-
 
 __author__ = "OGC Topic 11 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -52,7 +50,7 @@ class VerticalExtent(ABC):
 
     @property
     @abstractmethod
-    def vertical_crs(self) -> Optional[crs.VerticalCRS]:
+    def vertical_crs(self) -> crs.VerticalCRS | None:
         """
         Provides information about the vertical coordinate reference system
         to which the maximum and minimum elevation values are measured.
@@ -68,7 +66,7 @@ class VerticalExtent(ABC):
 
     @property
     @abstractmethod
-    def vertical_crs_id(self) -> Optional[crs.ReferenceSystem]:
+    def vertical_crs_id(self) -> crs.ReferenceSystem | None:
         """
         Identifies the vertical coordinate reference system used for the
         minimum and maximum values.
@@ -218,7 +216,7 @@ class Extent(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """
         Extent of the referring object.
 
@@ -232,7 +230,7 @@ class Extent(ABC):
 
     @property
     @abstractmethod
-    def geographic_element(self) -> Optional[Sequence[GeographicExtent]]:
+    def geographic_element(self) -> Sequence[GeographicExtent] | None:
         """
         Provides spatial component of the extent of the referring object.
 
@@ -243,7 +241,7 @@ class Extent(ABC):
 
     @property
     @abstractmethod
-    def temporal_element(self) -> Optional[Sequence[TemporalExtent]]:
+    def temporal_element(self) -> Sequence[TemporalExtent] | None:
         """
         Provides temporal component of the extent of the referring object.
 
@@ -254,7 +252,7 @@ class Extent(ABC):
 
     @property
     @abstractmethod
-    def vertical_element(self) -> Optional[Sequence[VerticalExtent]]:
+    def vertical_element(self) -> Sequence[VerticalExtent] | None:
         """
         Provides vertical component of the extent of the referring object.
 

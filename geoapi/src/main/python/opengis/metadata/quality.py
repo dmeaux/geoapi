@@ -25,12 +25,10 @@ from the ISO 19157:2013, including addendum A1 (2018) international standard.
 
 from __future__ import annotations
 
-
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from datetime import datetime
 from enum import Enum
-from typing import Optional
 
 import opengis.metadata.citation as meta_citation
 import opengis.metadata.content as meta_content
@@ -40,7 +38,6 @@ import opengis.metadata.maintenance as meta_maintenance
 import opengis.metadata.naming as meta_naming
 import opengis.metadata.representation as meta_representation
 import opengis.util.measure as util_measure
-
 
 __author__ = "OGC Topic 11 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -222,7 +219,7 @@ class Element(ABC):
 
     @property
     @abstractmethod
-    def derived_element(self) -> Sequence['Element']:
+    def derived_element(self) -> Sequence[Element]:
         """
         In case of aggregation or derivation, indicates the original element.
         """
@@ -246,7 +243,7 @@ class DataQuality(ABC):
     @property
     @abstractmethod
     def standalone_quality_report(self) -> \
-            Optional[StandaloneQualityReportInformation]:
+            StandaloneQualityReportInformation | None:
         """Reference and abstract of the attached standalone quality report."""
 
 
@@ -315,7 +312,7 @@ class Parameter(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> Optional[Description]:
+    def description(self) -> Description | None:
         """Description of the data quality parameter."""
 
     @property
@@ -328,7 +325,7 @@ class Parameter(ABC):
 
     @property
     @abstractmethod
-    def value_structure(self) -> Optional[ValueStructure]:
+    def value_structure(self) -> ValueStructure | None:
         """Structure of the data quality parameter."""
 
 
@@ -408,7 +405,7 @@ class Measure(ABC):
 
     @property
     @abstractmethod
-    def parameter(self) -> Optional[Parameter]:
+    def parameter(self) -> Parameter | None:
         """
         Reference to the source of an item that has been adopted from an
         external source.
@@ -663,7 +660,7 @@ class CoverageResult(Result):
     @property
     @abstractmethod
     def result_content(self) -> \
-            Optional[Sequence[meta_content.RangeDimension]]:
+            Sequence[meta_content.RangeDimension] | None:
         """
         Describes the content of the result coverage, when the quality
         coverage is included in the described resource, i.e. the semantic
@@ -675,7 +672,7 @@ class CoverageResult(Result):
 
     @property
     @abstractmethod
-    def result_format(self) -> Optional[meta_distribution.Format]:
+    def result_format(self) -> meta_distribution.Format | None:
         """
         Provides information about the data format of the result coverage data.
 
@@ -686,7 +683,7 @@ class CoverageResult(Result):
     # Below property not defined in ISO 19157:2023
     @property
     @abstractmethod
-    def result_file(self) -> Optional[meta_distribution.DataFile]:
+    def result_file(self) -> meta_distribution.DataFile | None:
         """
         Provides information about the data file containing the result
         coverage data.

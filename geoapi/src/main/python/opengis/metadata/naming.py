@@ -27,7 +27,6 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from typing import Any
 
-
 __author__ = "OGC Topic 11 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
 
@@ -46,7 +45,7 @@ class NameSpace(ABC):
 
     @property
     @abstractmethod
-    def name(self) -> 'GenericName':
+    def name(self) -> GenericName:
         """The identifier of this namespace."""
 
 
@@ -73,7 +72,7 @@ class GenericName(ABC):
 
     @property
     @abstractmethod
-    def parsed_name(self) -> Sequence['LocalName']:
+    def parsed_name(self) -> Sequence[LocalName]:
         """
         The sequence of local names making this generic name. The length of
         this sequence is the depth. It does not include the scope.
@@ -103,7 +102,7 @@ class LocalName(GenericName):
 
     @property
     @abstractmethod
-    def parsed_name(self) -> Sequence['LocalName']:
+    def parsed_name(self) -> Sequence[LocalName]:
         """
         The sequence of local names. Since this object is itself a locale name,
         the parsed name is always a singleton containing only `self`.

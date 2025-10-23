@@ -26,12 +26,10 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from enum import Enum
-from typing import Optional
 
 import opengis.metadata.citation as meta_citation
 import opengis.metadata.identification as meta_identification
 import opengis.metadata.maintenance as meta_maintenance
-
 
 __author__ = "OGC Topic 11 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -169,7 +167,7 @@ class Releasability(ABC):
 
     @property
     @abstractmethod
-    def addressee(self) -> Optional[Sequence[meta_citation.Responsibility]]:
+    def addressee(self) -> Sequence[meta_citation.Responsibility] | None:
         """
         Party to which the release statement applies.
 
@@ -179,7 +177,7 @@ class Releasability(ABC):
 
     @property
     @abstractmethod
-    def statement(self) -> Optional[str]:
+    def statement(self) -> str | None:
         """
         Release statement.
 
@@ -189,7 +187,7 @@ class Releasability(ABC):
 
     @property
     @abstractmethod
-    def dissemination_constraints(self) -> Optional[Sequence[RestrictionCode]]:
+    def dissemination_constraints(self) -> Sequence[RestrictionCode] | None:
         """Component in determining releasability."""
 
 
@@ -198,7 +196,7 @@ class Constraints(ABC):
 
     @property
     @abstractmethod
-    def use_limitation(self) -> Optional[Sequence[str]]:
+    def use_limitation(self) -> Sequence[str] | None:
         """
         Limitation affecting the fitness for use of the resource or metadata.
         For example, "not to be used for navigation".
@@ -206,7 +204,7 @@ class Constraints(ABC):
 
     @property
     @abstractmethod
-    def constraint_application_scope(self) -> Optional[meta_maintenance.Scope]:
+    def constraint_application_scope(self) -> meta_maintenance.Scope | None:
         """
         Spatial and temporal extent of the application of the constraint
         restrictions.
@@ -214,7 +212,7 @@ class Constraints(ABC):
 
     @property
     @abstractmethod
-    def graphic(self) -> Optional[Sequence[meta_identification.BrowseGraphic]]:
+    def graphic(self) -> Sequence[meta_identification.BrowseGraphic] | None:
         """Graphic /symbol indicating the constraint.
 
         Example:
@@ -224,7 +222,7 @@ class Constraints(ABC):
 
     @property
     @abstractmethod
-    def reference(self) -> Optional[Sequence[meta_citation.Citation]]:
+    def reference(self) -> Sequence[meta_citation.Citation] | None:
         """
         Citation/URL for the limitation or constraint,
         e.g., copyright statement, license agreement, etc.
@@ -232,7 +230,7 @@ class Constraints(ABC):
 
     @property
     @abstractmethod
-    def releasability(self) -> Optional[Releasability]:
+    def releasability(self) -> Releasability | None:
         """
         Information concerning the parties to whom the resource can or cannot
         be released and the party responsible for determining the
@@ -242,7 +240,7 @@ class Constraints(ABC):
     @property
     @abstractmethod
     def responsible_party(self) -> \
-            Optional[Sequence[meta_citation.Responsibility]]:
+            Sequence[meta_citation.Responsibility] | None:
         """Party responsible for the resource constraints."""
 
 
@@ -254,7 +252,7 @@ class LegalConstraints(Constraints):
 
     @property
     @abstractmethod
-    def access_constraints(self) -> Optional[Sequence[RestrictionCode]]:
+    def access_constraints(self) -> Sequence[RestrictionCode] | None:
         """
         Access constraints applied to assure the protection of privacy or
         intellectual property, and any special restrictions or limitations on
@@ -267,7 +265,7 @@ class LegalConstraints(Constraints):
 
     @property
     @abstractmethod
-    def use_constraints(self) -> Optional[Sequence[RestrictionCode]]:
+    def use_constraints(self) -> Sequence[RestrictionCode] | None:
         """
         Constraints applied to assure the protection of privacy or
         intellectual property, and any special restrictions or limitations or
@@ -280,7 +278,7 @@ class LegalConstraints(Constraints):
 
     @property
     @abstractmethod
-    def other_constraints(self) -> Optional[Sequence[str]]:
+    def other_constraints(self) -> Sequence[str] | None:
         """
         Other restrictions and legal prerequisites for accessing and using the
         resource or metadata.
@@ -304,7 +302,7 @@ class SecurityConstraints(Constraints):
 
     @property
     @abstractmethod
-    def user_note(self) -> Optional[str]:
+    def user_note(self) -> str | None:
         """
         Explanation of the application of the legal constraints or other
         restrictions and legal prerequisites for obtaining and using the
@@ -313,12 +311,12 @@ class SecurityConstraints(Constraints):
 
     @property
     @abstractmethod
-    def classification_system(self) -> Optional[str]:
+    def classification_system(self) -> str | None:
         """Name of the classification system."""
 
     @property
     @abstractmethod
-    def handling_description(self) -> Optional[str]:
+    def handling_description(self) -> str | None:
         """
         Additional information about the restrictions on handling the resource
         or metadata.

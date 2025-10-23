@@ -27,7 +27,6 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from enum import Enum
-from typing import Optional
 
 import opengis.geometry.primitive as primitive
 import opengis.metadata.citation as meta_citation
@@ -35,7 +34,6 @@ import opengis.metadata.maintenance as meta_maintenance
 import opengis.metadata.naming as meta_naming
 import opengis.metadata.quality as meta_quality
 import opengis.referencing.crs as crs
-
 
 __author__ = "OGC Topic 11 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -257,7 +255,7 @@ class Dimension(ABC):
 
     @property
     @abstractmethod
-    def dimension_title(self) -> Optional[str]:
+    def dimension_title(self) -> str | None:
         """
         Enhancement/modifier of the dimension name, e.g.,
         for a different time dimension: dimensiont_title = 'runtime'
@@ -267,7 +265,7 @@ class Dimension(ABC):
 
     @property
     @abstractmethod
-    def dimension_description(self) -> Optional[str]:
+    def dimension_description(self) -> str | None:
         """Description of the axis."""
 
 
@@ -276,7 +274,7 @@ class GeolocationInformation(ABC):
 
     @property
     @abstractmethod
-    def quality_info(self) -> Optional[Sequence[meta_quality.DataQuality]]:
+    def quality_info(self) -> Sequence[meta_quality.DataQuality] | None:
         """
         Provides an overall assessment of quality of geolocation information.
         """
@@ -295,7 +293,7 @@ class GCP(ABC):
 
     @property
     @abstractmethod
-    def accuracy_report(self) -> Optional[Sequence[meta_quality.Element]]:
+    def accuracy_report(self) -> Sequence[meta_quality.Element] | None:
         """Accuracy of a ground control point."""
 
 
@@ -339,7 +337,7 @@ class GeometricObjects(ABC):
 
     @property
     @abstractmethod
-    def geometric_object_count(self) -> Optional[int]:
+    def geometric_object_count(self) -> int | None:
         """
         Total number of the point or vector object type occurring in the
         resource/dataset.
@@ -353,7 +351,7 @@ class SpatialRepresentation(ABC):
 
     @property
     @abstractmethod
-    def scope(self) -> Optional[meta_maintenance.Scope]:
+    def scope(self) -> meta_maintenance.Scope | None:
         """Level and extent of the spatial representation."""
 
 
@@ -390,7 +388,7 @@ class VectorSpatialRepresentation(SpatialRepresentation):
 
     @property
     @abstractmethod
-    def topology_level(self) -> Optional[TopologyLevelCode]:
+    def topology_level(self) -> TopologyLevelCode | None:
         """
         Code which identifies the degree of complexity of the spatial
         relationships.
@@ -398,7 +396,7 @@ class VectorSpatialRepresentation(SpatialRepresentation):
 
     @property
     @abstractmethod
-    def geometric_objects(self) -> Optional[Sequence[GeometricObjects]]:
+    def geometric_objects(self) -> Sequence[GeometricObjects] | None:
         """Information about the geometric objects used in the resource."""
 
 
@@ -420,7 +418,7 @@ class Georectified(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def check_point_description(self) -> Optional[str]:
+    def check_point_description(self) -> str | None:
         """
         Description of geographic position points used to test the accuracy of
         the georeferenced grid data.
@@ -431,7 +429,7 @@ class Georectified(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def corner_points(self) -> Optional[Sequence[primitive.Point]]:
+    def corner_points(self) -> Sequence[primitive.Point] | None:
         """
         Earth location in the coordinate system defined by the Spatial
         Reference System and the grid coordinate of the cells at opposite ends
@@ -446,7 +444,7 @@ class Georectified(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def centre_point(self) -> Optional[primitive.Point]:
+    def centre_point(self) -> primitive.Point | None:
         """
         Earth location in the coordinate system defined by the Spatial
         Reference System and the grid coordinate of the cell halfway between
@@ -462,12 +460,12 @@ class Georectified(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def transformation_dimension_description(self) -> Optional[str]:
+    def transformation_dimension_description(self) -> str | None:
         """General description of the transformation."""
 
     @property
     @abstractmethod
-    def transformation_dimension_mapping(self) -> Optional[Sequence[str]]:
+    def transformation_dimension_mapping(self) -> Sequence[str] | None:
         """
         Information about which grid axes are the spatial (map) axes.
 
@@ -477,7 +475,7 @@ class Georectified(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def check_point(self) -> Optional[Sequence[GCP]]:
+    def check_point(self) -> Sequence[GCP] | None:
         """
         Geographic references used to validate georectification of the data.
         """
@@ -508,7 +506,7 @@ class Georeferenceable(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def orientation_parameter_description(self) -> Optional[str]:
+    def orientation_parameter_description(self) -> str | None:
         """Description of parameters used to describe sensor orientation."""
 
     @property
@@ -518,7 +516,7 @@ class Georeferenceable(GridSpatialRepresentation):
 
     @property
     @abstractmethod
-    def parameter_citation(self) -> Optional[Sequence[meta_citation.Citation]]:
+    def parameter_citation(self) -> Sequence[meta_citation.Citation] | None:
         """Reference providing description of the parameters."""
 
     @property

@@ -23,16 +23,13 @@ derived from the ISO 19115-1:2014 and ISO 19115-2:2019 international standards.
 
 from __future__ import annotations
 
-
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from enum import Enum
-from typing import Optional
 
 import opengis.metadata.citation as meta_citation
 import opengis.metadata.naming as meta_naming
 import opengis.util.measure as measure
-
 
 __author__ = "OGC Topic 11 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -263,7 +260,7 @@ class RangeDimension(ABC):
 
     @property
     @abstractmethod
-    def sequence_identifier(self) -> Optional[meta_naming.MemberName]:
+    def sequence_identifier(self) -> meta_naming.MemberName | None:
         """
         Number that uniquely identifies instances of bands of wavelengths on
         which a sensor operates.
@@ -271,12 +268,12 @@ class RangeDimension(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Description of the range of a cell measurement value."""
 
     @property
     @abstractmethod
-    def name(self) -> Optional[Sequence[meta_citation.Identifier]]:
+    def name(self) -> Sequence[meta_citation.Identifier] | None:
         """
         Identifiers for each attribute included in the resource.
 
@@ -298,7 +295,7 @@ class AttributeGroup(ABC):
 
     @property
     @abstractmethod
-    def attribute(self) -> Optional[Sequence[RangeDimension]]:
+    def attribute(self) -> Sequence[RangeDimension] | None:
         """Information on an attribute of the resource."""
 
 
@@ -309,7 +306,7 @@ class SampleDimension(RangeDimension):
 
     @property
     @abstractmethod
-    def max_value(self) -> Optional[float]:
+    def max_value(self) -> float | None:
         """
         Maximum value of data values in each dimension included in the
         resource.
@@ -319,7 +316,7 @@ class SampleDimension(RangeDimension):
 
     @property
     @abstractmethod
-    def min_value(self) -> Optional[float]:
+    def min_value(self) -> float | None:
         """
         Minimum value of data values in each dimension included in the
         resource.
@@ -329,7 +326,7 @@ class SampleDimension(RangeDimension):
 
     @property
     @abstractmethod
-    def units(self) -> Optional[measure.UnitOfMeasure]:
+    def units(self) -> measure.UnitOfMeasure | None:
         """
         Units of data in each dimension included in the resource.
 
@@ -341,24 +338,24 @@ class SampleDimension(RangeDimension):
 
     @property
     @abstractmethod
-    def scale_factor(self) -> Optional[float]:
+    def scale_factor(self) -> float | None:
         """Scale factor which has been applied to the cell value."""
 
     @property
     @abstractmethod
-    def offset(self) -> Optional[float]:
+    def offset(self) -> float | None:
         """The physical value corresponding to a cell value of zero."""
 
     @property
     @abstractmethod
-    def mean_value(self) -> Optional[float]:
+    def mean_value(self) -> float | None:
         """
         Mean value of data values in each dimension included in the resource.
         """
 
     @property
     @abstractmethod
-    def number_of_values(self) -> Optional[int]:
+    def number_of_values(self) -> int | None:
         """
         This gives the number of values used in a thematicClassification
         resource, e.g., the number of classes in a Land Cover Type coverage or
@@ -367,7 +364,7 @@ class SampleDimension(RangeDimension):
 
     @property
     @abstractmethod
-    def standard_deviation(self) -> Optional[float]:
+    def standard_deviation(self) -> float | None:
         """
         Standard deviation of data values in each dimension included in the
         resource.
@@ -375,14 +372,14 @@ class SampleDimension(RangeDimension):
 
     @property
     @abstractmethod
-    def other_property_type(self) -> Optional[meta_naming.RecordType]:
+    def other_property_type(self) -> meta_naming.RecordType | None:
         """
         Type of other attribute description (i.e. netcdf/variable in ncml.xsd).
         """
 
     @property
     @abstractmethod
-    def other_property(self) -> Optional[meta_naming.Record]:
+    def other_property(self) -> meta_naming.Record | None:
         """
         Instance of otherAttributeType that defines attributes not explicitly
         included in `CoverageType`.
@@ -390,7 +387,7 @@ class SampleDimension(RangeDimension):
 
     @property
     @abstractmethod
-    def bits_per_value(self) -> Optional[int]:
+    def bits_per_value(self) -> int | None:
         """
         Maximum number of significant bits in the uncompressed representation
         for the value in each band of each pixel.
@@ -398,7 +395,7 @@ class SampleDimension(RangeDimension):
 
     @property
     @abstractmethod
-    def transfer_function_type(self) -> Optional[TransferFunctionTypeCode]:
+    def transfer_function_type(self) -> TransferFunctionTypeCode | None:
         """
         Type of transfer function to be used when scaling a physical value for
         a given element.
@@ -406,9 +403,7 @@ class SampleDimension(RangeDimension):
 
     @property
     @abstractmethod
-    def range_element_description(self) -> Optional[
-            Sequence[RangeElementDescription]
-            ]:
+    def range_element_description(self) -> Sequence[RangeElementDescription] | None:
         """
         Provides the description and values of the specific range elements of
         a sample dimension.
@@ -416,7 +411,7 @@ class SampleDimension(RangeDimension):
 
     @property
     @abstractmethod
-    def nominal_spatial_resolution(self) -> Optional[float]:
+    def nominal_spatial_resolution(self) -> float | None:
         """
         Smallest distance between which separate points can be distinguished,
         as specified in instrument design.
@@ -428,7 +423,7 @@ class Band(SampleDimension):
 
     @property
     @abstractmethod
-    def bound_max(self) -> Optional[float]:
+    def bound_max(self) -> float | None:
         """
         Bounding maximum. The longest wavelength that the sensor is capable of
         collecting within a designated band.
@@ -436,7 +431,7 @@ class Band(SampleDimension):
 
     @property
     @abstractmethod
-    def bound_min(self) -> Optional[float]:
+    def bound_min(self) -> float | None:
         """
         Bounding minimum. The shortest wavelength that the sensor is capable of
         collecting within a designated band.
@@ -444,7 +439,7 @@ class Band(SampleDimension):
 
     @property
     @abstractmethod
-    def bound_unit(self) -> Optional[measure.UomLength]:
+    def bound_unit(self) -> measure.UomLength | None:
         """
         Bounding units. The units in which the sensor wavelengths are
         expressed.
@@ -454,17 +449,17 @@ class Band(SampleDimension):
 
     @property
     @abstractmethod
-    def peak_response(self) -> Optional[float]:
+    def peak_response(self) -> float | None:
         """Wavelength at which the response is the highest."""
 
     @property
     @abstractmethod
-    def tone_gradation(self) -> Optional[int]:
+    def tone_gradation(self) -> int | None:
         """Number of discrete numerical values in the data."""
 
     @property
     @abstractmethod
-    def band_boundary_definition(self) -> Optional[BandDefinition]:
+    def band_boundary_definition(self) -> BandDefinition | None:
         """
         Designation of criterion for defining maximum and minimum wavelengths
         for a spectral band.
@@ -473,12 +468,12 @@ class Band(SampleDimension):
     @property
     @abstractmethod
     def transmitted_polarisation(self) -> \
-            Optional[PolarisationOrientationCode]:
+            PolarisationOrientationCode | None:
         """Polarisation of the transmitter or detector."""
 
     @property
     @abstractmethod
-    def detected_polarisation(self) -> Optional[PolarisationOrientationCode]:
+    def detected_polarisation(self) -> PolarisationOrientationCode | None:
         """Polarisation of the transmitter or detector."""
 
 
@@ -496,7 +491,7 @@ class CoverageDescription(ContentInformation):
 
     @property
     @abstractmethod
-    def processing_level_code(self) -> Optional[meta_citation.Identifier]:
+    def processing_level_code(self) -> meta_citation.Identifier | None:
         """
         Code and codespace that identifies the level of processing that has
         been applied to the resource.
@@ -504,7 +499,7 @@ class CoverageDescription(ContentInformation):
 
     @property
     @abstractmethod
-    def attribute_group(self) -> Optional[Sequence[AttributeGroup]]:
+    def attribute_group(self) -> Sequence[AttributeGroup] | None:
         """
         Information on the group(s) of related attributes of the resource
         with the same type.
@@ -512,9 +507,9 @@ class CoverageDescription(ContentInformation):
 
     @property
     @abstractmethod
-    def range_element_description(self) -> Optional[Sequence[
+    def range_element_description(self) -> Sequence[
         RangeElementDescription
-    ]]:
+    ] | None:
         """
         Provides the description of the specific range elements of a coverage.
         """
@@ -525,7 +520,7 @@ class ImageDescription(CoverageDescription):
 
     @property
     @abstractmethod
-    def illumination_elevation_angle(self) -> Optional[float]:
+    def illumination_elevation_angle(self) -> float | None:
         """
         Illumination elevation measured in degrees clockwise from the target
         plane at intersection of the optical line of sight with the Earth's
@@ -539,7 +534,7 @@ class ImageDescription(CoverageDescription):
 
     @property
     @abstractmethod
-    def illumination_azimuth_angle(self) -> Optional[float]:
+    def illumination_azimuth_angle(self) -> float | None:
         """
         Illumination azimuth measured in degrees clockwise from true north at
         the time the image is taken.
@@ -552,17 +547,17 @@ class ImageDescription(CoverageDescription):
 
     @property
     @abstractmethod
-    def imaging_condition(self) -> Optional[ImagingConditionCode]:
+    def imaging_condition(self) -> ImagingConditionCode | None:
         """Conditions that affected the image."""
 
     @property
     @abstractmethod
-    def image_quality_code(self) -> Optional[meta_citation.Identifier]:
+    def image_quality_code(self) -> meta_citation.Identifier | None:
         """Code in producer's code space that specifies the image quality."""
 
     @property
     @abstractmethod
-    def cloud_cover_percentage(self) -> Optional[float]:
+    def cloud_cover_percentage(self) -> float | None:
         """
         Area of the dataset obscured by clouds, expressed as a percentage of
         the spatial extent.
@@ -572,14 +567,14 @@ class ImageDescription(CoverageDescription):
 
     @property
     @abstractmethod
-    def compression_generation_quantity(self) -> Optional[int]:
+    def compression_generation_quantity(self) -> int | None:
         """
         Count of the number of lossy compression cycles performed on the image.
         """
 
     @property
     @abstractmethod
-    def triangulation_indicator(self) -> Optional[bool]:
+    def triangulation_indicator(self) -> bool | None:
         """
         Indication of whether or not triangulation has been performed upon the
         image.
@@ -587,7 +582,7 @@ class ImageDescription(CoverageDescription):
 
     @property
     @abstractmethod
-    def radiometric_calibration_data_availability(self) -> Optional[bool]:
+    def radiometric_calibration_data_availability(self) -> bool | None:
         """
         Indication of whether or not the radiometric calibration information
         for generating the radiometrically calibrated standard data product is
@@ -596,7 +591,7 @@ class ImageDescription(CoverageDescription):
 
     @property
     @abstractmethod
-    def camera_calibration_information_availability(self) -> Optional[bool]:
+    def camera_calibration_information_availability(self) -> bool | None:
         """
         Indication of whether or not constants are available which allow for
         camera calibration corrections.
@@ -604,7 +599,7 @@ class ImageDescription(CoverageDescription):
 
     @property
     @abstractmethod
-    def film_distortion_information_availability(self) -> Optional[bool]:
+    def film_distortion_information_availability(self) -> bool | None:
         """
         Indication of whether or not Calibration Reseau information is
         available.
@@ -612,7 +607,7 @@ class ImageDescription(CoverageDescription):
 
     @property
     @abstractmethod
-    def lens_distortion_information_availability(self) -> Optional[bool]:
+    def lens_distortion_information_availability(self) -> bool | None:
         """
         Indication of whether or not lens aberration correction information is
         available.
@@ -629,7 +624,7 @@ class FeatureTypeInfo(ABC):
 
     @property
     @abstractmethod
-    def feature_instance_count(self) -> Optional[int]:
+    def feature_instance_count(self) -> int | None:
         """
         Number of occurences of feature instances for this type.
 
@@ -644,7 +639,7 @@ class FeatureCatalogueDescription(ContentInformation):
 
     @property
     @abstractmethod
-    def compliance_code(self) -> Optional[bool]:
+    def compliance_code(self) -> bool | None:
         """
         Indication of whether or not the cited feature catalogue complies with
         ISO 19110.
@@ -652,7 +647,7 @@ class FeatureCatalogueDescription(ContentInformation):
 
     @property
     @abstractmethod
-    def locale(self) -> Optional[Sequence[str]]:
+    def locale(self) -> Sequence[str] | None:
         """
         Language(s) and character set(s) used within the catalogue. A string
         conforming to IETF BCP 47.
@@ -660,7 +655,7 @@ class FeatureCatalogueDescription(ContentInformation):
 
     @property
     @abstractmethod
-    def included_with_dataset(self) -> Optional[bool]:
+    def included_with_dataset(self) -> bool | None:
         """
         Indication of whether or not the feature catalogue is included with
         the resource.
@@ -668,7 +663,7 @@ class FeatureCatalogueDescription(ContentInformation):
 
     @property
     @abstractmethod
-    def feature_types(self) -> Optional[Sequence[FeatureTypeInfo]]:
+    def feature_types(self) -> Sequence[FeatureTypeInfo] | None:
         """
         Subset of feature types from cited feature catalogue occurring in
         dataset.
@@ -677,7 +672,7 @@ class FeatureCatalogueDescription(ContentInformation):
     @property
     @abstractmethod
     def feature_catalogue_citation(self) -> \
-            Optional[Sequence[meta_citation.Citation]]:
+            Sequence[meta_citation.Citation] | None:
         """
         Complete bibliographic reference to one or more external feature
         catalogues.
@@ -694,7 +689,7 @@ class FeatureCatalogueDescription(ContentInformation):
 
 #     @property
 #     @abstractmethod
-#     def feature_catalogue(self) -> Optional[Sequence[FC_FeatureCatalogue]]:
+#     def feature_catalogue(self) -> Sequence[FC_FeatureCatalogue] | None:
 #         """
 #         The catalogue of feature types, attribution, operations, and
 #         relationships used by the resource.

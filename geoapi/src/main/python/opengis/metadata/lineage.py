@@ -28,7 +28,6 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from datetime import datetime
-from typing import Optional
 
 import opengis.metadata.citation as meta_ctitation
 import opengis.metadata.identification as meta_identification
@@ -37,7 +36,6 @@ import opengis.metadata.naming as meta_naming
 import opengis.metadata.service as meta_service
 import opengis.referencing.crs as crs
 import opengis.util.measure as measure
-
 
 __author__ = "OGC Topic 11 (for abstract model and documentation), " +\
     "Martin Desruisseaux (Geomatys), David Meaux (Geomatys)"
@@ -74,7 +72,7 @@ class Source(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """
         Detailed description of the level of the source resource.
 
@@ -85,29 +83,29 @@ class Source(ABC):
     @property
     @abstractmethod
     def source_spatial_resolution(self) -> \
-            Optional[meta_identification.Resolution]:
+            meta_identification.Resolution | None:
         """
         Level of detail expressed as a scale factor, a distance or an angle.
         """
 
     @property
     @abstractmethod
-    def source_reference_system(self) -> Optional[crs.ReferenceSystem]:
+    def source_reference_system(self) -> crs.ReferenceSystem | None:
         """Spatial reference system used by the source resource."""
 
     @property
     @abstractmethod
-    def source_citation(self) -> Optional[meta_ctitation.Citation]:
+    def source_citation(self) -> meta_ctitation.Citation | None:
         """Recommended reference to be used for the source resource."""
 
     @property
     @abstractmethod
-    def source_metadata(self) -> Optional[Sequence[meta_ctitation.Citation]]:
+    def source_metadata(self) -> Sequence[meta_ctitation.Citation] | None:
         """Identifier and link to source metadata."""
 
     @property
     @abstractmethod
-    def scope(self) -> Optional[meta_maintenance.Scope]:
+    def scope(self) -> meta_maintenance.Scope | None:
         """
         Type of resource and/or extent of the source.
 
@@ -117,17 +115,17 @@ class Source(ABC):
 
     @property
     @abstractmethod
-    def source_step(self) -> Optional[Sequence['ProcessStep']]:
+    def source_step(self) -> Sequence[ProcessStep] | None:
         """Information about process steps in which this source was used."""
 
     @property
     @abstractmethod
-    def processed_level(self) -> Optional[meta_ctitation.Identifier]:
+    def processed_level(self) -> meta_ctitation.Identifier | None:
         """Processing level of the source data."""
 
     @property
     @abstractmethod
-    def resolution(self) -> Optional[NominalResolution]:
+    def resolution(self) -> NominalResolution | None:
         """
         Distance between consistent parts (centre, left side, right side)
         of two adjacent pixels.
@@ -169,7 +167,7 @@ class ProcessParameter(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Narrative explaining the role of the parameter."""
 
     @property
@@ -186,17 +184,17 @@ class ProcessParameter(ABC):
 
     @property
     @abstractmethod
-    def value_type(self) -> Optional[meta_naming.RecordType]:
+    def value_type(self) -> meta_naming.RecordType | None:
         """Data type of the value"""
 
     @property
     @abstractmethod
-    def value(self) -> Optional[meta_naming.Record]:
+    def value(self) -> meta_naming.Record | None:
         """Constant value."""
 
     @property
     @abstractmethod
-    def resource(self) -> Optional[Source]:
+    def resource(self) -> Source | None:
         """Resource to be processed."""
 
 
@@ -216,39 +214,39 @@ class Processing(ABC):
     @property
     @abstractmethod
     def software_reference(self) -> \
-            Optional[Sequence[meta_ctitation.Citation]]:
+            Sequence[meta_ctitation.Citation] | None:
         """Reference to document describing processing software."""
 
     @property
     @abstractmethod
-    def procedure_description(self) -> Optional[str]:
+    def procedure_description(self) -> str | None:
         """Additional details about the processing procedures."""
 
     @property
     @abstractmethod
-    def documentation(self) -> Optional[Sequence[meta_ctitation.Citation]]:
+    def documentation(self) -> Sequence[meta_ctitation.Citation] | None:
         """Reference to documentation describing the processing."""
 
     @property
     @abstractmethod
-    def run_time_parameters(self) -> Optional[str]:
+    def run_time_parameters(self) -> str | None:
         """
         Parameters to control the processing operations, entered at run time.
         """
 
     @property
     @abstractmethod
-    def other_property(self) -> Optional[meta_naming.Record]:
+    def other_property(self) -> meta_naming.Record | None:
         """Instance of other property type not included in `Sensor`."""
 
     @property
     @abstractmethod
-    def other_property_type(self) -> Optional[meta_naming.RecordType]:
+    def other_property_type(self) -> meta_naming.RecordType | None:
         """Type of other property description."""
 
     @property
     @abstractmethod
-    def algorithm(self) -> Optional[Sequence[Algorithm]]:
+    def algorithm(self) -> Sequence[Algorithm] | None:
         """
         Details of the methodology by which geographic information was derived
         from the instrument readings.
@@ -256,7 +254,7 @@ class Processing(ABC):
 
     @property
     @abstractmethod
-    def parameter(self) -> Optional[ProcessParameter]:
+    def parameter(self) -> ProcessParameter | None:
         """Parameter(s) used in a process"""
 
 
@@ -270,12 +268,12 @@ class ProcessStepReport(ABC):
 
     @property
     @abstractmethod
-    def description(self) -> Optional[str]:
+    def description(self) -> str | None:
         """Textual description of what occurred during the process step."""
 
     @property
     @abstractmethod
-    def file_type(self) -> Optional[str]:
+    def file_type(self) -> str | None:
         """Type of file that contains that processing report."""
 
 
@@ -294,17 +292,17 @@ class ProcessStep(ABC):
 
     @property
     @abstractmethod
-    def rationale(self) -> Optional[str]:
+    def rationale(self) -> str | None:
         """Requirement or purpose for the process step."""
 
     @property
     @abstractmethod
-    def step_date_time(self) -> Optional[datetime]:
+    def step_date_time(self) -> datetime | None:
         """Date, time, range or period of process step."""
 
     @property
     @abstractmethod
-    def processor(self) -> Optional[Sequence[meta_ctitation.Responsibility]]:
+    def processor(self) -> Sequence[meta_ctitation.Responsibility] | None:
         """
         Identification of, and means of communication with, person(s) and
         organisation(s) associated with the process step.
@@ -312,31 +310,31 @@ class ProcessStep(ABC):
 
     @property
     @abstractmethod
-    def reference(self) -> Optional[Sequence[meta_ctitation.Citation]]:
+    def reference(self) -> Sequence[meta_ctitation.Citation] | None:
         """Process step documentation."""
 
     @property
     @abstractmethod
-    def scope(self) -> Optional[meta_maintenance.Scope]:
+    def scope(self) -> meta_maintenance.Scope | None:
         """Type of resource and/or extent to which the process step applies."""
 
     @property
     @abstractmethod
-    def source(self) -> Optional[Sequence[Source]]:
+    def source(self) -> Sequence[Source] | None:
         """
         Type of the resource and/or extent to which the process step applies.
         """
 
     @property
     @abstractmethod
-    def output(self) -> Optional[Sequence[Source]]:
+    def output(self) -> Sequence[Source] | None:
         """
         Description of the product generated as a result of the process step.
         """
 
     @property
     @abstractmethod
-    def processing_information(self) -> Optional[Processing]:
+    def processing_information(self) -> Processing | None:
         """
         Comprehensive information about the procedure by which the algorithm
         was applied to derive geographic data from the raw instrument
@@ -346,7 +344,7 @@ class ProcessStep(ABC):
 
     @property
     @abstractmethod
-    def report(self) -> Optional[Sequence[ProcessStepReport]]:
+    def report(self) -> Sequence[ProcessStepReport] | None:
         """Report generated by the process step."""
 
 
@@ -358,7 +356,7 @@ class Lineage(ABC):
 
     @property
     @abstractmethod
-    def statement(self) -> Optional[str]:
+    def statement(self) -> str | None:
         """
         General explanation of the data producer's knowledge about the lineage
         of a resource.
@@ -366,7 +364,7 @@ class Lineage(ABC):
 
     @property
     @abstractmethod
-    def scope(self) -> Optional[meta_maintenance.Scope]:
+    def scope(self) -> meta_maintenance.Scope | None:
         """
         Type of resource and/or extent to which the lineage information
         applies.
@@ -375,7 +373,7 @@ class Lineage(ABC):
     @property
     @abstractmethod
     def additional_documentation(self) -> \
-            Optional[Sequence[meta_ctitation.Citation]]:
+            Sequence[meta_ctitation.Citation] | None:
         """
         Resource.
 
@@ -386,7 +384,7 @@ class Lineage(ABC):
 
     @property
     @abstractmethod
-    def process_step(self) -> Optional[Sequence[ProcessStep]]:
+    def process_step(self) -> Sequence[ProcessStep] | None:
         """
         Information about events in the life of a resource specified by the
         scope.
@@ -397,7 +395,7 @@ class Lineage(ABC):
 
     @property
     @abstractmethod
-    def source(self) -> Optional[Sequence[Source]]:
+    def source(self) -> Sequence[Source] | None:
         """
         Information about the source data used in creating the data specified
         by the scope.
