@@ -28,6 +28,8 @@ When a choice in the source was given between a bibliographic or terminology
 three-letter designator, the terminology option was chosen.
 """
 
+from __future__ import annotations
+
 from enum import Enum
 
 __metadata__ = {
