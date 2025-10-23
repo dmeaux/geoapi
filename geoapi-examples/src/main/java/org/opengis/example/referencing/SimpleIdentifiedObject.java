@@ -50,8 +50,10 @@ public class SimpleIdentifiedObject implements IdentifiedObject {
     }
 
     /**
-     * {@return a short label for this identified object}.
+     * Returns a short label for this identified object.
      * This is used for formatting error messages.
+     *
+     * @return label to use in error messages.
      */
     protected String label() {
         return name.getCode();

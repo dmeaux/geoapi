@@ -35,15 +35,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface Vocabulary {
     /**
-     * {@return the initial number of elements in the code list}.
+     * Returns the initial number of elements in the code list.
      * This is used for determining an initial size of array list.
+     *
+     * @return number of predefined elements at class initialization time.
      */
     int capacity();
 
     /**
-     * {@return the number of parameters other than the code name for user codes}.
+     * Returns the number of parameters other than the code name for user codes.
      * This is the number of additional parameters in {@code valueOf(…)} method.
      * For example, some code lists have a parameter specifying a Java class.
+     *
+     * @return number of supplemental parameters.
      */
     int parameters() default 0;
 }

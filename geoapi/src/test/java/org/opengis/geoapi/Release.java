@@ -104,8 +104,9 @@ final class Release implements Closeable {
     }
 
     /**
-     * {@return the fully qualified names of all classes found in the JAR file}.
+     * Returns the fully qualified names of all classes found in the <abbr>JAR</abbr> file.
      *
+     * @return qualified names of all classes in the <abbr>JAR</abbr> file.
      * @throws IOException if a JAR file cannot be read.
      */
     final Collection<String> listClasses() throws IOException {
@@ -135,10 +136,11 @@ final class Release implements Closeable {
     }
 
     /**
-     * {@return the parameters of the given methods}.
+     * Returns the parameters of the given methods.
      *
      * @param  source  the API from which the given method has been loaded.
      * @param  method  the method from which to get parameter types.
+     * @return parameters of the given methods.
      * @throws ClassNotFoundException if a parameter class was not found.
      */
     final Class<?>[] getParameterTypes(final Release source, final Method method) throws ClassNotFoundException {
@@ -192,8 +194,10 @@ final class Release implements Closeable {
     }
 
     /**
-     * {@return the JAR filename}.
+     * Returns the <abbr>JAR</abbr> filename.
      * This is used when reporting JUnit error for debugging purpose.
+     *
+     * @return the <abbr>JAR</abbr> filename.
      */
     @Override
     public String toString() {

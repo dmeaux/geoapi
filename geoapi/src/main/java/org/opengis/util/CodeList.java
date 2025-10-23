@@ -592,7 +592,9 @@ public abstract class CodeList<E extends CodeList<E>> implements ControlledVocab
      */
 
     /**
-     * {@return a string representation of this code list}.
+     * Returns a string representation of this code list value.
+     *
+     * @return a string representation of this code list value.
      */
     @Override
     public String toString() {

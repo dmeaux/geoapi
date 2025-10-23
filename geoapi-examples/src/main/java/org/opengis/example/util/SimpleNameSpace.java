@@ -102,10 +102,11 @@ public class SimpleNameSpace implements NameSpace {
     }
 
     /**
-     * {@return the given namespace as a {@code SimpleNameSpace} implementation}.
+     * Returns the given namespace as a {@code SimpleNameSpace} implementation.
      * The current implementation just casts the given value, but future versions may copy the namespace.
      *
      * @param  name  the name to cast or copy.
+     * @return given namespace as a {@code SimpleNameSpace} implementation.
      */
     static SimpleNameSpace castOrCopy(final NameSpace name) {
         return (SimpleNameSpace) name;

@@ -171,10 +171,11 @@ public enum DocumentationStyle {
     }
 
     /**
-     * {@return the index after the last character to keep in the given documentation}.
+     * Returns the index after the last character to keep in the given documentation.
      * This method cut the documentation before trailing "shortName" and other annexes.
      *
      * @param  doc  the documentation declared in the XSD file.
+     * @return index after the last character to keep in the given documentation.
      */
     private static int beforeAnnexes(final String doc) {
         int stopAt = doc.length();

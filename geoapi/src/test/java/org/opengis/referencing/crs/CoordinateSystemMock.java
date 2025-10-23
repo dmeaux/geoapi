@@ -76,9 +76,11 @@ final class CoordinateSystemMock implements SingleCRS, CoordinateSystem, Coordin
     }
 
     /**
-     * {@return null since this mock has no name}.
+     * Returns {@code null} since this mock has no name.
      * This is not legal, but okay for what we want to test.
      * For axis identification, see {@link #getAbbreviation()}.
+     *
+     * @return {@code null}.
      */
     @Override
     public Identifier getName() {
@@ -86,8 +88,10 @@ final class CoordinateSystemMock implements SingleCRS, CoordinateSystem, Coordin
     }
 
     /**
-     * {@return null since this mock has no datum}.
+     * Returns {@code null} since this mock has no datum.
      * This is not legal, but okay for what we want to test.
+     *
+     * @return {@code null}.
      */
     @Override
     public Datum getDatum() {
@@ -105,7 +109,7 @@ final class CoordinateSystemMock implements SingleCRS, CoordinateSystem, Coordin
     }
 
     /**
-     * {@return the number of dimensions}.
+     * Returns the number of dimensions.
      */
     @Override
     public int getDimension() {
@@ -125,7 +129,7 @@ final class CoordinateSystemMock implements SingleCRS, CoordinateSystem, Coordin
     }
 
     /**
-     * {@return an axis identification useful for testing purpose}.
+     * Returns an axis identification useful for testing purpose.
      * The pattern is "x#:#" where the first # is the component
      * index and the second # is the axis index.
      */
@@ -135,8 +139,10 @@ final class CoordinateSystemMock implements SingleCRS, CoordinateSystem, Coordin
     }
 
     /**
-     * {@return null since this mock has no direction}.
+     * Returns {@code null} since this mock has no direction.
      * This is not legal, but okay for what we want to test.
+     *
+     * @return {@code null}.
      */
     @Override
     public AxisDirection getDirection() {
@@ -144,8 +150,10 @@ final class CoordinateSystemMock implements SingleCRS, CoordinateSystem, Coordin
     }
 
     /**
-     * {@return null since this mock has no unit}.
+     * Returns {@code null} since this mock has no unit.
      * This is not legal, but okay for what we want to test.
+     *
+     * @return {@code null}.
      */
     @Override
     public Unit<?> getUnit() {

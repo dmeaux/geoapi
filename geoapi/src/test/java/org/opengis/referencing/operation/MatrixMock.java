@@ -57,7 +57,7 @@ final class MatrixMock implements Matrix {
     }
 
     /**
-     * {@return the number of rows in the matrix}.
+     * Returns the number of rows in the matrix.
      */
     @Override
     public int getNumRow() {
@@ -65,7 +65,7 @@ final class MatrixMock implements Matrix {
     }
 
     /**
-     * {@return the number of columns in the matrix}.
+     * Returns the number of columns in the matrix.
      */
     @Override
     public int getNumCol() {
@@ -73,7 +73,7 @@ final class MatrixMock implements Matrix {
     }
 
     /**
-     * {@return the matrix element value at the given row and column}.
+     * Returns the matrix element value at the given row and column.
      *
      * @param row  zero-based index of the row.
      * @param col  zero-based index of the column.
@@ -89,7 +89,7 @@ final class MatrixMock implements Matrix {
     }
 
     /**
-     * {@return {@code this} since this matrix is not clonable}.
+     * Returns {@code this} since this matrix is not clonable.
      */
     @Override
     public Matrix clone() {

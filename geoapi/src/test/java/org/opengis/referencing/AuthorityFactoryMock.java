@@ -49,7 +49,9 @@ class AuthorityFactoryMock implements AuthorityFactory, Citation, InternationalS
     }
 
     /**
-     * {@return null because not used by the tests in this package}.
+     * Returns {@code null} because not used by the tests in this package.
+     *
+     * @return {@code null}.
      */
     @Override
     public Citation getAuthority() {
@@ -57,9 +59,10 @@ class AuthorityFactoryMock implements AuthorityFactory, Citation, InternationalS
     }
 
     /**
-     * {@return the code of the mock object created by this factory}.
+     * Returns the code of the mock object created by this factory.
      *
      * @param  type  ignored.
+     * @return hard-coded code.
      */
     @Override
     public Set<String> getAuthorityCodes(Class<? extends IdentifiedObject> type) {
@@ -67,7 +70,7 @@ class AuthorityFactoryMock implements AuthorityFactory, Citation, InternationalS
     }
 
     /**
-     * {@return the pseudo-vendor for this factory implementation}.
+     * Returns the pseudo-vendor for this factory implementation.
      * This is used in exception messages.
      */
     @Override public Citation            getVendor()                      {return this;}

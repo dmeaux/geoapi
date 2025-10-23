@@ -7,7 +7,6 @@ package org.opengis.example.util;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Objects;
 import java.util.Optional;
@@ -180,15 +179,14 @@ public class SimpleName implements GenericName {
         }
 
         /**
-         * Since this object is itself a locale name, returns a
-         * {@linkplain Collections#singletonList(Object) singleton}
+         * Since this object is itself a locale name, returns a {@linkplain List#of(Object) singleton}
          * list containing only {@code this}.
          */
         @Override
         public List<LocalName> getParsedNames() {
             switch (super.depth()) {
-                case 0:  return Collections.emptyList();                    // Only for the root namespace.
-                case 1:  return Collections.<LocalName>singletonList(this);
+                case 0:  return List.of();                    // Only for the root namespace.
+                case 1:  return List.<LocalName>of(this);
                 default: return super.getParsedNames();
             }
         }
@@ -305,11 +303,12 @@ public class SimpleName implements GenericName {
     }
 
     /**
-     * {@return the given generic name as a {@code SimpleName} implementation}.
+     * Returns the given generic name as a {@code SimpleName} implementation.
      * The current implementation just casts the given value,
      * but future versions may copy the name components.
      *
      * @param  name  the name to cast or copy.
+     * @return given name as a {@code SimpleName} implementation.
      */
     static SimpleName castOrCopy(final GenericName name) {
         return (SimpleName) name;

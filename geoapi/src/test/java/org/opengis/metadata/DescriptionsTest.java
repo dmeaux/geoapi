@@ -50,9 +50,10 @@ public final class DescriptionsTest {
     }
 
     /**
-     * {@return whether to test the given type}.
+     * Returns whether to test the given type.
      *
      * @param  type  a class that may be tested.
+     * @return whether to test the given type.
      */
     private static boolean filter(final Class<?> type) {
         if (type.getName().startsWith("org.opengis.metadata.")) {

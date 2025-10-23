@@ -17,6 +17,8 @@
  */
 package org.opengis.feature;
 
+import java.util.Optional;
+
 
 /**
  * An instance of a {@link FeatureType} containing values for a real-world phenomena.
@@ -73,7 +75,7 @@ public interface Feature {
      *
      * @param  name  the property name.
      * @return the property of the given name (never {@code null}).
-     * @throws PropertyNotFoundException if the given argument is not a property name of this feature.
+     * @throws PropertyNotFoundException if the given argument is not the name of a property of this feature.
      *
      * @see #getPropertyValue(String)
      * @see FeatureType#getProperty(String)
@@ -101,7 +103,7 @@ public interface Feature {
      * method is preferred.
      *
      * @param  property  the property to set.
-     * @throws PropertyNotFoundException if the name of the given property is not a property name of this feature.
+     * @throws PropertyNotFoundException if the given argument is not the name of a property of this feature.
      * @throws InvalidPropertyValueException if the value of the given property is not valid.
      * @throws IllegalArgumentException if the property cannot be set for another reason
      *         (e.g. a library may accept only some specific property instances).
@@ -132,7 +134,7 @@ public interface Feature {
      * @param  name  the property name.
      * @return value of the specified property,
      *         or the {@linkplain AttributeType#getDefaultValue() default value} (which may be {@code null}} if none.
-     * @throws PropertyNotFoundException if the given argument is not an attribute or association name of this feature.
+     * @throws PropertyNotFoundException if the given argument is not the name of an attribute or association of this feature.
      *
      * @see Attribute#getValue()
      * @see FeatureAssociation#getValue()
@@ -150,7 +152,7 @@ public interface Feature {
      *
      * @param  name   the property name.
      * @param  value  the new value for the specified property (may be {@code null}).
-     * @throws PropertyNotFoundException if the given name is not an attribute or association name of this feature.
+     * @throws PropertyNotFoundException if the given argument is not the name of an attribute or association of this feature.
      * @throws ClassCastException if the value is not assignable to the expected value class.
      * @throws InvalidPropertyValueException if the given value is not valid for a reason other than its type.
      *
@@ -160,25 +162,46 @@ public interface Feature {
     void setPropertyValue(final String name, final Object value) throws IllegalArgumentException;
 
     /**
-     * Returns the value for the property of the given name if that property exists, or a fallback value otherwise.
-     * This method is equivalent to the following code, but potentially more efficient when the property does not exist:
+     * Returns the explicit or default value of a characteristic of a property.
+     * This is a shortcut for the following chain of method invocations
+     * (cast and null checks omitted for brevity):
      *
      * {@snippet lang="java" :
-     * try {
-     *     return getPropertyValue(name);
-     * } catch (PropertyNotFoundException ignore) {
-     *     return missingPropertyFallback
-     * }}
+     * return Optional.ofNullable(
+     *         ((Attribute<?>) getProperty(property))
+     *         .characteristics()
+     *         .get(characteristic)
+     *         .getValue());
+     * }
      *
-     * Note that if a property of the given name exists but has no value, then this method returns
-     * the {@linkplain AttributeType#getDefaultValue() default value} (which may be {@code null}).
-     * <i>Property without value</i> is not equivalent to <i>non-existent property</i>.
+     * If the attribute has no {@linkplain Attribute#characteristics() characteristic} of the given name,
+     * then this method fallbacks on the default value of the {@linkplain AttributeType#characteristics()
+     * characteristics of the attribute type}.
      *
-     * @param  name  the property name.
-     * @param  missingPropertyFallback  the (potentially {@code null}) value to return
-     *         if no attribute or association of the given name exists.
-     * @return value or default value of the specified property, or {@code missingPropertyFallback}
-     *         if no attribute or association of that name exists. This value may be {@code null}.
+     * @param  property        name of the property for which to get a characteristic.
+     * @param  characteristic  name of the characteristic of the property of the given name.
+     * @return value of the specified characteristic on the specified property, or an empty value
+     *         if the property is not an attribute or the attribute has no such characteristic.
+     * @throws PropertyNotFoundException if the {@code property} argument is not the name of a property of this feature.
+     *
+     * @see Attribute#characteristics()
+     * @see AttributeType#characteristics()
      */
-    Object getValueOrFallback(String name, Object missingPropertyFallback);
+    default Optional<?> getCharacteristicValue(final String property, final String characteristic)
+            throws PropertyNotFoundException
+    {
+        Property p = getProperty(property);
+        if (p instanceof Attribute<?>) {
+            var attribute = (Attribute<?>) p;
+            Attribute<?> ca = attribute.characteristics().get(characteristic);
+            if (ca != null) {
+                // If the characteristic is present, assume that an explicitly null value is intentional.
+                return Optional.ofNullable(ca.getValue());
+            } else {
+                return Optional.ofNullable(attribute.getType().characteristics().get(characteristic))
+                        .map(AttributeType::getDefaultValue);
+            }
+        }
+        return Optional.empty();
+    }
 }

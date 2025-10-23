@@ -49,8 +49,10 @@ final class IdentifiedObjectMock implements SingleCRS, CoordinateSystem, Datum, 
     }
 
     /**
-     * {@return null since this mock has no name}.
+     * Returns {@code null} since this mock has no name.
      * This is not legal, but okay for what we want to test.
+     *
+     * @return {@code null}.
      */
     @Override
     public Identifier getName() {
@@ -58,7 +60,7 @@ final class IdentifiedObjectMock implements SingleCRS, CoordinateSystem, Datum, 
     }
 
     /**
-     * {@return an identifier for the code specified at construction time}.
+     * Returns an identifier for the code specified at construction time.
      */
     @Override
     public Set<Identifier> getIdentifiers() {
@@ -66,7 +68,7 @@ final class IdentifiedObjectMock implements SingleCRS, CoordinateSystem, Datum, 
     }
 
     /**
-     * {@return the authority code specified at construction time}.
+     * Returns the authority code specified at construction time.
      */
     @Override
     public String getCode() {

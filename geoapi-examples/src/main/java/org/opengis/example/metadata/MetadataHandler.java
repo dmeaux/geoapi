@@ -8,7 +8,6 @@ package org.opengis.example.metadata;
 import java.util.Map;
 import java.util.Set;
 import java.util.List;
-import java.util.Collections;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationHandler;
@@ -88,9 +87,9 @@ final class MetadataHandler implements InvocationHandler {
                 } else {
                     // While it is technically possible to return null collection,
                     // the common practice is to return an empty one instead.
-                    if (rt.isAssignableFrom(List.class)) value = Collections.emptyList(); else
-                    if (rt.isAssignableFrom(Set .class)) value = Collections.emptySet();  else
-                    if (rt.isAssignableFrom(Map .class)) value = Collections.emptyMap();
+                    if (rt.isAssignableFrom(List.class)) return List.of();
+                    if (rt.isAssignableFrom(Set .class)) return  Set.of();
+                    if (rt.isAssignableFrom(Map .class)) return  Map.of();
                 }
             }
             return value;

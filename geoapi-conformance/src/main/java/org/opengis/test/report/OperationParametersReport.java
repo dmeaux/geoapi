@@ -422,9 +422,10 @@ public class OperationParametersReport extends Report {
     }
 
     /**
-     * {@return a HTML anchor for the given category}.
+     * Returns a <abbr>HTML</abbr> anchor for the given category.
      *
      * @param  category  the category for which to get an HTML anchor.
+     * @return <abbr>HTML</abbr> anchor for the given category.
      */
     private String toAnchor(final String category) {
         return category.toLowerCase(getLocale()).replace(' ', '-');
