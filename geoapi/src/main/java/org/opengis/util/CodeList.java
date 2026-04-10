@@ -207,7 +207,7 @@ public abstract class CodeList<E extends CodeList<E>> implements ControlledVocab
          *
          * @param  <E>       the compile-time type given as the {@code codeType} parameter.
          * @param  codeType  the type of the code list for which to get all elements.
-         * @return all elements that are known at the time that this method is invoked.
+         * @return all elements that are known at the time of this method invocation.
          * @throws InaccessibleObjectException if an element needs to be resolved by reflection and this operation failed.
          *         A failure is generally caused by an error in the declaration of static fields in the code list.
          */

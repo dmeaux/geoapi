@@ -51,7 +51,7 @@ class StandardUnits(Enum):
     METRE_PR_SECOND_PR_SECOND = "metrePrSecondPrSecond"
     RADIAN_PR_SECOND = "radianPrSecond"
     RADIAN_PR_SECOND_PR_SECOND = "radianPrSecondPrSecond"
-    KILOGRAM = "kilomgram"
+    KILOGRAM = "kilogram"
 
 
 class UnitsList(Enum):
@@ -69,7 +69,7 @@ class UnitsList(Enum):
     METRE_PR_SECOND_PR_SECOND = "metrePrSecondPrSecond"
     RADIAN_PR_SECOND = "radianPrSecond"
     RADIAN_PR_SECOND_PR_SECOND = "radianPrSecondPrSecond"
-    KILOGRAM = "kilomgram"
+    KILOGRAM = "kilogram"
     FOOT = "foot"
     SQUARE_FOOT = "squareFoot"
     CUBIC_YARD = "cubicYard"

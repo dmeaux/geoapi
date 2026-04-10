@@ -204,7 +204,7 @@ public final class TemporalOperatorName extends CodeList<TemporalOperatorName> {
     }
 
     /**
-     * The temporal operator which produces the same results than this operator when the argument order is reversed.
+     * The temporal operator which produces the same results as this operator when the argument order is reversed.
      * May be {@code null} if unknown.
      */
     private TemporalOperatorName reversed;
@@ -231,7 +231,7 @@ public final class TemporalOperatorName extends CodeList<TemporalOperatorName> {
     }
 
     /**
-     * Returns the operator which produces the same results than this operator when the argument order is reversed.
+     * Returns the operator which produces the same results as this operator when the argument order is reversed.
      * For example, the reverse of {@link #BEFORE} is {@link #AFTER} and the reverse of {@link #CONTAINS} is {@link #DURING}.
      * The reverse of the reverse (if present) is always {@code this}.
      *

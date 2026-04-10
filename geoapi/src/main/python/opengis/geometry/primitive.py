@@ -334,7 +334,7 @@ class Vector(ABC):
 
         Example:
             If the Euclidean (E²) plane is used, then the `DirectPosition`
-            is a pair of coordinates (x, y) and the the vector consists of the
+            is a pair of coordinates (x, y) and the vector consists of the
             differentials in both directions. Consequently, the offset is of
             length 2 and has a coordinate base of (dx, dy).
         """
